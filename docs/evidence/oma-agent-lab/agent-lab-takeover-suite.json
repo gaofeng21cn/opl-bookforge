@@ -1,0 +1,380 @@
+{
+  "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+  "suite_kind": "agent_lab_external_suite",
+  "authority_boundary": {
+    "can_write_domain_truth": false,
+    "can_write_memory_body": false,
+    "can_authorize_quality_verdict": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_generate_target_domain_owner_receipt": false,
+    "can_write_target_artifact_body": false
+  },
+  "tasks": [
+    {
+      "task_id": "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+      "domain_id": "opl-meta-agent",
+      "task_family": "agent_testing_takeover",
+      "target_agent_ref": "domain-agent:opl-bookforge",
+      "target_agent_descriptor_ref": "/Users/gaofeng/workspace/opl-bookforge/contracts/domain_descriptor.json",
+      "environment": {
+        "environment_kind": "fixture",
+        "workspace_locator_ref": "workspace-locator:/Users/gaofeng/workspace/opl-bookforge",
+        "sandbox_policy": "fixture_only_no_artifact_mutation",
+        "network_policy": "offline"
+      },
+      "instructions_ref": "instructions:opl-meta-agent/opl-bookforge/takeover",
+      "agent_entry_ref": "domain-agent-entry:opl-bookforge",
+      "stage_refs": [
+        "stage:opl-bookforge/descriptor-contract-read",
+        "stage:opl-bookforge/external-agent-lab-run",
+        "stage:opl-bookforge/gated-self-evolution-candidate"
+      ],
+      "oracle_refs": [
+        "oracle:opl-meta-agent/opl-bookforge/descriptor-contract-valid",
+        "oracle:opl-meta-agent/opl-bookforge/authority-boundary-preserved"
+      ],
+      "scorer_refs": [
+        "scorer:opl-meta-agent/opl-bookforge/takeover-acceptance"
+      ],
+      "recovery_probes": [
+        {
+          "probe_ref": "recovery-probe:opl-meta-agent/opl-bookforge/resume-after-interruption",
+          "probe_kind": "resume_after_interruption",
+          "expected_status": "passed",
+          "observed_status": "passed",
+          "source_refs": [
+            "receipt:opl-meta-agent/opl-bookforge/resume-fixture"
+          ]
+        },
+        {
+          "probe_ref": "recovery-probe:opl-meta-agent/opl-bookforge/retry-after-tool-failure",
+          "probe_kind": "retry_after_tool_failure",
+          "expected_status": "passed",
+          "observed_status": "passed",
+          "source_refs": [
+            "receipt:opl-meta-agent/opl-bookforge/retry-fixture"
+          ]
+        }
+      ],
+      "trajectory": {
+        "trajectory_ref": "trajectory:opl-meta-agent/opl-bookforge/testing-takeover",
+        "run_ref": "run:opl-meta-agent/opl-bookforge/testing-takeover",
+        "agent_executor": "codex_cli",
+        "stage_attempt_refs": [
+          "stage-attempt:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+        ],
+        "tool_call_refs": [
+          "tool-call:opl-agent-lab-run"
+        ],
+        "artifact_refs": [
+          "artifact-ref:opl-bookforge/external-agent-package",
+          "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+          "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+        ],
+        "receipt_refs": [
+          "owner-receipt:opl-meta-agent/opl-bookforge/testing-takeover",
+          "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+        ],
+        "repair_refs": [
+          "repair-ref:opl-meta-agent/opl-bookforge/no-current-repair"
+        ],
+        "trace_refs": [
+          "trace-ref:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+        ]
+      },
+      "scorecard": {
+        "scorecard_ref": "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance",
+        "domain_owned": true,
+        "opl_scorecard_role": "scorecard_ref_projection_only",
+        "passed": true,
+        "metric_refs": [
+          "metric-ref:descriptor-valid",
+          "metric-ref:agent-lab-external-suite-passed",
+          "metric-ref:forbidden-authority-write-absent"
+        ],
+        "evidence_refs": [
+          "evidence-ref:opl-bookforge/descriptor-contract-read",
+          "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+          "stage-folder-contract-ref:opl-bookforge/target-agent-takeover"
+        ],
+        "review_refs": [
+          "review-ref:opl-meta-agent/opl-bookforge/takeover-review"
+        ],
+        "quality_gate_refs": [
+          "quality-gate:opl-meta-agent/opl-bookforge/domain-owner-boundary"
+        ]
+      },
+      "improvement_candidate": {
+        "candidate_ref": "improvement-candidate:opl-meta-agent/opl-bookforge/gated-self-evolution",
+        "candidate_kind": "gated_self_evolution",
+        "target_ref": "quality-gate:opl-meta-agent/opl-bookforge/domain-owner-boundary",
+        "evidence_refs": [
+          "failure-taxonomy:opl-meta-agent/opl-bookforge/no-current-failure-fixture"
+        ],
+        "allowed_change_scope": "branch_only",
+        "promotion_gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/takeover"
+      },
+      "promotion_gate": {
+        "gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/takeover",
+        "gate_status": "passed",
+        "required_refs": [
+          "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance"
+        ],
+        "regression_suite_refs": [
+          "regression-suite:opl-meta-agent/opl-bookforge/takeover"
+        ],
+        "no_forbidden_write_proof_refs": [
+          "no-forbidden-write:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+        ]
+      },
+      "stage_native_artifact_refs": {
+        "surface_kind": "opl_stage_native_artifact_attempt_refs",
+        "version": "stage-native-artifact-attempt-refs.v1",
+        "target_domain_id": "opl-bookforge",
+        "stage_id": "target-agent-takeover",
+        "attempt_id": "testing-takeover",
+        "owner": "opl-meta-agent",
+        "domain_truth_owner": "opl-meta-agent",
+        "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+        "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/target-agent-takeover",
+        "stage_folder_ref": "stage-folder-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "stage_json_ref": "stage-json-ref:opl-bookforge/target-agent-takeover",
+        "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "manifest_ref": "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/target-agent-takeover",
+        "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+        "export_ref": "stage-export-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "lineage_ref": "stage-lineage-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "retention_ref": "stage-retention-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/target-agent-takeover",
+        "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/target-agent-takeover",
+        "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/target-agent-takeover",
+        "refs_only": true,
+        "stage_folder_contract": {
+          "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+          "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/target-agent-takeover",
+          "stage_folder_ref": "stage-folder-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "folder_path_template": "stages/target-agent-takeover/attempts/{stage_attempt_id}",
+          "folder_role": "stage_native_attempt_artifact_folder",
+          "body_policy": "refs_and_manifests_only_no_target_artifact_body",
+          "lifecycle_owner": "one-person-lab",
+          "runtime_state_owner": "one-person-lab",
+          "materialization_kind": "compiler_ref_template_only_not_runtime_state",
+          "stage_json_ref": "stage-json-ref:opl-bookforge/target-agent-takeover",
+          "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "manifest_ref": "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/target-agent-takeover",
+          "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+          "export_ref": "stage-export-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "lineage_ref": "stage-lineage-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "retention_ref": "stage-retention-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/target-agent-takeover",
+          "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/target-agent-takeover",
+          "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/target-agent-takeover",
+          "required_files": [
+            "stage.json",
+            "attempt.json",
+            "stage.manifest.json",
+            "receipt.json",
+            "current.json",
+            "canonical.json",
+            "export.json",
+            "lineage.json",
+            "retention.json",
+            "physical_kernel_locator.json",
+            "conformance.json",
+            "workbench_consumption.json"
+          ]
+        },
+        "authority_boundary": {
+          "opl_framework_owns_stage_folder_lifecycle": true,
+          "oma_role": "contract_compiler_and_refs_materializer",
+          "oma_can_own_agent_lab_runner": false,
+          "oma_can_own_queue": false,
+          "oma_can_own_attempt_ledger": false,
+          "oma_can_own_worktree_lifecycle": false,
+          "oma_can_own_promotion_gate": false,
+          "oma_can_own_app_shell": false,
+          "oma_can_write_target_owner_closeout": false,
+          "oma_can_create_stage_folder_runtime_state": false,
+          "oma_can_write_stage_folder_runtime_state": false,
+          "oma_can_generate_target_domain_owner_receipt": false,
+          "oma_can_write_target_owner_receipt_body": false,
+          "oma_can_write_target_domain_truth": false,
+          "oma_can_write_target_domain_memory_body": false,
+          "oma_can_mutate_target_domain_artifact_body": false,
+          "oma_can_authorize_target_quality_or_export": false,
+          "oma_can_owner_promote_target_agent": false,
+          "oma_can_promote_default_agent_without_gate": false,
+          "oma_can_manage_target_worktree_lifecycle": false
+        },
+        "can_own_agent_lab_runner": false,
+        "can_own_queue": false,
+        "can_own_attempt_ledger": false,
+        "can_own_worktree_lifecycle": false,
+        "can_own_promotion_gate": false,
+        "can_own_app_shell": false,
+        "can_write_target_owner_closeout": false,
+        "can_create_stage_folder_runtime_state": false,
+        "can_write_stage_folder_runtime_state": false,
+        "can_generate_target_domain_owner_receipt": false,
+        "can_write_target_owner_receipt_body": false,
+        "can_write_target_domain_truth": false,
+        "can_write_target_domain_memory_body": false,
+        "can_mutate_target_domain_artifact_body": false,
+        "can_authorize_target_quality_or_export": false,
+        "can_owner_promote_target_agent": false,
+        "can_promote_default_agent_without_gate": false,
+        "can_manage_target_worktree_lifecycle": false
+      },
+      "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+      "stage_folder_contract": {
+        "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+        "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/target-agent-takeover",
+        "stage_folder_ref": "stage-folder-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "folder_path_template": "stages/target-agent-takeover/attempts/{stage_attempt_id}",
+        "folder_role": "stage_native_attempt_artifact_folder",
+        "body_policy": "refs_and_manifests_only_no_target_artifact_body",
+        "lifecycle_owner": "one-person-lab",
+        "runtime_state_owner": "one-person-lab",
+        "materialization_kind": "compiler_ref_template_only_not_runtime_state",
+        "stage_json_ref": "stage-json-ref:opl-bookforge/target-agent-takeover",
+        "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "manifest_ref": "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/target-agent-takeover",
+        "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+        "export_ref": "stage-export-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "lineage_ref": "stage-lineage-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "retention_ref": "stage-retention-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+        "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/target-agent-takeover",
+        "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/target-agent-takeover",
+        "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/target-agent-takeover",
+        "required_files": [
+          "stage.json",
+          "attempt.json",
+          "stage.manifest.json",
+          "receipt.json",
+          "current.json",
+          "canonical.json",
+          "export.json",
+          "lineage.json",
+          "retention.json",
+          "physical_kernel_locator.json",
+          "conformance.json",
+          "workbench_consumption.json"
+        ]
+      }
+    }
+  ],
+  "stage_native_artifact_refs": {
+    "surface_kind": "opl_stage_native_artifact_attempt_refs",
+    "version": "stage-native-artifact-attempt-refs.v1",
+    "target_domain_id": "opl-bookforge",
+    "stage_id": "target-agent-takeover",
+    "attempt_id": "testing-takeover",
+    "owner": "opl-meta-agent",
+    "domain_truth_owner": "opl-meta-agent",
+    "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+    "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/target-agent-takeover",
+    "stage_folder_ref": "stage-folder-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "stage_json_ref": "stage-json-ref:opl-bookforge/target-agent-takeover",
+    "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "manifest_ref": "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/target-agent-takeover",
+    "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+    "export_ref": "stage-export-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "lineage_ref": "stage-lineage-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "retention_ref": "stage-retention-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+    "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/target-agent-takeover",
+    "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/target-agent-takeover",
+    "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/target-agent-takeover",
+    "refs_only": true,
+    "stage_folder_contract": {
+      "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+      "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/target-agent-takeover",
+      "stage_folder_ref": "stage-folder-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "folder_path_template": "stages/target-agent-takeover/attempts/{stage_attempt_id}",
+      "folder_role": "stage_native_attempt_artifact_folder",
+      "body_policy": "refs_and_manifests_only_no_target_artifact_body",
+      "lifecycle_owner": "one-person-lab",
+      "runtime_state_owner": "one-person-lab",
+      "materialization_kind": "compiler_ref_template_only_not_runtime_state",
+      "stage_json_ref": "stage-json-ref:opl-bookforge/target-agent-takeover",
+      "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "manifest_ref": "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/target-agent-takeover",
+      "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+      "export_ref": "stage-export-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "lineage_ref": "stage-lineage-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "retention_ref": "stage-retention-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/target-agent-takeover",
+      "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/target-agent-takeover",
+      "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/target-agent-takeover",
+      "required_files": [
+        "stage.json",
+        "attempt.json",
+        "stage.manifest.json",
+        "receipt.json",
+        "current.json",
+        "canonical.json",
+        "export.json",
+        "lineage.json",
+        "retention.json",
+        "physical_kernel_locator.json",
+        "conformance.json",
+        "workbench_consumption.json"
+      ]
+    },
+    "authority_boundary": {
+      "opl_framework_owns_stage_folder_lifecycle": true,
+      "oma_role": "contract_compiler_and_refs_materializer",
+      "oma_can_own_agent_lab_runner": false,
+      "oma_can_own_queue": false,
+      "oma_can_own_attempt_ledger": false,
+      "oma_can_own_worktree_lifecycle": false,
+      "oma_can_own_promotion_gate": false,
+      "oma_can_own_app_shell": false,
+      "oma_can_write_target_owner_closeout": false,
+      "oma_can_create_stage_folder_runtime_state": false,
+      "oma_can_write_stage_folder_runtime_state": false,
+      "oma_can_generate_target_domain_owner_receipt": false,
+      "oma_can_write_target_owner_receipt_body": false,
+      "oma_can_write_target_domain_truth": false,
+      "oma_can_write_target_domain_memory_body": false,
+      "oma_can_mutate_target_domain_artifact_body": false,
+      "oma_can_authorize_target_quality_or_export": false,
+      "oma_can_owner_promote_target_agent": false,
+      "oma_can_promote_default_agent_without_gate": false,
+      "oma_can_manage_target_worktree_lifecycle": false
+    },
+    "can_own_agent_lab_runner": false,
+    "can_own_queue": false,
+    "can_own_attempt_ledger": false,
+    "can_own_worktree_lifecycle": false,
+    "can_own_promotion_gate": false,
+    "can_own_app_shell": false,
+    "can_write_target_owner_closeout": false,
+    "can_create_stage_folder_runtime_state": false,
+    "can_write_stage_folder_runtime_state": false,
+    "can_generate_target_domain_owner_receipt": false,
+    "can_write_target_owner_receipt_body": false,
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_quality_or_export": false,
+    "can_owner_promote_target_agent": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_manage_target_worktree_lifecycle": false
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "reviewer_kind": "ai_reviewer",
+  "model_or_provider": "codex:gpt-5",
+  "run_ref": "run:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+  "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+  "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+  "no_shared_context": true,
+  "independent_attempt": true,
+  "critique": "OPL BookForge meets the requested structural baseline for an OPL-series book-authoring agent: the product name and repo slug match the OPL naming family, the workflow is split into storyline architecture and book materialization, and the prompt, skill, quality gate, and stage contracts explicitly cover chapter planning, illustration planning, table planning, style consistency, affirmative prose, AI-flavor wording cleanup, layout QC, and owner-gated handoff. The evidence still only supports baseline delivery and Agent Lab takeover readiness. It does not support production readiness, real book-delivery quality, publication readiness, or owner acceptance until a real book project runs through both stages with receipts and quality-gate evidence.",
+  "suggestions": [
+    "Record the OMA Agent Lab takeover and external-suite self-evolution evidence in BookForge status docs before claiming the baseline is complete.",
+    "Keep the next maturity gate focused on a real book project run through storyline-architecture and book-materialization with stage receipts.",
+    "Preserve the writing-quality checks that require affirmative prose, concrete language, style consistency, illustration/table source boundaries, and layout QC."
+  ],
+  "source_refs": [
+    "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+    "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+    "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+    "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+    "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+    "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+    "skill-ref:opl-bookforge/agent/skills/book-production.md",
+    "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+  ],
+  "direct_evidence_refs": [
+    "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+    "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+    "target-verification-ref:opl-bookforge/scripts/verify.sh",
+    "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+    "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+    "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+  ],
+  "verdict": "baseline_ready_with_agent_lab_takeover_and_owner_gate",
+  "predicted_impact": "The current package is suitable as an OPL standard structural baseline for a book-authoring agent and can proceed to real project stage-run validation. Stronger claims require real stage receipts and owner-gated book-quality evidence.",
+  "provenance": {
+    "review_scope": "BookForge domain pack, OPL scaffold/interface validation, OMA Agent Lab takeover output, prompt/skill/quality-gate coverage",
+    "review_date": "2026-06-18",
+    "reviewer_boundary": "independent structured review evidence only; cannot sign owner acceptance or publication readiness"
+  },
+  "canary_refs": [
+    "canary-ref:opl-bookforge/real-book-project-two-stage-run"
+  ],
+  "rollback_refs": [
+    "git-ref:opl-bookforge/2182dda"
+  ],
+  "version_refs": [
+    "version-ref:opl-bookforge/0.1.0"
+  ]
+}

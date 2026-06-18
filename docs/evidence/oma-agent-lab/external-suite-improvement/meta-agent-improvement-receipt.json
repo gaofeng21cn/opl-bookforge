@@ -1,0 +1,529 @@
+{
+  "surface_kind": "opl_meta_agent_owner_receipt",
+  "receipt_class": "external_suite_quality_failure_self_evolution_receipt",
+  "receipt_id": "oma_receipt_9f0e57327650",
+  "status": "external_suite_passed_no_mechanism_patch_required",
+  "product_id": "opl-meta-agent",
+  "meta_agent_kind": "opl_compatible_meta_agent",
+  "target_agent": {
+    "domain_id": "opl-bookforge",
+    "domain_label": "OPL BookForge",
+    "delivery_domain": "book_authoring",
+    "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+    "repo_dir": "/Users/gaofeng/workspace/opl-bookforge",
+    "descriptor_ref": "/Users/gaofeng/workspace/opl-bookforge/contracts/domain_descriptor.json"
+  },
+  "agent_lab_result_ref": "oals_c0c5e53455b80ff9465ebdd7",
+  "acceptance_gates": {
+    "descriptor_valid": true,
+    "agent_lab_suite_passed": true,
+    "recovery_probes_passed": true,
+    "no_forbidden_write_proof_passed": true,
+    "domain_authority_boundary_explicit": true,
+    "online_learning_candidate_gated": true,
+    "mechanism_patch_proposal_recorded": true,
+    "no_memory_body_written": true,
+    "no_default_promotion": true,
+    "external_suite_consumed": true,
+    "blocked_suite_can_generate_proposal_only_candidate": false,
+    "target_domain_truth_authority_preserved": true,
+    "target_quality_authority_preserved": true,
+    "target_artifact_authority_preserved": true,
+    "target_memory_authority_preserved": true,
+    "ai_reviewer_evaluation_present": true,
+    "ai_reviewer_critique_present": true,
+    "ai_reviewer_suggestions_present": true,
+    "ai_reviewer_source_refs_valid": true,
+    "ai_reviewer_direct_evidence_refs_present": true,
+    "ai_reviewer_direct_evidence_refs_valid": true,
+    "ai_reviewer_provenance_present": true,
+    "ai_reviewer_no_shared_context": true,
+    "ai_reviewer_independent_attempt_present": true,
+    "ai_reviewer_attempt_refs_distinct": true
+  },
+  "forbidden_claims": [],
+  "authority_boundary": {
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_train_or_deploy_model_weights": false
+  },
+  "ai_reviewer_evaluation_ref": "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json",
+  "ai_reviewer_review": {
+    "reviewer_kind": "ai_reviewer",
+    "model_or_provider": "codex:gpt-5",
+    "run_ref": "run:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+    "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "critique": "OPL BookForge meets the requested structural baseline for an OPL-series book-authoring agent: the product name and repo slug match the OPL naming family, the workflow is split into storyline architecture and book materialization, and the prompt, skill, quality gate, and stage contracts explicitly cover chapter planning, illustration planning, table planning, style consistency, affirmative prose, AI-flavor wording cleanup, layout QC, and owner-gated handoff. The evidence still only supports baseline delivery and Agent Lab takeover readiness. It does not support production readiness, real book-delivery quality, publication readiness, or owner acceptance until a real book project runs through both stages with receipts and quality-gate evidence.",
+    "suggestions": [
+      "Record the OMA Agent Lab takeover and external-suite self-evolution evidence in BookForge status docs before claiming the baseline is complete.",
+      "Keep the next maturity gate focused on a real book project run through storyline-architecture and book-materialization with stage receipts.",
+      "Preserve the writing-quality checks that require affirmative prose, concrete language, style consistency, illustration/table source boundaries, and layout QC."
+    ],
+    "predicted_impact": "The current package is suitable as an OPL standard structural baseline for a book-authoring agent and can proceed to real project stage-run validation. Stronger claims require real stage receipts and owner-gated book-quality evidence."
+  },
+  "ai_reviewer_independence": {
+    "no_shared_context": true,
+    "independent_attempt": true,
+    "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+    "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "direct_evidence_refs": [
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ]
+  },
+  "ai_reviewer_evidence": {
+    "source_refs": [
+      "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+      "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+      "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+      "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+      "skill-ref:opl-bookforge/agent/skills/book-production.md",
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+    ],
+    "direct_evidence_refs": [
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ]
+  },
+  "ai_reviewer_scorecard": {
+    "verdict": "baseline_ready_with_agent_lab_takeover_and_owner_gate",
+    "predicted_impact": "The current package is suitable as an OPL standard structural baseline for a book-authoring agent and can proceed to real project stage-run validation. Stronger claims require real stage receipts and owner-gated book-quality evidence."
+  },
+  "ai_reviewer_recovery_refs": {
+    "canary_refs": [
+      "canary-ref:opl-bookforge/real-book-project-two-stage-run"
+    ],
+    "rollback_refs": [
+      "git-ref:opl-bookforge/2182dda"
+    ],
+    "version_refs": [
+      "version-ref:opl-bookforge/0.1.0"
+    ]
+  },
+  "review_provenance": {
+    "reviewer_kind": "ai_reviewer",
+    "model_or_provider": "codex:gpt-5",
+    "run_ref": "run:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+    "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "review_scope": "BookForge domain pack, OPL scaffold/interface validation, OMA Agent Lab takeover output, prompt/skill/quality-gate coverage",
+    "review_date": "2026-06-18",
+    "reviewer_boundary": "independent structured review evidence only; cannot sign owner acceptance or publication readiness"
+  },
+  "domain_pack_status": "ready",
+  "prompt_policy_refs": [
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/README.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/agent-skeleton-build.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/baseline-delivery.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/baseline-run.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/eval-suite-build.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/intent-intake.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/online-learning.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/optimizer-iteration.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/stage-decomposition.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/target-agent-takeover.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/trajectory-learning-intake.md",
+    "prompt_policy_ref:opl-meta-agent/agent/prompts/web-experience-research.md"
+  ],
+  "skill_policy_refs": [
+    "skill_policy_ref:opl-meta-agent/agent/skills/README.md",
+    "skill_policy_ref:opl-meta-agent/agent/skills/agent-baseline-build.md",
+    "skill_policy_ref:opl-meta-agent/agent/skills/external-suite-improvement.md",
+    "skill_policy_ref:opl-meta-agent/agent/skills/external-work-order-execution.md",
+    "skill_policy_ref:opl-meta-agent/agent/skills/opl-meta-agent-domain-skill.md",
+    "skill_policy_ref:opl-meta-agent/agent/skills/trajectory-learning-intake.md"
+  ],
+  "quality_gate_refs": [
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/README.md",
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/baseline-delivery.md",
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/external-suite-self-evolution.md",
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/external-work-order-execution.md",
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/mechanism-patch-adoption.md",
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/takeover.md",
+    "quality_gate_ref:opl-meta-agent/agent/quality_gates/trajectory-learning-proposal.md"
+  ],
+  "knowledge_policy_refs": [
+    "knowledge_policy_ref:opl-meta-agent/agent/knowledge/README.md",
+    "knowledge_policy_ref:opl-meta-agent/agent/knowledge/opl-boundary-policy.md",
+    "knowledge_policy_ref:opl-meta-agent/agent/knowledge/project-maturity-signals.md",
+    "knowledge_policy_ref:opl-meta-agent/agent/knowledge/trajectory-learning-policy.md",
+    "knowledge_policy_ref:opl-meta-agent/agent/knowledge/transferable-agent-practices.md"
+  ],
+  "source_domain_pack": {
+    "status": "ready",
+    "domain_id": "opl-meta-agent",
+    "pack_root": "agent",
+    "required_section_count": 5,
+    "required_file_count": 42,
+    "verified_file_count": 42,
+    "required_files": [
+      {
+        "section": "prompts",
+        "path": "agent/prompts/README.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/README.md",
+        "byte_length": 1069,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/agent-skeleton-build.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/agent-skeleton-build.md",
+        "byte_length": 2244,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/baseline-delivery.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/baseline-delivery.md",
+        "byte_length": 2560,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/baseline-run.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/baseline-run.md",
+        "byte_length": 1855,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/eval-suite-build.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/eval-suite-build.md",
+        "byte_length": 1916,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/intent-intake.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/intent-intake.md",
+        "byte_length": 3100,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/online-learning.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/online-learning.md",
+        "byte_length": 2536,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/optimizer-iteration.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/optimizer-iteration.md",
+        "byte_length": 3357,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/stage-decomposition.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/stage-decomposition.md",
+        "byte_length": 4067,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/target-agent-takeover.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/target-agent-takeover.md",
+        "byte_length": 2067,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/trajectory-learning-intake.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/trajectory-learning-intake.md",
+        "byte_length": 3267,
+        "non_empty": true
+      },
+      {
+        "section": "prompts",
+        "path": "agent/prompts/web-experience-research.md",
+        "ref": "prompt_policy_ref:opl-meta-agent/agent/prompts/web-experience-research.md",
+        "byte_length": 2163,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/README.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/README.md",
+        "byte_length": 915,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/agent-skeleton-build.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/agent-skeleton-build.md",
+        "byte_length": 1179,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/baseline-delivery.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/baseline-delivery.md",
+        "byte_length": 831,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/baseline-run.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/baseline-run.md",
+        "byte_length": 650,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/eval-suite-build.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/eval-suite-build.md",
+        "byte_length": 702,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/intent-intake.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/intent-intake.md",
+        "byte_length": 679,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/online-learning.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/online-learning.md",
+        "byte_length": 669,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/optimizer-iteration.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/optimizer-iteration.md",
+        "byte_length": 1587,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/stage-decomposition.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/stage-decomposition.md",
+        "byte_length": 759,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/target-agent-takeover.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/target-agent-takeover.md",
+        "byte_length": 740,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/trajectory-learning-intake.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/trajectory-learning-intake.md",
+        "byte_length": 1843,
+        "non_empty": true
+      },
+      {
+        "section": "stages",
+        "path": "agent/stages/web-experience-research.md",
+        "ref": "stage_policy_ref:opl-meta-agent/agent/stages/web-experience-research.md",
+        "byte_length": 549,
+        "non_empty": true
+      },
+      {
+        "section": "skills",
+        "path": "agent/skills/README.md",
+        "ref": "skill_policy_ref:opl-meta-agent/agent/skills/README.md",
+        "byte_length": 770,
+        "non_empty": true
+      },
+      {
+        "section": "skills",
+        "path": "agent/skills/agent-baseline-build.md",
+        "ref": "skill_policy_ref:opl-meta-agent/agent/skills/agent-baseline-build.md",
+        "byte_length": 2683,
+        "non_empty": true
+      },
+      {
+        "section": "skills",
+        "path": "agent/skills/external-suite-improvement.md",
+        "ref": "skill_policy_ref:opl-meta-agent/agent/skills/external-suite-improvement.md",
+        "byte_length": 3775,
+        "non_empty": true
+      },
+      {
+        "section": "skills",
+        "path": "agent/skills/external-work-order-execution.md",
+        "ref": "skill_policy_ref:opl-meta-agent/agent/skills/external-work-order-execution.md",
+        "byte_length": 2283,
+        "non_empty": true
+      },
+      {
+        "section": "skills",
+        "path": "agent/skills/opl-meta-agent-domain-skill.md",
+        "ref": "skill_policy_ref:opl-meta-agent/agent/skills/opl-meta-agent-domain-skill.md",
+        "byte_length": 2656,
+        "non_empty": true
+      },
+      {
+        "section": "skills",
+        "path": "agent/skills/trajectory-learning-intake.md",
+        "ref": "skill_policy_ref:opl-meta-agent/agent/skills/trajectory-learning-intake.md",
+        "byte_length": 2755,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/README.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/README.md",
+        "byte_length": 791,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/baseline-delivery.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/baseline-delivery.md",
+        "byte_length": 1466,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/external-suite-self-evolution.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/external-suite-self-evolution.md",
+        "byte_length": 3360,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/external-work-order-execution.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/external-work-order-execution.md",
+        "byte_length": 1966,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/mechanism-patch-adoption.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/mechanism-patch-adoption.md",
+        "byte_length": 1718,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/takeover.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/takeover.md",
+        "byte_length": 963,
+        "non_empty": true
+      },
+      {
+        "section": "quality_gates",
+        "path": "agent/quality_gates/trajectory-learning-proposal.md",
+        "ref": "quality_gate_ref:opl-meta-agent/agent/quality_gates/trajectory-learning-proposal.md",
+        "byte_length": 2344,
+        "non_empty": true
+      },
+      {
+        "section": "knowledge",
+        "path": "agent/knowledge/README.md",
+        "ref": "knowledge_policy_ref:opl-meta-agent/agent/knowledge/README.md",
+        "byte_length": 698,
+        "non_empty": true
+      },
+      {
+        "section": "knowledge",
+        "path": "agent/knowledge/opl-boundary-policy.md",
+        "ref": "knowledge_policy_ref:opl-meta-agent/agent/knowledge/opl-boundary-policy.md",
+        "byte_length": 2665,
+        "non_empty": true
+      },
+      {
+        "section": "knowledge",
+        "path": "agent/knowledge/project-maturity-signals.md",
+        "ref": "knowledge_policy_ref:opl-meta-agent/agent/knowledge/project-maturity-signals.md",
+        "byte_length": 956,
+        "non_empty": true
+      },
+      {
+        "section": "knowledge",
+        "path": "agent/knowledge/trajectory-learning-policy.md",
+        "ref": "knowledge_policy_ref:opl-meta-agent/agent/knowledge/trajectory-learning-policy.md",
+        "byte_length": 5259,
+        "non_empty": true
+      },
+      {
+        "section": "knowledge",
+        "path": "agent/knowledge/transferable-agent-practices.md",
+        "ref": "knowledge_policy_ref:opl-meta-agent/agent/knowledge/transferable-agent-practices.md",
+        "byte_length": 1343,
+        "non_empty": true
+      }
+    ],
+    "section_file_counts": {
+      "prompts": 12,
+      "stages": 12,
+      "skills": 6,
+      "quality_gates": 7,
+      "knowledge": 5
+    },
+    "prompt_policy_refs": [
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/README.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/agent-skeleton-build.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/baseline-delivery.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/baseline-run.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/eval-suite-build.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/intent-intake.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/online-learning.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/optimizer-iteration.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/stage-decomposition.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/target-agent-takeover.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/trajectory-learning-intake.md",
+      "prompt_policy_ref:opl-meta-agent/agent/prompts/web-experience-research.md"
+    ],
+    "stage_policy_refs": [
+      "stage_policy_ref:opl-meta-agent/agent/stages/README.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/agent-skeleton-build.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/baseline-delivery.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/baseline-run.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/eval-suite-build.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/intent-intake.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/online-learning.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/optimizer-iteration.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/stage-decomposition.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/target-agent-takeover.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/trajectory-learning-intake.md",
+      "stage_policy_ref:opl-meta-agent/agent/stages/web-experience-research.md"
+    ],
+    "skill_policy_refs": [
+      "skill_policy_ref:opl-meta-agent/agent/skills/README.md",
+      "skill_policy_ref:opl-meta-agent/agent/skills/agent-baseline-build.md",
+      "skill_policy_ref:opl-meta-agent/agent/skills/external-suite-improvement.md",
+      "skill_policy_ref:opl-meta-agent/agent/skills/external-work-order-execution.md",
+      "skill_policy_ref:opl-meta-agent/agent/skills/opl-meta-agent-domain-skill.md",
+      "skill_policy_ref:opl-meta-agent/agent/skills/trajectory-learning-intake.md"
+    ],
+    "quality_gate_refs": [
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/README.md",
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/baseline-delivery.md",
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/external-suite-self-evolution.md",
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/external-work-order-execution.md",
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/mechanism-patch-adoption.md",
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/takeover.md",
+      "quality_gate_ref:opl-meta-agent/agent/quality_gates/trajectory-learning-proposal.md"
+    ],
+    "knowledge_policy_refs": [
+      "knowledge_policy_ref:opl-meta-agent/agent/knowledge/README.md",
+      "knowledge_policy_ref:opl-meta-agent/agent/knowledge/opl-boundary-policy.md",
+      "knowledge_policy_ref:opl-meta-agent/agent/knowledge/project-maturity-signals.md",
+      "knowledge_policy_ref:opl-meta-agent/agent/knowledge/trajectory-learning-policy.md",
+      "knowledge_policy_ref:opl-meta-agent/agent/knowledge/transferable-agent-practices.md"
+    ]
+  }
+}
