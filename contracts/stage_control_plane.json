@@ -1,0 +1,1675 @@
+{
+  "surface_kind": "family_stage_control_plane",
+  "version": "family-stage-control-plane.v1",
+  "plane_id": "opl_bookforge_stage_plane",
+  "target_domain_id": "opl-bookforge",
+  "owner": "OPL BookForge",
+  "stage_pack_conformance_version": "standard-stage-pack.v2",
+  "authority_boundary": {
+    "domain_truth_owner": "OPL BookForge",
+    "opl_role": "stage_runtime_projection_and_generated_interface_owner",
+    "opl_can_write_domain_truth": false,
+    "opl_can_write_memory_body": false,
+    "opl_can_authorize_quality_or_export": false
+  },
+  "stages": [
+    {
+      "stage_id": "storyline-architecture",
+      "stage_kind": "planning",
+      "title": "Storyline Architecture",
+      "summary": "Shape the premise, reader promise, argument arc, evidence map, chapter thesis chain, and prose style contract before drafting.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+      "owner": "OPL BookForge",
+      "stage_pack_conformance_version": "standard-stage-pack.v2",
+      "selected_executor": {
+        "executor_kind": "codex_cli",
+        "default_executor": true,
+        "executor_binding_ref": "default_codex_cli"
+      },
+      "domain_stage_refs": [
+        "storyline-architecture"
+      ],
+      "inputs": [
+        {
+          "ref_kind": "workspace_scope_ref",
+          "ref": "workspace-scope:storyline-architecture"
+        },
+        {
+          "ref_kind": "source_scope_ref",
+          "ref": "source-scope:storyline-architecture"
+        }
+      ],
+      "knowledge_refs": [
+        {
+          "ref_kind": "domain_knowledge_ref",
+          "ref": "agent/knowledge/book-authority-boundary.md"
+        }
+      ],
+      "skills": [
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/storyline-architecture.md"
+        }
+      ],
+      "prompt_refs": [
+        {
+          "ref_kind": "domain_prompt_ref",
+          "ref": "agent/prompts/storyline-architecture.md"
+        }
+      ],
+      "allowed_action_refs": [
+        "shape-storyline"
+      ],
+      "outputs": [
+        {
+          "ref_kind": "artifact_ref",
+          "ref": "artifact-ref:storyline-architecture/storyline-map"
+        },
+        {
+          "ref_kind": "artifact_ref",
+          "ref": "artifact-ref:storyline-architecture/chapter-thesis-chain"
+        },
+        {
+          "ref_kind": "owner_handoff_ref",
+          "ref": "owner-handoff-ref:storyline-architecture"
+        }
+      ],
+      "evaluation": [
+        {
+          "ref_kind": "domain_quality_gate_ref",
+          "ref": "agent/quality_gates/storyline-architecture-quality-gate.md"
+        }
+      ],
+      "tool_refs": [
+        {
+          "ref_kind": "repo_path",
+          "ref": "agent/tools/domain_affordances.md",
+          "role": "available_domain_tool_affordance_catalog"
+        }
+      ],
+      "tool_affordance_boundary": {
+        "catalog_role": "available_affordance_catalog_not_workflow_script",
+        "capability_refs": [
+          {
+            "ref_kind": "domain_capability_ref",
+            "ref": "bookforge:storyline-synthesis",
+            "role": "shape_reader_promise_argument_arc_and_chapter_thesis_chain"
+          }
+        ],
+        "permission_scope_refs": [
+          {
+            "ref_kind": "permission_scope_ref",
+            "ref": "workspace-read-and-stage-output-write",
+            "role": "read_source_materials_and_write_storyline_stage_outputs"
+          }
+        ],
+        "credential_boundary_refs": [
+          {
+            "ref_kind": "credential_boundary_ref",
+            "ref": "no_new_credentials_required",
+            "role": "storyline_architecture_uses_existing_codex_and_repo_context_only"
+          }
+        ],
+        "write_scope_refs": [
+          {
+            "ref_kind": "write_scope_ref",
+            "ref": "projects/<project-id>/artifacts/stage_outputs/storyline-architecture/",
+            "role": "domain_stage_output_refs_only"
+          }
+        ],
+        "side_effect_risk_refs": [
+          {
+            "ref_kind": "side_effect_risk_ref",
+            "ref": "low_risk_declarative_planning_output",
+            "role": "no_publication_export_or_domain_ready_claim"
+          }
+        ],
+        "forbidden_authority_refs": [
+          {
+            "ref_kind": "forbidden_authority_ref",
+            "ref": "cannot_authorize_book_quality_publication_or_owner_acceptance",
+            "role": "owner_gate_required_for_quality_and_publication_claims"
+          }
+        ],
+        "executor_autonomy": {
+          "executor_can_choose_tools": true,
+          "executor_can_skip_tools": true,
+          "executor_can_substitute_tools_within_boundary": true,
+          "executor_can_choose_order_and_parallelism": true,
+          "executor_can_request_missing_context_or_human_gate": true,
+          "tool_catalog_can_prescribe_tool_sequence": false,
+          "tool_catalog_can_define_cognitive_strategy": false,
+          "tool_catalog_can_override_stage_goal": false,
+          "tool_catalog_can_authorize_forbidden_write": false
+        }
+      },
+      "independent_gate_policy": {
+        "gate_ref": "agent/quality_gates/storyline-architecture-quality-gate.md",
+        "gate_owner": "OPL BookForge",
+        "execution_review_separation_required": true,
+        "mechanical_completion_can_close_stage": false,
+        "provider_completion_can_claim_domain_ready": false,
+        "generated_surface_readiness_can_claim_quality_or_export": false,
+        "dedicated_review_stage_required_when": [
+          "expert_judgment",
+          "artifact_or_export_mutation",
+          "domain_truth_movement",
+          "quality_or_export_verdict",
+          "high_risk_handoff"
+        ],
+        "lightweight_gate_receipt_allowed_when": [
+          "read_only_projection",
+          "mechanical_packaging",
+          "low_risk_owner_handoff"
+        ]
+      },
+      "handoff": {
+        "next_owner": "OPL BookForge",
+        "allowed_closure_refs": [
+          "independent-gate-receipt-ref:storyline-architecture",
+          "owner-receipt-ref:storyline-architecture",
+          "typed-blocker-ref:storyline-architecture",
+          "route-back-ref:storyline-architecture"
+        ],
+        "next_stage_refs": [
+          "book-materialization"
+        ]
+      },
+      "stage_contract": {
+        "requires": [
+          "stage:storyline-architecture",
+          "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
+          "prompt-ref:agent/prompts/storyline-architecture.md",
+          "skill-ref:agent/skills/storyline-architecture.md",
+          "knowledge-ref:agent/knowledge/book-authority-boundary.md",
+          "quality-gate-ref:agent/quality_gates/storyline-architecture-quality-gate.md",
+          "action-ref:shape-storyline",
+          "workspace-scope-ref:storyline-architecture",
+          "source-scope-ref:storyline-architecture",
+          "runtime-ref:stage-progress-log-user-stage-log",
+          "source-ref:book/source-corpus",
+          "style-ref:book/voice-and-audience"
+        ],
+        "ensures": [
+          "stage-attempt-receipt-ref:storyline-architecture",
+          "executor-receipt-ref:storyline-architecture/codex-cli",
+          "boundary-receipt-ref:storyline-architecture/refs-only",
+          "independent-gate-receipt-ref:storyline-architecture",
+          "owner-handoff-ref:storyline-architecture",
+          "stage-user-log-ref:storyline-architecture",
+          "stage-folder-contract-ref:opl-bookforge/storyline-architecture",
+          "stage-json-ref:opl-bookforge/storyline-architecture",
+          "stage-attempt-json-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "stage-manifest-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "stage-current-pointer-ref:opl-bookforge/storyline-architecture",
+          "canonical-artifact-ref:opl-bookforge/storyline-architecture",
+          "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "stage-lineage-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "stage-retention-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture",
+          "stage-artifact-conformance-ref:opl-bookforge/storyline-architecture",
+          "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture",
+          "storyline-map-ref:storyline-architecture",
+          "chapter-plan-ref:storyline-architecture",
+          "style-contract-ref:storyline-architecture"
+        ],
+        "expected_receipt_refs": [
+          {
+            "ref_kind": "stage_attempt_receipt_ref",
+            "ref": "stage-attempt-receipt-ref:storyline-architecture"
+          },
+          {
+            "ref_kind": "executor_receipt_ref",
+            "ref": "executor-receipt-ref:storyline-architecture/codex-cli"
+          },
+          {
+            "ref_kind": "boundary_receipt_ref",
+            "ref": "boundary-receipt-ref:storyline-architecture/refs-only"
+          },
+          {
+            "ref_kind": "independent_gate_receipt_ref",
+            "ref": "independent-gate-receipt-ref:storyline-architecture"
+          },
+          {
+            "ref_kind": "user_stage_log_ref",
+            "ref": "stage-user-log-ref:storyline-architecture"
+          },
+          {
+            "ref_kind": "artifact_native_contract_ref",
+            "ref": "artifact-native-contract-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "stage_folder_contract_ref",
+            "ref": "stage-folder-contract-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "stage_json_ref",
+            "ref": "stage-json-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "stage_attempt_json_ref",
+            "ref": "stage-attempt-json-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_manifest_ref",
+            "ref": "stage-manifest-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_attempt_receipt_ref",
+            "ref": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_typed_blocker_ref",
+            "ref": "stage-typed-blocker-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_current_pointer_ref",
+            "ref": "stage-current-pointer-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "canonical_artifact_ref",
+            "ref": "canonical-artifact-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "stage_export_ref",
+            "ref": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_lineage_ref",
+            "ref": "stage-lineage-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_retention_ref",
+            "ref": "stage-retention-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "opl_physical_kernel_locator_ref",
+            "ref": "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "stage_artifact_conformance_ref",
+            "ref": "stage-artifact-conformance-ref:opl-bookforge/storyline-architecture"
+          },
+          {
+            "ref_kind": "stage_artifact_workbench_consumption_ref",
+            "ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture"
+          }
+        ],
+        "receipt_schema_refs": [
+          {
+            "ref_kind": "repo_path",
+            "ref": "contracts/owner_receipt_contract.json",
+            "role": "owner_receipt_or_typed_blocker_schema"
+          }
+        ],
+        "authority_function_refs": [
+          {
+            "ref_kind": "repo_path",
+            "ref": "runtime/authority_functions/README.md",
+            "role": "minimal_authority_function_catalog"
+          }
+        ],
+        "l4_entry_gate": {
+          "entry_level": "L4_structural_baseline",
+          "required_gates": [
+            "repo_layout_declared",
+            "stage_pack_v2_required",
+            "stage_prompt_skill_knowledge_quality_gate_refs_resolve",
+            "tool_affordance_boundary_declared",
+            "receipt_schema_declared",
+            "minimal_authority_functions_declared",
+            "generated_surface_handoff_declared",
+            "no_forbidden_write_contract_declared"
+          ],
+          "can_claim_l5": false,
+          "can_claim_domain_ready": false
+        },
+        "l5_entry_gate": {
+          "entry_level": "L5_production_operating_maturity",
+          "evidence_required": [
+            "real_user_path",
+            "long_soak_recovery",
+            "release_install_evidence",
+            "owner_acceptance",
+            "direct_and_opl_hosted_parity_at_scale"
+          ],
+          "conformance_pass_counts_as_l5": false,
+          "contract_validation_counts_as_l5": false,
+          "provider_completion_counts_as_l5": false,
+          "app_projection_counts_as_l5": false
+        },
+        "source_scope_refs": [
+          {
+            "ref_kind": "source_scope_ref",
+            "ref": "source-scope:storyline-architecture"
+          }
+        ],
+        "artifact_scope_refs": [
+          {
+            "ref_kind": "artifact_scope_ref",
+            "ref": "artifact-scope:storyline-architecture"
+          }
+        ],
+        "workspace_scope_refs": [
+          {
+            "ref_kind": "workspace_scope_ref",
+            "ref": "workspace-scope:storyline-architecture"
+          }
+        ],
+        "stage_native_artifact_contract": {
+          "surface_kind": "opl_stage_native_artifact_contract",
+          "version": "stage-native-artifact-contract.v1",
+          "target_domain_id": "opl-bookforge",
+          "stage_id": "storyline-architecture",
+          "owner": "one-person-lab",
+          "materialized_by": "opl-meta-agent",
+          "domain_truth_owner": "OPL BookForge",
+          "role": "stage_folder_manifest_receipt_blocker_current_pointer_and_canonical_refs_only",
+          "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
+          "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/storyline-architecture",
+          "stage_folder_ref": "stage-folder-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "stage_json_ref": "stage-json-ref:opl-bookforge/storyline-architecture",
+          "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "manifest_ref": "stage-manifest-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/storyline-architecture",
+          "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/storyline-architecture",
+          "export_ref": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "lineage_ref": "stage-lineage-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "retention_ref": "stage-retention-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+          "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture",
+          "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/storyline-architecture",
+          "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture",
+          "stage_folder_contract": {
+            "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
+            "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/storyline-architecture",
+            "stage_folder_ref": "stage-folder-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "folder_path_template": "stages/storyline-architecture/attempts/{stage_attempt_id}",
+            "folder_role": "stage_native_attempt_artifact_folder",
+            "body_policy": "refs_and_manifests_only_no_target_artifact_body",
+            "lifecycle_owner": "one-person-lab",
+            "runtime_state_owner": "one-person-lab",
+            "materialization_kind": "compiler_ref_template_only_not_runtime_state",
+            "stage_json_ref": "stage-json-ref:opl-bookforge/storyline-architecture",
+            "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "manifest_ref": "stage-manifest-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/storyline-architecture",
+            "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/storyline-architecture",
+            "export_ref": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "lineage_ref": "stage-lineage-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "retention_ref": "stage-retention-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture",
+            "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/storyline-architecture",
+            "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture",
+            "required_files": [
+              "stage.json",
+              "attempt.json",
+              "stage.manifest.json",
+              "receipt.json",
+              "current.json",
+              "canonical.json",
+              "export.json",
+              "lineage.json",
+              "retention.json",
+              "physical_kernel_locator.json",
+              "conformance.json",
+              "workbench_consumption.json"
+            ]
+          },
+          "stage_json_contract": {
+            "stage_json_ref": "stage-json-ref:opl-bookforge/storyline-architecture",
+            "stage_json_file_name": "stage.json",
+            "body_owner": "one-person-lab",
+            "materialized_by": "opl-meta-agent",
+            "required_fields": [
+              "stage_id",
+              "target_domain_id",
+              "stage_folder_contract_ref",
+              "artifact_native_contract_ref",
+              "attempt_json_ref_template",
+              "manifest_ref_template",
+              "receipt_ref_template",
+              "current_pointer_ref",
+              "canonical_artifact_ref",
+              "export_ref_template",
+              "lineage_ref_template",
+              "retention_ref_template",
+              "physical_kernel_locator_ref",
+              "conformance_ref",
+              "workbench_consumption_ref"
+            ],
+            "body_policy": "refs_only_stage_descriptor_no_target_artifact_body"
+          },
+          "attempt_json_contract": {
+            "attempt_json_ref_template": "stage-attempt-json-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "attempt_json_file_name": "attempt.json",
+            "body_owner": "one-person-lab",
+            "materialized_by": "opl-meta-agent",
+            "runtime_state_owner": "one-person-lab",
+            "oma_materializes_ref_template_only": true,
+            "required_fields": [
+              "stage_id",
+              "stage_attempt_id",
+              "attempt_json_ref",
+              "manifest_ref",
+              "receipt_ref",
+              "blocker_ref",
+              "lineage_ref",
+              "retention_ref"
+            ]
+          },
+          "manifest_contract": {
+            "manifest_ref_template": "stage-manifest-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "manifest_file_name": "stage.manifest.json",
+            "required_fields": [
+              "stage_json_ref",
+              "attempt_json_ref",
+              "stage_id",
+              "stage_attempt_id",
+              "physical_output_path",
+              "role",
+              "content_hash",
+              "producer",
+              "input_refs",
+              "lineage_refs",
+              "receipt_refs",
+              "current_pointer_ref",
+              "canonical_artifact_ref",
+              "export_ref",
+              "lineage_ref",
+              "retention_ref",
+              "physical_kernel_locator_ref",
+              "conformance_ref",
+              "workbench_consumption_ref",
+              "export_eligibility",
+              "repair_classification"
+            ],
+            "missing_or_hash_mismatch_projection": "broken_artifact",
+            "missing_owner_receipt_projection": "orphan_artifact"
+          },
+          "terminal_receipts": {
+            "success_receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "blocked_typed_blocker_ref_template": "stage-typed-blocker-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "skipped_or_deferred_decision_ref_template": "stage-decision-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "success_requires_owner_receipt_ref": true,
+            "blocked_requires_typed_blocker_ref": true,
+            "skipped_or_deferred_requires_decision_receipt_ref": true
+          },
+          "receipt_contract": {
+            "receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "receipt_file_name": "receipt.json",
+            "receipt_owner": "one-person-lab",
+            "owner_receipt_body_owner": "OPL BookForge",
+            "oma_can_generate_target_domain_owner_receipt": false,
+            "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
+          },
+          "current_pointer_contract": {
+            "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/storyline-architecture",
+            "current_file_name": "current.json",
+            "pointer_owner": "one-person-lab",
+            "oma_materializes_ref_template_only": true,
+            "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
+          },
+          "canonical_artifact_contract": {
+            "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/storyline-architecture",
+            "canonical_file_name": "canonical.json",
+            "body_owner": "OPL BookForge",
+            "contains_target_artifact_body": false,
+            "canonical_body_requires_target_owner_receipt": true
+          },
+          "export_contract": {
+            "export_ref_template": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "export_file_name": "export.json",
+            "export_owner": "OPL BookForge",
+            "oma_can_authorize_target_quality_or_export": false,
+            "export_requires_target_owner_gate": true
+          },
+          "lineage_contract": {
+            "lineage_ref_template": "stage-lineage-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "lineage_file_name": "lineage.json",
+            "lineage_owner": "one-person-lab",
+            "required_fields": [
+              "stage_id",
+              "stage_attempt_id",
+              "input_refs",
+              "source_refs",
+              "producer_refs",
+              "parent_attempt_refs",
+              "repair_refs"
+            ]
+          },
+          "retention_contract": {
+            "retention_ref_template": "stage-retention-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+            "retention_file_name": "retention.json",
+            "retention_owner": "one-person-lab",
+            "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
+            "oma_can_delete_stage_attempt_history": false
+          },
+          "physical_kernel_locator_contract": {
+            "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture",
+            "physical_kernel_locator_file_name": "physical_kernel_locator.json",
+            "source_contract_ref": "contracts/opl-framework/stage-artifact-runtime-contract.json",
+            "source_surface_kind": "opl_stage_artifact_runtime_contract",
+            "attempt_root_pattern": "runtime-state/domains/<domain>/deliverables/<program>/<topic>/<deliverable>/stages/<nn-stage>/attempts/<attempt_id>",
+            "folder_path_template": "stages/storyline-architecture/attempts/{stage_attempt_id}",
+            "required_attempt_entries": [
+              "attempt.json",
+              "manifest.json",
+              "inputs/",
+              "outputs/",
+              "evidence/",
+              "receipts/"
+            ],
+            "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
+            "derived_index_role": "rebuildable_projection_not_primary_truth",
+            "status_source_of_truth": "physical_stage_folder",
+            "oma_materializes_ref_template_only": true,
+            "oma_can_create_runtime_state": false
+          },
+          "conformance_contract": {
+            "surface_kind": "opl_stage_artifact_runtime_conformance",
+            "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/storyline-architecture",
+            "conformance_file_name": "conformance.json",
+            "source_contract_ref": "contracts/opl-framework/stage-artifact-runtime-contract.json",
+            "conformance_owner": "one-person-lab",
+            "strict_units": [
+              "Stage Folder",
+              "Manifest",
+              "Receipt",
+              "content_hashes",
+              "latest_pointer",
+              "current_pointer",
+              "lineage_events"
+            ],
+            "fails_on": [
+              "missing_deliverable_json",
+              "missing_stage_json",
+              "missing_required_attempt_entry",
+              "missing_latest_pointer",
+              "latest_pointer_missing_attempt",
+              "missing_current_pointer",
+              "missing_manifest_hash_entry",
+              "manifest_content_hash_mismatch",
+              "attempt_broken",
+              "attempt_orphan"
+            ],
+            "domain_readiness_claim": false,
+            "oma_materializes_ref_template_only": true,
+            "oma_can_claim_conformance_pass": false
+          },
+          "workbench_consumption_contract": {
+            "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
+            "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture",
+            "workbench_consumption_file_name": "workbench_consumption.json",
+            "source_contract_ref": "contracts/opl-framework/stage-artifact-runtime-contract.json",
+            "workbench_owner": "one-person-lab-app via OPL/App contracts",
+            "projects": [
+              "current_pointer",
+              "stage_status",
+              "attempt_manifest_refs",
+              "owner_receipt_refs",
+              "typed_blocker_refs",
+              "decision_receipt_refs",
+              "content_hashes",
+              "canonical_artifacts",
+              "export_artifacts",
+              "lineage_refs",
+              "retention_policy",
+              "conformance_summary"
+            ],
+            "artifact_body_access": false,
+            "domain_verdict_authority": false,
+            "oma_materializes_ref_template_only": true,
+            "oma_can_write_workbench_state": false
+          },
+          "output_roles": [
+            {
+              "role_id": "stage_json",
+              "ref_kind": "stage_json_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "attempt_json",
+              "ref_kind": "stage_attempt_json_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "stage_manifest",
+              "ref_kind": "stage_manifest_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "stage_attempt_receipt",
+              "ref_kind": "stage_attempt_receipt_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "typed_blocker",
+              "ref_kind": "stage_typed_blocker_ref",
+              "body_owner": "OPL BookForge",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "canonical_artifact_ref",
+              "ref_kind": "canonical_artifact_ref",
+              "body_owner": "OPL BookForge",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "export_ref",
+              "ref_kind": "stage_export_ref",
+              "body_owner": "OPL BookForge",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "lineage_ref",
+              "ref_kind": "stage_lineage_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "retention_ref",
+              "ref_kind": "stage_retention_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "physical_kernel_locator_ref",
+              "ref_kind": "opl_physical_kernel_locator_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "conformance_ref",
+              "ref_kind": "stage_artifact_conformance_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "workbench_consumption_ref",
+              "ref_kind": "stage_artifact_workbench_consumption_ref",
+              "body_owner": "one-person-lab-app via OPL/App contracts",
+              "contains_target_artifact_body": false
+            }
+          ],
+          "authority_boundary": {
+            "opl_framework_owns_stage_folder_lifecycle": true,
+            "oma_role": "contract_compiler_and_refs_materializer",
+            "oma_can_own_agent_lab_runner": false,
+            "oma_can_own_queue": false,
+            "oma_can_own_attempt_ledger": false,
+            "oma_can_own_worktree_lifecycle": false,
+            "oma_can_own_promotion_gate": false,
+            "oma_can_own_app_shell": false,
+            "oma_can_write_target_owner_closeout": false,
+            "oma_can_create_stage_folder_runtime_state": false,
+            "oma_can_write_stage_folder_runtime_state": false,
+            "oma_can_generate_target_domain_owner_receipt": false,
+            "oma_can_write_target_owner_receipt_body": false,
+            "oma_can_write_target_domain_truth": false,
+            "oma_can_write_target_domain_memory_body": false,
+            "oma_can_mutate_target_domain_artifact_body": false,
+            "oma_can_authorize_target_quality_or_export": false,
+            "oma_can_owner_promote_target_agent": false,
+            "oma_can_promote_default_agent_without_gate": false,
+            "oma_can_manage_target_worktree_lifecycle": false
+          }
+        },
+        "user_stage_log_contract": {
+          "surface_kind": "opl_standard_agent_user_stage_log_contract",
+          "version": "standard-user-stage-log.v1",
+          "owner": "one-person-lab",
+          "standard_agent_requirement": "domain_stage_closeout_must_return_user_readable_stage_semantics_or_typed_blocker",
+          "opl_projection_surface": "stage_progress_log.user_stage_log",
+          "domain_semantic_sources": [
+            "typed_closeout_packet.user_stage_log",
+            "typed_closeout_packet.stage_log_summary",
+            "route_impact.user_stage_log",
+            "route_impact.stage_log_summary"
+          ],
+          "required_domain_semantic_fields": [
+            "stage_name",
+            "problem_summary",
+            "stage_goal",
+            "stage_work_done",
+            "changed_stage_surfaces",
+            "outcome",
+            "remaining_blockers",
+            "evidence_refs"
+          ],
+          "required_observability_fields": [
+            "duration",
+            "token_usage",
+            "cost"
+          ],
+          "missing_semantics_policy": "typed_blocker_or_missing_domain_semantic_summary_no_opl_inference",
+          "token_policy": "observed_or_explicit_missing_null_no_zero_fill",
+          "authority_boundary": {
+            "opl_can_infer_domain_semantics": false,
+            "opl_can_read_artifact_body": false,
+            "opl_can_write_domain_truth": false,
+            "opl_can_authorize_quality_or_export": false,
+            "provider_completion_can_claim_stage_semantics_complete": false
+          }
+        },
+        "progress_delta_policy": {
+          "surface_kind": "opl_stage_progress_delta_policy",
+          "version": "progress-delta-policy.v1",
+          "owner": "one-person-lab",
+          "standard_agent_requirement": "stage_closeout_must_classify_deliverable_progress_vs_platform_repair_or_return_typed_blocker",
+          "projection_surface": "stage_progress_log.user_stage_log",
+          "required_fields": [
+            "progress_delta_classification",
+            "deliverable_progress_delta",
+            "platform_repair_delta",
+            "next_forced_delta"
+          ],
+          "classification_values": [
+            "deliverable_progress",
+            "platform_repair",
+            "mixed",
+            "typed_blocker",
+            "human_gate",
+            "stop_loss"
+          ],
+          "platform_only_is_not_deliverable_progress": true,
+          "missing_delta_policy": "emit_zero_deliverable_delta_and_next_forced_delta_without_inventing_target_agent_work",
+          "authority_boundary": {
+            "opl_can_infer_domain_work": false,
+            "opl_can_read_artifact_body": false,
+            "opl_can_write_domain_truth": false,
+            "opl_can_authorize_quality_or_export": false,
+            "oma_retains_agent_building_semantics": true
+          }
+        },
+        "typed_blocker_lineage_policy": {
+          "surface_kind": "family-stall-lineage.v1",
+          "version": "family-stall-lineage.v1",
+          "owner": "one-person-lab",
+          "standard_agent_requirement": "typed_blockers_must_include_repeat_budget_lineage_next_forced_delta_and_escalation_owner",
+          "required_fields": [
+            "blocker_family",
+            "study_id_or_domain_identity",
+            "work_unit_id",
+            "eval_id_or_review_ref",
+            "source_fingerprint",
+            "repeat_count",
+            "first_seen",
+            "last_seen",
+            "last_deliverable_delta",
+            "next_forced_delta",
+            "escalation_owner",
+            "terminal"
+          ],
+          "repeat_budget": {
+            "mechanism_repair_after_repeat_count": 2,
+            "human_gate_or_stop_loss_after_repeat_count": 3
+          },
+          "platform_only_delta_policy": "does_not_reset_deliverable_stall_budget",
+          "authority_boundary": {
+            "opl_can_generate_domain_blocker": false,
+            "opl_can_escalate_without_domain_or_human_gate_ref": false,
+            "opl_can_claim_deliverable_progress_from_platform_repair": false,
+            "oma_retains_typed_blocker_authority": true
+          }
+        }
+      },
+      "trust_boundary": {
+        "lane": "domain_agent",
+        "static_check_eligible": true,
+        "effect_boundary": true,
+        "owner_receipt_required": true,
+        "runtime_guard_required": true
+      },
+      "authority_boundary": {
+        "domain_truth_owner": "OPL BookForge",
+        "opl_role": "projection_only",
+        "can_write_target_domain_truth": false,
+        "can_write_target_domain_memory_body": false,
+        "can_mutate_target_domain_artifact_body": false,
+        "can_authorize_target_domain_quality_or_export": false
+      }
+    },
+    {
+      "stage_id": "book-materialization",
+      "stage_kind": "creation",
+      "title": "Book Materialization",
+      "summary": "Create chapter drafts and production specs, then run consistency, AI-flavor, illustration, table, layout, and handoff checks.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+      "owner": "OPL BookForge",
+      "stage_pack_conformance_version": "standard-stage-pack.v2",
+      "selected_executor": {
+        "executor_kind": "codex_cli",
+        "default_executor": true,
+        "executor_binding_ref": "default_codex_cli"
+      },
+      "domain_stage_refs": [
+        "book-materialization"
+      ],
+      "inputs": [
+        {
+          "ref_kind": "workspace_scope_ref",
+          "ref": "workspace-scope:book-materialization"
+        },
+        {
+          "ref_kind": "source_scope_ref",
+          "ref": "source-scope:book-materialization"
+        },
+        {
+          "ref_kind": "storyline_map_ref",
+          "ref": "storyline-map-ref:storyline-architecture"
+        }
+      ],
+      "knowledge_refs": [
+        {
+          "ref_kind": "domain_knowledge_ref",
+          "ref": "agent/knowledge/book-production-boundary.md"
+        }
+      ],
+      "skills": [
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/book-production.md"
+        }
+      ],
+      "prompt_refs": [
+        {
+          "ref_kind": "domain_prompt_ref",
+          "ref": "agent/prompts/book-materialization.md"
+        }
+      ],
+      "allowed_action_refs": [
+        "materialize-book"
+      ],
+      "outputs": [
+        {
+          "ref_kind": "artifact_ref",
+          "ref": "artifact-ref:book-materialization/chapter-drafts"
+        },
+        {
+          "ref_kind": "artifact_ref",
+          "ref": "artifact-ref:book-materialization/illustration-table-plan"
+        },
+        {
+          "ref_kind": "artifact_ref",
+          "ref": "artifact-ref:book-materialization/layout-qc-report"
+        },
+        {
+          "ref_kind": "owner_handoff_ref",
+          "ref": "owner-handoff-ref:book-materialization"
+        }
+      ],
+      "evaluation": [
+        {
+          "ref_kind": "domain_quality_gate_ref",
+          "ref": "agent/quality_gates/book-materialization-quality-gate.md"
+        }
+      ],
+      "tool_refs": [
+        {
+          "ref_kind": "repo_path",
+          "ref": "agent/tools/domain_affordances.md",
+          "role": "available_domain_tool_affordance_catalog"
+        }
+      ],
+      "tool_affordance_boundary": {
+        "catalog_role": "available_affordance_catalog_not_workflow_script",
+        "capability_refs": [
+          {
+            "ref_kind": "domain_capability_ref",
+            "ref": "bookforge:book-materialization",
+            "role": "draft_chapters_plan_visuals_tables_layout_and_quality_handoff"
+          }
+        ],
+        "permission_scope_refs": [
+          {
+            "ref_kind": "permission_scope_ref",
+            "ref": "workspace-read-and-stage-output-write",
+            "role": "read_storyline_outputs_and_write_book_materialization_outputs"
+          }
+        ],
+        "credential_boundary_refs": [
+          {
+            "ref_kind": "credential_boundary_ref",
+            "ref": "no_new_credentials_required",
+            "role": "book_materialization_uses_existing_codex_and_repo_context_only"
+          }
+        ],
+        "write_scope_refs": [
+          {
+            "ref_kind": "write_scope_ref",
+            "ref": "projects/<project-id>/artifacts/stage_outputs/book-materialization/",
+            "role": "domain_stage_output_refs_only"
+          }
+        ],
+        "side_effect_risk_refs": [
+          {
+            "ref_kind": "side_effect_risk_ref",
+            "ref": "medium_risk_content_packaging_output",
+            "role": "book_draft_layout_visual_and_table_plans_require_independent_gate"
+          }
+        ],
+        "forbidden_authority_refs": [
+          {
+            "ref_kind": "forbidden_authority_ref",
+            "ref": "cannot_authorize_book_quality_publication_export_or_owner_acceptance",
+            "role": "owner_gate_required_for_final_book_claims"
+          }
+        ],
+        "executor_autonomy": {
+          "executor_can_choose_tools": true,
+          "executor_can_skip_tools": true,
+          "executor_can_substitute_tools_within_boundary": true,
+          "executor_can_choose_order_and_parallelism": true,
+          "executor_can_request_missing_context_or_human_gate": true,
+          "tool_catalog_can_prescribe_tool_sequence": false,
+          "tool_catalog_can_define_cognitive_strategy": false,
+          "tool_catalog_can_override_stage_goal": false,
+          "tool_catalog_can_authorize_forbidden_write": false
+        }
+      },
+      "independent_gate_policy": {
+        "gate_ref": "agent/quality_gates/book-materialization-quality-gate.md",
+        "gate_owner": "OPL BookForge",
+        "execution_review_separation_required": true,
+        "mechanical_completion_can_close_stage": false,
+        "provider_completion_can_claim_domain_ready": false,
+        "generated_surface_readiness_can_claim_quality_or_export": false,
+        "dedicated_review_stage_required_when": [
+          "expert_judgment",
+          "artifact_or_export_mutation",
+          "domain_truth_movement",
+          "quality_or_export_verdict",
+          "high_risk_handoff"
+        ],
+        "lightweight_gate_receipt_allowed_when": [
+          "read_only_projection",
+          "mechanical_packaging",
+          "low_risk_owner_handoff"
+        ]
+      },
+      "handoff": {
+        "next_owner": "OPL BookForge",
+        "allowed_closure_refs": [
+          "independent-gate-receipt-ref:book-materialization",
+          "owner-receipt-ref:book-materialization",
+          "typed-blocker-ref:book-materialization",
+          "route-back-ref:book-materialization"
+        ],
+        "next_stage_refs": []
+      },
+      "stage_contract": {
+        "requires": [
+          "stage:book-materialization",
+          "artifact-native-contract-ref:opl-bookforge/book-materialization",
+          "prompt-ref:agent/prompts/book-materialization.md",
+          "skill-ref:agent/skills/book-production.md",
+          "knowledge-ref:agent/knowledge/book-production-boundary.md",
+          "quality-gate-ref:agent/quality_gates/book-materialization-quality-gate.md",
+          "action-ref:materialize-book",
+          "workspace-scope-ref:book-materialization",
+          "source-scope-ref:book-materialization",
+          "runtime-ref:stage-progress-log-user-stage-log",
+          "storyline-map-ref:storyline-architecture",
+          "chapter-plan-ref:storyline-architecture",
+          "style-contract-ref:storyline-architecture"
+        ],
+        "ensures": [
+          "stage-attempt-receipt-ref:book-materialization",
+          "executor-receipt-ref:book-materialization/codex-cli",
+          "boundary-receipt-ref:book-materialization/refs-only",
+          "independent-gate-receipt-ref:book-materialization",
+          "owner-handoff-ref:book-materialization",
+          "stage-user-log-ref:book-materialization",
+          "stage-folder-contract-ref:opl-bookforge/book-materialization",
+          "stage-json-ref:opl-bookforge/book-materialization",
+          "stage-attempt-json-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "stage-manifest-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "stage-current-pointer-ref:opl-bookforge/book-materialization",
+          "canonical-artifact-ref:opl-bookforge/book-materialization",
+          "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "stage-lineage-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "stage-retention-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "opl-physical-kernel-locator-ref:opl-bookforge/book-materialization",
+          "stage-artifact-conformance-ref:opl-bookforge/book-materialization",
+          "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization",
+          "chapter-draft-bundle-ref:book-materialization",
+          "illustration-table-plan-ref:book-materialization",
+          "style-consistency-report-ref:book-materialization",
+          "layout-qc-report-ref:book-materialization"
+        ],
+        "expected_receipt_refs": [
+          {
+            "ref_kind": "stage_attempt_receipt_ref",
+            "ref": "stage-attempt-receipt-ref:book-materialization"
+          },
+          {
+            "ref_kind": "executor_receipt_ref",
+            "ref": "executor-receipt-ref:book-materialization/codex-cli"
+          },
+          {
+            "ref_kind": "boundary_receipt_ref",
+            "ref": "boundary-receipt-ref:book-materialization/refs-only"
+          },
+          {
+            "ref_kind": "independent_gate_receipt_ref",
+            "ref": "independent-gate-receipt-ref:book-materialization"
+          },
+          {
+            "ref_kind": "user_stage_log_ref",
+            "ref": "stage-user-log-ref:book-materialization"
+          },
+          {
+            "ref_kind": "artifact_native_contract_ref",
+            "ref": "artifact-native-contract-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "stage_folder_contract_ref",
+            "ref": "stage-folder-contract-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "stage_json_ref",
+            "ref": "stage-json-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "stage_attempt_json_ref",
+            "ref": "stage-attempt-json-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_manifest_ref",
+            "ref": "stage-manifest-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_attempt_receipt_ref",
+            "ref": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_typed_blocker_ref",
+            "ref": "stage-typed-blocker-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_current_pointer_ref",
+            "ref": "stage-current-pointer-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "canonical_artifact_ref",
+            "ref": "canonical-artifact-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "stage_export_ref",
+            "ref": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_lineage_ref",
+            "ref": "stage-lineage-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "stage_retention_ref",
+            "ref": "stage-retention-ref:opl-bookforge/book-materialization/{stage_attempt_id}"
+          },
+          {
+            "ref_kind": "opl_physical_kernel_locator_ref",
+            "ref": "opl-physical-kernel-locator-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "stage_artifact_conformance_ref",
+            "ref": "stage-artifact-conformance-ref:opl-bookforge/book-materialization"
+          },
+          {
+            "ref_kind": "stage_artifact_workbench_consumption_ref",
+            "ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization"
+          }
+        ],
+        "receipt_schema_refs": [
+          {
+            "ref_kind": "repo_path",
+            "ref": "contracts/owner_receipt_contract.json",
+            "role": "owner_receipt_or_typed_blocker_schema"
+          }
+        ],
+        "authority_function_refs": [
+          {
+            "ref_kind": "repo_path",
+            "ref": "runtime/authority_functions/README.md",
+            "role": "minimal_authority_function_catalog"
+          }
+        ],
+        "l4_entry_gate": {
+          "entry_level": "L4_structural_baseline",
+          "required_gates": [
+            "repo_layout_declared",
+            "stage_pack_v2_required",
+            "stage_prompt_skill_knowledge_quality_gate_refs_resolve",
+            "tool_affordance_boundary_declared",
+            "receipt_schema_declared",
+            "minimal_authority_functions_declared",
+            "generated_surface_handoff_declared",
+            "no_forbidden_write_contract_declared"
+          ],
+          "can_claim_l5": false,
+          "can_claim_domain_ready": false
+        },
+        "l5_entry_gate": {
+          "entry_level": "L5_production_operating_maturity",
+          "evidence_required": [
+            "real_user_path",
+            "long_soak_recovery",
+            "release_install_evidence",
+            "owner_acceptance",
+            "direct_and_opl_hosted_parity_at_scale"
+          ],
+          "conformance_pass_counts_as_l5": false,
+          "contract_validation_counts_as_l5": false,
+          "provider_completion_counts_as_l5": false,
+          "app_projection_counts_as_l5": false
+        },
+        "source_scope_refs": [
+          {
+            "ref_kind": "source_scope_ref",
+            "ref": "source-scope:book-materialization"
+          }
+        ],
+        "artifact_scope_refs": [
+          {
+            "ref_kind": "artifact_scope_ref",
+            "ref": "artifact-scope:book-materialization"
+          }
+        ],
+        "workspace_scope_refs": [
+          {
+            "ref_kind": "workspace_scope_ref",
+            "ref": "workspace-scope:book-materialization"
+          }
+        ],
+        "stage_native_artifact_contract": {
+          "surface_kind": "opl_stage_native_artifact_contract",
+          "version": "stage-native-artifact-contract.v1",
+          "target_domain_id": "opl-bookforge",
+          "stage_id": "book-materialization",
+          "owner": "one-person-lab",
+          "materialized_by": "opl-meta-agent",
+          "domain_truth_owner": "OPL BookForge",
+          "role": "stage_folder_manifest_receipt_blocker_current_pointer_and_canonical_refs_only",
+          "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/book-materialization",
+          "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/book-materialization",
+          "stage_folder_ref": "stage-folder-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "stage_json_ref": "stage-json-ref:opl-bookforge/book-materialization",
+          "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "manifest_ref": "stage-manifest-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/book-materialization",
+          "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/book-materialization",
+          "export_ref": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "lineage_ref": "stage-lineage-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "retention_ref": "stage-retention-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+          "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/book-materialization",
+          "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/book-materialization",
+          "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization",
+          "stage_folder_contract": {
+            "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/book-materialization",
+            "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/book-materialization",
+            "stage_folder_ref": "stage-folder-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "folder_path_template": "stages/book-materialization/attempts/{stage_attempt_id}",
+            "folder_role": "stage_native_attempt_artifact_folder",
+            "body_policy": "refs_and_manifests_only_no_target_artifact_body",
+            "lifecycle_owner": "one-person-lab",
+            "runtime_state_owner": "one-person-lab",
+            "materialization_kind": "compiler_ref_template_only_not_runtime_state",
+            "stage_json_ref": "stage-json-ref:opl-bookforge/book-materialization",
+            "attempt_json_ref": "stage-attempt-json-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "manifest_ref": "stage-manifest-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "receipt_ref": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "blocker_ref": "stage-typed-blocker-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/book-materialization",
+            "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/book-materialization",
+            "export_ref": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "lineage_ref": "stage-lineage-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "retention_ref": "stage-retention-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/book-materialization",
+            "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/book-materialization",
+            "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization",
+            "required_files": [
+              "stage.json",
+              "attempt.json",
+              "stage.manifest.json",
+              "receipt.json",
+              "current.json",
+              "canonical.json",
+              "export.json",
+              "lineage.json",
+              "retention.json",
+              "physical_kernel_locator.json",
+              "conformance.json",
+              "workbench_consumption.json"
+            ]
+          },
+          "stage_json_contract": {
+            "stage_json_ref": "stage-json-ref:opl-bookforge/book-materialization",
+            "stage_json_file_name": "stage.json",
+            "body_owner": "one-person-lab",
+            "materialized_by": "opl-meta-agent",
+            "required_fields": [
+              "stage_id",
+              "target_domain_id",
+              "stage_folder_contract_ref",
+              "artifact_native_contract_ref",
+              "attempt_json_ref_template",
+              "manifest_ref_template",
+              "receipt_ref_template",
+              "current_pointer_ref",
+              "canonical_artifact_ref",
+              "export_ref_template",
+              "lineage_ref_template",
+              "retention_ref_template",
+              "physical_kernel_locator_ref",
+              "conformance_ref",
+              "workbench_consumption_ref"
+            ],
+            "body_policy": "refs_only_stage_descriptor_no_target_artifact_body"
+          },
+          "attempt_json_contract": {
+            "attempt_json_ref_template": "stage-attempt-json-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "attempt_json_file_name": "attempt.json",
+            "body_owner": "one-person-lab",
+            "materialized_by": "opl-meta-agent",
+            "runtime_state_owner": "one-person-lab",
+            "oma_materializes_ref_template_only": true,
+            "required_fields": [
+              "stage_id",
+              "stage_attempt_id",
+              "attempt_json_ref",
+              "manifest_ref",
+              "receipt_ref",
+              "blocker_ref",
+              "lineage_ref",
+              "retention_ref"
+            ]
+          },
+          "manifest_contract": {
+            "manifest_ref_template": "stage-manifest-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "manifest_file_name": "stage.manifest.json",
+            "required_fields": [
+              "stage_json_ref",
+              "attempt_json_ref",
+              "stage_id",
+              "stage_attempt_id",
+              "physical_output_path",
+              "role",
+              "content_hash",
+              "producer",
+              "input_refs",
+              "lineage_refs",
+              "receipt_refs",
+              "current_pointer_ref",
+              "canonical_artifact_ref",
+              "export_ref",
+              "lineage_ref",
+              "retention_ref",
+              "physical_kernel_locator_ref",
+              "conformance_ref",
+              "workbench_consumption_ref",
+              "export_eligibility",
+              "repair_classification"
+            ],
+            "missing_or_hash_mismatch_projection": "broken_artifact",
+            "missing_owner_receipt_projection": "orphan_artifact"
+          },
+          "terminal_receipts": {
+            "success_receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "blocked_typed_blocker_ref_template": "stage-typed-blocker-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "skipped_or_deferred_decision_ref_template": "stage-decision-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "success_requires_owner_receipt_ref": true,
+            "blocked_requires_typed_blocker_ref": true,
+            "skipped_or_deferred_requires_decision_receipt_ref": true
+          },
+          "receipt_contract": {
+            "receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "receipt_file_name": "receipt.json",
+            "receipt_owner": "one-person-lab",
+            "owner_receipt_body_owner": "OPL BookForge",
+            "oma_can_generate_target_domain_owner_receipt": false,
+            "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
+          },
+          "current_pointer_contract": {
+            "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/book-materialization",
+            "current_file_name": "current.json",
+            "pointer_owner": "one-person-lab",
+            "oma_materializes_ref_template_only": true,
+            "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
+          },
+          "canonical_artifact_contract": {
+            "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/book-materialization",
+            "canonical_file_name": "canonical.json",
+            "body_owner": "OPL BookForge",
+            "contains_target_artifact_body": false,
+            "canonical_body_requires_target_owner_receipt": true
+          },
+          "export_contract": {
+            "export_ref_template": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "export_file_name": "export.json",
+            "export_owner": "OPL BookForge",
+            "oma_can_authorize_target_quality_or_export": false,
+            "export_requires_target_owner_gate": true
+          },
+          "lineage_contract": {
+            "lineage_ref_template": "stage-lineage-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "lineage_file_name": "lineage.json",
+            "lineage_owner": "one-person-lab",
+            "required_fields": [
+              "stage_id",
+              "stage_attempt_id",
+              "input_refs",
+              "source_refs",
+              "producer_refs",
+              "parent_attempt_refs",
+              "repair_refs"
+            ]
+          },
+          "retention_contract": {
+            "retention_ref_template": "stage-retention-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
+            "retention_file_name": "retention.json",
+            "retention_owner": "one-person-lab",
+            "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
+            "oma_can_delete_stage_attempt_history": false
+          },
+          "physical_kernel_locator_contract": {
+            "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/book-materialization",
+            "physical_kernel_locator_file_name": "physical_kernel_locator.json",
+            "source_contract_ref": "contracts/opl-framework/stage-artifact-runtime-contract.json",
+            "source_surface_kind": "opl_stage_artifact_runtime_contract",
+            "attempt_root_pattern": "runtime-state/domains/<domain>/deliverables/<program>/<topic>/<deliverable>/stages/<nn-stage>/attempts/<attempt_id>",
+            "folder_path_template": "stages/book-materialization/attempts/{stage_attempt_id}",
+            "required_attempt_entries": [
+              "attempt.json",
+              "manifest.json",
+              "inputs/",
+              "outputs/",
+              "evidence/",
+              "receipts/"
+            ],
+            "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
+            "derived_index_role": "rebuildable_projection_not_primary_truth",
+            "status_source_of_truth": "physical_stage_folder",
+            "oma_materializes_ref_template_only": true,
+            "oma_can_create_runtime_state": false
+          },
+          "conformance_contract": {
+            "surface_kind": "opl_stage_artifact_runtime_conformance",
+            "conformance_ref": "stage-artifact-conformance-ref:opl-bookforge/book-materialization",
+            "conformance_file_name": "conformance.json",
+            "source_contract_ref": "contracts/opl-framework/stage-artifact-runtime-contract.json",
+            "conformance_owner": "one-person-lab",
+            "strict_units": [
+              "Stage Folder",
+              "Manifest",
+              "Receipt",
+              "content_hashes",
+              "latest_pointer",
+              "current_pointer",
+              "lineage_events"
+            ],
+            "fails_on": [
+              "missing_deliverable_json",
+              "missing_stage_json",
+              "missing_required_attempt_entry",
+              "missing_latest_pointer",
+              "latest_pointer_missing_attempt",
+              "missing_current_pointer",
+              "missing_manifest_hash_entry",
+              "manifest_content_hash_mismatch",
+              "attempt_broken",
+              "attempt_orphan"
+            ],
+            "domain_readiness_claim": false,
+            "oma_materializes_ref_template_only": true,
+            "oma_can_claim_conformance_pass": false
+          },
+          "workbench_consumption_contract": {
+            "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
+            "workbench_consumption_ref": "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization",
+            "workbench_consumption_file_name": "workbench_consumption.json",
+            "source_contract_ref": "contracts/opl-framework/stage-artifact-runtime-contract.json",
+            "workbench_owner": "one-person-lab-app via OPL/App contracts",
+            "projects": [
+              "current_pointer",
+              "stage_status",
+              "attempt_manifest_refs",
+              "owner_receipt_refs",
+              "typed_blocker_refs",
+              "decision_receipt_refs",
+              "content_hashes",
+              "canonical_artifacts",
+              "export_artifacts",
+              "lineage_refs",
+              "retention_policy",
+              "conformance_summary"
+            ],
+            "artifact_body_access": false,
+            "domain_verdict_authority": false,
+            "oma_materializes_ref_template_only": true,
+            "oma_can_write_workbench_state": false
+          },
+          "output_roles": [
+            {
+              "role_id": "stage_json",
+              "ref_kind": "stage_json_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "attempt_json",
+              "ref_kind": "stage_attempt_json_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "stage_manifest",
+              "ref_kind": "stage_manifest_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "stage_attempt_receipt",
+              "ref_kind": "stage_attempt_receipt_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "typed_blocker",
+              "ref_kind": "stage_typed_blocker_ref",
+              "body_owner": "OPL BookForge",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "canonical_artifact_ref",
+              "ref_kind": "canonical_artifact_ref",
+              "body_owner": "OPL BookForge",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "export_ref",
+              "ref_kind": "stage_export_ref",
+              "body_owner": "OPL BookForge",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "lineage_ref",
+              "ref_kind": "stage_lineage_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "retention_ref",
+              "ref_kind": "stage_retention_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "physical_kernel_locator_ref",
+              "ref_kind": "opl_physical_kernel_locator_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "conformance_ref",
+              "ref_kind": "stage_artifact_conformance_ref",
+              "body_owner": "one-person-lab",
+              "contains_target_artifact_body": false
+            },
+            {
+              "role_id": "workbench_consumption_ref",
+              "ref_kind": "stage_artifact_workbench_consumption_ref",
+              "body_owner": "one-person-lab-app via OPL/App contracts",
+              "contains_target_artifact_body": false
+            }
+          ],
+          "authority_boundary": {
+            "opl_framework_owns_stage_folder_lifecycle": true,
+            "oma_role": "contract_compiler_and_refs_materializer",
+            "oma_can_own_agent_lab_runner": false,
+            "oma_can_own_queue": false,
+            "oma_can_own_attempt_ledger": false,
+            "oma_can_own_worktree_lifecycle": false,
+            "oma_can_own_promotion_gate": false,
+            "oma_can_own_app_shell": false,
+            "oma_can_write_target_owner_closeout": false,
+            "oma_can_create_stage_folder_runtime_state": false,
+            "oma_can_write_stage_folder_runtime_state": false,
+            "oma_can_generate_target_domain_owner_receipt": false,
+            "oma_can_write_target_owner_receipt_body": false,
+            "oma_can_write_target_domain_truth": false,
+            "oma_can_write_target_domain_memory_body": false,
+            "oma_can_mutate_target_domain_artifact_body": false,
+            "oma_can_authorize_target_quality_or_export": false,
+            "oma_can_owner_promote_target_agent": false,
+            "oma_can_promote_default_agent_without_gate": false,
+            "oma_can_manage_target_worktree_lifecycle": false
+          }
+        },
+        "user_stage_log_contract": {
+          "surface_kind": "opl_standard_agent_user_stage_log_contract",
+          "version": "standard-user-stage-log.v1",
+          "owner": "one-person-lab",
+          "standard_agent_requirement": "domain_stage_closeout_must_return_user_readable_stage_semantics_or_typed_blocker",
+          "opl_projection_surface": "stage_progress_log.user_stage_log",
+          "domain_semantic_sources": [
+            "typed_closeout_packet.user_stage_log",
+            "typed_closeout_packet.stage_log_summary",
+            "route_impact.user_stage_log",
+            "route_impact.stage_log_summary"
+          ],
+          "required_domain_semantic_fields": [
+            "stage_name",
+            "problem_summary",
+            "stage_goal",
+            "stage_work_done",
+            "changed_stage_surfaces",
+            "outcome",
+            "remaining_blockers",
+            "evidence_refs"
+          ],
+          "required_observability_fields": [
+            "duration",
+            "token_usage",
+            "cost"
+          ],
+          "missing_semantics_policy": "typed_blocker_or_missing_domain_semantic_summary_no_opl_inference",
+          "token_policy": "observed_or_explicit_missing_null_no_zero_fill",
+          "authority_boundary": {
+            "opl_can_infer_domain_semantics": false,
+            "opl_can_read_artifact_body": false,
+            "opl_can_write_domain_truth": false,
+            "opl_can_authorize_quality_or_export": false,
+            "provider_completion_can_claim_stage_semantics_complete": false
+          }
+        },
+        "progress_delta_policy": {
+          "surface_kind": "opl_stage_progress_delta_policy",
+          "version": "progress-delta-policy.v1",
+          "owner": "one-person-lab",
+          "standard_agent_requirement": "stage_closeout_must_classify_deliverable_progress_vs_platform_repair_or_return_typed_blocker",
+          "projection_surface": "stage_progress_log.user_stage_log",
+          "required_fields": [
+            "progress_delta_classification",
+            "deliverable_progress_delta",
+            "platform_repair_delta",
+            "next_forced_delta"
+          ],
+          "classification_values": [
+            "deliverable_progress",
+            "platform_repair",
+            "mixed",
+            "typed_blocker",
+            "human_gate",
+            "stop_loss"
+          ],
+          "platform_only_is_not_deliverable_progress": true,
+          "missing_delta_policy": "emit_zero_deliverable_delta_and_next_forced_delta_without_inventing_target_agent_work",
+          "authority_boundary": {
+            "opl_can_infer_domain_work": false,
+            "opl_can_read_artifact_body": false,
+            "opl_can_write_domain_truth": false,
+            "opl_can_authorize_quality_or_export": false,
+            "oma_retains_agent_building_semantics": true
+          }
+        },
+        "typed_blocker_lineage_policy": {
+          "surface_kind": "family-stall-lineage.v1",
+          "version": "family-stall-lineage.v1",
+          "owner": "one-person-lab",
+          "standard_agent_requirement": "typed_blockers_must_include_repeat_budget_lineage_next_forced_delta_and_escalation_owner",
+          "required_fields": [
+            "blocker_family",
+            "study_id_or_domain_identity",
+            "work_unit_id",
+            "eval_id_or_review_ref",
+            "source_fingerprint",
+            "repeat_count",
+            "first_seen",
+            "last_seen",
+            "last_deliverable_delta",
+            "next_forced_delta",
+            "escalation_owner",
+            "terminal"
+          ],
+          "repeat_budget": {
+            "mechanism_repair_after_repeat_count": 2,
+            "human_gate_or_stop_loss_after_repeat_count": 3
+          },
+          "platform_only_delta_policy": "does_not_reset_deliverable_stall_budget",
+          "authority_boundary": {
+            "opl_can_generate_domain_blocker": false,
+            "opl_can_escalate_without_domain_or_human_gate_ref": false,
+            "opl_can_claim_deliverable_progress_from_platform_repair": false,
+            "oma_retains_typed_blocker_authority": true
+          }
+        }
+      },
+      "trust_boundary": {
+        "lane": "domain_agent",
+        "static_check_eligible": true,
+        "effect_boundary": true,
+        "owner_receipt_required": true,
+        "runtime_guard_required": true
+      },
+      "authority_boundary": {
+        "domain_truth_owner": "OPL BookForge",
+        "opl_role": "projection_only",
+        "can_write_target_domain_truth": false,
+        "can_write_target_domain_memory_body": false,
+        "can_mutate_target_domain_artifact_body": false,
+        "can_authorize_target_domain_quality_or_export": false
+      }
+    }
+  ]
+}

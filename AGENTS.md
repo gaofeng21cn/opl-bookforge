@@ -1,0 +1,23 @@
+<INSTRUCTIONS>
+你始终用中文回复。
+
+本仓是 OPL BookForge 的 OPL 标准 Foundry Agent 领域包。修改前先读取相关 `contracts/`、`agent/`、`docs/` 与验证入口，结论以 fresh OPL validator 输出为准。
+
+核心边界：
+- 产品名：`OPL BookForge`。
+- repo slug / domain_id / foundry_agent_id：`opl-bookforge`。
+- 本仓当前目标是书籍写作智能体的标准结构基线，不能把 scaffold/interface 通过声明为 production ready、book delivery ready、质量通过、出版通过或 owner acceptance。
+- OPL 拥有生成接口、runtime 投影和通用框架；OPL BookForge 拥有领域真相、书稿质量、导出/出版裁决、记忆正文和 owner receipts。
+- 不在本仓实现通用 OPL runtime、queue、attempt ledger、generic scheduler、app shell 或手写默认入口。
+
+验证入口：
+- `scripts/verify.sh`
+- 或分别运行：
+  - `/Users/gaofeng/workspace/one-person-lab/bin/opl agents scaffold --validate . --json`
+  - `/Users/gaofeng/workspace/one-person-lab/bin/opl agents interfaces --repo-dir . --json`
+
+维护规则：
+- contract/schema/authority 边界变更按 L3 处理，至少跑上面的 OPL scaffold 和 interfaces 验证。
+- README、docs、status 只能记录已有 fresh evidence；不要把文档计划包装成 runtime truth。
+- 变更范围保持最小，不改其他 OPL 系列仓库，除非用户明确要求。
+</INSTRUCTIONS>

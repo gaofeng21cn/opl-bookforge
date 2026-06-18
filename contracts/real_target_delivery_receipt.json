@@ -1,0 +1,56 @@
+{
+  "surface_kind": "opl_meta_agent_real_target_agent_delivery_receipt",
+  "schema_version": 1,
+  "receipt_class": "real_target_agent_delivery_receipt",
+  "receipt_id": "oma_real_target_delivery_3ba306aee2cf",
+  "evidence_class": "real_target_agent_delivery",
+  "status": "real_target_delivery_evidence_recorded",
+  "target_agent": {
+    "domain_id": "opl-bookforge",
+    "domain_label": "OPL BookForge",
+    "delivery_domain": "book_authoring",
+    "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+    "repo_dir": "/tmp/opl-bookforge-oma-baseline/opl-bookforge",
+    "descriptor_ref": "/tmp/opl-bookforge-oma-baseline/opl-bookforge/contracts/domain_descriptor.json"
+  },
+  "target_agent_repo_ref": "/tmp/opl-bookforge-oma-baseline/opl-bookforge",
+  "candidate_agent_package_ref": "candidate-agent-package:opl-bookforge",
+  "agent_lab_suite_ref": "/tmp/opl-bookforge-oma-baseline/real-target-agent-lab-suite.json",
+  "agent_lab_result_ref": "oals_fdc27806f6f028ebe19f9f97",
+  "baseline_delivery_receipt_ref": "oma_receipt_d642fd9b77f7",
+  "owner_receipt_refs": [
+    "oma_receipt_d642fd9b77f7"
+  ],
+  "promotion_gate_refs": [
+    "promotion-gate:opl-meta-agent/opl-bookforge"
+  ],
+  "no_forbidden_write_proof_refs": [
+    "no-forbidden-write:opl-meta-agent/opl-bookforge/real_target_delivery"
+  ],
+  "baseline_source": {
+    "source_kind": "explicit_target_agent_baseline",
+    "target_agent_ref": "domain-agent:opl-bookforge",
+    "baseline_receipt_ref": "oma_receipt_d642fd9b77f7",
+    "implicit_fixture_smoke_retired": true
+  },
+  "completion_gate": {
+    "real_target_agent_delivery_count_min": 1,
+    "real_target_agent_delivery_count_met": true,
+    "multi_target_scaleout_delivery_count_met": false,
+    "requires_agent_lab_result_refs": true,
+    "requires_owner_receipt_refs": true,
+    "requires_no_forbidden_write_proof_refs": true,
+    "requires_promotion_gate_refs_for_default_agent_changes": true
+  },
+  "authority_boundary": {
+    "refs_only": true,
+    "not_generic_runtime_owner": true,
+    "not_target_domain_truth_writer": true,
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_train_or_deploy_model_weights": false
+  }
+}

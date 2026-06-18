@@ -1,0 +1,149 @@
+{
+  "surface_kind": "family_action_catalog",
+  "version": "family-action-catalog.v1",
+  "catalog_id": "opl_bookforge_action_catalog",
+  "target_domain_id": "opl-bookforge",
+  "owner": "OPL BookForge",
+  "authority_boundary": {
+    "opl_role": "generated_interface_projection_only",
+    "domain_truth_owner": "OPL BookForge",
+    "opl_can_write_domain_truth": false,
+    "opl_can_write_memory_body": false,
+    "opl_can_authorize_quality_or_export": false,
+    "domain_repo_can_own_generated_surface": false
+  },
+  "actions": [
+    {
+      "action_id": "shape-storyline",
+      "title": "Shape Storyline",
+      "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
+      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+      "owner": "OPL BookForge",
+      "effect": "mutating",
+      "source_command": {
+        "command": "opl-bookforge shape-storyline --workspace-root <workspace_root>",
+        "surface_kind": "domain_cli"
+      },
+      "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
+      "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
+      "workspace_locator_fields": [
+        "workspace_root"
+      ],
+      "human_gate_ids": [
+        "storyline_owner_review"
+      ],
+      "supported_surfaces": {
+        "cli": {
+          "command": "opl-bookforge shape-storyline --workspace-root <workspace_root>",
+          "surface_kind": "domain_cli"
+        },
+        "mcp": {
+          "tool_name": "opl_bookforge_shape_storyline",
+          "surface_kind": "opl_generated_mcp_descriptor",
+          "descriptor_only": true,
+          "public_runtime": false
+        },
+        "skill": {
+          "command_contract_id": "opl-bookforge.shape-storyline",
+          "surface_kind": "opl_generated_skill_contract"
+        },
+        "product_entry": {
+          "action_key": "shape-storyline",
+          "command": "opl-bookforge product shape-storyline --workspace-root <workspace_root>",
+          "surface_kind": "domain_product_entry_action"
+        },
+        "openai": {
+          "tool_name": "opl_bookforge_shape_storyline"
+        },
+        "ai_sdk": {
+          "tool_name": "opl_bookforge_shape_storyline"
+        }
+      },
+      "authority_boundary": {
+        "domain_truth_owner": "OPL BookForge",
+        "opl_role": "projection_only",
+        "can_write_target_domain_truth": false,
+        "can_write_target_domain_memory_body": false,
+        "can_mutate_target_domain_artifact_body": false,
+        "can_authorize_target_domain_quality_or_export": false
+      }
+    },
+    {
+      "action_id": "materialize-book",
+      "title": "Materialize Book",
+      "summary": "Materialize the book into chapter drafts, illustration and table specs, style pass, layout checks, and owner-gated handoff refs.",
+      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+      "owner": "OPL BookForge",
+      "effect": "mutating",
+      "source_command": {
+        "command": "opl-bookforge materialize-book --workspace-root <workspace_root>",
+        "surface_kind": "domain_cli"
+      },
+      "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
+      "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
+      "workspace_locator_fields": [
+        "workspace_root"
+      ],
+      "human_gate_ids": [
+        "book_handoff_owner_review"
+      ],
+      "supported_surfaces": {
+        "cli": {
+          "command": "opl-bookforge materialize-book --workspace-root <workspace_root>",
+          "surface_kind": "domain_cli"
+        },
+        "mcp": {
+          "tool_name": "opl_bookforge_materialize_book",
+          "surface_kind": "opl_generated_mcp_descriptor",
+          "descriptor_only": true,
+          "public_runtime": false
+        },
+        "skill": {
+          "command_contract_id": "opl-bookforge.materialize-book",
+          "surface_kind": "opl_generated_skill_contract"
+        },
+        "product_entry": {
+          "action_key": "materialize-book",
+          "command": "opl-bookforge product materialize-book --workspace-root <workspace_root>",
+          "surface_kind": "domain_product_entry_action"
+        },
+        "openai": {
+          "tool_name": "opl_bookforge_materialize_book"
+        },
+        "ai_sdk": {
+          "tool_name": "opl_bookforge_materialize_book"
+        }
+      },
+      "authority_boundary": {
+        "domain_truth_owner": "OPL BookForge",
+        "opl_role": "projection_only",
+        "can_write_target_domain_truth": false,
+        "can_write_target_domain_memory_body": false,
+        "can_mutate_target_domain_artifact_body": false,
+        "can_authorize_target_domain_quality_or_export": false
+      }
+    }
+  ],
+  "forbidden_generic_owner_roles": [
+    "generic_scheduler_owner",
+    "generic_daemon_owner",
+    "generic_lifecycle_owner",
+    "generic_queue_owner",
+    "generic_attempt_ledger_owner",
+    "generic_state_machine_runner_owner",
+    "generic_cli_mcp_product_wrapper_owner",
+    "generic_sidecar_owner",
+    "generic_session_store_owner",
+    "generic_status_workbench_owner",
+    "generic_workspace_source_intake_owner",
+    "generic_memory_transport_owner",
+    "generic_artifact_gallery_owner",
+    "generic_operator_workbench_owner",
+    "generic_observability_slo_owner",
+    "generic_persistence_engine_owner",
+    "generic_sqlite_lifecycle_owner",
+    "generic_native_helper_envelope_owner",
+    "generic_review_repair_transport_owner",
+    "generated_surface_owner_in_domain_repo"
+  ]
+}

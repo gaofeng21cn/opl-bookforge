@@ -1,0 +1,51 @@
+{
+  "surface_kind": "opl_meta_agent_real_target_agent_scaleout_evidence_ledger",
+  "schema_version": 1,
+  "evidence_status": "real_target_delivery_minimum_met_scaleout_pending",
+  "role": "refs_only_scaleout_evidence_ledger",
+  "real_target_agent_delivery_count_min": 1,
+  "multi_target_scaleout_delivery_count_min": 2,
+  "real_target_agent_delivery_count": 1,
+  "multi_target_scaleout_delivery_count": 1,
+  "target_agent_delivery_receipt_refs": [
+    "oma_real_target_delivery_3ba306aee2cf"
+  ],
+  "target_agent_owner_receipt_refs": [
+    "oma_receipt_d642fd9b77f7"
+  ],
+  "agent_lab_result_refs": [
+    "oals_fdc27806f6f028ebe19f9f97"
+  ],
+  "no_forbidden_write_proof_refs": [
+    "no-forbidden-write:opl-meta-agent/opl-bookforge/real_target_delivery"
+  ],
+  "promotion_gate_refs": [
+    "promotion-gate:opl-meta-agent/opl-bookforge"
+  ],
+  "minimum_completion_gate": {
+    "real_target_agent_delivery_count_met": true,
+    "multi_target_scaleout_delivery_count_met": false,
+    "requires_agent_lab_result_refs": true,
+    "requires_owner_receipt_refs": true,
+    "requires_no_forbidden_write_proof_refs": true,
+    "requires_promotion_gate_refs_for_default_agent_changes": true
+  },
+  "baseline_source": {
+    "source_kind": "explicit_target_agent_delivery_receipts",
+    "implicit_fixture_smoke_retired": true,
+    "baseline_receipt_refs": [
+      "oma_receipt_d642fd9b77f7"
+    ]
+  },
+  "authority_boundary": {
+    "refs_only": true,
+    "not_generic_runtime_owner": true,
+    "not_target_domain_truth_writer": true,
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_train_or_deploy_model_weights": false
+  }
+}
