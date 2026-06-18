@@ -1,7 +1,7 @@
 {
   "surface_kind": "bookforge_pilot_local_verification_receipt",
   "schema_version": 1,
-  "generated_at": "2026-06-18T05:14:42.811792+00:00",
+  "generated_at": "2026-06-18T10:45:26.533626+00:00",
   "project_id": "bookforge-production-smoke-2026-06-18",
   "verification_status": "passed_with_owner_gate_blocker",
   "production_ready_status": "blocked_owner_acceptance_missing",
