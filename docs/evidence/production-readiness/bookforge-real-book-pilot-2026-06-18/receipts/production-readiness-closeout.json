@@ -1,0 +1,29 @@
+{
+  "surface_kind": "bookforge_production_readiness_closeout",
+  "schema_version": 1,
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "run_id": "bookforge-real-book-pilot-2026-06-18",
+  "status": "blocked_owner_acceptance_missing",
+  "production_ready_claim_allowed": false,
+  "completed_evidence": [
+    "real_book_project_workspace_created",
+    "storyline_architecture_stage_artifacts_created",
+    "book_materialization_stage_artifacts_created",
+    "chapter_draft_bundle_created",
+    "figure_plan_and_png_artifacts_created",
+    "table_plan_created",
+    "style_consistency_report_created",
+    "ai_flavor_revision_report_created",
+    "layout_qc_plan_created"
+  ],
+  "pending_evidence": [
+    "human_owner_receipt_for_storyline",
+    "human_owner_receipt_for_manuscript_quality",
+    "human_owner_receipt_for_export_layout",
+    "direct_opl_bookforge_runtime_cli_or_hosted_parity_evidence"
+  ],
+  "typed_blocker_refs": [
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json"
+  ]
+}

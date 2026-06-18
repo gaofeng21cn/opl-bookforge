@@ -1,0 +1,16 @@
+{
+  "surface_kind": "bookforge_typed_blocker",
+  "schema_version": 1,
+  "receipt_class": "typed_blocker",
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "book-materialization",
+  "blocker_id": "book-owner-acceptance-missing",
+  "status": "blocked_owner_acceptance_missing",
+  "reason": "No human owner receipt accepts the manuscript quality, figure/table plan, export layout, or publication intent.",
+  "required_owner_actions": [
+    "review_manuscript_body",
+    "approve_or_revise_figure_table_plan",
+    "approve_or_revise_docx_pdf_layout",
+    "choose_accept_repair_or_reject_for_production_ready_claim"
+  ]
+}

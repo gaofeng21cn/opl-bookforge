@@ -1,0 +1,21 @@
+{
+  "surface_kind": "opl_meta_agent_online_learning_candidate",
+  "candidate_id": "oma_candidate_7d241e2202e1",
+  "candidate_kind": "gated_self_evolution",
+  "status": "candidate_recorded_requires_explicit_gate",
+  "target_ref": "quality-gate:opl-meta-agent/opl-bookforge/domain-owner-boundary",
+  "source_refs": [
+    "oals_c0c5e53455b80ff9465ebdd7",
+    "oma_receipt_68a8c8a3696a"
+  ],
+  "proposed_change_refs": [
+    "candidate-ref:opl-bookforge/gated-optimizer-policy-adjustment"
+  ],
+  "promotion_gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/takeover",
+  "online_learning_policy": {
+    "can_promote_without_gate": false,
+    "can_train_or_deploy_model_weights": false,
+    "can_write_domain_memory_body": false,
+    "reward_authority": "domain_owned_scorecard_or_human_owner_label"
+  }
+}

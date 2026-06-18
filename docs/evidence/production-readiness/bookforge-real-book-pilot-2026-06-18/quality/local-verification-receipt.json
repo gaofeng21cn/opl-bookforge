@@ -1,0 +1,144 @@
+{
+  "surface_kind": "bookforge_pilot_local_verification_receipt",
+  "schema_version": 1,
+  "generated_at": "2026-06-18T05:14:42.811792+00:00",
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "verification_status": "passed_with_owner_gate_blocker",
+  "production_ready_status": "blocked_owner_acceptance_missing",
+  "production_ready_claim_allowed": false,
+  "checks": {
+    "required_files_present": true,
+    "required_files_nonempty": true,
+    "manuscript_heading_count_min_7": true,
+    "manuscript_table_markers_present": true,
+    "manuscript_image_refs_present": true,
+    "figures_nonblank": true,
+    "exports_present": true,
+    "docx_schema_validation_passed": true,
+    "docx_media_count_min_2": true,
+    "pdf_rendered_pages_min_3": true,
+    "pdf_rendered_pages_nonblank": true,
+    "ai_flavor_scan_clean": true,
+    "style_terms_present": true,
+    "storyline_owner_blocker_recorded": true,
+    "book_owner_blocker_recorded": true,
+    "production_ready_claim_fail_closed": true
+  },
+  "blocking_failures": [],
+  "missing_files": [],
+  "empty_files": [],
+  "manuscript_metrics": {
+    "heading_count": 8,
+    "table_marker_count": 18,
+    "image_refs": [
+      "../figures/figure-01-storyline-arc.png",
+      "../figures/figure-02-two-stage-route.png"
+    ],
+    "term_presence": {
+      "故事线": 10,
+      "chapter thesis": 2,
+      "source-ref": 7,
+      "quality gate": 5,
+      "owner handoff": 5,
+      "typed blocker": 2
+    },
+    "ai_flavor_hits": {}
+  },
+  "figure_checks": [
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/figures/figure-01-storyline-arc.png",
+      "size": [
+        1800,
+        1050
+      ],
+      "mean": 249.99,
+      "stddev": 25.95,
+      "nonblank": true,
+      "content_hash": "sha256:858616a07621743a34e9dba6a8940ed942d9ed303d674c264b67af8c58db1e64"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/figures/figure-02-two-stage-route.png",
+      "size": [
+        1800,
+        1050
+      ],
+      "mean": 245.16,
+      "stddev": 32.23,
+      "nonblank": true,
+      "content_hash": "sha256:7d03797cf4e869e074a15fb441c8b8ff0149966c2046ca274ef57d0b3aa2fd81"
+    }
+  ],
+  "export_checks": {
+    "docx_issue_count": 1,
+    "docx_issue_messages": [
+      "Dangling basedOn reference: 'TableNormal' does not exist"
+    ],
+    "docx_media_count": 2,
+    "rendered_page_count": 5,
+    "rendered_page_checks": [
+      {
+        "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-1.png",
+        "size": [
+          1224,
+          1584
+        ],
+        "mean": 249.94,
+        "stddev": 31.34,
+        "nonblank": true,
+        "content_hash": "sha256:67d7ed451c61fe7c884cf03a9856ffdd95a75e5d362d45ee7063cad0bc86a559"
+      },
+      {
+        "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-2.png",
+        "size": [
+          1224,
+          1584
+        ],
+        "mean": 247.08,
+        "stddev": 37.21,
+        "nonblank": true,
+        "content_hash": "sha256:a3a4996d1d906cb4aa921f2b02b45fe568e6289350e262199f52312380ca9e35"
+      },
+      {
+        "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-3.png",
+        "size": [
+          1224,
+          1584
+        ],
+        "mean": 244.1,
+        "stddev": 42.16,
+        "nonblank": true,
+        "content_hash": "sha256:5061f102b95bb5c5fed125e56a4cf1625add940e2f648a7af1016ec3835ff553"
+      },
+      {
+        "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-4.png",
+        "size": [
+          1224,
+          1584
+        ],
+        "mean": 243.79,
+        "stddev": 45.69,
+        "nonblank": true,
+        "content_hash": "sha256:3fdd7f705d9dc537fc0e8c2cf7668ac3385be455dcdb134d8382deffed4d99a1"
+      },
+      {
+        "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-5.png",
+        "size": [
+          1224,
+          1584
+        ],
+        "mean": 248.13,
+        "stddev": 35.83,
+        "nonblank": true,
+        "content_hash": "sha256:4afb066d938f62e47ed2b7bc62c36e0227565ed82f2209cb9c3ed02320a44a7d"
+      }
+    ]
+  },
+  "owner_gate": {
+    "owner_receipt_present": false,
+    "typed_blocker_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json"
+    ],
+    "direct_opl_hosted_parity": "blocked_no_public_opl_bookforge_runtime_cli"
+  }
+}

@@ -1,0 +1,516 @@
+{
+  "surface_kind": "opl_meta_agent_developer_patch_work_order",
+  "version": "opl-meta-agent.developer-patch-work-order.v1",
+  "work_order_id": "oma_developer_patch_work_order_fc9bf5a8d090",
+  "status": "no_patch_required",
+  "product_id": "opl-meta-agent",
+  "target_agent": {
+    "domain_id": "opl-bookforge",
+    "domain_label": "OPL BookForge",
+    "delivery_domain": "book_authoring",
+    "repo_dir": "/Users/gaofeng/workspace/opl-bookforge",
+    "descriptor_ref": "/Users/gaofeng/workspace/opl-bookforge/contracts/domain_descriptor.json"
+  },
+  "source_agent_lab_result_ref": "oals_c0c5e53455b80ff9465ebdd7",
+  "work_order_currentness": {
+    "target_agent_id": "opl-bookforge",
+    "eval_result_ref": "oals_c0c5e53455b80ff9465ebdd7",
+    "work_order_ref": "oma_developer_patch_work_order_fc9bf5a8d090",
+    "owner_route_ref": "target-agent-owner:opl-bookforge",
+    "provider_owner_route_index_evidence": {
+      "provider": "opl_work_order_execute",
+      "owner_route_index_ref": "owner-route-index:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+      "owner_route_ledger_ref": "owner-route-ledger:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+      "stage_attempt_ledger_ref": "stage-attempt-ledger:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+      "route_binding_ref": "route-binding:opl-bookforge/oals_c0c5e53455b80ff9465ebdd7/oma_developer_patch_work_order_fc9bf5a8d090",
+      "target_eval_work_order_owner_route_tuple": "opl-bookforge|oals_c0c5e53455b80ff9465ebdd7|oma_developer_patch_work_order_fc9bf5a8d090|target-agent-owner:opl-bookforge",
+      "derived_from_current_opl_route_ledger": true,
+      "fail_closed_without_route_or_ledger_proof": true
+    }
+  },
+  "target_capability_improvement_candidate_ref": "oma_target_capability_candidate_2c90618ec278",
+  "owner_receipt_ref": "oma_receipt_9f0e57327650",
+  "ai_reviewer_evaluation_ref": "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json",
+  "ai_reviewer_review": {
+    "reviewer_kind": "ai_reviewer",
+    "model_or_provider": "codex:gpt-5",
+    "run_ref": "run:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+    "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "critique": "OPL BookForge meets the requested structural baseline for an OPL-series book-authoring agent: the product name and repo slug match the OPL naming family, the workflow is split into storyline architecture and book materialization, and the prompt, skill, quality gate, and stage contracts explicitly cover chapter planning, illustration planning, table planning, style consistency, affirmative prose, AI-flavor wording cleanup, layout QC, and owner-gated handoff. The evidence still only supports baseline delivery and Agent Lab takeover readiness. It does not support production readiness, real book-delivery quality, publication readiness, or owner acceptance until a real book project runs through both stages with receipts and quality-gate evidence.",
+    "suggestions": [
+      "Record the OMA Agent Lab takeover and external-suite self-evolution evidence in BookForge status docs before claiming the baseline is complete.",
+      "Keep the next maturity gate focused on a real book project run through storyline-architecture and book-materialization with stage receipts.",
+      "Preserve the writing-quality checks that require affirmative prose, concrete language, style consistency, illustration/table source boundaries, and layout QC."
+    ],
+    "predicted_impact": "The current package is suitable as an OPL standard structural baseline for a book-authoring agent and can proceed to real project stage-run validation. Stronger claims require real stage receipts and owner-gated book-quality evidence."
+  },
+  "ai_reviewer_independence": {
+    "no_shared_context": true,
+    "independent_attempt": true,
+    "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+    "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "direct_evidence_refs": [
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ]
+  },
+  "ai_reviewer_evidence": {
+    "source_refs": [
+      "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+      "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+      "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+      "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+      "skill-ref:opl-bookforge/agent/skills/book-production.md",
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+    ],
+    "direct_evidence_refs": [
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ]
+  },
+  "ai_reviewer_scorecard": {
+    "verdict": "baseline_ready_with_agent_lab_takeover_and_owner_gate",
+    "predicted_impact": "The current package is suitable as an OPL standard structural baseline for a book-authoring agent and can proceed to real project stage-run validation. Stronger claims require real stage receipts and owner-gated book-quality evidence."
+  },
+  "ai_reviewer_recovery_refs": {
+    "canary_refs": [
+      "canary-ref:opl-bookforge/real-book-project-two-stage-run"
+    ],
+    "rollback_refs": [
+      "git-ref:opl-bookforge/2182dda"
+    ],
+    "version_refs": [
+      "version-ref:opl-bookforge/0.1.0"
+    ]
+  },
+  "review_provenance": {
+    "reviewer_kind": "ai_reviewer",
+    "model_or_provider": "codex:gpt-5",
+    "run_ref": "run:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline-build/2026-06-18",
+    "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/agent-lab-review/2026-06-18",
+    "review_scope": "BookForge domain pack, OPL scaffold/interface validation, OMA Agent Lab takeover output, prompt/skill/quality-gate coverage",
+    "review_date": "2026-06-18",
+    "reviewer_boundary": "independent structured review evidence only; cannot sign owner acceptance or publication readiness"
+  },
+  "executor_lease_ref": "executor-lease:codex-cli/oma_developer_patch_work_order_fc9bf5a8d090",
+  "reviewer_pool_refs": [
+    "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json",
+    "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+    "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+    "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+    "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+    "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+    "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+    "skill-ref:opl-bookforge/agent/skills/book-production.md",
+    "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review",
+    "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+    "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+    "target-verification-ref:opl-bookforge/scripts/verify.sh",
+    "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+    "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+    "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+  ],
+  "patch_execution_bundle_ref": "patch-execution-bundle:target-agent/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+  "target_closeout_refs": [
+    "oals_c0c5e53455b80ff9465ebdd7",
+    "oma_developer_patch_work_order_fc9bf5a8d090",
+    "oma_developer_patch_work_order_fc9bf5a8d090#/patch_traceability_matrix",
+    "target_owner_receipt_projection_ref",
+    "no_target_domain_truth_write_proof",
+    "target-verification-ref:opl-bookforge/scripts/verify.sh",
+    "target-runtime-read-model-consumption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "workspace-environment-proof:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "target-owner-receipt-or-typed-blocker:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+    "patch-absorption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "worktree-cleanup:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "agent-lab-re-evaluation:opl-bookforge/oals_c0c5e53455b80ff9465ebdd7/oma_developer_patch_work_order_fc9bf5a8d090"
+  ],
+  "work_order_completeness": {
+    "required_fields_present": true,
+    "missing_required_fields": [],
+    "executor_lease_ref": "executor-lease:codex-cli/oma_developer_patch_work_order_fc9bf5a8d090",
+    "reviewer_pool_refs": [
+      "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json",
+      "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+      "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+      "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+      "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+      "skill-ref:opl-bookforge/agent/skills/book-production.md",
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review",
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ],
+    "patch_execution_bundle_ref": "patch-execution-bundle:target-agent/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+    "target_closeout_refs": [
+      "oals_c0c5e53455b80ff9465ebdd7",
+      "oma_developer_patch_work_order_fc9bf5a8d090",
+      "oma_developer_patch_work_order_fc9bf5a8d090#/patch_traceability_matrix",
+      "target_owner_receipt_projection_ref",
+      "no_target_domain_truth_write_proof",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "target-runtime-read-model-consumption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+      "workspace-environment-proof:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+      "target-owner-receipt-or-typed-blocker:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+      "patch-absorption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+      "worktree-cleanup:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+      "agent-lab-re-evaluation:opl-bookforge/oals_c0c5e53455b80ff9465ebdd7/oma_developer_patch_work_order_fc9bf5a8d090"
+    ],
+    "reviewer_refs": [
+      "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json",
+      "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+      "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+      "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+      "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+      "skill-ref:opl-bookforge/agent/skills/book-production.md",
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review",
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ],
+    "executor_aperture": {
+      "executor_first": true,
+      "codex_first": true,
+      "executor": "codex_cli",
+      "executor_lease_ref": "executor-lease:codex-cli/oma_developer_patch_work_order_fc9bf5a8d090",
+      "allowed_scope": "coordination_record_only",
+      "allowed_write_surfaces": [],
+      "forbidden_write_surfaces": [
+        "target_domain_truth",
+        "target_domain_memory_body",
+        "target_domain_artifact_body",
+        "target_quality_or_export_verdict",
+        "default_agent_promotion_without_gate"
+      ]
+    },
+    "patch_traceability": {
+      "matrix_ref": "oma_developer_patch_work_order_fc9bf5a8d090#/patch_traceability_matrix",
+      "proposed_change_refs": [
+        "target_agent_delivery_policy_ref:target_agent/package-owner-closeout",
+        "target_agent_quality_gate_ref:target_agent/export-owner"
+      ],
+      "traceability_status": "no_source_patch_required"
+    },
+    "target_verification": {
+      "required_refs": [
+        "target_owner_receipt_projection_ref",
+        "no_target_domain_truth_write_proof",
+        "target-verification-ref:opl-bookforge/scripts/verify.sh",
+        "target_owner_receipt_or_typed_blocker"
+      ],
+      "requires_target_owner_receipt_or_typed_blocker": true,
+      "requires_no_forbidden_write_proof": true
+    },
+    "owner_route": {
+      "target_owner_required": true,
+      "route_refs": [
+        "target-agent-owner:opl-bookforge",
+        "target-owner-receipt-or-typed-blocker:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090"
+      ]
+    },
+    "no_forbidden_write_proof": {
+      "required": true,
+      "proof_refs": [
+        "no_target_domain_truth_write_proof"
+      ],
+      "can_write_target_domain_truth": false,
+      "can_write_target_domain_memory_body": false,
+      "can_mutate_target_domain_artifact_body": false,
+      "can_authorize_target_quality_or_export": false
+    },
+    "canary_refs": [
+      "canary-ref:opl-bookforge/real-book-project-two-stage-run",
+      "agent-lab-canary:oals_c0c5e53455b80ff9465ebdd7"
+    ],
+    "rollback_refs": [
+      "git-ref:opl-bookforge/2182dda",
+      "no_target_domain_truth_write_proof",
+      "owner_receipt_coordination_record"
+    ],
+    "version_refs": [
+      "version-ref:opl-bookforge/0.1.0",
+      "owner_receipt_coordination_record"
+    ],
+    "efficiency_non_regression_refs": {
+      "quality_floor_refs": [
+        "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+      ],
+      "latency_baseline_refs": [
+        "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+      ],
+      "usage_cost_refs": [
+        "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+      ],
+      "cache_reuse_refs": [
+        "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+      ],
+      "target_verification_refs": [
+        "target-verification-ref:opl-bookforge/scripts/verify.sh"
+      ]
+    },
+    "fail_closed_blocker_ref": "typed-blocker:opl-meta-agent/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/missing-required-work-order-field"
+  },
+  "required_opl_work_order_primitive_refs": {
+    "work_order_readiness_primitive_ref": "opl-work-order-primitive:work-order-readiness/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "promotion_readiness_primitive_ref": "opl-work-order-primitive:promotion-readiness/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "promotion_gate_projection_ref": "opl-work-order-primitive:promotion-gate-projection/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "owner_gated_promotion_projection_ref": "opl-work-order-primitive:owner-gated-promotion-projection/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "target_owner_return_primitive_ref": "opl-work-order-primitive:target-owner-return/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+    "patch_traceability_primitive_ref": "opl-work-order-primitive:patch-traceability/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "readiness_projection_ref": "opl-work-order-readiness-projection:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "promotion_gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/external-suite-self-evolution",
+    "owner": "one-person-lab",
+    "consumed_as_refs_only_by_oma": true
+  },
+  "ahe_developer_work_order": {
+    "failure_evidence": [
+      "repair-ref:opl-meta-agent/opl-bookforge/no-current-repair",
+      "metric-ref:descriptor-valid",
+      "metric-ref:agent-lab-external-suite-passed",
+      "metric-ref:forbidden-authority-write-absent",
+      "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+      "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+      "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+      "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+      "skill-ref:opl-bookforge/agent/skills/book-production.md",
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review",
+      "agent-lab-result-ref:opl-meta-agent/opl-bookforge/takeover/oals_c0c5e53455b80ff9465ebdd7",
+      "receipt-ref:opl-bookforge/docs/evidence/oma-agent-lab/takeover-receipt.json",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh",
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18",
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ],
+    "root_cause": "Agent Lab result passed; remaining work is coordination and owner receipt projection proof.",
+    "targeted_fix": [
+      "owner_receipt_coordination_record"
+    ],
+    "predicted_impact": "The current package is suitable as an OPL standard structural baseline for a book-authoring agent and can proceed to real project stage-run validation. Stronger claims require real stage receipts and owner-gated book-quality evidence."
+  },
+  "target_progress_accounting": {
+    "progress_delta_classification": "platform_repair",
+    "deliverable_progress_delta": {
+      "count": 0,
+      "refs": [],
+      "domain_alias": "target_agent_substantive_delta"
+    },
+    "platform_repair_delta": {
+      "count": 7,
+      "refs": [
+        "target-runtime-read-model-consumption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+        "workspace-environment-proof:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+        "no_target_domain_truth_write_proof",
+        "target-owner-receipt-or-typed-blocker:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+        "patch-absorption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+        "worktree-cleanup:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+        "agent-lab-re-evaluation:opl-bookforge/oals_c0c5e53455b80ff9465ebdd7/oma_developer_patch_work_order_fc9bf5a8d090"
+      ],
+      "domain_alias": "platform_interface_repair_delta"
+    },
+    "excluded_from_substantive_deliverable_progress_refs": [],
+    "non_substantive_progress_ref_kinds": [
+      "platform_interface_repair",
+      "closeout_plumbing",
+      "patch_absorption",
+      "worktree_cleanup",
+      "agent_lab_re_evaluation",
+      "currentness_repair",
+      "refs_only_ledger_work"
+    ],
+    "accounting_policy": "deliverable_delta_is_not_closed_by_platform_interface_repair"
+  },
+  "required_patch_surfaces": [],
+  "allowed_editable_surfaces": [],
+  "target_repo_file_hints": [],
+  "required_verification_refs": [
+    "target_owner_receipt_projection_ref",
+    "no_target_domain_truth_write_proof",
+    "target-verification-ref:opl-bookforge/scripts/verify.sh"
+  ],
+  "efficiency_non_regression_refs": {
+    "quality_floor_refs": [
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+    ],
+    "latency_baseline_refs": [
+      "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ],
+    "usage_cost_refs": [
+      "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ],
+    "cache_reuse_refs": [
+      "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+    ],
+    "target_verification_refs": [
+      "target-verification-ref:opl-bookforge/scripts/verify.sh"
+    ]
+  },
+  "rollback_version_refs": [
+    "owner_receipt_coordination_record"
+  ],
+  "owner_route_refs": [
+    "target-agent-owner:opl-bookforge",
+    "promotion-gate:opl-meta-agent/opl-bookforge/external-suite-self-evolution"
+  ],
+  "no_forbidden_write_proof": {
+    "required": true,
+    "proof_refs": [
+      "no_target_domain_truth_write_proof"
+    ],
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false
+  },
+  "machine_closeout_refs": {
+    "blocked_suite_result_ref": "oals_c0c5e53455b80ff9465ebdd7",
+    "developer_patch_work_order_ref": "oma_developer_patch_work_order_fc9bf5a8d090",
+    "patch_traceability_matrix_ref": "oma_developer_patch_work_order_fc9bf5a8d090#/patch_traceability_matrix",
+    "target_repo_verification_refs": [
+      "target_owner_receipt_projection_ref",
+      "no_target_domain_truth_write_proof",
+      "target-verification-ref:opl-bookforge/scripts/verify.sh"
+    ],
+    "target_runtime_read_model_consumption_ref": "target-runtime-read-model-consumption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "workspace_environment_proof_ref": "workspace-environment-proof:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "no_forbidden_write_proof_ref": "no_target_domain_truth_write_proof",
+    "target_owner_receipt_or_typed_blocker_ref": "target-owner-receipt-or-typed-blocker:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090",
+    "patch_absorption_ref": "patch-absorption:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "worktree_cleanup_ref": "worktree-cleanup:opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/no-source-patch",
+    "agent_lab_re_evaluation_ref": "agent-lab-re-evaluation:opl-bookforge/oals_c0c5e53455b80ff9465ebdd7/oma_developer_patch_work_order_fc9bf5a8d090",
+    "efficiency_non_regression_refs": {
+      "quality_floor_refs": [
+        "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+      ],
+      "latency_baseline_refs": [
+        "latency-baseline-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+      ],
+      "usage_cost_refs": [
+        "usage-cost-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+      ],
+      "cache_reuse_refs": [
+        "cache-reuse-ref:opl-bookforge/local-agent-lab-takeover-2026-06-18"
+      ],
+      "target_verification_refs": [
+        "target-verification-ref:opl-bookforge/scripts/verify.sh"
+      ]
+    }
+  },
+  "proposed_change_refs": [
+    "target_agent_delivery_policy_ref:target_agent/package-owner-closeout",
+    "target_agent_quality_gate_ref:target_agent/export-owner"
+  ],
+  "patch_traceability_matrix": [],
+  "implementation_controls": {
+    "coordination_record_only": true,
+    "source_patch_required": false,
+    "patch_must_be_limited_to_traceable_surfaces": false,
+    "developer_must_read_target_repo_context_before_editing": false,
+    "developer_patch_receipt_required": false,
+    "target_repo_test_receipt_required": false,
+    "target_runtime_consumption_verification_required": false,
+    "target_workspace_environment_consumption_proof_required": false,
+    "dependency_lock_or_profile_migration_proof_required": false,
+    "owner_entry_redrive_required": false,
+    "repo_hygiene_no_checkout_venv_proof_required": false,
+    "target_owner_receipt_projection_required": true,
+    "no_target_domain_truth_write_proof_required": true,
+    "no_quality_verdict_or_submission_readiness_authority": true,
+    "quality_floor_non_regression_required": true,
+    "forbidden_target_paths_or_surfaces": [
+      "target domain truth surfaces",
+      "target domain memory body",
+      "target domain artifact body",
+      "target quality verdict bodies",
+      "submission readiness verdicts",
+      "export verdict bodies"
+    ],
+    "required_closeout_evidence": [
+      "target owner receipt projection consumed Agent Lab suite result",
+      "target owner receipt projection consumed opl-meta-agent coordination result",
+      "no target source patch was requested",
+      "no target domain truth, memory body, artifact body, quality verdict, or export verdict was written"
+    ]
+  },
+  "runtime_consumption_verification": {
+    "verification_mode": "read_only_target_domain_runtime_projection",
+    "required_surface_refs": [
+      "target_agent_descriptor",
+      "target_agent_owner_route",
+      "target_agent_owner_receipt_contract",
+      "target_agent_quality_gate_projection",
+      "default_executor_dispatch_execution",
+      "target_agent_status_or_progress_projection"
+    ],
+    "expected_outcomes": [
+      "patched quality contract, owner route, or owner receipt contract is visible in target runtime/read-model projection",
+      "blocked suite redrive no longer parks as stale human handoff when target owner work remains",
+      "no forbidden target domain truth, artifact, memory, quality verdict, or submission readiness surface is written by opl-meta-agent"
+    ],
+    "can_write_target_domain_truth": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false
+  },
+  "target_workspace_environment_verification": {
+    "verification_mode": "read_only_target_workspace_environment_and_owner_entry_redrive",
+    "required_surface_refs": [
+      "target_workspace_pyproject_or_lock",
+      "target_workspace_profile_or_config_env",
+      "study_runtime_analysis_bundle",
+      "target_owner_entry_redrive_report",
+      "target_repo_hygiene_status"
+    ],
+    "expected_outcomes": [
+      "target workspace dependency lock/profile includes required runtime extras before owner redrive",
+      "owner runtime entry uses the target workspace interpreter rather than target repo checkout .venv",
+      "owner redrive reports the analysis/runtime bundle as ready under the target workspace interpreter",
+      "repo hygiene proof shows no target checkout .venv or generated egg-info pollution"
+    ],
+    "can_write_target_domain_truth": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false
+  },
+  "version_management": {
+    "target_agent_version_owner": "target_agent_repo",
+    "required_version_artifacts": [
+      "owner_receipt_coordination_record",
+      "target_owner_receipt_projection_ref"
+    ],
+    "absorb_back_required": false,
+    "temporary_worktree_cleanup_required": false
+  },
+  "authority_boundary": {
+    "can_modify_target_agent_source_repo": false,
+    "can_modify_target_agent_tests": false,
+    "can_modify_target_agent_docs": false,
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_train_or_deploy_model_weights": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "surface_kind": "bookforge_plan_completion_audit_seed",
+  "schema_version": 1,
+  "run_id": "bookforge-real-book-pilot-2026-06-18",
+  "items": [
+    {
+      "item": "real_book_project_workspace",
+      "target": "create inputs and evidence workspace"
+    },
+    {
+      "item": "stage_1_storyline_architecture",
+      "target": "produce storyline map, thesis chain, style contract, handoff"
+    },
+    {
+      "item": "stage_2_book_materialization",
+      "target": "produce manuscript, chapter drafts, figure/table plan, style/AI/layout reports"
+    },
+    {
+      "item": "quality_gates",
+      "target": "record independent gate receipts and fail closed on owner acceptance"
+    },
+    {
+      "item": "exports",
+      "target": "create HTML, DOCX, PDF and render-check"
+    },
+    {
+      "item": "owner_receipts",
+      "target": "owner receipt or typed blocker"
+    }
+  ]
+}

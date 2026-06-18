@@ -1,0 +1,21 @@
+{
+  "surface_kind": "bookforge_independent_quality_gate_receipt",
+  "schema_version": 1,
+  "receipt_class": "independent_gate_receipt",
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "book-materialization",
+  "status": "passed_with_owner_gate_blocker",
+  "generated_at": "2026-06-18T05:09:29.014165+00:00",
+  "pass_conditions_checked": [
+    "chapter_drafts_follow_storyline_map",
+    "claims_tables_and_figures_grounded_in_source_refs",
+    "style_terminology_stance_and_rhythm_consistent",
+    "ai_flavor_scan_zero_for_manuscript_targets",
+    "illustration_and_table_plans_include_purpose_placement_source_boundary_review_criteria",
+    "layout_qc_export_targets_declared",
+    "handoff_includes_artifacts_receipts_blockers_remaining_owner_decisions"
+  ],
+  "owner_receipt_ref": null,
+  "typed_blocker_ref": "typed-blocker-ref:bookforge-production-smoke-2026-06-18/book-owner-acceptance-missing",
+  "production_ready_claim_allowed": false
+}

@@ -1,0 +1,57 @@
+{
+  "surface_kind": "bookforge_chapter_thesis_chain",
+  "schema_version": 1,
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "storyline-architecture",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "写作从读者承诺开始",
+      "thesis": "BookForge first fixes the reader promise so later writing has a stable target.",
+      "source_refs": [
+        "S1",
+        "S2",
+        "S5"
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "故事线给素材排序",
+      "thesis": "The storyline stage turns source refs into an argument arc and chapter thesis chain.",
+      "source_refs": [
+        "S3",
+        "S5",
+        "S7"
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "章节草稿承接 thesis",
+      "thesis": "Materialization drafts chapters by preserving chapter roles, evidence placement, and voice.",
+      "source_refs": [
+        "S6",
+        "S8"
+      ]
+    },
+    {
+      "chapter": 4,
+      "title": "图表承担证据责任",
+      "thesis": "Figures and tables carry source boundaries and review criteria, not decoration.",
+      "source_refs": [
+        "S6",
+        "S8"
+      ]
+    },
+    {
+      "chapter": 5,
+      "title": "交付依赖质量门",
+      "thesis": "A production-ready claim requires quality gates, exports, and owner receipts.",
+      "source_refs": [
+        "S1",
+        "S8",
+        "S9",
+        "S10"
+      ]
+    }
+  ]
+}

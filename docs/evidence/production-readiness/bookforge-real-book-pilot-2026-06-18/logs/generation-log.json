@@ -1,0 +1,8 @@
+{
+  "surface_kind": "bookforge_pilot_generation_log",
+  "schema_version": 1,
+  "run_id": "bookforge-real-book-pilot-2026-06-18",
+  "generated_at": "2026-06-18T05:09:29.014165+00:00",
+  "artifact_count": 41,
+  "generator": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/generate_pilot.py"
+}

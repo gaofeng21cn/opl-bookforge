@@ -1,0 +1,60 @@
+{
+  "surface_kind": "bookforge_stage_attempt_manifest",
+  "schema_version": 1,
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "book-materialization",
+  "stage_attempt_id": "bookforge-real-book-pilot-2026-06-18:book-materialization",
+  "producer": "codex_cli",
+  "input_refs": [
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/storyline-map.md",
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/chapter-thesis-chain.json",
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/style-contract.md"
+  ],
+  "artifact_refs": [
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/manuscript/book.md",
+      "content_hash": "sha256:f83c49102eb2dac94bad6a1e55c87360f60d5b8d020c1d71cb0e73576ddf1b36"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/chapter-drafts.md",
+      "content_hash": "sha256:f811d0d83964fd5946dfcce530dbc24bed2c6603250fc8164c9ef74f1aa8f4d6"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/illustration-plan.md",
+      "content_hash": "sha256:7606c684f125dd67b13abd51bfe9c2f0d35e69e1e42458a81fc6221dbb105c29"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/table-plan.md",
+      "content_hash": "sha256:b4090bc6c5e502973062325993319277c857e63aba39d83d47e9d636276f25fb"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/style-consistency-report.md",
+      "content_hash": "sha256:fde2d2118a9cbece549df09b788d5524f800a73f19b08271449be022d30e4c7c"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/ai-flavor-revision-report.md",
+      "content_hash": "sha256:17fdc743e214f9716ba1b322d72663d227cfa2bc4a1ae7c46ef811b3017dbd45"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/layout-qc-report.md",
+      "content_hash": "sha256:419bd8ee3c4e3c8e50c27d43cc559b148ea579c68942e1095e66a93d899974f9"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/owner-handoff.md",
+      "content_hash": "sha256:4c4d607df3df292e141920e475d6bc5db6ec8c36ce1275ba20276e6060f36587"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/figures/figure-01-storyline-arc.png",
+      "content_hash": "sha256:858616a07621743a34e9dba6a8940ed942d9ed303d674c264b67af8c58db1e64"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/figures/figure-02-two-stage-route.png",
+      "content_hash": "sha256:7d03797cf4e869e074a15fb441c8b8ff0149966c2046ca274ef57d0b3aa2fd81"
+    }
+  ],
+  "quality_gate_ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-materialization-independent-gate-receipt.json",
+  "owner_handoff_ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/book-materialization/owner-handoff.md",
+  "typed_blocker_ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json",
+  "export_eligibility": "pending_render_verification_and_owner_gate",
+  "repair_classification": "owner_review_required"
+}

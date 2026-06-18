@@ -1,0 +1,19 @@
+{
+  "surface_kind": "bookforge_independent_quality_gate_receipt",
+  "schema_version": 1,
+  "receipt_class": "independent_gate_receipt",
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "storyline-architecture",
+  "status": "passed_for_pilot_progression",
+  "generated_at": "2026-06-18T05:09:29.014165+00:00",
+  "pass_conditions_checked": [
+    "premise_reader_promise_chapter_thesis_chain_evidence_map_style_contract_present",
+    "each_chapter_has_book_arc_role",
+    "source_gaps_and_owner_decisions_listed",
+    "affirmative_specific_human_prose_policy_recorded",
+    "next_stage_has_stable_structure"
+  ],
+  "owner_receipt_ref": null,
+  "typed_blocker_ref": "typed-blocker-ref:bookforge-production-smoke-2026-06-18/storyline-owner-review-missing",
+  "production_ready_claim_allowed": false
+}

@@ -1,0 +1,15 @@
+{
+  "surface_kind": "bookforge_typed_blocker",
+  "schema_version": 1,
+  "receipt_class": "typed_blocker",
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "storyline-architecture",
+  "blocker_id": "storyline-owner-review-missing",
+  "status": "blocked_owner_acceptance_missing",
+  "reason": "No human owner receipt accepts the pilot topic, reader promise, chapter order, or style contract.",
+  "required_owner_actions": [
+    "approve_or_revise_reader_promise",
+    "approve_or_revise_chapter_thesis_chain",
+    "approve_or_revise_style_contract"
+  ]
+}

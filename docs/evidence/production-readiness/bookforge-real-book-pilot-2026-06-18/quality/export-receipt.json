@@ -1,0 +1,159 @@
+{
+  "surface_kind": "bookforge_pilot_export_receipt",
+  "schema_version": 1,
+  "generated_at": "2026-06-18T05:10:18.931309+00:00",
+  "export_status": "exported_and_rendered",
+  "tools": {
+    "pandoc": "/usr/local/bin/pandoc",
+    "officecli": "/Users/gaofeng/.local/bin/officecli",
+    "soffice": "/usr/local/bin/soffice",
+    "pdftoppm": "/usr/local/bin/pdftoppm"
+  },
+  "exports": {
+    "html": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.html",
+    "docx": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx",
+    "pdf": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.pdf",
+    "rendered_pages": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-1.png",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-2.png",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-3.png",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-4.png",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page-5.png"
+    ]
+  },
+  "docx_postprocess": {
+    "body_paragraph_first_line_indent": "24pt",
+    "updated_paths": [
+      "/body/p[15]",
+      "/body/p[20]",
+      "/body/p[21]",
+      "/body/p[24]",
+      "/body/p[25]",
+      "/body/p[30]",
+      "/body/p[31]",
+      "/body/p[34]",
+      "/body/p[35]",
+      "/body/p[38]",
+      "/body/p[39]",
+      "/body/p[14]",
+      "/body/p[19]",
+      "/body/p[23]",
+      "/body/p[29]",
+      "/body/p[33]",
+      "/body/p[37]",
+      "/body/p[41]"
+    ]
+  },
+  "docx_validation": {
+    "success": true,
+    "data": "Validation passed: no errors found.",
+    "message": "Validation passed: no errors found."
+  },
+  "docx_issues": {
+    "success": true,
+    "data": {
+      "count": 1,
+      "issues": [
+        {
+          "id": "S1",
+          "type": 2,
+          "severity": 1,
+          "path": "/styles/Table",
+          "message": "Dangling basedOn reference: 'TableNormal' does not exist",
+          "suggestion": "Remove or repoint the basedOn reference."
+        }
+      ]
+    }
+  },
+  "docx_outline_text": "File: bookforge-pilot-book.docx | 41 paragraphs | 3 tables | 2 images\n\n■ [1] \"从想法到书稿\" (Title)\n├── [2] \"OPL BookForge 写作工作流手册\" (Subtitle)\n├── [5] \"目录\" (heading 1)\n├── [13] \"前言\" (heading 1)\n├── [18] \"第一章 写作从读者承诺开始\" (heading 1)\n├── [22] \"第二章 故事线给素材排序\" (heading 1)\n├── [28] \"第三章 章节草稿承接 thesis\" (heading 1)\n├── [32] \"第四章 图表承担证据责任\" (heading 1)\n├── [36] \"第五章 交付依赖质量门\" (heading 1)\n├── [40] \"结语\" (heading 1)\n",
+  "commands": [
+    {
+      "args": [
+        "pandoc",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/manuscript/book.md",
+        "--resource-path=/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/manuscript:/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts",
+        "-s",
+        "--metadata=title:从想法到书稿",
+        "-o",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.html"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "[WARNING] Could not load translations for zh-CN\n  translations/zh.yaml: \n[WARNING] The term Abstract has no translation defined.\n"
+    },
+    {
+      "args": [
+        "pandoc",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/manuscript/book.md",
+        "--resource-path=/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/manuscript:/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts",
+        "-s",
+        "-o",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "[WARNING] Could not load translations for zh-CN\n  translations/zh.yaml: \n[WARNING] The term Abstract has no translation defined.\n[WARNING] The term Figure has no translation defined.\n[WARNING] The term Table has no translation defined.\n[WARNING] The term Figure has no translation defined.\n[WARNING] The term Table has no translation defined.\n[WARNING] The term Table has no translation defined.\n"
+    },
+    {
+      "args": [
+        "officecli",
+        "validate",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx",
+        "--json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"success\": true,\n  \"data\": \"Validation passed: no errors found.\",\n  \"message\": \"Validation passed: no errors found.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "officecli",
+        "view",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx",
+        "issues",
+        "--json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"success\": true,\n  \"data\": {\n    \"count\": 1,\n    \"issues\": [\n      {\n        \"id\": \"S1\",\n        \"type\": 2,\n        \"severity\": 1,\n        \"path\": \"/styles/Table\",\n        \"message\": \"Dangling basedOn reference: 'TableNormal' does not exist\",\n        \"suggestion\": \"Remove or repoint the basedOn reference.\"\n      }\n    ]\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "officecli",
+        "view",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx",
+        "outline"
+      ],
+      "returncode": 0,
+      "stdout": "File: bookforge-pilot-book.docx | 41 paragraphs | 3 tables | 2 images\n\n■ [1] \"从想法到书稿\" (Title)\n├── [2] \"OPL BookForge 写作工作流手册\" (Subtitle)\n├── [5] \"目录\" (heading 1)\n├── [13] \"前言\" (heading 1)\n├── [18] \"第一章 写作从读者承诺开始\" (heading 1)\n├── [22] \"第二章 故事线给素材排序\" (heading 1)\n├── [28] \"第三章 章节草稿承接 thesis\" (heading 1)\n├── [32] \"第四章 图表承担证据责任\" (heading 1)\n├── [36] \"第五章 交付依赖质量门\" (heading 1)\n├── [40] \"结语\" (heading 1)\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "soffice",
+        "--headless",
+        "--convert-to",
+        "pdf",
+        "--outdir",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx"
+      ],
+      "returncode": 0,
+      "stdout": "convert /Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.docx as a Writer document -> /Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.pdf using filter : writer_pdf_Export\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "pdftoppm",
+        "-png",
+        "-r",
+        "144",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/bookforge-pilot-book.pdf",
+        "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/exports/rendered-pages/page"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

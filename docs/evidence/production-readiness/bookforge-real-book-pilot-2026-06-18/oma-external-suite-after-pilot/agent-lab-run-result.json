@@ -1,0 +1,1243 @@
+{
+  "version": "g2",
+  "agent_lab_run": {
+    "surface_id": "opl_agent_lab_external_suite_run",
+    "suite_path": "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/oma-takeover-after-pilot/agent-lab-takeover-suite.json",
+    "suite_result": {
+      "surface_kind": "opl_agent_lab_suite_result",
+      "version": "opl-agent-lab.v1",
+      "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+      "suite_kind": "agent_lab_external_suite",
+      "result_id": "oals_c0c5e53455b80ff9465ebdd7",
+      "status": "passed",
+      "required_observations": [
+        "task_manifests_observed",
+        "agent_trajectories_observed",
+        "recovery_probes_observed",
+        "domain_quality_scorecard_refs_observed",
+        "failure_taxonomy_observed",
+        "improvement_candidates_observed",
+        "promotion_gates_observed",
+        "no_memory_body_observed",
+        "forbidden_authority_flags_all_false"
+      ],
+      "missing_observations": [],
+      "observations": {
+        "task_manifests_observed": true,
+        "agent_trajectories_observed": true,
+        "recovery_probes_observed": true,
+        "domain_quality_scorecard_refs_observed": true,
+        "failure_taxonomy_observed": true,
+        "improvement_candidates_observed": true,
+        "promotion_gates_observed": true,
+        "no_memory_body_observed": true,
+        "forbidden_authority_flags_all_false": true
+      },
+      "summary": {
+        "task_count": 1,
+        "run_count": 1,
+        "passed_run_count": 1,
+        "blocked_run_count": 0,
+        "recovery_probe_count": 2,
+        "recovery_passed_count": 2,
+        "scorecard_passed_count": 1,
+        "ai_review_approved_count": 0,
+        "improvement_candidate_count": 1,
+        "promotion_gate_passed_count": 1,
+        "regression_guard_only_count": 1,
+        "promotion_safety_ready_count": 0,
+        "advisory_only_signal_count": 2,
+        "promotion_safety_blocked_count": 0,
+        "owner_or_human_gate_required_count": 0,
+        "promotable_candidate_count": 0,
+        "memory_body_observed": false,
+        "forbidden_authority_flag_count": 0
+      },
+      "refs": {
+        "task_refs": [
+          "agent-lab-task:opl-meta-agent/opl-bookforge/takeover"
+        ],
+        "trajectory_refs": [
+          "trajectory:opl-meta-agent/opl-bookforge/testing-takeover"
+        ],
+        "recovery_probe_refs": [
+          "recovery-probe:opl-meta-agent/opl-bookforge/resume-after-interruption",
+          "recovery-probe:opl-meta-agent/opl-bookforge/retry-after-tool-failure"
+        ],
+        "domain_quality_scorecard_refs": [
+          "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance"
+        ],
+        "scorer_refs": [
+          "scorer:opl-meta-agent/opl-bookforge/takeover-acceptance"
+        ],
+        "oracle_refs": [
+          "oracle:opl-meta-agent/opl-bookforge/descriptor-contract-valid",
+          "oracle:opl-meta-agent/opl-bookforge/authority-boundary-preserved"
+        ],
+        "improvement_candidate_refs": [
+          "improvement-candidate:opl-meta-agent/opl-bookforge/gated-self-evolution"
+        ],
+        "promotion_gate_refs": [
+          "promotion-gate:opl-meta-agent/opl-bookforge/takeover"
+        ],
+        "promotion_independent_ai_review_receipt_refs": [],
+        "promotion_receipt_refs": [],
+        "rollback_target_refs": [],
+        "canary_observation_refs": [],
+        "failure_delta_refs": [],
+        "advisory_only_signal_refs": [
+          "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance",
+          "failure-taxonomy:opl-meta-agent/opl-bookforge/no-current-failure-fixture"
+        ],
+        "artifact_refs": [
+          "artifact-ref:opl-bookforge/external-agent-package",
+          "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+          "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+        ],
+        "receipt_refs": [
+          "owner-receipt:opl-meta-agent/opl-bookforge/testing-takeover",
+          "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+          "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+        ],
+        "mechanism_evolution_input_refs": [],
+        "production_evidence_gate_result_refs": [],
+        "production_evidence_gate_refs": [],
+        "production_evidence_owner_route_refs": [],
+        "production_evidence_no_forbidden_write_refs": [],
+        "production_evidence_typed_blocker_refs": [],
+        "production_evidence_required_receipt_refs": [],
+        "forbidden_authority_flags": [],
+        "duration_refs": [],
+        "cost_refs": [],
+        "cache_hit_refs": [],
+        "reuse_scope_refs": [],
+        "quality_floor_refs": [],
+        "no_forbidden_write_refs": [
+          "no-forbidden-write:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+        ],
+        "owner_route_refs": [],
+        "command_refs": [],
+        "file_refs": [],
+        "subagent_refs": [],
+        "worktree_refs": [],
+        "test_refs": [],
+        "web_source_refs": [],
+        "typed_blocker_refs": [],
+        "review_receipt_refs": [],
+        "change_evaluation_refs": [],
+        "predicted_impact_refs": [],
+        "failure_evidence_refs": [],
+        "root_cause_refs": [],
+        "targeted_fix_refs": [],
+        "risk_task_refs": [],
+        "next_run_falsification_refs": [],
+        "executor_capability_aperture_refs": [
+          "oaleca_9fe2a86c937e2c4a3d2517f3"
+        ],
+        "codex_attempt_trace_refs": [
+          "oalcat_e337be9d1a4ee398a7d628e0"
+        ],
+        "codex_command_refs": [],
+        "codex_file_refs": [],
+        "codex_subagent_refs": [],
+        "codex_worktree_refs": [],
+        "codex_test_refs": [],
+        "codex_web_source_refs": [],
+        "codex_typed_blocker_refs": [
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-command_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-file_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-subagent_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-worktree_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-test_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-web_source_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-typed_blocker_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-review_receipt_refs-missing",
+          "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-next_run_falsification_refs-missing"
+        ],
+        "codex_review_receipt_refs": [],
+        "codex_blocked_evidence_refs": [],
+        "codex_variant_candidate_refs": []
+      },
+      "runs": [
+        {
+          "surface_kind": "opl_agent_lab_run_result",
+          "run_id": "oalr_662ac3f5f0bdc984e519b2a4",
+          "task_id": "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+          "domain_id": "opl-meta-agent",
+          "task_family": "agent_testing_takeover",
+          "status": "passed",
+          "failure_taxonomy": [],
+          "environment": {
+            "environment_kind": "fixture",
+            "workspace_locator_ref": "workspace-locator:/Users/gaofeng/workspace/opl-bookforge",
+            "sandbox_policy": "fixture_only_no_artifact_mutation",
+            "network_policy": "offline"
+          },
+          "instructions_ref": "instructions:opl-meta-agent/opl-bookforge/takeover",
+          "agent_entry_ref": "domain-agent-entry:opl-bookforge",
+          "stage_refs": [
+            "stage:opl-bookforge/descriptor-contract-read",
+            "stage:opl-bookforge/external-agent-lab-run",
+            "stage:opl-bookforge/gated-self-evolution-candidate"
+          ],
+          "oracle_refs": [
+            "oracle:opl-meta-agent/opl-bookforge/descriptor-contract-valid",
+            "oracle:opl-meta-agent/opl-bookforge/authority-boundary-preserved"
+          ],
+          "scorer_refs": [
+            "scorer:opl-meta-agent/opl-bookforge/takeover-acceptance"
+          ],
+          "trajectory": {
+            "trajectory_ref": "trajectory:opl-meta-agent/opl-bookforge/testing-takeover",
+            "run_ref": "run:opl-meta-agent/opl-bookforge/testing-takeover",
+            "agent_executor": "codex_cli",
+            "stage_attempt_refs": [
+              "stage-attempt:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+            ],
+            "tool_call_refs": [
+              "tool-call:opl-agent-lab-run"
+            ],
+            "artifact_refs": [
+              "artifact-ref:opl-bookforge/external-agent-package",
+              "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+              "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+            ],
+            "receipt_refs": [
+              "owner-receipt:opl-meta-agent/opl-bookforge/testing-takeover",
+              "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+              "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+            ],
+            "repair_refs": [
+              "repair-ref:opl-meta-agent/opl-bookforge/no-current-repair"
+            ],
+            "trace_refs": [
+              "trace-ref:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+            ]
+          },
+          "recovery": {
+            "probe_count": 2,
+            "passed_count": 2,
+            "blocked_count": 0,
+            "probe_refs": [
+              "recovery-probe:opl-meta-agent/opl-bookforge/resume-after-interruption",
+              "recovery-probe:opl-meta-agent/opl-bookforge/retry-after-tool-failure"
+            ]
+          },
+          "scorecard": {
+            "scorecard_ref": "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance",
+            "domain_owned": true,
+            "opl_scorecard_role": "scorecard_ref_projection_only",
+            "passed": true,
+            "metric_refs": [
+              "metric-ref:descriptor-valid",
+              "metric-ref:agent-lab-external-suite-passed",
+              "metric-ref:forbidden-authority-write-absent"
+            ],
+            "evidence_refs": [
+              "evidence-ref:opl-bookforge/descriptor-contract-read",
+              "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+              "stage-folder-contract-ref:opl-bookforge/target-agent-takeover"
+            ],
+            "review_refs": [
+              "review-ref:opl-meta-agent/opl-bookforge/takeover-review"
+            ],
+            "quality_gate_refs": [
+              "quality-gate:opl-meta-agent/opl-bookforge/domain-owner-boundary"
+            ],
+            "scorecard_pass_scope": "suite_fixture_scorecard_only"
+          },
+          "independent_ai_review_assessment": {
+            "surface_kind": "opl_agent_lab_independent_ai_review_assessment",
+            "assessment_mode": "missing_real_independent_review",
+            "receipt_source": "missing",
+            "receipt_ref": null,
+            "reviewed_mechanism_candidate_ref": null,
+            "reviewer_ref": null,
+            "reviewer_agent_ref": null,
+            "request_ref": null,
+            "response_ref": null,
+            "execution_attempt_ref": null,
+            "review_attempt_ref": null,
+            "evidence_refs": [],
+            "forbidden_write_scan_ref": null,
+            "verdict": null,
+            "risk_tier": null,
+            "ai_review_approved": false,
+            "review_status": "review_pending",
+            "required_provenance_fields": [
+              "receipt_ref",
+              "receipt_source",
+              "assessment_mode",
+              "reviewer_ref",
+              "reviewer_agent_ref",
+              "reviewed_mechanism_candidate_ref",
+              "execution_attempt_ref",
+              "review_attempt_ref",
+              "request_ref",
+              "response_ref",
+              "evidence_refs",
+              "no_shared_context",
+              "forbidden_write_scan_ref",
+              "verdict",
+              "risk_tier"
+            ],
+            "missing_required_fields": [
+              "receipt_ref",
+              "receipt_source",
+              "assessment_mode",
+              "reviewer_ref",
+              "reviewer_agent_ref",
+              "reviewed_mechanism_candidate_ref",
+              "execution_attempt_ref",
+              "review_attempt_ref",
+              "request_ref",
+              "response_ref",
+              "evidence_refs",
+              "no_shared_context",
+              "forbidden_write_scan_ref",
+              "verdict",
+              "risk_tier"
+            ],
+            "no_shared_context_verified": false,
+            "attempt_separation_verified": false,
+            "fixture_or_generated_receipt": false
+          },
+          "improvement_candidate": {
+            "candidate_ref": "improvement-candidate:opl-meta-agent/opl-bookforge/gated-self-evolution",
+            "candidate_kind": "gated_self_evolution",
+            "target_ref": "quality-gate:opl-meta-agent/opl-bookforge/domain-owner-boundary",
+            "evidence_refs": [
+              "failure-taxonomy:opl-meta-agent/opl-bookforge/no-current-failure-fixture"
+            ],
+            "allowed_change_scope": "branch_only",
+            "promotion_gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/takeover"
+          },
+          "promotion_gate": {
+            "gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/takeover",
+            "gate_status": "passed",
+            "required_refs": [
+              "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance"
+            ],
+            "regression_suite_refs": [
+              "regression-suite:opl-meta-agent/opl-bookforge/takeover"
+            ],
+            "no_forbidden_write_proof_refs": [
+              "no-forbidden-write:opl-meta-agent/opl-bookforge/agent_testing_takeover"
+            ]
+          },
+          "promotion_safety_assessment": {
+            "surface_kind": "opl_agent_lab_promotion_safety_assessment",
+            "risk_tier": "medium_risk",
+            "safety_status": "regression_guard_only",
+            "has_failure_delta": false,
+            "failure_delta_refs": [],
+            "advisory_only_refs": [
+              "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance",
+              "failure-taxonomy:opl-meta-agent/opl-bookforge/no-current-failure-fixture"
+            ],
+            "advisory_only_signal_count": 2,
+            "advisory_only_cannot_promote": true,
+            "missing_required_refs": [],
+            "automatic_mechanism_promotion_ready": false,
+            "authority_boundary": {
+              "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+              "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+              "can_write_domain_truth": false,
+              "can_write_memory_body": false,
+              "can_accept_or_reject_memory_writeback": false,
+              "can_authorize_domain_ready": false,
+              "can_authorize_quality_verdict": false,
+              "can_authorize_export_verdict": false,
+              "can_mutate_domain_artifact": false,
+              "can_write_owner_receipt": false,
+              "can_modify_managed_runtime": false,
+              "can_promote_default_agent_without_gate": false,
+              "can_write_shared_submission_action": false,
+              "can_push_shared_submission_action": false,
+              "can_authorize_submission_action": false
+            }
+          },
+          "mechanism_evolution_input_refs": [],
+          "authority_boundary": {
+            "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+            "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+            "can_write_domain_truth": false,
+            "can_write_memory_body": false,
+            "can_accept_or_reject_memory_writeback": false,
+            "can_authorize_domain_ready": false,
+            "can_authorize_quality_verdict": false,
+            "can_authorize_export_verdict": false,
+            "can_mutate_domain_artifact": false,
+            "can_write_owner_receipt": false,
+            "can_modify_managed_runtime": false,
+            "can_promote_default_agent_without_gate": false,
+            "can_write_shared_submission_action": false,
+            "can_push_shared_submission_action": false,
+            "can_authorize_submission_action": false
+          }
+        }
+      ],
+      "ahe_evidence": {
+        "surface_kind": "opl_agent_lab_ahe_evidence_read_model",
+        "version": "opl-agent-lab.v1.ahe-evidence",
+        "read_model_id": "oalahem_5e9bda8a1494b7d81d1b4fb7",
+        "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+        "status": "typed_blocker",
+        "refs_only": true,
+        "required_ref_fields": [
+          "change_evaluation_refs",
+          "failure_evidence_refs",
+          "root_cause_refs",
+          "targeted_fix_refs",
+          "next_run_falsification_refs"
+        ],
+        "optional_ref_fields": [
+          "predicted_impact_refs",
+          "risk_task_refs"
+        ],
+        "tasks": [
+          {
+            "task_id": "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+            "domain_id": "opl-meta-agent",
+            "status": "typed_blocker",
+            "read_model_ref": "oalahe_bc3ae4f39053b4c44dc9c77f",
+            "change_evaluation_refs": [],
+            "predicted_impact_refs": [],
+            "failure_evidence_refs": [],
+            "root_cause_refs": [],
+            "targeted_fix_refs": [],
+            "risk_task_refs": [],
+            "next_run_falsification_refs": [],
+            "missing_required_ref_fields": [
+              "change_evaluation_refs",
+              "failure_evidence_refs",
+              "root_cause_refs",
+              "targeted_fix_refs",
+              "next_run_falsification_refs"
+            ],
+            "review_pending_ref_fields": [],
+            "advisory_only_refs": [],
+            "promotion_authorization": {
+              "authorized": false,
+              "reason": "ahe_evidence_read_model_is_falsification_input_only",
+              "fixture_generated_or_suite_pass_refs_are_advisory_only": false
+            },
+            "typed_blocker": {
+              "blocker_kind": "ahe_evidence_refs_missing",
+              "blocker_id": "oalaheb_eb8acbc8b15e15a31c532ad6",
+              "missing_ref_fields": [
+                "change_evaluation_refs",
+                "failure_evidence_refs",
+                "root_cause_refs",
+                "targeted_fix_refs",
+                "next_run_falsification_refs"
+              ],
+              "refs": []
+            },
+            "authority_boundary": {
+              "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+              "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+              "can_write_domain_truth": false,
+              "can_write_memory_body": false,
+              "can_accept_or_reject_memory_writeback": false,
+              "can_authorize_domain_ready": false,
+              "can_authorize_quality_verdict": false,
+              "can_authorize_export_verdict": false,
+              "can_mutate_domain_artifact": false,
+              "can_write_owner_receipt": false,
+              "can_modify_managed_runtime": false,
+              "can_promote_default_agent_without_gate": false,
+              "can_write_shared_submission_action": false,
+              "can_push_shared_submission_action": false,
+              "can_authorize_submission_action": false
+            }
+          }
+        ],
+        "summary": {
+          "task_count": 1,
+          "typed_blocker_count": 1,
+          "review_pending_count": 0,
+          "ready_for_review_count": 0,
+          "promotion_authorized_count": 0
+        },
+        "authority_boundary": {
+          "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+          "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+          "can_write_domain_truth": false,
+          "can_write_memory_body": false,
+          "can_accept_or_reject_memory_writeback": false,
+          "can_authorize_domain_ready": false,
+          "can_authorize_quality_verdict": false,
+          "can_authorize_export_verdict": false,
+          "can_mutate_domain_artifact": false,
+          "can_write_owner_receipt": false,
+          "can_modify_managed_runtime": false,
+          "can_promote_default_agent_without_gate": false,
+          "can_write_shared_submission_action": false,
+          "can_push_shared_submission_action": false,
+          "can_authorize_submission_action": false
+        }
+      },
+      "executor_capability_aperture": {
+        "surface_kind": "opl_agent_lab_executor_capability_lease_read_model",
+        "previous_surface_kind": "opl_agent_lab_executor_capability_aperture_read_model",
+        "lease_kind": "executor_capability_lease",
+        "read_model_role": "runtime_issued_executor_capability_lease",
+        "version": "opl-agent-lab.v1.executor-capability-lease",
+        "read_model_id": "oalecam_00dccd0a0cdd95e213f28745",
+        "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+        "refs_only": true,
+        "status": "ready_for_executor_first_stage_launch_audit",
+        "semantic_boundary": "runtime_issued_launch_audit_receipt_boundary_only_not_codex_internal_reasoning_contract",
+        "default_executor_kind": "codex_cli",
+        "codex_first": true,
+        "constrains_launch_audit_and_receipt_only": true,
+        "does_not_constrain_codex_internal_reasoning": true,
+        "required_task_fields": [
+          "executor_kind",
+          "model_reasoning",
+          "tool_capability",
+          "network_policy",
+          "sandbox_policy",
+          "worktree_locator",
+          "subagent_refs",
+          "budget",
+          "expected_receipt_refs",
+          "risk_lane"
+        ],
+        "tasks": [
+          {
+            "task_id": "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+            "domain_id": "opl-meta-agent",
+            "task_family": "agent_testing_takeover",
+            "aperture_ref": "oaleca_9fe2a86c937e2c4a3d2517f3",
+            "executor_capability_lease": {
+              "lease_kind": "executor_capability_lease",
+              "lease_ref": "executor-capability-lease:oaleclease_d38c01c81367a9ef4934ec97",
+              "issued_by": "opl_runtime",
+              "lease_status": "runtime_issued",
+              "executor_kind": "codex_cli",
+              "model_reasoning": {
+                "model_ref": "model-profile:codex-cli/default-current",
+                "model": "codex_cli_default_current",
+                "reasoning_effort": "executor_default",
+                "provider": "codex_cli",
+                "source_ref": "executor-binding-ref:codex-cli/default-profile",
+                "model_reasoning_is_launch_audit_metadata_only": true,
+                "does_not_constrain_ai_reasoning": true
+              },
+              "capabilities": {
+                "tool": {
+                  "tool_call_refs": [
+                    "tool-call:opl-agent-lab-run"
+                  ],
+                  "required_capability_refs": [
+                    "tool-call:opl-agent-lab-run",
+                    "stage:opl-bookforge/descriptor-contract-read",
+                    "stage:opl-bookforge/external-agent-lab-run",
+                    "stage:opl-bookforge/gated-self-evolution-candidate",
+                    "receipt:opl-meta-agent/opl-bookforge/resume-fixture",
+                    "receipt:opl-meta-agent/opl-bookforge/retry-fixture"
+                  ],
+                  "can_execute_tools": true
+                },
+                "network": {
+                  "network_policy": "offline",
+                  "network_access_declared": false
+                },
+                "sandbox": {
+                  "sandbox_policy": "fixture_only_no_artifact_mutation"
+                },
+                "worktree": {
+                  "workspace_locator_ref": "workspace-locator:/Users/gaofeng/workspace/opl-bookforge",
+                  "worktree_policy_ref": null,
+                  "worktree_capability_declared": true
+                },
+                "subagent": {
+                  "subagent_refs": [],
+                  "subagent_capability_declared": false
+                }
+              },
+              "budget": {
+                "budget_ref": "executor-budget-ref:agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+                "max_minutes": null,
+                "max_hours": null,
+                "max_stage_attempts": null,
+                "max_tokens": null,
+                "max_cost_usd": null,
+                "budget_is_launch_guard_only": true
+              },
+              "allowed_effects": {
+                "allowed_effect_refs": [
+                  "launch_stage_attempt",
+                  "write_executor_receipt_ref"
+                ],
+                "can_launch_stage_attempt": true,
+                "can_write_executor_receipt_ref": true,
+                "can_write_domain_truth": false,
+                "can_authorize_quality_verdict": false,
+                "can_mutate_artifact_body": false,
+                "can_promote_default_agent": false,
+                "effects_are_launch_audit_receipt_only": true
+              },
+              "expected_receipts": {
+                "expected_receipt_refs": [
+                  "owner-receipt:opl-meta-agent/opl-bookforge/testing-takeover",
+                  "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+                  "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+                ],
+                "expected_receipt_ref_count": 3
+              },
+              "ttl": {
+                "ttl_seconds": null,
+                "expires_after_ref": null,
+                "ttl_is_launch_audit_freshness_only": true
+              },
+              "risk_lane": "low_risk",
+              "constrains_launch_audit_and_receipt_only": true,
+              "does_not_constrain_codex_internal_reasoning": true,
+              "authority_boundary": {
+                "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+                "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+                "can_write_domain_truth": false,
+                "can_write_memory_body": false,
+                "can_accept_or_reject_memory_writeback": false,
+                "can_authorize_domain_ready": false,
+                "can_authorize_quality_verdict": false,
+                "can_authorize_export_verdict": false,
+                "can_mutate_domain_artifact": false,
+                "can_write_owner_receipt": false,
+                "can_modify_managed_runtime": false,
+                "can_promote_default_agent_without_gate": false,
+                "can_write_shared_submission_action": false,
+                "can_push_shared_submission_action": false,
+                "can_authorize_submission_action": false,
+                "contract_role": "refs_only_planning_read_model_launch_audit_boundary",
+                "can_change_default_executor": false,
+                "can_execute_non_default_executor": false,
+                "can_claim_quality_equivalence": false,
+                "can_claim_tool_semantics_equivalence": false,
+                "can_claim_resume_equivalence": false,
+                "can_mutate_artifact_body": false,
+                "can_promote_default_agent": false,
+                "can_constrain_executor_reasoning": false,
+                "can_replace_ai_judgment": false
+              }
+            },
+            "executor": {
+              "executor_kind": "codex_cli",
+              "executor_kind_source": "default_codex_cli",
+              "selected_executor_ref": "executor-ref:codex-cli/default-first-class",
+              "executor_binding_ref": "executor-binding-ref:codex-cli/default-first-class",
+              "codex_first_class_executor": true,
+              "non_default_executor_requires_binding_ref": false
+            },
+            "model_reasoning": {
+              "model_ref": "model-profile:codex-cli/default-current",
+              "model": "codex_cli_default_current",
+              "reasoning_effort": "executor_default",
+              "provider": "codex_cli",
+              "source_ref": "executor-binding-ref:codex-cli/default-profile",
+              "model_reasoning_is_launch_audit_metadata_only": true,
+              "does_not_constrain_ai_reasoning": true
+            },
+            "capabilities": {
+              "tool": {
+                "tool_call_refs": [
+                  "tool-call:opl-agent-lab-run"
+                ],
+                "required_capability_refs": [
+                  "tool-call:opl-agent-lab-run",
+                  "stage:opl-bookforge/descriptor-contract-read",
+                  "stage:opl-bookforge/external-agent-lab-run",
+                  "stage:opl-bookforge/gated-self-evolution-candidate",
+                  "receipt:opl-meta-agent/opl-bookforge/resume-fixture",
+                  "receipt:opl-meta-agent/opl-bookforge/retry-fixture"
+                ],
+                "can_execute_tools": true
+              },
+              "network": {
+                "network_policy": "offline",
+                "network_access_declared": false,
+                "network_policy_is_launch_boundary_only": true
+              },
+              "sandbox": {
+                "sandbox_policy": "fixture_only_no_artifact_mutation",
+                "sandbox_policy_is_launch_boundary_only": true
+              },
+              "worktree": {
+                "workspace_locator_ref": "workspace-locator:/Users/gaofeng/workspace/opl-bookforge",
+                "worktree_policy_ref": null,
+                "worktree_capability_declared": true
+              },
+              "subagent": {
+                "subagent_refs": [],
+                "subagent_capability_declared": false,
+                "subagent_use_is_executor_runtime_choice": true
+              }
+            },
+            "budget": {
+              "budget_ref": "executor-budget-ref:agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+              "max_minutes": null,
+              "max_hours": null,
+              "max_stage_attempts": null,
+              "max_tokens": null,
+              "max_cost_usd": null,
+              "budget_is_launch_guard_only": true
+            },
+            "expected_receipt": {
+              "expected_receipt_refs": [
+                "owner-receipt:opl-meta-agent/opl-bookforge/testing-takeover",
+                "stage-attempt-receipt-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+                "stage-typed-blocker-ref:opl-bookforge/target-agent-takeover/testing-takeover"
+              ],
+              "expected_receipt_ref_count": 3,
+              "closeout_receipt_required": true,
+              "receipt_is_boundary_evidence_only": true
+            },
+            "ttl": {
+              "ttl_seconds": null,
+              "expires_after_ref": null,
+              "ttl_is_launch_audit_freshness_only": true
+            },
+            "allowed_effects": {
+              "allowed_effect_refs": [
+                "launch_stage_attempt",
+                "write_executor_receipt_ref"
+              ],
+              "can_launch_stage_attempt": true,
+              "can_write_executor_receipt_ref": true,
+              "can_write_domain_truth": false,
+              "can_authorize_quality_verdict": false,
+              "can_mutate_artifact_body": false,
+              "can_promote_default_agent": false,
+              "effects_are_launch_audit_receipt_only": true
+            },
+            "risk_lane": "low_risk",
+            "audit_boundary": {
+              "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+              "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+              "can_write_domain_truth": false,
+              "can_write_memory_body": false,
+              "can_accept_or_reject_memory_writeback": false,
+              "can_authorize_domain_ready": false,
+              "can_authorize_quality_verdict": false,
+              "can_authorize_export_verdict": false,
+              "can_mutate_domain_artifact": false,
+              "can_write_owner_receipt": false,
+              "can_modify_managed_runtime": false,
+              "can_promote_default_agent_without_gate": false,
+              "can_write_shared_submission_action": false,
+              "can_push_shared_submission_action": false,
+              "can_authorize_submission_action": false,
+              "contract_role": "refs_only_planning_read_model_launch_audit_boundary",
+              "can_change_default_executor": false,
+              "can_execute_non_default_executor": false,
+              "can_claim_quality_equivalence": false,
+              "can_claim_tool_semantics_equivalence": false,
+              "can_claim_resume_equivalence": false,
+              "can_mutate_artifact_body": false,
+              "can_promote_default_agent": false,
+              "can_constrain_executor_reasoning": false,
+              "can_replace_ai_judgment": false
+            }
+          }
+        ],
+        "summary": {
+          "task_count": 1,
+          "codex_cli_task_count": 1,
+          "non_default_executor_task_count": 0,
+          "runtime_issued_lease_count": 1,
+          "expiring_lease_count": 0,
+          "tool_capability_declared_task_count": 1,
+          "network_declared_task_count": 0,
+          "worktree_capability_declared_task_count": 1,
+          "subagent_capability_declared_task_count": 0,
+          "expected_receipt_ref_count": 3,
+          "capability_ref_count": 7,
+          "low_risk_count": 1,
+          "medium_risk_count": 0,
+          "high_risk_count": 0
+        },
+        "authority_boundary": {
+          "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+          "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+          "can_write_domain_truth": false,
+          "can_write_memory_body": false,
+          "can_accept_or_reject_memory_writeback": false,
+          "can_authorize_domain_ready": false,
+          "can_authorize_quality_verdict": false,
+          "can_authorize_export_verdict": false,
+          "can_mutate_domain_artifact": false,
+          "can_write_owner_receipt": false,
+          "can_modify_managed_runtime": false,
+          "can_promote_default_agent_without_gate": false,
+          "can_write_shared_submission_action": false,
+          "can_push_shared_submission_action": false,
+          "can_authorize_submission_action": false,
+          "contract_role": "refs_only_planning_read_model_launch_audit_boundary",
+          "can_change_default_executor": false,
+          "can_execute_non_default_executor": false,
+          "can_claim_quality_equivalence": false,
+          "can_claim_tool_semantics_equivalence": false,
+          "can_claim_resume_equivalence": false,
+          "can_mutate_artifact_body": false,
+          "can_promote_default_agent": false,
+          "can_constrain_executor_reasoning": false,
+          "can_replace_ai_judgment": false
+        }
+      },
+      "codex_attempt_trace_flywheel": {
+        "surface_kind": "opl_agent_lab_codex_attempt_trace_flywheel",
+        "version": "opl-agent-lab.v1.codex-attempt-trace-flywheel",
+        "read_model_id": "oalcatf_f11e1b89c57be18427b45185",
+        "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+        "refs_only": true,
+        "semantic_boundary": "refs_only_evidence_learning_loop_not_domain_quality_or_training_authority",
+        "required_trace_ref_fields": [
+          "command_refs",
+          "file_refs",
+          "subagent_refs",
+          "worktree_refs",
+          "test_refs",
+          "web_source_refs",
+          "typed_blocker_refs",
+          "review_receipt_refs",
+          "next_run_falsification_refs"
+        ],
+        "codex_attempt_trace_bundle": {
+          "surface_kind": "opl_agent_lab_codex_attempt_trace_bundle",
+          "version": "opl-agent-lab.v1.codex-attempt-trace-bundle",
+          "bundle_id": "oalcatb_a1fde1646983eb67ddc7d2b2",
+          "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+          "refs_only": true,
+          "traces": [
+            {
+              "attempt_trace_ref": "oalcat_e337be9d1a4ee398a7d628e0",
+              "task_id": "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+              "domain_id": "opl-meta-agent",
+              "command_refs": [],
+              "file_refs": [],
+              "subagent_refs": [],
+              "worktree_refs": [],
+              "test_refs": [],
+              "web_source_refs": [],
+              "reviewer_refs": [],
+              "blocker_refs": [
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-command_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-file_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-subagent_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-worktree_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-test_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-web_source_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-typed_blocker_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-review_receipt_refs-missing",
+                "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-next_run_falsification_refs-missing"
+              ],
+              "refs_only": true,
+              "authority_boundary": {
+                "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+                "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+                "can_write_domain_truth": false,
+                "can_write_memory_body": false,
+                "can_accept_or_reject_memory_writeback": false,
+                "can_authorize_domain_ready": false,
+                "can_authorize_quality_verdict": false,
+                "can_authorize_export_verdict": false,
+                "can_mutate_domain_artifact": false,
+                "can_write_owner_receipt": false,
+                "can_modify_managed_runtime": false,
+                "can_promote_default_agent_without_gate": false,
+                "can_write_shared_submission_action": false,
+                "can_push_shared_submission_action": false,
+                "can_authorize_submission_action": false,
+                "contract_role": "refs_only_evidence_learning_loop_read_model",
+                "can_promote_default_agent": false,
+                "can_train_or_deploy_model_weights": false,
+                "can_mutate_artifact_body": false
+              }
+            }
+          ],
+          "refs": {
+            "attempt_trace_refs": [
+              "oalcat_e337be9d1a4ee398a7d628e0"
+            ],
+            "command_refs": [],
+            "file_refs": [],
+            "subagent_refs": [],
+            "worktree_refs": [],
+            "test_refs": [],
+            "web_source_refs": [],
+            "reviewer_refs": [],
+            "blocker_refs": [
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-command_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-file_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-subagent_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-worktree_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-test_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-web_source_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-typed_blocker_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-review_receipt_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-next_run_falsification_refs-missing"
+            ]
+          },
+          "summary": {
+            "attempt_trace_count": 1,
+            "command_ref_count": 0,
+            "file_ref_count": 0,
+            "subagent_ref_count": 0,
+            "worktree_ref_count": 0,
+            "test_ref_count": 0,
+            "web_source_ref_count": 0,
+            "reviewer_ref_count": 0,
+            "blocker_ref_count": 9
+          },
+          "authority_boundary": {
+            "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+            "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+            "can_write_domain_truth": false,
+            "can_write_memory_body": false,
+            "can_accept_or_reject_memory_writeback": false,
+            "can_authorize_domain_ready": false,
+            "can_authorize_quality_verdict": false,
+            "can_authorize_export_verdict": false,
+            "can_mutate_domain_artifact": false,
+            "can_write_owner_receipt": false,
+            "can_modify_managed_runtime": false,
+            "can_promote_default_agent_without_gate": false,
+            "can_write_shared_submission_action": false,
+            "can_push_shared_submission_action": false,
+            "can_authorize_submission_action": false,
+            "contract_role": "refs_only_evidence_learning_loop_read_model",
+            "can_promote_default_agent": false,
+            "can_train_or_deploy_model_weights": false,
+            "can_mutate_artifact_body": false
+          }
+        },
+        "replay_fork_variant_cockpit": {
+          "surface_kind": "opl_agent_lab_replay_fork_variant_cockpit",
+          "version": "opl-agent-lab.v1.replay-fork-variant-cockpit",
+          "cockpit_id": "oalrfvc_deeba21816fea23be3cd100f",
+          "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+          "refs_only": true,
+          "variants": [],
+          "learning_only_variant_refs": [],
+          "promotion_eligible_variant_refs": [],
+          "refs": {
+            "variant_candidate_refs": [],
+            "evidence_delta_refs": [],
+            "blocked_evidence_refs": [],
+            "predicted_impact_refs": [],
+            "next_run_falsification_refs": []
+          },
+          "summary": {
+            "variant_count": 0,
+            "blocked_evidence_ref_count": 0,
+            "learning_only_variant_count": 0,
+            "promotion_eligible_variant_count": 0,
+            "regression_count": 0
+          },
+          "promotion_eligibility": {
+            "selected_variant_required_for_existing_promotion_gate": true,
+            "unselected_variants_can_authorize_domain_ready": false,
+            "unselected_variants_can_authorize_quality_verdict": false,
+            "unselected_variants_can_mutate_artifact": false,
+            "unselected_variants_can_promote_default_agent": false
+          },
+          "authority_boundary": {
+            "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+            "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+            "can_write_domain_truth": false,
+            "can_write_memory_body": false,
+            "can_accept_or_reject_memory_writeback": false,
+            "can_authorize_domain_ready": false,
+            "can_authorize_quality_verdict": false,
+            "can_authorize_export_verdict": false,
+            "can_mutate_domain_artifact": false,
+            "can_write_owner_receipt": false,
+            "can_modify_managed_runtime": false,
+            "can_promote_default_agent_without_gate": false,
+            "can_write_shared_submission_action": false,
+            "can_push_shared_submission_action": false,
+            "can_authorize_submission_action": false,
+            "contract_role": "refs_only_evidence_learning_loop_read_model",
+            "can_promote_default_agent": false,
+            "can_train_or_deploy_model_weights": false,
+            "can_mutate_artifact_body": false
+          }
+        },
+        "attempts": [
+          {
+            "task_id": "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+            "domain_id": "opl-meta-agent",
+            "attempt_trace_ref": "oalcat_e337be9d1a4ee398a7d628e0",
+            "executor_binding": {
+              "executor": "codex_cli",
+              "codex_cli_first_class": true,
+              "executor_first": true
+            },
+            "status": "typed_blocker",
+            "command_refs": [],
+            "file_refs": [],
+            "subagent_refs": [],
+            "worktree_refs": [],
+            "test_refs": [],
+            "web_source_refs": [],
+            "typed_blocker_refs": [
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-command_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-file_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-subagent_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-worktree_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-test_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-web_source_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-typed_blocker_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-review_receipt_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-next_run_falsification_refs-missing"
+            ],
+            "review_receipt_refs": [],
+            "next_run_falsification_refs": [],
+            "generated_typed_blocker_refs": [
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-command_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-file_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-subagent_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-worktree_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-test_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-web_source_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-typed_blocker_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-review_receipt_refs-missing",
+              "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-next_run_falsification_refs-missing"
+            ],
+            "blocked_evidence_refs": [],
+            "fork_candidate_refs": [],
+            "variant_candidates": [],
+            "evidence_learning_loop": {
+              "loop_role": "collect_blocked_evidence_refs_then_fork_variant_candidates_for_next_run_falsification",
+              "refs_only": true,
+              "can_apply_learning_to_domain_truth": false,
+              "can_mutate_artifact_body": false
+            },
+            "authority_boundary": {
+              "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+              "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+              "can_write_domain_truth": false,
+              "can_write_memory_body": false,
+              "can_accept_or_reject_memory_writeback": false,
+              "can_authorize_domain_ready": false,
+              "can_authorize_quality_verdict": false,
+              "can_authorize_export_verdict": false,
+              "can_mutate_domain_artifact": false,
+              "can_write_owner_receipt": false,
+              "can_modify_managed_runtime": false,
+              "can_promote_default_agent_without_gate": false,
+              "can_write_shared_submission_action": false,
+              "can_push_shared_submission_action": false,
+              "can_authorize_submission_action": false,
+              "contract_role": "refs_only_evidence_learning_loop_read_model",
+              "can_promote_default_agent": false,
+              "can_train_or_deploy_model_weights": false,
+              "can_mutate_artifact_body": false
+            }
+          }
+        ],
+        "variant_candidates": [],
+        "refs": {
+          "attempt_trace_refs": [
+            "oalcat_e337be9d1a4ee398a7d628e0"
+          ],
+          "command_refs": [],
+          "file_refs": [],
+          "subagent_refs": [],
+          "worktree_refs": [],
+          "test_refs": [],
+          "web_source_refs": [],
+          "typed_blocker_refs": [
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-command_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-file_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-subagent_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-worktree_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-test_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-web_source_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-typed_blocker_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-review_receipt_refs-missing",
+            "typed-blocker-ref:agent-lab/agent-lab-task:opl-meta-agent/opl-bookforge/takeover/codex-attempt-trace-next_run_falsification_refs-missing"
+          ],
+          "review_receipt_refs": [],
+          "blocked_evidence_refs": [],
+          "variant_candidate_refs": [],
+          "evidence_delta_refs": [],
+          "predicted_impact_refs": [],
+          "next_run_falsification_refs": []
+        },
+        "summary": {
+          "attempt_count": 1,
+          "codex_cli_attempt_count": 1,
+          "trace_ready_count": 0,
+          "typed_blocker_count": 1,
+          "blocked_evidence_attempt_count": 0,
+          "fork_candidate_count": 0,
+          "promotion_eligible_candidate_count": 0,
+          "learning_only_variant_count": 0,
+          "regression_count": 0
+        },
+        "promotion_eligibility": {
+          "flywheel_can_authorize_domain_ready": false,
+          "flywheel_can_authorize_quality_verdict": false,
+          "flywheel_can_promote_default_agent": false,
+          "flywheel_can_train_or_deploy_model_weights": false,
+          "flywheel_can_mutate_artifact_body": false,
+          "variant_candidates_require_existing_promotion_gate": true
+        },
+        "authority_boundary": {
+          "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+          "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+          "can_write_domain_truth": false,
+          "can_write_memory_body": false,
+          "can_accept_or_reject_memory_writeback": false,
+          "can_authorize_domain_ready": false,
+          "can_authorize_quality_verdict": false,
+          "can_authorize_export_verdict": false,
+          "can_mutate_domain_artifact": false,
+          "can_write_owner_receipt": false,
+          "can_modify_managed_runtime": false,
+          "can_promote_default_agent_without_gate": false,
+          "can_write_shared_submission_action": false,
+          "can_push_shared_submission_action": false,
+          "can_authorize_submission_action": false,
+          "contract_role": "refs_only_evidence_learning_loop_read_model",
+          "can_promote_default_agent": false,
+          "can_train_or_deploy_model_weights": false,
+          "can_mutate_artifact_body": false
+        }
+      },
+      "domain_summary": [
+        {
+          "domain_id": "opl-meta-agent",
+          "run_count": 1,
+          "passed_run_count": 1,
+          "blocked_run_count": 0,
+          "ai_review_approved_count": 0,
+          "scorecard_refs": [
+            "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance"
+          ],
+          "improvement_candidate_refs": [
+            "improvement-candidate:opl-meta-agent/opl-bookforge/gated-self-evolution"
+          ],
+          "promotion_gate_refs": [
+            "promotion-gate:opl-meta-agent/opl-bookforge/takeover"
+          ]
+        }
+      ],
+      "longline_summary": {
+        "surface_kind": "opl_agent_lab_longline_summary",
+        "longline_task_count": 0,
+        "domain_ids": [
+          "opl-meta-agent"
+        ],
+        "repo_test_replacement_candidate_count": 0,
+        "ready_to_reduce_domain_longline_tests": false,
+        "recommended_repo_test_disposition": [],
+        "authority_boundary": {
+          "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+          "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+          "can_write_domain_truth": false,
+          "can_write_memory_body": false,
+          "can_accept_or_reject_memory_writeback": false,
+          "can_authorize_domain_ready": false,
+          "can_authorize_quality_verdict": false,
+          "can_authorize_export_verdict": false,
+          "can_mutate_domain_artifact": false,
+          "can_write_owner_receipt": false,
+          "can_modify_managed_runtime": false,
+          "can_promote_default_agent_without_gate": false,
+          "can_write_shared_submission_action": false,
+          "can_push_shared_submission_action": false,
+          "can_authorize_submission_action": false
+        }
+      },
+      "authority_boundary": {
+        "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+        "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_accept_or_reject_memory_writeback": false,
+        "can_authorize_domain_ready": false,
+        "can_authorize_quality_verdict": false,
+        "can_authorize_export_verdict": false,
+        "can_mutate_domain_artifact": false,
+        "can_write_owner_receipt": false,
+        "can_modify_managed_runtime": false,
+        "can_promote_default_agent_without_gate": false,
+        "can_write_shared_submission_action": false,
+        "can_push_shared_submission_action": false,
+        "can_authorize_submission_action": false,
+        "can_generate_target_domain_owner_receipt": false,
+        "can_write_target_artifact_body": false
+      }
+    },
+    "ref_summary": {
+      "surface_kind": "opl_agent_lab_ref_summary",
+      "suite_id": "opl-meta-agent-takeover-suite:opl-bookforge",
+      "status": "passed",
+      "task_refs": [
+        "agent-lab-task:opl-meta-agent/opl-bookforge/takeover"
+      ],
+      "scorecard_refs": [
+        "quality-scorecard:opl-meta-agent/opl-bookforge/takeover-acceptance"
+      ],
+      "recovery_probe_refs": [
+        "recovery-probe:opl-meta-agent/opl-bookforge/resume-after-interruption",
+        "recovery-probe:opl-meta-agent/opl-bookforge/retry-after-tool-failure"
+      ],
+      "improvement_candidate_refs": [
+        "improvement-candidate:opl-meta-agent/opl-bookforge/gated-self-evolution"
+      ],
+      "promotion_gate_refs": [
+        "promotion-gate:opl-meta-agent/opl-bookforge/takeover"
+      ],
+      "production_evidence_gate_result_refs": [],
+      "production_evidence_gate_refs": [],
+      "production_evidence_owner_route_refs": [],
+      "production_evidence_typed_blocker_refs": [],
+      "production_evidence_required_receipt_refs": [],
+      "blocked_run_count": 0,
+      "authority_boundary": {
+        "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+        "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_accept_or_reject_memory_writeback": false,
+        "can_authorize_domain_ready": false,
+        "can_authorize_quality_verdict": false,
+        "can_authorize_export_verdict": false,
+        "can_mutate_domain_artifact": false,
+        "can_write_owner_receipt": false,
+        "can_modify_managed_runtime": false,
+        "can_promote_default_agent_without_gate": false,
+        "can_write_shared_submission_action": false,
+        "can_push_shared_submission_action": false,
+        "can_authorize_submission_action": false,
+        "can_generate_target_domain_owner_receipt": false,
+        "can_write_target_artifact_body": false
+      }
+    },
+    "authority_boundary": {
+      "opl": "agent_lab_eval_improvement_control_plane_refs_only",
+      "domain": "truth_quality_artifact_memory_body_and_owner_receipt_authority",
+      "can_write_domain_truth": false,
+      "can_write_memory_body": false,
+      "can_accept_or_reject_memory_writeback": false,
+      "can_authorize_domain_ready": false,
+      "can_authorize_quality_verdict": false,
+      "can_authorize_export_verdict": false,
+      "can_mutate_domain_artifact": false,
+      "can_write_owner_receipt": false,
+      "can_modify_managed_runtime": false,
+      "can_promote_default_agent_without_gate": false,
+      "can_write_shared_submission_action": false,
+      "can_push_shared_submission_action": false,
+      "can_authorize_submission_action": false,
+      "can_generate_target_domain_owner_receipt": false,
+      "can_write_target_artifact_body": false
+    }
+  }
+}

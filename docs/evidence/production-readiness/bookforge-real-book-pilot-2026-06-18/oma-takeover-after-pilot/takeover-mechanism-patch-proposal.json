@@ -1,0 +1,56 @@
+{
+  "surface_kind": "opl_meta_agent_mechanism_patch_proposal",
+  "version": "opl-meta-agent.mechanism-patch-proposal.v1",
+  "proposal_id": "oma_mechanism_patch_3369f032b4d8",
+  "status": "proposal_recorded_requires_explicit_gate",
+  "mechanism_ref": "mechanism:opl-meta-agent/opl-bookforge/testing-takeover-loop",
+  "editable_surfaces": [
+    "agent_lab_suite_policy_ref",
+    "takeover_review_policy_ref",
+    "optimizer_candidate_policy_ref",
+    "prompt_policy_ref",
+    "quality_gate_policy_ref"
+  ],
+  "observe": {
+    "segment_run_ref": "oals_c0c5e53455b80ff9465ebdd7",
+    "source_refs": [
+      "oals_c0c5e53455b80ff9465ebdd7",
+      "oma_receipt_68a8c8a3696a",
+      "oma_candidate_7d241e2202e1"
+    ]
+  },
+  "diagnose": {
+    "evidence_delta_ref": "evidence-delta:opl-meta-agent/opl-bookforge/takeover",
+    "source_refs": [
+      "oals_c0c5e53455b80ff9465ebdd7"
+    ]
+  },
+  "edit": {
+    "next_mechanism_candidate_ref": "oma_candidate_7d241e2202e1",
+    "proposed_change_refs": [
+      "candidate-ref:opl-bookforge/gated-optimizer-policy-adjustment"
+    ],
+    "editable_surfaces": [
+      "agent_lab_suite_policy_ref",
+      "takeover_review_policy_ref",
+      "optimizer_candidate_policy_ref",
+      "prompt_policy_ref",
+      "quality_gate_policy_ref"
+    ],
+    "source_refs": [
+      "oma_candidate_7d241e2202e1"
+    ]
+  },
+  "segment_run_ref": "oals_c0c5e53455b80ff9465ebdd7",
+  "evidence_delta_ref": "evidence-delta:opl-meta-agent/opl-bookforge/takeover",
+  "next_mechanism_candidate_ref": "oma_candidate_7d241e2202e1",
+  "promotion_gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/takeover",
+  "authority_boundary": {
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_train_or_deploy_model_weights": false
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "surface_kind": "opl_meta_agent_mechanism_patch_proposal",
+  "version": "opl-meta-agent.mechanism-patch-proposal.v1",
+  "proposal_id": "oma_mechanism_patch_a3915e9edf13",
+  "status": "proposal_recorded_requires_explicit_gate",
+  "mechanism_ref": "mechanism:opl-meta-agent/opl-bookforge/external-suite-self-evolution-loop",
+  "editable_surfaces": [
+    "target_agent_delivery_policy_ref",
+    "target_agent_quality_gate_ref"
+  ],
+  "observe": {
+    "segment_run_ref": "oals_c0c5e53455b80ff9465ebdd7",
+    "source_refs": [
+      "oals_c0c5e53455b80ff9465ebdd7",
+      "oma_receipt_9f0e57327650",
+      "oma_candidate_926baa2508b3",
+      "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/oma-takeover-after-pilot/agent-lab-takeover-suite.json",
+      "/Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json"
+    ]
+  },
+  "diagnose": {
+    "evidence_delta_ref": "evidence-delta:opl-meta-agent/opl-bookforge/external-agent-lab-suite",
+    "source_refs": [
+      "oals_c0c5e53455b80ff9465ebdd7",
+      "agent-lab-task:opl-meta-agent/opl-bookforge/takeover",
+      "agent_testing_takeover",
+      "instructions:opl-meta-agent/opl-bookforge/takeover",
+      "domain-agent-entry:opl-bookforge",
+      "stage:opl-bookforge/descriptor-contract-read",
+      "stage:opl-bookforge/external-agent-lab-run",
+      "stage:opl-bookforge/gated-self-evolution-candidate",
+      "oracle:opl-meta-agent/opl-bookforge/descriptor-contract-valid",
+      "oracle:opl-meta-agent/opl-bookforge/authority-boundary-preserved",
+      "scorer:opl-meta-agent/opl-bookforge/takeover-acceptance",
+      "artifact-ref:opl-bookforge/external-agent-package",
+      "canonical-artifact-ref:opl-bookforge/target-agent-takeover",
+      "stage-manifest-ref:opl-bookforge/target-agent-takeover/testing-takeover",
+      "repair-ref:opl-meta-agent/opl-bookforge/no-current-repair",
+      "metric-ref:descriptor-valid",
+      "metric-ref:agent-lab-external-suite-passed",
+      "metric-ref:forbidden-authority-write-absent",
+      "evidence-ref:opl-bookforge/descriptor-contract-read",
+      "artifact-native-contract-ref:opl-bookforge/target-agent-takeover",
+      "stage-folder-contract-ref:opl-bookforge/target-agent-takeover",
+      "failure-taxonomy:opl-meta-agent/opl-bookforge/no-current-failure-fixture",
+      "quality-gate:opl-meta-agent/opl-bookforge/domain-owner-boundary",
+      "gated_self_evolution",
+      "contract-ref:opl-bookforge/contracts/stage_control_plane.json",
+      "prompt-ref:opl-bookforge/agent/prompts/storyline-architecture.md",
+      "prompt-ref:opl-bookforge/agent/prompts/book-materialization.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/storyline-architecture-quality-gate.md",
+      "quality-gate-ref:opl-bookforge/agent/quality_gates/book-materialization-quality-gate.md",
+      "skill-ref:opl-bookforge/agent/skills/storyline-architecture.md",
+      "skill-ref:opl-bookforge/agent/skills/book-production.md",
+      "quality-floor-ref:opl-bookforge/book-authoring-baseline-domain-pack-review"
+    ]
+  },
+  "edit": {
+    "next_mechanism_candidate_ref": "oma_candidate_926baa2508b3",
+    "proposed_change_refs": [
+      "target_agent_delivery_policy_ref:target_agent/package-owner-closeout",
+      "target_agent_quality_gate_ref:target_agent/export-owner"
+    ],
+    "editable_surfaces": [
+      "target_agent_delivery_policy_ref",
+      "target_agent_quality_gate_ref"
+    ],
+    "source_refs": [
+      "oma_candidate_926baa2508b3",
+      "target_agent_delivery_policy_ref:target_agent/package-owner-closeout",
+      "target_agent_quality_gate_ref:target_agent/export-owner",
+      "ai-reviewer-suggestion:Record the OMA Agent Lab takeover and external-suite self-evolution evidence in BookForge status docs before claiming the baseline is complete.",
+      "ai-reviewer-suggestion:Keep the next maturity gate focused on a real book project run through storyline-architecture and book-materialization with stage receipts.",
+      "ai-reviewer-suggestion:Preserve the writing-quality checks that require affirmative prose, concrete language, style consistency, illustration/table source boundaries, and layout QC."
+    ]
+  },
+  "segment_run_ref": "oals_c0c5e53455b80ff9465ebdd7",
+  "evidence_delta_ref": "evidence-delta:opl-meta-agent/opl-bookforge/external-agent-lab-suite",
+  "next_mechanism_candidate_ref": "oma_candidate_926baa2508b3",
+  "promotion_gate_ref": "promotion-gate:opl-meta-agent/opl-bookforge/external-suite-self-evolution",
+  "authority_boundary": {
+    "can_write_target_domain_truth": false,
+    "can_write_target_domain_memory_body": false,
+    "can_mutate_target_domain_artifact_body": false,
+    "can_authorize_target_domain_quality_or_export": false,
+    "can_promote_default_agent_without_gate": false,
+    "can_train_or_deploy_model_weights": false
+  },
+  "repeat_budget": {
+    "max_attempts": 2,
+    "remaining_attempts": 1,
+    "repeat_scope": "same_target_eval_work_order_owner_route_tuple"
+  },
+  "dead_letter_refs": [
+    "dead-letter:opl-meta-agent/opl-bookforge/oma_mechanism_patch_a3915e9edf13"
+  ],
+  "escalation_refs": [
+    "escalation:target-owner/opl-bookforge/external-suite-self-evolution",
+    "typed-blocker:opl-meta-agent/opl-bookforge/oma_developer_patch_work_order_fc9bf5a8d090/missing-required-work-order-field"
+  ],
+  "next_allowed_action": "delegate_to_opl_work_order_execute_after_currentness_gate"
+}

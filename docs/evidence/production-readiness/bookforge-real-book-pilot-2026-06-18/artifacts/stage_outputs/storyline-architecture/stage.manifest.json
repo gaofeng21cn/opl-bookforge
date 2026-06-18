@@ -1,0 +1,36 @@
+{
+  "surface_kind": "bookforge_stage_attempt_manifest",
+  "schema_version": 1,
+  "project_id": "bookforge-production-smoke-2026-06-18",
+  "stage_id": "storyline-architecture",
+  "stage_attempt_id": "bookforge-real-book-pilot-2026-06-18:storyline-architecture",
+  "producer": "codex_cli",
+  "input_refs": [
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/inputs/book-brief.md",
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/inputs/source-corpus.md",
+    "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/inputs/voice-and-audience.md"
+  ],
+  "artifact_refs": [
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/storyline-map.md",
+      "content_hash": "sha256:703bed50a07f3c5003b836c2b208a755aad7642e44c933d8319ec4002853a421"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/chapter-thesis-chain.json",
+      "content_hash": "sha256:7a510991a535c751015d19a29c0ed5b96f9946cc2940f245e7f60d97ff2cb9be"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/style-contract.md",
+      "content_hash": "sha256:e7d55d6d1e1c02b9e22f9a51e41faec5d2d5dbae8662ae7c1611bb7bbf49b583"
+    },
+    {
+      "path": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/owner-handoff.md",
+      "content_hash": "sha256:a9e541aea769130f00c6c519419efa63000ea2968e2441bc0bc681a08ea609e4"
+    }
+  ],
+  "quality_gate_ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-independent-gate-receipt.json",
+  "owner_handoff_ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/artifacts/stage_outputs/storyline-architecture/owner-handoff.md",
+  "typed_blocker_ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+  "export_eligibility": "not_applicable_storyline_stage",
+  "repair_classification": "owner_review_required"
+}
