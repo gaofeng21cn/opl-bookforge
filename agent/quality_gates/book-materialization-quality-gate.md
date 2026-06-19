@@ -7,6 +7,7 @@ Pass conditions:
 
 - Chapter drafts follow the storyline map and preserve a coherent book-level arc.
 - Chapter drafts cite and obey the reader-style contract from `storyline-architecture`; naturalness is judged against the declared reader groups and reading situation, not a generic prose ideal.
+- Chapter drafts obey the author/source stance map from `storyline-architecture`. Practice-involved cases use the approved active design or reflective practitioner voice, while evidence gaps remain explicit and unsupported outcomes are not claimed.
 - Each production chapter has a reader-entry plan in the chapter brief or drafting notes before visible prose is drafted, covering opening scene/question, reader tension, concrete example/case, main claim, section movement, table/figure role, and closing transition.
 - Chapter drafts are reader-facing on the first visible manuscript pass: internal chapter task, core question, thesis, target budget, source refs, figure asset status, QC notes, and blockers are kept in briefs/manifests/reports rather than exposed as book prose.
 - Chapter openings and major section transitions start from a scene, reader tension, practical question, or consequence before moving into concepts, unless the reader-style contract explicitly calls for a more technical structure.
@@ -27,6 +28,7 @@ Pass conditions:
 - Final manuscript figures that require new artwork are generated bitmap assets from the Codex `imagegen` skill, with prompt/spec, project-local saved asset path, source/rights boundary, helper receipt/provenance, manifest synchronization by figure id, and visual review criteria recorded.
 - The default final-figure route uses the BookForge native imagegen asset helper or an equivalent BookForge-owned backend adapter that delegates provider credentials to the Codex executor/native imagegen surface; direct Base URL/API-key provider calls are not the default route.
 - A completed-contiguous review PDF is refreshed after chapter text-readiness or full readiness changes through a real publication/typesetting backend; it includes the reviewable reader sequence from the beginning of the book, stops at the first below-target required unit, and is labeled as an owner review artifact, not final export readiness.
+- If the manuscript already includes Chinese chapter or figure numbering, review-PDF rendering prevents backend-generated duplicate section/caption numbers.
 - Review PDF, publication proof PDF, and final export are separate artifact levels. Publication proof requires a publication design profile covering page geometry, typography, captions, figures, tables, case boxes/callouts, headers/footers, numbering, visual rhythm, and rendered-page inspection.
 - PDF export evidence classifies the artifact as `review_pdf`, `publication_proof`, or `final_export`; review PDFs are not treated as publication proofs.
 - Publication proof uses the BookForge bundled `bookforge-zh-publication-proof` profile or an owner-approved equivalent profile that materially improves page geometry, typography hierarchy, headers/footers, captions, tables, callouts, page numbers, and visual rhythm beyond unstyled backend defaults.
@@ -43,6 +45,8 @@ Fail-closed conditions:
 - Missing book-memory contract, chapter task cards, chapter runtime refs, style asset bundle, repair back-propagation report, or transparent prompt bundle for a book-length materialization.
 - Chapter runtime state is implemented as a private scheduler, queue, session store, or hidden attempt ledger instead of owner-inspectable OPL stage refs and task cards.
 - Chapter prose uses a generic style that does not match the declared reader groups, or materialization proceeds after the reader-style contract asks for owner clarification.
+- A case that the author team designed, executed, or directly participated in is drafted as third-party public-source observation, external commentary, or neutral "publicly observable" description after the reader-style contract called for a practice-involved stance.
+- A practice-involved case uses active author-team voice to claim unsupported outcomes, interviews, authorization, user validation, learning effects, impact metrics, or complete process evidence instead of marking those gaps explicitly.
 - A production chapter lacks a reader-entry plan before body drafting, or the plan is exposed as manuscript prose instead of staying in briefs, notes, manifests, reports, comments, or handoff refs.
 - Reader-facing manuscript body exposes production scaffold as prose, including visible "chapter task", "core question", "chapter conclusion", "asset status", manifest paths, target budgets, QC notes, or blocker refs.
 - Chapter or section writing reads like a planning memo, technical spec, or instruction manual because it lists framework elements without reader scenes, concrete questions, consequences, or natural transitions required by the reader-style contract.
@@ -54,6 +58,7 @@ Fail-closed conditions:
 - A below-target chapter is labeled drafted, complete, ready, done, or used to claim that all chapter content is done.
 - A below-target whole-book preview is written or referenced as final `book.md` without explicit preview naming and typed blockers.
 - A completed-contiguous review PDF skips an unfinished preface, introduction, or earlier required chapter to include later ready chapters, includes below-target required units without labeling/blocking, or is named/described as a final publication/export artifact before all gates pass.
+- A review PDF duplicates pre-numbered manuscript labels, for example `第七章 第五章` or `图 7.1: 图 5-1`, because backend automatic numbering was not disabled or captions were not handled explicitly.
 - A review PDF is used to claim publication quality, final proof readiness, or final export readiness without a publication design profile and rendered-page inspection.
 - Publication proof or final export relies on a review PDF, HTML preview, hand-rolled raster text drawing, command success alone, or uninspected rendered pages.
 - Publication proof is generated with unstyled Pandoc/default backend output, missing publication profile evidence, or monotonous pages that do not show a deliberate hierarchy for chapter openings, sections, figures, tables, callouts, captions, headers/footers, and page numbers.

@@ -347,6 +347,8 @@ def pandoc_xelatex_command(
     variables: list[str],
     resource_paths: list[Path],
     include_headers: list[Path],
+    *,
+    number_sections: bool,
 ) -> tuple[list[str], str | None]:
     if not command_exists("pandoc"):
         return [], "pandoc not found"
@@ -358,12 +360,13 @@ def pandoc_xelatex_command(
         "-s",
         "--pdf-engine=xelatex",
         "--toc",
-        "--number-sections",
         "--metadata",
         "link-citations=true",
         "-o",
         str(output_pdf),
     ]
+    if number_sections:
+        command.append("--number-sections")
     if metadata_file:
         command.extend(["--metadata-file", str(metadata_file)])
     for header in include_headers:
@@ -671,6 +674,7 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         profile_variables + args.variable,
         resource_paths,
         include_headers,
+        number_sections=args.number_sections,
     )
     payload["command"] = command
     if blocker:
@@ -746,6 +750,7 @@ def doctor() -> dict[str, Any]:
             "figure_asset_manifest_readiness": True,
             "helper_generated_rendered_page_inspection": True,
             "publication_proof_fail_closes_missing_assets": True,
+            "configurable_section_numbering": True,
         },
         "tools": {
             "pandoc": shutil.which("pandoc"),
@@ -770,6 +775,19 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--render-prefix", default="bookforge-page", help="Rendered page file prefix.")
     parser.add_argument("--render-dpi", type=int, default=180, help="DPI for rendered page PNG inspection output.")
     parser.add_argument("--metadata-file", type=Path, help="Optional Pandoc YAML metadata file for design/profile variables.")
+    parser.add_argument(
+        "--number-sections",
+        dest="number_sections",
+        action="store_true",
+        default=True,
+        help="Ask Pandoc to number sections. Enabled by default for publication-style Markdown without pre-numbered Chinese chapter titles.",
+    )
+    parser.add_argument(
+        "--no-number-sections",
+        dest="number_sections",
+        action="store_false",
+        help="Disable Pandoc automatic section numbering for pre-numbered manuscripts or cumulative review PDFs.",
+    )
     parser.add_argument(
         "--publication-profile",
         default=DEFAULT_PUBLICATION_PROFILE,

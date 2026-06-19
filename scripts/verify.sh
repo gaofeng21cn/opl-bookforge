@@ -8,6 +8,34 @@ opl_bin="/Users/gaofeng/workspace/one-person-lab/bin/opl"
 "${opl_bin}" agents interfaces --repo-dir "${repo_dir}" --json
 
 python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" --doctor
+python3 - "${repo_dir}" <<'PY'
+import importlib.util
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+module_path = repo / "runtime/native_helpers/bookforge_pdf_export.py"
+spec = importlib.util.spec_from_file_location("bookforge_pdf_export", module_path)
+module = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(module)
+
+base_args = (
+    Path("sample.md"),
+    Path("sample.pdf"),
+    None,
+    [],
+    [Path(".")],
+    [],
+)
+numbered_command, blocker = module.pandoc_xelatex_command(*base_args, number_sections=True)
+assert blocker is None, blocker
+assert "--number-sections" in numbered_command, numbered_command
+
+unnumbered_command, blocker = module.pandoc_xelatex_command(*base_args, number_sections=False)
+assert blocker is None, blocker
+assert "--number-sections" not in unnumbered_command, unnumbered_command
+PY
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --doctor
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
 

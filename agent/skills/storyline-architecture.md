@@ -9,6 +9,7 @@ Working policy:
 - Convert the intent into a stable premise, argument path, chapter thesis chain, and evidence map.
 - Preserve a single style contract across later chapters.
 - Identify where evidence is thin, duplicated, or misordered.
+- Identify the stance of major cases and examples during storyline shaping. If a case is authored from inside the practice, route it as practice-involved evidence in the reader-style contract and chapter thesis chain: the chapter should explain what the authors anticipated, why they designed the practice, how it operated, and what remains unproven, instead of framing it as an outside observation of public materials.
 - Ask the owner when audience or style cannot be inferred with high confidence from the brief and source refs.
 - Return typed blockers for missing source, owner, reader-style, style, or audience refs.
 

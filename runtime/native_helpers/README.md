@@ -11,6 +11,7 @@ Current backend:
 - `pandoc-xelatex`: Pandoc standalone Markdown input, XeLaTeX PDF engine, optional Poppler page rendering through `pdftoppm`.
 - Optional Pandoc profile controls: `--metadata-file` plus repeatable `-V/--variable`, so review and publication design profiles can control page geometry, fonts, document class, and related PDF variables without project-local renderer code.
 - Resource path controls: repeatable `--resource-path`, defaulting to the source Markdown directory plus project root, so relative figure paths in chapter Markdown can resolve in generated PDFs.
+- Section numbering controls: `--number-sections` is the default for Markdown without pre-numbered chapter titles; pass `--no-number-sections` for cumulative review PDFs or manuscripts that already carry Chinese chapter/figure numbering, to avoid doubled headings such as `第七章 第五章`.
 - Publication profile controls: `--publication-profile bookforge-zh-publication-proof` is the default bundled proof profile for Chinese nonfiction e-books. It applies an A5 electronic-book page, Chinese body/head fonts, running heads, footer page numbers, chapter-title hierarchy, caption styling, table/callout treatment, and visual-rhythm expectations. Pass `--publication-profile none` only for diagnostics or owner-approved custom styling.
 - Asset and page checks: the helper scans Markdown image refs against the effective resource paths, checks required `figure_asset_manifest` items for `asset_ready` project-local bitmap files, and can write a machine-baseline rendered-page inspection JSON through `--write-rendered-page-inspection`.
 
@@ -44,6 +45,7 @@ python3 runtime/native_helpers/bookforge_pdf_export.py \
   --output-pdf "$BOOK_PROJECT/exports/book-review.pdf" \
   --render-dir "$BOOK_PROJECT/exports/rendered-pages" \
   --artifact-role review_pdf \
+  --no-number-sections \
   --manifest "$BOOK_PROJECT/receipts/book-review-pdf.json"
 ```
 
