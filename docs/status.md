@@ -17,6 +17,8 @@ Scope of the claim:
 - This proves the repo has a valid OPL standard scaffold, stage pack v2 fields, domain pack refs, foundry series contract, generated interface descriptors, OMA Agent Lab takeover evidence, independent AI reviewer evidence, and external-suite self-evolution evidence.
 - This also proves a real pilot book project produced inputs, `storyline-architecture` artifacts, `book-materialization` artifacts, manuscript body, figure/table plans, style and AI-flavor checks, layout QC, DOCX/HTML/PDF exports, PDF page renders, independent gate receipts, and typed blockers.
 - This does not prove final production readiness, publication approval, owner acceptance, direct `opl-bookforge` runtime CLI availability, or OPL-hosted artifact-handoff parity.
+- The 2026-06-18 pilot generator is historical evidence only. Its prose-in-code generation pattern is superseded by the current Markdown-first, chapter-sharded materialization invariant.
+- The 2026-06-19 200-page manuscript incident exposed two additional rules now recorded in the domain pack: invalid compact drafts must be retired rather than expanded in place, and book-bound `imagegen` figures need project-local bitmap paths recorded in a figure asset manifest.
 
 OMA / Agent Lab evidence:
 
@@ -32,6 +34,7 @@ OMA / Agent Lab evidence:
 Real book pilot production-readiness evidence:
 
 - Evidence root: `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
+- Boundary: this pilot remains historical short-book evidence; it is not the current implementation pattern for book-length manuscript source management.
 - Source corpus and owner brief: `inputs/`.
 - Stage 1 outputs: `artifacts/stage_outputs/storyline-architecture/`, including storyline map, chapter thesis chain, style contract, stage manifest, and owner handoff.
 - Stage 2 outputs: `artifacts/stage_outputs/book-materialization/`, including chapter draft bundle, illustration plan, table plan, style consistency report, AI-flavor revision report, layout QC report, stage manifest, and owner handoff.
