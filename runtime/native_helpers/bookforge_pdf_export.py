@@ -13,6 +13,8 @@ from typing import Any
 
 VERSION = "bookforge-pdf-export.v1"
 ARTIFACT_ROLES = ("review_pdf", "publication_proof", "final_export")
+DEFAULT_PUBLICATION_PROFILE = "bookforge-zh-publication-proof"
+BUNDLED_PROFILE_DIR = Path(__file__).resolve().parent / "pdf_profiles"
 PUBLICATION_DESIGN_REQUIRED_FIELDS = (
     "page_geometry",
     "typography_hierarchy",
@@ -77,6 +79,44 @@ def read_json_object(path: Path | None) -> tuple[dict[str, Any], str | None]:
     return parsed, None
 
 
+def resolve_publication_profile(ref: str, root: Path) -> tuple[dict[str, Any], Path | None, str | None]:
+    if ref in ("", "none", "None", "NONE"):
+        return {}, None, None
+
+    profile_ref = ref or DEFAULT_PUBLICATION_PROFILE
+    candidate = Path(profile_ref)
+    if candidate.suffix:
+        path = candidate if candidate.is_absolute() else (root / candidate)
+    else:
+        path = BUNDLED_PROFILE_DIR / f"{profile_ref}.json"
+
+    path = path.resolve()
+    profile, error = read_json_object(path)
+    if error:
+        return {}, path, error
+    return profile, path, None
+
+
+def profile_list(profile: dict[str, Any], key: str) -> list[Any]:
+    value = profile.get(key)
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict):
+        nested = value.get("items")
+        return nested if isinstance(nested, list) else []
+    return []
+
+
+def resolve_profile_path(ref: Any, profile_path: Path | None, root: Path) -> Path | None:
+    if not isinstance(ref, str) or not ref.strip():
+        return None
+    path = Path(ref)
+    if path.is_absolute():
+        return path.resolve()
+    base = profile_path.parent if profile_path else root
+    return (base / path).resolve()
+
+
 def missing_fields(section: dict[str, Any], fields: tuple[str, ...]) -> list[str]:
     return [field for field in fields if section.get(field) in (None, "", [], {})]
 
@@ -97,7 +137,7 @@ def file_refs_exist(refs: list[Any], root: Path) -> tuple[list[str], list[str]]:
     return present, missing
 
 
-def render_pdf_pages(pdf_path: Path, render_dir: Path, root: Path, prefix: str) -> tuple[str, str | None, list[str]]:
+def render_pdf_pages(pdf_path: Path, render_dir: Path, root: Path, prefix: str, dpi: int) -> tuple[str, str | None, list[str]]:
     if not command_exists("pdftoppm"):
         return "skipped_missing_pdftoppm", "pdftoppm not found", []
 
@@ -107,7 +147,7 @@ def render_pdf_pages(pdf_path: Path, render_dir: Path, root: Path, prefix: str) 
 
     page_prefix = render_dir / prefix
     result = subprocess.run(
-        ["pdftoppm", "-png", str(pdf_path), str(page_prefix)],
+        ["pdftoppm", "-png", "-r", str(dpi), str(pdf_path), str(page_prefix)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -127,6 +167,7 @@ def pandoc_xelatex_command(
     metadata_file: Path | None,
     variables: list[str],
     resource_paths: list[Path],
+    include_headers: list[Path],
 ) -> tuple[list[str], str | None]:
     if not command_exists("pandoc"):
         return [], "pandoc not found"
@@ -146,6 +187,10 @@ def pandoc_xelatex_command(
     ]
     if metadata_file:
         command.extend(["--metadata-file", str(metadata_file)])
+    for header in include_headers:
+        if not header.exists():
+            return [], f"include header not found: {header}"
+        command.extend(["--include-in-header", str(header)])
     if resource_paths:
         command.append(f"--resource-path={os.pathsep.join(str(path) for path in resource_paths)}")
     for variable in variables:
@@ -196,10 +241,10 @@ def assess_artifact_gate(
         if payload.get("render_status") != "rendered":
             warnings.append("review_pdf was not rendered for visual inspection; do not treat it as a publication proof")
     elif role in {"publication_proof", "final_export"}:
-        if not args.publication_design_profile:
+        if not publication_design:
             blockers.append({
                 "blocker_type": "publication_design_profile_missing",
-                "message": "publication proof requires --publication-design-profile",
+                "message": "publication proof requires a publication design profile or BookForge publication profile",
             })
         else:
             missing = missing_fields(publication_design, PUBLICATION_DESIGN_REQUIRED_FIELDS)
@@ -272,6 +317,7 @@ def assess_artifact_gate(
         },
         "evidence_refs": {
             "publication_design_profile": rel(args.publication_design_profile.resolve(), root) if args.publication_design_profile else None,
+            "publication_profile": rel(args.resolved_publication_profile, root) if args.resolved_publication_profile else None,
             "rendered_page_inspection": rel(args.rendered_page_inspection.resolve(), root) if args.rendered_page_inspection else None,
             "owner_acceptance_receipt": rel(args.owner_acceptance_receipt.resolve(), root) if args.owner_acceptance_receipt else None,
             "figure_asset_manifest": rel(args.figure_asset_manifest.resolve(), root) if args.figure_asset_manifest else None,
@@ -288,6 +334,16 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     rendered_page_inspection = args.rendered_page_inspection.resolve() if args.rendered_page_inspection else None
     owner_acceptance_receipt = args.owner_acceptance_receipt.resolve() if args.owner_acceptance_receipt else None
     figure_asset_manifest = args.figure_asset_manifest.resolve() if args.figure_asset_manifest else None
+    publication_profile, publication_profile_path, profile_error = resolve_publication_profile(args.publication_profile, root)
+    profile_variables = [str(value) for value in profile_list(publication_profile, "pandoc_variables") if str(value).strip()]
+    include_headers = [
+        path
+        for path in (
+            resolve_profile_path(value, publication_profile_path, root)
+            for value in profile_list(publication_profile, "include_in_header")
+        )
+        if path is not None
+    ]
     resource_paths = [
         (root / path).resolve() if not path.is_absolute() else path.resolve()
         for path in args.resource_path
@@ -311,6 +367,14 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         "pdf_page_count": 0,
         "command": [],
         "resource_paths": [rel(path, root) for path in resource_paths],
+        "publication_profile": {
+            "requested": args.publication_profile,
+            "resolved": rel(publication_profile_path, root) if publication_profile_path else None,
+            "profile_id": publication_profile.get("profile_id"),
+            "status": "loaded" if publication_profile and not profile_error else ("disabled" if not publication_profile_path else "unreadable"),
+            "error": profile_error,
+        },
+        "include_headers": [rel(path, root) for path in include_headers],
         "quality_boundary": {
             "source_is_markdown": True,
             "uses_publication_typesetting_backend": True,
@@ -322,8 +386,13 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     args.rendered_page_inspection = rendered_page_inspection
     args.owner_acceptance_receipt = owner_acceptance_receipt
     args.figure_asset_manifest = figure_asset_manifest
+    args.resolved_publication_profile = publication_profile_path
 
     publication_design, design_error = read_json_object(publication_design_profile)
+    if not publication_design:
+        publication_design = as_mapping(publication_profile.get("publication_design_profile"))
+    if profile_error:
+        design_error = design_error or profile_error
     rendered_inspection, inspection_error = read_json_object(rendered_page_inspection)
     owner_acceptance, owner_error = read_json_object(owner_acceptance_receipt)
     if figure_asset_manifest:
@@ -357,7 +426,14 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         payload["error"] = f"metadata file not found: {metadata_file}"
         return payload
 
-    command, blocker = pandoc_xelatex_command(source_md, output_pdf, metadata_file, args.variable, resource_paths)
+    command, blocker = pandoc_xelatex_command(
+        source_md,
+        output_pdf,
+        metadata_file,
+        profile_variables + args.variable,
+        resource_paths,
+        include_headers,
+    )
     payload["command"] = command
     if blocker:
         payload["status"] = f"blocked_missing_{blocker.split()[0]}"
@@ -382,6 +458,7 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
             render_dir,
             root,
             args.render_prefix,
+            args.render_dpi,
         )
         payload["render_status"] = render_status
         payload["render_error"] = render_error
@@ -413,6 +490,8 @@ def doctor() -> dict[str, Any]:
             "pandoc-xelatex": command_exists("pandoc") and command_exists("xelatex"),
         },
         "artifact_roles": list(ARTIFACT_ROLES),
+        "default_publication_profile": DEFAULT_PUBLICATION_PROFILE,
+        "bundled_profile_dir": str(BUNDLED_PROFILE_DIR),
         "tools": {
             "pandoc": shutil.which("pandoc"),
             "xelatex": shutil.which("xelatex"),
@@ -434,7 +513,13 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--manifest", type=Path, help="Optional JSON manifest output path.")
     parser.add_argument("--render-dir", type=Path, help="Optional directory for rendered page PNGs.")
     parser.add_argument("--render-prefix", default="bookforge-page", help="Rendered page file prefix.")
+    parser.add_argument("--render-dpi", type=int, default=180, help="DPI for rendered page PNG inspection output.")
     parser.add_argument("--metadata-file", type=Path, help="Optional Pandoc YAML metadata file for design/profile variables.")
+    parser.add_argument(
+        "--publication-profile",
+        default=DEFAULT_PUBLICATION_PROFILE,
+        help="Bundled profile id or JSON path for publication-grade Pandoc variables/header. Use 'none' to disable.",
+    )
     parser.add_argument(
         "--resource-path",
         type=Path,

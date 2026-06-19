@@ -11,6 +11,7 @@ Current backend:
 - `pandoc-xelatex`: Pandoc standalone Markdown input, XeLaTeX PDF engine, optional Poppler page rendering through `pdftoppm`.
 - Optional Pandoc profile controls: `--metadata-file` plus repeatable `-V/--variable`, so review and publication design profiles can control page geometry, fonts, document class, and related PDF variables without project-local renderer code.
 - Resource path controls: repeatable `--resource-path`, defaulting to the source Markdown directory plus project root, so relative figure paths in chapter Markdown can resolve in generated PDFs.
+- Publication profile controls: `--publication-profile bookforge-zh-publication-proof` is the default bundled proof profile for Chinese nonfiction e-books. It applies an A5 electronic-book page, Chinese body/head fonts, running heads, footer page numbers, chapter-title hierarchy, caption styling, table/callout treatment, and visual-rhythm expectations. Pass `--publication-profile none` only for diagnostics or owner-approved custom styling.
 
 Artifact roles:
 
@@ -19,6 +20,12 @@ Artifact roles:
 - `final_export`: owner-gated export. It requires publication-proof evidence plus an owner/export acceptance receipt.
 
 The helper records `artifact_gate.status` and blocker details separately from PDF compile status. A PDF can compile successfully and still return `generated_with_artifact_gate_blocker` when proof or final-export evidence is missing.
+
+Publication-proof quality:
+
+- Review PDFs may use simple styling for fast reading.
+- Publication proofs should use the bundled `bookforge-zh-publication-proof` profile or an owner-approved equivalent. Unstyled Pandoc defaults are review-output quality, not publication-proof quality.
+- Rendered-page inspection should sample front matter, chapter openings, dense body pages, figure/table pages, callouts, and closing pages for nonblank content, clipped glyphs, caption proximity, image rendering, header/footer/page-number presence, and monotony.
 
 Boundary:
 
@@ -45,6 +52,7 @@ python3 runtime/native_helpers/bookforge_pdf_export.py \
   --output-pdf "$BOOK_PROJECT/exports/book-publication-proof.pdf" \
   --render-dir "$BOOK_PROJECT/exports/rendered-pages" \
   --artifact-role publication_proof \
+  --publication-profile bookforge-zh-publication-proof \
   --publication-design-profile "$BOOK_PROJECT/publication-design/profile.json" \
   --rendered-page-inspection "$BOOK_PROJECT/quality/rendered-page-inspection.json" \
   --figure-asset-manifest "$BOOK_PROJECT/artifacts/figures/figure-asset-manifest.json" \

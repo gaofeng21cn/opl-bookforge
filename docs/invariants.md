@@ -24,6 +24,7 @@ Machine boundary: Human-readable hard constraints. Machine truth remains in cont
 - Distinguish review PDF, publication proof PDF, and final export. Publication proof requires an explicit publication design profile and rendered-page inspection; final export requires owner acceptance.
 - Treat review PDFs, HTML previews, export command success, or uninspected rendered pages as insufficient evidence for publication proof or final export.
 - Require a publication design profile and real typesetting backend for publication proof and final export; hand-rolled raster text drawing is not the normal BookForge publication path.
+- Do not treat unstyled Pandoc/default backend output as publication-proof quality. Publication proof must use the bundled BookForge publication profile or an owner-approved equivalent and must show deliberate page geometry, typography hierarchy, figures, tables, callouts, captions, headers/footers, page numbers, and visual rhythm.
 - Require backend resource paths or equivalent asset resolution configuration when Markdown references project-local figures, so generated PDFs cannot silently drop images.
 - Require caption, callout, table, figure, cross-reference, header/footer, page-number, overflow, and visual-rhythm inspection before any publication-proof claim.
 - Require owner/export acceptance receipts before any final-export claim.

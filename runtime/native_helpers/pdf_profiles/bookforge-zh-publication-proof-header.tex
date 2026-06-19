@@ -1,0 +1,68 @@
+% OPL BookForge publication proof profile for Pandoc + XeLaTeX.
+% This file controls book-level presentation only; it is not an owner acceptance gate.
+\usepackage{xcolor}
+\definecolor{BookForgeInk}{HTML}{25231F}
+\definecolor{BookForgeMuted}{HTML}{6F685F}
+\definecolor{BookForgeAccent}{HTML}{8B3A2B}
+\definecolor{BookForgeRule}{HTML}{D8C9B7}
+\definecolor{BookForgeWash}{HTML}{F7F3ED}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\color{BookForgeMuted}\nouppercase{\leftmark}}
+\fancyfoot[C]{\footnotesize\color{BookForgeMuted}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{BookForgeRule}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily\bfseries\color{BookForgeInk}}
+  {\filright\Large\color{BookForgeAccent}\chaptertitlename\ \thechapter}
+  {0.7em}
+  {\filright\Huge}
+  [\vspace{0.6em}{\color{BookForgeRule}\titlerule}]
+\titlespacing*{\chapter}{0pt}{-0.5em}{2.2em}
+\titleformat{\section}
+  {\normalfont\sffamily\Large\bfseries\color{BookForgeInk}}
+  {\thesection}{0.7em}{}
+\titlespacing*{\section}{0pt}{1.8em plus 0.2em minus 0.1em}{0.7em}
+\titleformat{\subsection}
+  {\normalfont\sffamily\large\bfseries\color{BookForgeInk}}
+  {\thesubsection}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{1.3em plus 0.2em minus 0.1em}{0.45em}
+
+\usepackage{caption}
+\captionsetup{
+  font={small,sf},
+  labelfont={bf,color=BookForgeAccent},
+  textfont={color=BookForgeMuted},
+  skip=6pt
+}
+
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{2em}
+\raggedbottom
+
+\usepackage{etoolbox}
+\AtBeginEnvironment{longtable}{\small\sffamily}
+\AtBeginEnvironment{tabular}{\small\sffamily}
+
+\renewenvironment{quote}
+  {\list{}{\leftmargin=1.2em\rightmargin=0.5em}%
+   \item\relax
+   \begingroup
+   \small\itshape\color{BookForgeInk}%
+   \setlength{\parskip}{0.35em}%
+   \noindent{\color{BookForgeAccent}\vrule width 2pt}\hspace{0.8em}%
+   \begin{minipage}{0.88\linewidth}}
+  {\end{minipage}%
+   \endgroup
+   \endlist}
+
+\makeatletter
+\@ifpackageloaded{xeCJK}{%
+  \xeCJKsetup{CJKglue=\hskip 0.08em plus 0.04em minus 0.03em}%
+}{}
+\makeatother

@@ -10,6 +10,8 @@ Working policy:
 - A final export is owner-gated and cannot be implied by review PDF generation or a successful PDF compile.
 - Define a publication design profile before final proof: page size, page geometry, body font, heading scale, line length, table style, caption style, figure placement, case-box/callout style, page headers/footers, numbering, and rendered-page inspection plan.
 - Use real publication/typesetting systems such as Pandoc with XeLaTeX/LuaLaTeX templates, Quarto book rendering, or Typst. Do not hand-roll publication layout through ad-hoc raster text drawing.
+- For Chinese nonfiction e-book proof output, prefer the bundled BookForge `bookforge-zh-publication-proof` profile unless the owner supplies a stronger design profile. It provides A5 page geometry, Chinese body/head fonts, running heads, page numbers, chapter opening hierarchy, captions, table treatment, callout/quote treatment, resource-path-backed images, and rendered-page inspection expectations.
+- Treat unstyled Pandoc defaults as review-output quality, not publication-proof quality.
 - Treat image placement as part of publication design. If a figure is referenced in prose but the project-local bitmap asset is missing, keep the PDF as a text-review checkpoint and return an image-asset blocker.
 - Use rendered-page checks before owner handoff. Inspect sampled pages for page rhythm, heading hierarchy, table readability, caption proximity, figure sharpness, missing images, overfull lines, and visually monotonous spreads.
 - A high-quality nonfiction book should use visual rhythm intentionally: meaningful figures, tables, case boxes, pull quotes, and section breaks. Do not add decorative noise to compensate for weak structure.

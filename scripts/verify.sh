@@ -72,13 +72,23 @@ if command -v pandoc >/dev/null 2>&1 && command -v xelatex >/dev/null 2>&1; then
 title: "BookForge PDF Smoke"
 author: "OPL BookForge"
 lang: zh-CN
-mainfont: "Noto Sans CJK SC"
-CJKmainfont: "Noto Sans CJK SC"
 ---
 
 # 第一章
 
 这是 OPL BookForge PDF 出口的中文 smoke test。
+
+> 审阅 PDF 可以检查内容连续性；出版 proof 还要检查页面节奏、图表、页眉页码和视觉层级。
+
+## 图表与页面节奏
+
+出版级电子书不能只有默认正文灰度。BookForge 的出版 profile 应当给标题、表格、引用块、图注和页码一个稳定层级。
+
+| Artifact | Gate | Evidence |
+| --- | --- | --- |
+| review_pdf | readable | compile and render |
+| publication_proof | designed | profile and inspection |
+| final_export | accepted | owner receipt |
 EOF
   python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
     --root "${tmp_dir}" \
@@ -135,4 +145,28 @@ EOF
     --artifact-role publication_proof \
     --publication-design-profile "${tmp_dir}/publication-design.json" \
     --rendered-page-inspection "${tmp_dir}/rendered-page-inspection.json"
+
+  python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
+    --root "${tmp_dir}" \
+    --source-md "${tmp_dir}/sample.md" \
+    --output-pdf "${tmp_dir}/sample-bundled-profile-proof.pdf" \
+    --manifest "${tmp_dir}/bundled-profile-proof-manifest.json" \
+    --render-dir "${tmp_dir}/rendered-bundled-profile-pages" \
+    --render-prefix bundled-proof-page \
+    --artifact-role publication_proof \
+    --rendered-page-inspection "${tmp_dir}/rendered-page-inspection.json"
+  python3 - "${tmp_dir}" <<'PY'
+import json
+import sys
+from pathlib import Path
+root = Path(sys.argv[1])
+payload = json.loads((root / "bundled-profile-proof-manifest.json").read_text(encoding="utf-8"))
+assert payload["status"] == "generated", payload
+assert payload["artifact_gate"]["status"] == "passed", payload["artifact_gate"]
+assert payload["publication_profile"]["profile_id"] == "bookforge-zh-publication-proof", payload["publication_profile"]
+assert payload["rendered_pages"], payload
+for ref in payload["rendered_pages"]:
+    path = root / ref
+    assert path.exists() and path.stat().st_size > 1000, ref
+PY
 fi

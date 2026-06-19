@@ -29,6 +29,7 @@ Pass conditions:
 - A completed-contiguous review PDF is refreshed after chapter text-readiness or full readiness changes through a real publication/typesetting backend; it includes the reviewable reader sequence from the beginning of the book, stops at the first below-target required unit, and is labeled as an owner review artifact, not final export readiness.
 - Review PDF, publication proof PDF, and final export are separate artifact levels. Publication proof requires a publication design profile covering page geometry, typography, captions, figures, tables, case boxes/callouts, headers/footers, numbering, visual rhythm, and rendered-page inspection.
 - PDF export evidence classifies the artifact as `review_pdf`, `publication_proof`, or `final_export`; review PDFs are not treated as publication proofs.
+- Publication proof uses the BookForge bundled `bookforge-zh-publication-proof` profile or an owner-approved equivalent profile that materially improves page geometry, typography hierarchy, headers/footers, captions, tables, callouts, page numbers, and visual rhythm beyond unstyled backend defaults.
 - PDF export evidence records resource paths or equivalent backend configuration so Markdown-relative figures and project-local assets can resolve during PDF generation.
 - Publication proof and final export evidence uses a real typesetting backend such as Pandoc with XeLaTeX/LuaLaTeX, Quarto, Typst, or Paged.js, with backend availability, command, artifact-gate receipt, and rendered-page refs recorded.
 - Rendered-page inspection covers nonblank pages, overflow/clipping, caption placement, figure/table placement, callout readability, heading hierarchy, running heads/feet, page numbering, cross-references, and visual rhythm.
@@ -54,6 +55,7 @@ Fail-closed conditions:
 - A completed-contiguous review PDF skips an unfinished preface, introduction, or earlier required chapter to include later ready chapters, includes below-target required units without labeling/blocking, or is named/described as a final publication/export artifact before all gates pass.
 - A review PDF is used to claim publication quality, final proof readiness, or final export readiness without a publication design profile and rendered-page inspection.
 - Publication proof or final export relies on a review PDF, HTML preview, hand-rolled raster text drawing, command success alone, or uninspected rendered pages.
+- Publication proof is generated with unstyled Pandoc/default backend output, missing publication profile evidence, or monotonous pages that do not show a deliberate hierarchy for chapter openings, sections, figures, tables, callouts, captions, headers/footers, and page numbers.
 - Captions, callouts, tables, figures, cross-references, running heads/feet, page numbers, or visual rhythm are unchecked while a publication-proof or final-export claim is made.
 - PDF export omits backend resource paths or equivalent asset resolution configuration when the manuscript references project-local figures, causing images to disappear in the rendered PDF.
 - Final export is claimed without publication proof evidence and owner/export acceptance receipts.

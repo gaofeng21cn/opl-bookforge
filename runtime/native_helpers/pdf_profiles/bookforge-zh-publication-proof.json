@@ -1,0 +1,44 @@
+{
+  "profile_id": "bookforge-zh-publication-proof",
+  "profile_label": "BookForge Chinese Publication Proof",
+  "backend": "pandoc-xelatex",
+  "pandoc_variables": [
+    "documentclass=ctexbook",
+    "classoption=oneside",
+    "papersize=a5",
+    "fontsize=11pt",
+    "mainfont=Noto Serif CJK SC",
+    "CJKmainfont=Noto Serif CJK SC",
+    "sansfont=PingFang SC",
+    "CJKsansfont=PingFang SC",
+    "monofont=Menlo",
+    "geometry:paperwidth=148mm",
+    "geometry:paperheight=210mm",
+    "geometry:top=18mm",
+    "geometry:bottom=20mm",
+    "geometry:left=18mm",
+    "geometry:right=18mm",
+    "geometry:headheight=14pt",
+    "geometry:headsep=7mm",
+    "geometry:footskip=10mm",
+    "linestretch=1.24",
+    "linkcolor=BookForgeInk",
+    "urlcolor=BookForgeAccent",
+    "toccolor=BookForgeInk"
+  ],
+  "include_in_header": [
+    "bookforge-zh-publication-proof-header.tex"
+  ],
+  "publication_design_profile": {
+    "page_geometry": "A5 e-book proof, 148mm x 210mm, 18mm side margins, 18/20mm top/bottom margins, readable line length for Chinese nonfiction.",
+    "typography_hierarchy": "Noto Serif CJK SC body, PingFang SC chapter headings, restrained chapter numbers, increased section spacing, running heads, and table of contents.",
+    "caption_style": "Small sans-serif captions with a warm accent label and spacing separated from body prose.",
+    "figure_treatment": "Figures centered, constrained to text width, protected by Pandoc resource paths, with captions checked in rendered pages.",
+    "table_treatment": "Booktabs-style tables, small readable type, alternating vertical rhythm, and no decorative grid overload.",
+    "callout_style": "Block quotes and note-like passages have a light warm background, left rule, and controlled inner spacing.",
+    "headers_footers": "Upper running head with section context and centered footer page number.",
+    "page_numbering": "Arabic page numbers in footer, stable for PDF review and proof inspection.",
+    "visual_rhythm": "A5 page, chapter openings with whitespace, tighter section levels, controlled paragraph spacing, captions, tables, and callout rhythm to avoid plain default pages.",
+    "rendered_page_inspection_plan": "Render pages at 180 DPI or higher and inspect title page, chapter opening, dense body page, figure/table page, callout page, and last page for nonblank content, clipped glyphs, caption proximity, page numbers, headers, and visual rhythm."
+  }
+}
