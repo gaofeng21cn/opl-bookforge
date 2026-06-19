@@ -20,6 +20,14 @@ Illustrations and tables must carry purpose, source, placement, and review crite
 
 When a real manuscript needs new visual artwork, final figures default to Codex `imagegen` skill outputs saved as project-bound bitmap assets. SVG, local script diagrams, placeholders, chat previews, or generated images without exposed file paths can support planning, but they do not satisfy final illustration evidence unless the owner explicitly chooses deterministic vector output. Long-form projects should keep a figure asset manifest so missing local bitmaps remain visible.
 
+Book memory is a domain artifact contract, not a new control plane. For nonfiction manuscripts, working memory covers the active chapter brief, local source notes, current reader promise, terminology decisions, unresolved claims, and near-term style constraints. Episodic memory covers prior chapter QC results, owner comments, revision receipts, style drift incidents, figure/table decisions, and route-back history. Semantic memory covers durable thesis, audience model, source canon, glossary, style asset bundle, structural principles, claim taxonomy, and evidence rules.
+
+Chapter runtime is expressed as owner-inspectable chapter task cards, chapter QC refs, repair reports, memory updates, review-PDF refs, and OPL stage receipts. It must not become a BookForge-private scheduler, queue, attempt ledger, session store, or generic runtime.
+
+Style engine means reusable writing assets: voice principles, sentence rhythm, terminology policy, analogy policy, sample passages, forbidden patterns, accepted repair rules, and style drift findings. It guides prompts and review gates but does not authorize quality, export, or publication acceptance.
+
+Transparent prompt bundles preserve the prompt refs, source slices, memory refs, style constraints, and quality-gate prompts used for storyline shaping, chapter drafting, review, repair, export proofing, and handoff. They are review surfaces for owner trust and reproducibility, not hidden provider state.
+
 The AI-flavor check favors confident human editing: direct sentence openings, concrete causal links, stable terminology, varied rhythm, and precise transitions. The check flags hedging, inflated abstractions, repetitive framing, and contrast formulas that make the prose feel machine-generated.
 
 Final quality, export readiness, print readiness, and publication approval require owner receipts.

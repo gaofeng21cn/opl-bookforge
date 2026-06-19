@@ -22,8 +22,17 @@ Machine boundary: Human-readable hard constraints. Machine truth remains in cont
 - Refresh a completed-contiguous owner-review PDF after chapter text-readiness or full readiness changes; it must include the reviewable reader sequence from the beginning of the book, stop at the first below-target required unit, label text-ready-but-asset-blocked chapters honestly, surface review-continuity blockers instead of silently skipping earlier units, and must not be presented as final export readiness.
 - Treat publication PDF generation as a first-class export backend concern owned by BookForge. Project scripts may call the BookForge PDF export helper, but the normal path is Pandoc/XeLaTeX or equivalent Quarto/Typst-style typesetting backends, not ad-hoc raster page drawing.
 - Distinguish review PDF, publication proof PDF, and final export. Publication proof requires an explicit publication design profile and rendered-page inspection; final export requires owner acceptance.
+- Treat review PDFs, HTML previews, export command success, or uninspected rendered pages as insufficient evidence for publication proof or final export.
+- Require a publication design profile and real typesetting backend for publication proof and final export; hand-rolled raster text drawing is not the normal BookForge publication path.
+- Require backend resource paths or equivalent asset resolution configuration when Markdown references project-local figures, so generated PDFs cannot silently drop images.
+- Require caption, callout, table, figure, cross-reference, header/footer, page-number, overflow, and visual-rhythm inspection before any publication-proof claim.
+- Require owner/export acceptance receipts before any final-export claim.
 - Retire invalid compact/sample drafts when the owner requires a book-length restart; do not expand an invalid compact draft in place as the active workflow.
 - Keep long-form materialization auditable with a pipeline contract that names chapter packages, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, blockers, and retired drafts.
+- Keep book memory owner-inspectable and domain-owned: working memory, episodic memory, and semantic memory must be refs or artifacts inside the book project, not hidden provider state.
+- Keep chapter runtime expressed through OPL stage refs, chapter task cards, QC refs, repair reports, memory updates, and owner gates; do not add a domain-private scheduler, queue, attempt ledger, session store, or app shell.
+- Keep style engine assets explicit: voice principles, terminology policy, rhythm rules, analogy policy, sample passages, forbidden patterns, accepted repairs, and style drift findings must be reviewable.
+- Keep transparent prompt bundles with source slices, memory refs, style constraints, and quality-gate prompts for major drafting/review/repair/proofing passes.
 - Preserve owner/source-declared target extent during materialization; compact/sample drafts require explicit owner approval or a typed extent blocker.
 - Treat final book-bound artwork as `imagegen`-generated bitmap assets by default; SVG, local-script diagrams, and placeholders are planning aids only unless the owner explicitly requests deterministic vector output.
 - Treat chat previews or generated artwork without an exposed, project-local file path as image-asset blockers, not as completed figure evidence.

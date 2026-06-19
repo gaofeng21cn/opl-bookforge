@@ -12,6 +12,10 @@ Pass conditions:
 - Chapter openings and major section transitions start from a scene, reader tension, practical question, or consequence before moving into concepts, unless the reader-style contract explicitly calls for a more technical structure.
 - Book-length manuscript source is Markdown-first and chapter-sharded; the merged `book.md` or export file is produced from chapter refs rather than used as the only creative working surface.
 - The production pipeline contract identifies chapter packages, chapter briefs, chapter drafts, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, and retired obsolete drafts.
+- The book-memory contract maps working memory, episodic memory, and semantic memory to nonfiction manuscript refs and keeps them owner-inspectable.
+- Every active chapter has a chapter task card with reader promise, chapter job, thesis movement, source refs, figure/table obligations, target extent, active memory refs, style constraints, QC state, and blockers.
+- Chapter repair reports show which QC findings updated the chapter draft, task card, style asset bundle, glossary, evidence map, or semantic memory refs.
+- The style engine bundle and transparent prompt bundle are cited by chapter drafting, review, repair, style pass, and handoff reports.
 - The owner/source target extent is converted into chapter-level page/character budgets and an active production queue before body drafting starts.
 - Chapter budget gates are enforced before completion labels: below-target chapter prose is `seed_in_progress` or `draft_in_progress`, not `chapter_draft_ready`, `done`, or whole-book completion.
 - The manuscript obeys the declared target extent from the owner brief, source plan, publisher brief, or storyline map; any shortfall is quantified as a typed extent blocker.
@@ -20,16 +24,22 @@ Pass conditions:
 - The wording pass replaces generic AI-flavored phrasing with direct, specific, affirmative prose.
 - Illustration and table plans state purpose, placement, data/source boundary, review criteria, and owner decision needs.
 - A figure asset manifest records every required figure and distinguishes `planned`, `preview_only`, `asset_ready`, and `blocked_missing_project_bitmap` states.
-- Final manuscript figures that require new artwork are generated bitmap assets from the Codex `imagegen` skill, with prompt/spec, project-local saved asset path, source/rights boundary, helper receipt/provenance, and visual review criteria recorded.
+- Final manuscript figures that require new artwork are generated bitmap assets from the Codex `imagegen` skill, with prompt/spec, project-local saved asset path, source/rights boundary, helper receipt/provenance, manifest synchronization by figure id, and visual review criteria recorded.
 - The default final-figure route uses the BookForge native imagegen asset helper or an equivalent BookForge-owned backend adapter that delegates provider credentials to the Codex executor/native imagegen surface; direct Base URL/API-key provider calls are not the default route.
 - A completed-contiguous review PDF is refreshed after chapter text-readiness or full readiness changes through a real publication/typesetting backend; it includes the reviewable reader sequence from the beginning of the book, stops at the first below-target required unit, and is labeled as an owner review artifact, not final export readiness.
 - Review PDF, publication proof PDF, and final export are separate artifact levels. Publication proof requires a publication design profile covering page geometry, typography, captions, figures, tables, case boxes/callouts, headers/footers, numbering, visual rhythm, and rendered-page inspection.
+- PDF export evidence classifies the artifact as `review_pdf`, `publication_proof`, or `final_export`; review PDFs are not treated as publication proofs.
+- PDF export evidence records resource paths or equivalent backend configuration so Markdown-relative figures and project-local assets can resolve during PDF generation.
+- Publication proof and final export evidence uses a real typesetting backend such as Pandoc with XeLaTeX/LuaLaTeX, Quarto, Typst, or Paged.js, with backend availability, command, artifact-gate receipt, and rendered-page refs recorded.
+- Rendered-page inspection covers nonblank pages, overflow/clipping, caption placement, figure/table placement, callout readability, heading hierarchy, running heads/feet, page numbering, cross-references, and visual rhythm.
 - Layout QC covers hierarchy, page rhythm, captions, cross-references, table readability, image placement, and export target constraints.
 - Handoff includes artifacts, receipts, blockers, remaining owner decisions, and verification refs.
 
 Fail-closed conditions:
 
 - Missing storyline map, reader-style contract, chapter plan, source refs, manuscript body refs, image/table refs, layout target, or owner gate.
+- Missing book-memory contract, chapter task cards, chapter runtime refs, style asset bundle, repair back-propagation report, or transparent prompt bundle for a book-length materialization.
+- Chapter runtime state is implemented as a private scheduler, queue, session store, or hidden attempt ledger instead of owner-inspectable OPL stage refs and task cards.
 - Chapter prose uses a generic style that does not match the declared reader groups, or materialization proceeds after the reader-style contract asks for owner clarification.
 - A production chapter lacks a reader-entry plan before body drafting, or the plan is exposed as manuscript prose instead of staying in briefs, notes, manifests, reports, comments, or handoff refs.
 - Reader-facing manuscript body exposes production scaffold as prose, including visible "chapter task", "core question", "chapter conclusion", "asset status", manifest paths, target budgets, QC notes, or blocker refs.
@@ -43,6 +53,10 @@ Fail-closed conditions:
 - A below-target whole-book preview is written or referenced as final `book.md` without explicit preview naming and typed blockers.
 - A completed-contiguous review PDF skips an unfinished preface, introduction, or earlier required chapter to include later ready chapters, includes below-target required units without labeling/blocking, or is named/described as a final publication/export artifact before all gates pass.
 - A review PDF is used to claim publication quality, final proof readiness, or final export readiness without a publication design profile and rendered-page inspection.
+- Publication proof or final export relies on a review PDF, HTML preview, hand-rolled raster text drawing, command success alone, or uninspected rendered pages.
+- Captions, callouts, tables, figures, cross-references, running heads/feet, page numbers, or visual rhythm are unchecked while a publication-proof or final-export claim is made.
+- PDF export omits backend resource paths or equivalent asset resolution configuration when the manuscript references project-local figures, causing images to disappear in the rendered PDF.
+- Final export is claimed without publication proof evidence and owner/export acceptance receipts.
 - Publication PDF generation bypasses the BookForge export helper or equivalent BookForge-owned backend adapter and is implemented by ad-hoc raster text drawing or bespoke page renderer code instead of a real export/typesetting backend, unless explicitly marked as a temporary diagnostic fallback with a typed blocker.
 - An invalid compact/sample draft remains on the active manuscript path after the owner asks to restart from the correct chapter-sharded workflow.
 - Chapters drift from the premise or repeat the same argument without new movement.

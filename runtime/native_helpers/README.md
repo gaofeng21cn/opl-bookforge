@@ -10,12 +10,46 @@ Current backend:
 
 - `pandoc-xelatex`: Pandoc standalone Markdown input, XeLaTeX PDF engine, optional Poppler page rendering through `pdftoppm`.
 - Optional Pandoc profile controls: `--metadata-file` plus repeatable `-V/--variable`, so review and publication design profiles can control page geometry, fonts, document class, and related PDF variables without project-local renderer code.
+- Resource path controls: repeatable `--resource-path`, defaulting to the source Markdown directory plus project root, so relative figure paths in chapter Markdown can resolve in generated PDFs.
+
+Artifact roles:
+
+- `review_pdf`: cumulative owner/editor reading checkpoint. A generated review PDF can pass its helper gate when the PDF compiles; rendered pages are strongly preferred for visual review, but it remains review-only.
+- `publication_proof`: publication-layout candidate. It requires a publication design profile JSON, rendered page refs, and rendered-page inspection JSON in addition to PDF compilation.
+- `final_export`: owner-gated export. It requires publication-proof evidence plus an owner/export acceptance receipt.
+
+The helper records `artifact_gate.status` and blocker details separately from PDF compile status. A PDF can compile successfully and still return `generated_with_artifact_gate_blocker` when proof or final-export evidence is missing.
 
 Boundary:
 
 - The helper may compile PDFs, render pages for inspection, and write a JSON manifest.
 - It does not authorize publication readiness, owner acceptance, or final export approval.
 - It must not be replaced by project-local raster text drawing, Pillow/canvas page painting, or bespoke layout engines as the normal path.
+
+Examples:
+
+```bash
+python3 runtime/native_helpers/bookforge_pdf_export.py \
+  --root "$BOOK_PROJECT" \
+  --source-md "$BOOK_PROJECT/artifacts/manuscript/book.preview.md" \
+  --output-pdf "$BOOK_PROJECT/exports/book-review.pdf" \
+  --render-dir "$BOOK_PROJECT/exports/rendered-pages" \
+  --artifact-role review_pdf \
+  --manifest "$BOOK_PROJECT/receipts/book-review-pdf.json"
+```
+
+```bash
+python3 runtime/native_helpers/bookforge_pdf_export.py \
+  --root "$BOOK_PROJECT" \
+  --source-md "$BOOK_PROJECT/artifacts/manuscript/book.md" \
+  --output-pdf "$BOOK_PROJECT/exports/book-publication-proof.pdf" \
+  --render-dir "$BOOK_PROJECT/exports/rendered-pages" \
+  --artifact-role publication_proof \
+  --publication-design-profile "$BOOK_PROJECT/publication-design/profile.json" \
+  --rendered-page-inspection "$BOOK_PROJECT/quality/rendered-page-inspection.json" \
+  --figure-asset-manifest "$BOOK_PROJECT/artifacts/figures/figure-asset-manifest.json" \
+  --manifest "$BOOK_PROJECT/receipts/book-publication-proof.json"
+```
 
 ## Imagegen Asset Helper
 
@@ -25,6 +59,8 @@ Default backend:
 
 - `codex-native-imagegen`: launches a child Codex executor with `--enable image_generation`, requires the child executor to use the built-in `imagegen` / `image_generation` capability, and copies the final bitmap into the book project path.
 - The helper records a JSON receipt with prompt hash, output path, image hash/dimensions, runtime surface, and token boundary.
+- Project-relative `--prompt-file`, `--output-file`, `--manifest`, `--receipt-file`, and `--asset-manifest` paths are resolved against `--root`, not the caller's current directory.
+- Pass `--asset-manifest` during generation to update the figure asset manifest by `figure_id` after receipt creation. Pass `--update-asset-manifest --receipt-file <receipt>` to backfill a manifest from an existing helper receipt without generating a new image.
 - The helper does not read OpenAI Base URL, `OPENAI_API_KEY`, Codex provider tokens, or project secrets. Provider credentials remain owned by the Codex executor/native imagegen surface.
 
 Boundary:
