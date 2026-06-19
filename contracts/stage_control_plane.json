@@ -49,6 +49,14 @@
         {
           "ref_kind": "domain_skill_ref",
           "ref": "agent/skills/storyline-architecture.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/reader-style-contract.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/style-engine.md"
         }
       ],
       "prompt_refs": [
@@ -68,6 +76,10 @@
         {
           "ref_kind": "artifact_ref",
           "ref": "artifact-ref:storyline-architecture/chapter-thesis-chain"
+        },
+        {
+          "ref_kind": "artifact_ref",
+          "ref": "artifact-ref:storyline-architecture/reader-style-contract"
         },
         {
           "ref_kind": "owner_handoff_ref",
@@ -181,6 +193,7 @@
           "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
           "prompt-ref:agent/prompts/storyline-architecture.md",
           "skill-ref:agent/skills/storyline-architecture.md",
+          "skill-ref:agent/skills/reader-style-contract.md",
           "knowledge-ref:agent/knowledge/book-authority-boundary.md",
           "quality-gate-ref:agent/quality_gates/storyline-architecture-quality-gate.md",
           "action-ref:shape-storyline",
@@ -188,7 +201,10 @@
           "source-scope-ref:storyline-architecture",
           "runtime-ref:stage-progress-log-user-stage-log",
           "source-ref:book/source-corpus",
-          "style-ref:book/voice-and-audience"
+          "reader-style-ref:book/reader-style-contract",
+          "style-ref:book/voice-and-audience",
+          "skill-ref:agent/skills/style-engine.md",
+          "style-engine-ref:book/style-engine"
         ],
         "ensures": [
           "stage-attempt-receipt-ref:storyline-architecture",
@@ -212,7 +228,10 @@
           "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture",
           "storyline-map-ref:storyline-architecture",
           "chapter-plan-ref:storyline-architecture",
-          "style-contract-ref:storyline-architecture"
+          "reader-style-contract-ref:storyline-architecture",
+          "style-contract-ref:storyline-architecture",
+          "style-engine-ref:storyline-architecture",
+          "anti-ai-flavor-rule-ref:storyline-architecture"
         ],
         "expected_receipt_refs": [
           {
@@ -877,7 +896,27 @@
       "skills": [
         {
           "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/reader-facing-draft.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
           "ref": "agent/skills/book-production.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/publication-design.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/style-engine.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/chapter-runtime.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/book-memory.md"
         }
       ],
       "prompt_refs": [
@@ -1011,7 +1050,9 @@
           "stage:book-materialization",
           "artifact-native-contract-ref:opl-bookforge/book-materialization",
           "prompt-ref:agent/prompts/book-materialization.md",
+          "skill-ref:agent/skills/reader-facing-draft.md",
           "skill-ref:agent/skills/book-production.md",
+          "skill-ref:agent/skills/publication-design.md",
           "knowledge-ref:agent/knowledge/book-production-boundary.md",
           "quality-gate-ref:agent/quality_gates/book-materialization-quality-gate.md",
           "action-ref:materialize-book",
@@ -1020,7 +1061,14 @@
           "runtime-ref:stage-progress-log-user-stage-log",
           "storyline-map-ref:storyline-architecture",
           "chapter-plan-ref:storyline-architecture",
-          "style-contract-ref:storyline-architecture"
+          "reader-style-contract-ref:storyline-architecture",
+          "style-contract-ref:storyline-architecture",
+          "skill-ref:agent/skills/style-engine.md",
+          "skill-ref:agent/skills/chapter-runtime.md",
+          "skill-ref:agent/skills/book-memory.md",
+          "style-engine-ref:book/style-engine",
+          "book-memory-ref:book/book-memory",
+          "chapter-runtime-ref:book/chapter-runtime"
         ],
         "ensures": [
           "stage-attempt-receipt-ref:book-materialization",
@@ -1043,9 +1091,19 @@
           "stage-artifact-conformance-ref:opl-bookforge/book-materialization",
           "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization",
           "chapter-draft-bundle-ref:book-materialization",
+          "reader-facing-draft-ref:book-materialization",
           "illustration-table-plan-ref:book-materialization",
           "style-consistency-report-ref:book-materialization",
-          "layout-qc-report-ref:book-materialization"
+          "publication-design-profile-ref:book-materialization",
+          "layout-qc-report-ref:book-materialization",
+          "chapter-package-ref:book-materialization/{chapter_id}",
+          "chapter-qc-ref:book-materialization/{chapter_id}",
+          "chapter-repair-log-ref:book-materialization/{chapter_id}",
+          "book-memory-ref:book-materialization",
+          "memory-qc-ref:book-materialization",
+          "style-engine-ref:book-materialization",
+          "review-pdf-ref:book-materialization",
+          "publication-proof-ref:book-materialization"
         ],
         "expected_receipt_refs": [
           {

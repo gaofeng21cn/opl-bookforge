@@ -62,8 +62,14 @@ The second stage produces chapter drafts, manuscript body, illustration plans, t
 **Voice And Style Stay Inspectable**<br/>
 The style contract travels with the book project. Checks look for consistent terminology, concrete phrasing, affirmative editorial language, and repeated patterns that make prose feel generated.
 
+**First Drafts Should Already Read Like Book Prose**<br/>
+BookForge keeps chapter tasks, target budgets, source refs, asset status, QC notes, and blockers in briefs and reports. The manuscript body is expected to open from reader-facing scenes, questions, tensions, and consequences instead of exposing production scaffolding.
+
 **Figures, Tables, And Layout Are Part Of The Work**<br/>
 BookForge treats figures, tables, captions, export shape, rendered pages, and layout review as book-delivery surfaces.
+
+**PDF Export Uses A Real Typesetting Backend**<br/>
+BookForge includes a native PDF export helper that compiles Markdown through Pandoc with XeLaTeX and renders pages for inspection when Poppler is available. Quarto book rendering and Typst are planned backend families for richer book projects.
 
 **Owner-Gated Publication Boundary**<br/>
 BookForge can produce evidence, drafts, exports, and typed blockers. Publication approval, owner acceptance, and production-ready claims still require the right owner receipts and runtime evidence.
@@ -137,6 +143,7 @@ You can start with prompts like:
 
 ```bash
 scripts/verify.sh
+python3 runtime/native_helpers/bookforge_pdf_export.py --doctor
 python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
 ```
 

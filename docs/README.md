@@ -20,6 +20,7 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 ## Evidence Surfaces
 
 - Structural validation: `scripts/verify.sh`.
+- PDF backend helper doctor: `python3 runtime/native_helpers/bookforge_pdf_export.py --doctor`.
 - OMA baseline takeover and self-evolution evidence: `docs/evidence/oma-agent-lab/`.
 - Real short-book pilot evidence: `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
