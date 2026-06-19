@@ -33,4 +33,12 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Map nonfiction memory into three layers: working memory for active chapter context, episodic memory for chapter/owner/revision history, and semantic memory for durable thesis, source canon, glossary, style assets, and evidence rules.
 - Treat chapter task cards plus chapter QC and repair refs as the chapter-runtime surface. They are not a scheduler, queue, attempt ledger, session store, or second source of truth.
 - Treat style engine assets as reusable writing constraints and review inputs, not as authority to claim final quality or publication acceptance.
+- Adopt reference-draft absorption as a first-class BookForge materialization skill. When an owner says a prior/reference version is better, BookForge must compare it, extract transferable book-prose strengths, and update durable domain refs such as style engine, chapter task cards, reader-entry plans, QC gates, evidence maps, or publication design profiles. This stays inside OPL BookForge's domain pack and does not create a private controller or OPL runtime surface.
+
+## 2026-06-19: Project Hygiene Gate For Retired Drafts And Case Stance
+
+- Add a BookForge project hygiene helper for concrete workflow regressions found during the 200-page manuscript run.
+- Retired invalid compact drafts and misclassified coverage skeletons should not remain as full searchable book prose inside the active workspace archive. Keep tombstone refs with reason and current source-of-truth refs instead.
+- Practice-involved cases require deterministic forbidden-phrase scans in addition to editorial review when a concrete regression has been found. For the Red Bird case, active refs must not keep outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, or `观察它如何强调` after the reader-style contract calls for practice-involved voice.
+- README and owner-handoff refs must be refreshed from current metrics or treated as stale status blockers after chapter readiness, figure counts, or review-PDF page counts change.
 - Keep App/default product exposure separate until a product owner decision and App-owned contracts add BookForge to visible default routes.

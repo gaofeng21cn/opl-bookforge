@@ -27,6 +27,7 @@ Working policy:
   - `blocked`: a typed blocker prevents honest progress.
 - After drafting, run chapter QC before marking the chapter ready. QC should cover target extent, argument movement, reader-style alignment, source grounding, case/example status, figure/table status, memory update, repeated claims, and AI-flavor patterns.
 - If QC finds local problems, repair the chapter package before expanding other chapters. If QC finds a systemic drafting-pattern failure, update the reader-entry or style pattern before continuing the production queue.
+- If an owner-supplied reference version is stronger than the active chapter package, run reference absorption before the next chapter state transition. Apply accepted reference-derived repairs to the chapter task card, reader-entry plan, style engine, and QC report before calling the chapter `chapter_text_ready` or `chapter_draft_ready`.
 - Keep repair logs as domain refs. A repair log should say what changed, why, which gate it addressed, and whether memory or downstream chapters need updates.
 - Refresh cumulative owner-review PDFs only from contiguous ready/text-ready sequence from the start of the book. A later ready chapter cannot hide an earlier blocker.
 

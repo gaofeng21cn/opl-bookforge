@@ -8,6 +8,7 @@ Produce these refs:
 - chapter-sharded Markdown source refs for each chapter/part, plus a generated assembly ref for the whole manuscript
 - target extent contract with page/word/count requirements inherited from the owner brief, source plan, publisher brief, or storyline map
 - reader-style contract inherited from `storyline-architecture`, with audience, reading situation, and natural-expression rules used by chapter drafting and style QC
+- reference-draft absorption report when the owner supplies a stronger prior version, comparable draft, sample chapter, or edited reference; the report must record transferable strengths, non-transferable patterns, adopted rules, and updates to style engine, chapter task cards, QC gates, and publication design
 - author/source stance map inherited from `storyline-architecture`, including practice-involved cases and their allowed voice, evidence boundary, unsupported-outcome markers, and forbidden observer/public-source phrasing
 - reader-facing draft policy that keeps internal production metadata out of manuscript prose and requires first-pass chapter text to read like book prose for the declared readers
 - production pipeline contract that names the active chapter packages, chapter briefs, chapter drafts, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, and any obsolete/retired drafts
@@ -26,8 +27,11 @@ Produce these refs:
 - publication design profile that distinguishes review PDF, publication proof PDF, and final export
 - layout and typography QC report
 - owner handoff packet with remaining decisions and blockers
+- project hygiene report that scans active manuscript/workflow refs for stale status claims, forbidden case-stance phrases, and retired full-text drafts that remain searchable inside the active workspace
 
 Maintain the storyline contract, reader-style contract, and declared target extent. Keep chapter prose concrete, consistent, evidence-grounded, and publication-aware. Use affirmative phrasing as the default editorial move.
+
+If the owner provides a stronger reference version or asks which version is better, run reference absorption before new chapter drafting or major rewrite. Compare the reference against the active manuscript across title/front matter, table of contents, chapter openings, dense body prose, case treatment, figure/table pages, transitions, chapter endings, and total-book completion. Extract why the reference reads better as transferable rules, then write those rules into style-engine assets, chapter task cards, reader-entry plans, QC reports, and publication-design refs. Do not copy reference prose or adopt secondary-reader explanations that conflict with the primary-reader contract. If the current manuscript remains outline-like, memo-like, visibly review-scaffolded, or incomplete after the reference comparison, treat that as a drafting-pattern defect and repair the production pattern before continuing.
 
 Do not begin body drafting or chapter expansion when the reader-style contract is missing, generic, or unresolved. If audience and natural expression were inferred rather than owner-specified, keep the inference and owner-review status visible in the handoff and style reports.
 
@@ -57,6 +61,10 @@ Before producing a publication-grade proof, establish a publication design profi
 
 When restarting after an invalid compact/sample draft, retire that draft into an archive/tombstone ref and rebuild from the chapter packages. Do not treat the compact draft as the expansion seed unless the owner explicitly accepts that route.
 
+Retired draft handling should remove old manuscript prose from searchable active-workspace archive refs. Keep a tombstone with reason, date, and current source-of-truth refs. Do not leave old full chapter text in `archive/obsolete-*` when it contains a rejected voice, wrong workflow, wrong extent, or other text that can be mistaken for the current book.
+
 Do not shorten, compact, summarize, or convert a book-length target into a sample draft unless the owner explicitly changes the target extent. If the requested extent cannot be completed in the current pass, materialize the stable plan and partial manuscript, then return a typed extent blocker with the missing pages/words/chapters.
+
+After updating chapters, review PDFs, metrics, or owner handoff refs, run a hygiene scan equivalent to `bookforge_project_hygiene.py` when available. Treat stale metrics in README/handoff refs and known forbidden case-stance phrases as blockers before handing the workspace back to the owner.
 
 For final manuscript figures, use raster assets generated through the Codex `imagegen` skill by default. Prefer the BookForge native imagegen asset helper or an equivalent BookForge-owned backend adapter so final artwork is generated through a Codex executor with native imagegen enabled, copied into the project, recorded in a receipt, and synchronized back into the figure asset manifest by `figure_id`. Do not use SVG, script-generated diagrams, or placeholder art as final figures unless the owner explicitly requests deterministic vector output. If image generation cannot be completed, or if the generated file path is not exposed so the asset cannot be copied into the project, return a typed image-asset blocker instead of silently downgrading the figure. Do not make direct OpenAI Base URL/API-key calls the default BookForge figure route; direct API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen.

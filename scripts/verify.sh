@@ -38,6 +38,7 @@ assert "--number-sections" not in unnumbered_command, unnumbered_command
 PY
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --doctor
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
+python3 "${repo_dir}/runtime/native_helpers/bookforge_project_hygiene.py" --self-test
 
 image_tmp_dir="$(mktemp -d)"
 python3 - "${image_tmp_dir}" <<'PY'

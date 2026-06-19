@@ -900,6 +900,10 @@
         },
         {
           "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/reference-draft-absorption.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
           "ref": "agent/skills/book-production.md"
         },
         {
@@ -1051,6 +1055,7 @@
           "artifact-native-contract-ref:opl-bookforge/book-materialization",
           "prompt-ref:agent/prompts/book-materialization.md",
           "skill-ref:agent/skills/reader-facing-draft.md",
+          "skill-ref:agent/skills/reference-draft-absorption.md",
           "skill-ref:agent/skills/book-production.md",
           "skill-ref:agent/skills/publication-design.md",
           "knowledge-ref:agent/knowledge/book-production-boundary.md",
@@ -1092,6 +1097,7 @@
           "stage-artifact-workbench-consumption-ref:opl-bookforge/book-materialization",
           "chapter-draft-bundle-ref:book-materialization",
           "reader-facing-draft-ref:book-materialization",
+          "reference-draft-absorption-ref:book-materialization",
           "illustration-table-plan-ref:book-materialization",
           "style-consistency-report-ref:book-materialization",
           "publication-design-profile-ref:book-materialization",

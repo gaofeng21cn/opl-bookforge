@@ -7,12 +7,14 @@ Pass conditions:
 
 - Chapter drafts follow the storyline map and preserve a coherent book-level arc.
 - Chapter drafts cite and obey the reader-style contract from `storyline-architecture`; naturalness is judged against the declared reader groups and reading situation, not a generic prose ideal.
+- When an owner-supplied stronger reference draft, edited version, or comparable sample is used, BookForge produces a reference-draft absorption report and shows how accepted strengths updated the style engine, chapter task cards, reader-entry plans, QC gates, or publication design profile.
 - Chapter drafts obey the author/source stance map from `storyline-architecture`. Practice-involved cases use the approved active design or reflective practitioner voice, while evidence gaps remain explicit and unsupported outcomes are not claimed.
 - Each production chapter has a reader-entry plan in the chapter brief or drafting notes before visible prose is drafted, covering opening scene/question, reader tension, concrete example/case, main claim, section movement, table/figure role, and closing transition.
 - Chapter drafts are reader-facing on the first visible manuscript pass: internal chapter task, core question, thesis, target budget, source refs, figure asset status, QC notes, and blockers are kept in briefs/manifests/reports rather than exposed as book prose.
 - Chapter openings and major section transitions start from a scene, reader tension, practical question, or consequence before moving into concepts, unless the reader-style contract explicitly calls for a more technical structure.
 - Book-length manuscript source is Markdown-first and chapter-sharded; the merged `book.md` or export file is produced from chapter refs rather than used as the only creative working surface.
 - The production pipeline contract identifies chapter packages, chapter briefs, chapter drafts, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, and retired obsolete drafts.
+- Retired obsolete drafts are tombstone/archive records rather than full searchable obsolete manuscript prose inside the active workspace, unless the owner explicitly asks to preserve old full text and the files are labeled as non-source evidence.
 - The book-memory contract maps working memory, episodic memory, and semantic memory to nonfiction manuscript refs and keeps them owner-inspectable.
 - Every active chapter has a chapter task card with reader promise, chapter job, thesis movement, source refs, figure/table obligations, target extent, active memory refs, style constraints, QC state, and blockers.
 - Chapter repair reports show which QC findings updated the chapter draft, task card, style asset bundle, glossary, evidence map, or semantic memory refs.
@@ -22,6 +24,7 @@ Pass conditions:
 - The manuscript obeys the declared target extent from the owner brief, source plan, publisher brief, or storyline map; any shortfall is quantified as a typed extent blocker.
 - Claims, examples, tables, and illustrations are grounded in declared source refs.
 - Style, terminology, stance, tense, chapter rhythm, and example density remain consistent with the reader-style contract across the manuscript.
+- Chapter rhythm, paragraph movement, case treatment, figure/table integration, and ending transitions reflect accepted reference-derived book-prose rules when a reference absorption report exists.
 - The wording pass replaces generic AI-flavored phrasing with direct, specific, affirmative prose.
 - Illustration and table plans state purpose, placement, data/source boundary, review criteria, and owner decision needs.
 - A figure asset manifest records every required figure and distinguishes `planned`, `preview_only`, `asset_ready`, and `blocked_missing_project_bitmap` states.
@@ -46,10 +49,14 @@ Fail-closed conditions:
 - Chapter runtime state is implemented as a private scheduler, queue, session store, or hidden attempt ledger instead of owner-inspectable OPL stage refs and task cards.
 - Chapter prose uses a generic style that does not match the declared reader groups, or materialization proceeds after the reader-style contract asks for owner clarification.
 - A case that the author team designed, executed, or directly participated in is drafted as third-party public-source observation, external commentary, or neutral "publicly observable" description after the reader-style contract called for a practice-involved stance.
+- Active manuscript, review, README, handoff, style, planning, or source-boundary refs retain known forbidden case-stance phrases after a repair, for example Red Bird as a `公开可观察` / `教育实验观察窗口` / `观察它如何强调` / `公开资料显示` case when the approved stance is practice-involved.
 - A practice-involved case uses active author-team voice to claim unsupported outcomes, interviews, authorization, user validation, learning effects, impact metrics, or complete process evidence instead of marking those gaps explicitly.
 - A production chapter lacks a reader-entry plan before body drafting, or the plan is exposed as manuscript prose instead of staying in briefs, notes, manifests, reports, comments, or handoff refs.
 - Reader-facing manuscript body exposes production scaffold as prose, including visible "chapter task", "core question", "chapter conclusion", "asset status", manifest paths, target budgets, QC notes, or blocker refs.
 - Chapter or section writing reads like a planning memo, technical spec, or instruction manual because it lists framework elements without reader scenes, concrete questions, consequences, or natural transitions required by the reader-style contract.
+- Owner-supplied reference strengths are acknowledged but not absorbed into durable production refs, leaving the same outline-like, memo-like, review-scaffolded, or incomplete first-draft defects in later chapters.
+- Reference-derived patterns shift the book toward a secondary-reader voice, lower-density exposition, or unsupported claims that conflict with the reader-style contract.
+- Reference prose, examples, claims, or case details are copied without independent source authority, owner permission, or evidence-map support.
 - BookForge relies on a routine late "reader-facing rewrite" to remove predictable memo/instruction-manual prose instead of treating the memo-like first draft as a drafting-gate failure.
 - Missing chapter production budget or active production queue for a book-length target before manuscript body drafting.
 - Book prose is stored primarily as large generator-code string literals instead of author-facing Markdown chapter refs, or a book-length project uses only one monolithic creative source file without explicit owner approval.
@@ -68,6 +75,7 @@ Fail-closed conditions:
 - Final export is claimed without publication proof evidence and owner/export acceptance receipts.
 - Publication PDF generation bypasses the BookForge export helper or equivalent BookForge-owned backend adapter and is implemented by ad-hoc raster text drawing or bespoke page renderer code instead of a real export/typesetting backend, unless explicitly marked as a temporary diagnostic fallback with a typed blocker.
 - An invalid compact/sample draft remains on the active manuscript path after the owner asks to restart from the correct chapter-sharded workflow.
+- An invalid compact/sample draft or misclassified coverage skeleton remains as full searchable obsolete prose under the active book workspace archive after it has been retired, especially when it contains rejected voice patterns or wrong extent/workflow claims.
 - Chapters drift from the premise or repeat the same argument without new movement.
 - Tables or illustrations introduce unsupported claims.
 - Required final figures are replaced by SVG, local-script diagrams, generic placeholders, undocumented generated assets, or generated assets whose file paths are not exposed and copied into the project, without an explicit owner-approved vector requirement.

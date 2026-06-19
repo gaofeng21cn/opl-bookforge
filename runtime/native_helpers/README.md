@@ -81,3 +81,18 @@ Boundary:
 - Chat previews and default `$CODEX_HOME/generated_images` files are not final book assets until copied into the book project and recorded.
 - The `--mock` / `--self-test` paths only verify helper structure. Mock images must not be counted as final manuscript illustrations.
 - API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen, not the default BookForge route.
+
+## Project Hygiene Helper
+
+`bookforge_project_hygiene.py` scans a BookForge book workspace for workflow hygiene regressions that should not rely on human memory.
+
+Current checks:
+
+- Active manuscript/workflow refs must not contain known Red Bird outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, `观察它如何强调`, or equivalent phrases that contradict a practice-involved author stance.
+- Active status files must not keep stale early-run metrics such as obsolete chapter blockers or old review-PDF page counts after later chapters have advanced.
+- Retired archive dirs should be tombstone refs, not full readable obsolete drafts that can pollute search results or be mistaken for current manuscript source.
+
+Boundary:
+
+- This helper is a deterministic hygiene scan. It does not replace chapter-level editorial review or owner acceptance.
+- The forbidden-pattern list is intentionally narrow and should be extended when a concrete regression appears.

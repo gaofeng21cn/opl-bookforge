@@ -34,11 +34,14 @@ Machine boundary: Human-readable hard constraints. Machine truth remains in cont
 - Require caption, callout, table, figure, cross-reference, header/footer, page-number, overflow, and visual-rhythm inspection before any publication-proof claim.
 - Require owner/export acceptance receipts before any final-export claim.
 - Retire invalid compact/sample drafts when the owner requires a book-length restart; do not expand an invalid compact draft in place as the active workflow.
+- Retired drafts inside the active book workspace should be tombstone refs, not full searchable obsolete manuscript text. If full obsolete text is needed as evidence, keep it outside active manuscript/search surfaces or label it as non-source evidence with an explicit owner decision.
 - Keep long-form materialization auditable with a pipeline contract that names chapter packages, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, blockers, and retired drafts.
 - Keep book memory owner-inspectable and domain-owned: working memory, episodic memory, and semantic memory must be refs or artifacts inside the book project, not hidden provider state.
 - Keep chapter runtime expressed through OPL stage refs, chapter task cards, QC refs, repair reports, memory updates, and owner gates; do not add a domain-private scheduler, queue, attempt ledger, session store, or app shell.
 - Keep style engine assets explicit: voice principles, terminology policy, rhythm rules, analogy policy, sample passages, forbidden patterns, accepted repairs, and style drift findings must be reviewable.
+- When an owner-supplied reference version or comparable draft is used to improve manuscript quality, keep the reference absorption owner-inspectable. Transferable strengths must be written into style engine refs, chapter task cards, reader-entry plans, QC gates, evidence maps, or publication design profiles; they must not remain a private prompt memory or one-off patch list.
 - Keep transparent prompt bundles with source slices, memory refs, style constraints, and quality-gate prompts for major drafting/review/repair/proofing passes.
+- Run or maintain a deterministic project hygiene check for known concrete regressions: stale README/handoff status after metrics change, forbidden case-stance phrases in active refs, and retired full-text drafts that can be mistaken for current manuscript source.
 - Preserve owner/source-declared target extent during materialization; compact/sample drafts require explicit owner approval or a typed extent blocker.
 - Treat final book-bound artwork as `imagegen`-generated bitmap assets by default; SVG, local-script diagrams, and placeholders are planning aids only unless the owner explicitly requests deterministic vector output.
 - Treat chat previews or generated artwork without an exposed, project-local file path as image-asset blockers, not as completed figure evidence.
