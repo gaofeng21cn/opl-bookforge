@@ -32,6 +32,7 @@ Pass conditions:
 - Publication proof uses the BookForge bundled `bookforge-zh-publication-proof` profile or an owner-approved equivalent profile that materially improves page geometry, typography hierarchy, headers/footers, captions, tables, callouts, page numbers, and visual rhythm beyond unstyled backend defaults.
 - PDF export evidence records resource paths or equivalent backend configuration so Markdown-relative figures and project-local assets can resolve during PDF generation.
 - Publication proof and final export evidence uses a real typesetting backend such as Pandoc with XeLaTeX/LuaLaTeX, Quarto, Typst, or Paged.js, with backend availability, command, artifact-gate receipt, and rendered-page refs recorded.
+- PDF proof evidence records Markdown image-ref resolution, required figure-asset-manifest readiness, and rendered-page inspection. Helper-generated machine baseline inspection can prove nonblank rendered pages and asset plumbing, while human review is still required for final visual judgment and owner acceptance.
 - Rendered-page inspection covers nonblank pages, overflow/clipping, caption placement, figure/table placement, callout readability, heading hierarchy, running heads/feet, page numbering, cross-references, and visual rhythm.
 - Layout QC covers hierarchy, page rhythm, captions, cross-references, table readability, image placement, and export target constraints.
 - Handoff includes artifacts, receipts, blockers, remaining owner decisions, and verification refs.
@@ -57,6 +58,7 @@ Fail-closed conditions:
 - Publication proof or final export relies on a review PDF, HTML preview, hand-rolled raster text drawing, command success alone, or uninspected rendered pages.
 - Publication proof is generated with unstyled Pandoc/default backend output, missing publication profile evidence, or monotonous pages that do not show a deliberate hierarchy for chapter openings, sections, figures, tables, callouts, captions, headers/footers, and page numbers.
 - Captions, callouts, tables, figures, cross-references, running heads/feet, page numbers, or visual rhythm are unchecked while a publication-proof or final-export claim is made.
+- Markdown image refs or required figure assets are missing from the PDF helper resource-path/figure-manifest checks while a publication-proof or final-export claim is made.
 - PDF export omits backend resource paths or equivalent asset resolution configuration when the manuscript references project-local figures, causing images to disappear in the rendered PDF.
 - Final export is claimed without publication proof evidence and owner/export acceptance receipts.
 - Publication PDF generation bypasses the BookForge export helper or equivalent BookForge-owned backend adapter and is implemented by ad-hoc raster text drawing or bespoke page renderer code instead of a real export/typesetting backend, unless explicitly marked as a temporary diagnostic fallback with a typed blocker.

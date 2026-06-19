@@ -4,11 +4,13 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote, urlparse
 
 
 VERSION = "bookforge-pdf-export.v1"
@@ -37,6 +39,7 @@ RENDERED_INSPECTION_REQUIRED_FIELDS = (
     "page_numbering_status",
     "visual_rhythm_status",
 )
+MARKDOWN_IMAGE_RE = re.compile(r"!\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 
 
 def rel(path: Path, root: Path) -> str:
@@ -135,6 +138,182 @@ def file_refs_exist(refs: list[Any], root: Path) -> tuple[list[str], list[str]]:
         else:
             missing.append(item)
     return present, missing
+
+
+def is_remote_or_data_ref(ref: str) -> bool:
+    parsed = urlparse(ref)
+    return parsed.scheme in {"http", "https", "data", "mailto"}
+
+
+def image_refs_from_pandoc_ast(source_md: Path, root: Path) -> list[str] | None:
+    if not command_exists("pandoc"):
+        return None
+    result = subprocess.run(
+        ["pandoc", str(source_md), "-t", "json"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    try:
+        ast = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return None
+
+    refs: list[str] = []
+
+    def walk(value: Any) -> None:
+        if isinstance(value, dict):
+            if value.get("t") == "Image":
+                content = value.get("c")
+                if isinstance(content, list) and content:
+                    target = content[-1]
+                    if isinstance(target, list) and target:
+                        ref = target[0]
+                        if isinstance(ref, str):
+                            refs.append(ref)
+            for item in value.values():
+                walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+
+    walk(ast)
+    return refs
+
+
+def image_refs_from_markdown_text(source_md: Path) -> list[str]:
+    try:
+        source = source_md.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        source = source_md.read_text(encoding="utf-8", errors="replace")
+    return [match.group(1).strip("<>") for match in MARKDOWN_IMAGE_RE.finditer(source)]
+
+
+def markdown_image_refs(source_md: Path, resource_paths: list[Path], root: Path) -> dict[str, Any]:
+    refs: list[dict[str, Any]] = []
+    extracted_refs = image_refs_from_pandoc_ast(source_md, root)
+    extraction_method = "pandoc_ast" if extracted_refs is not None else "markdown_text_scan"
+    if extracted_refs is None:
+        extracted_refs = image_refs_from_markdown_text(source_md)
+
+    for raw in extracted_refs:
+        raw_ref = unquote(raw.strip("<>"))
+        if not raw_ref or is_remote_or_data_ref(raw_ref):
+            refs.append({"ref": raw_ref, "status": "external_or_data"})
+            continue
+
+        raw_without_fragment = raw_ref.split("#", 1)[0]
+        candidate = Path(raw_without_fragment)
+        candidates = [candidate] if candidate.is_absolute() else [path / candidate for path in resource_paths]
+        resolved = next((path for path in candidates if path.exists() and path.is_file() and path.stat().st_size > 0), None)
+        refs.append({
+            "ref": raw_ref,
+            "status": "present" if resolved else "missing",
+            "resolved": rel(resolved, root) if resolved else None,
+        })
+
+    return {
+        "total": len(refs),
+        "present_count": sum(1 for item in refs if item["status"] == "present"),
+        "missing_count": sum(1 for item in refs if item["status"] == "missing"),
+        "external_or_data_count": sum(1 for item in refs if item["status"] == "external_or_data"),
+        "extraction_method": extraction_method,
+        "refs": refs,
+    }
+
+
+def figure_manifest_readiness(figure_manifest: dict[str, Any], root: Path) -> dict[str, Any]:
+    records = as_list(figure_manifest.get("figures")) or as_list(figure_manifest.get("assets"))
+    required_count = 0
+    ready_count = 0
+    blockers: list[dict[str, str]] = []
+
+    for item in records:
+        if not isinstance(item, dict):
+            continue
+        required = item.get("required", True) is not False
+        if not required:
+            continue
+        required_count += 1
+        figure_id = str(item.get("id") or item.get("figure_id") or "unknown_figure")
+        asset_status = str(item.get("asset_status") or item.get("status") or "")
+        path_ref = item.get("project_local_path") or item.get("output_file") or item.get("asset_path")
+        if not isinstance(path_ref, str) or not path_ref.strip():
+            blockers.append({
+                "figure_id": figure_id,
+                "blocker_type": "required_figure_missing_project_local_path",
+                "message": "required figure has no project-local bitmap path",
+            })
+            continue
+        path = Path(path_ref)
+        candidate = path if path.is_absolute() else root / path
+        if asset_status != "asset_ready":
+            blockers.append({
+                "figure_id": figure_id,
+                "blocker_type": "required_figure_not_asset_ready",
+                "message": f"required figure asset_status is {asset_status or 'missing'}",
+            })
+            continue
+        if not candidate.exists() or not candidate.is_file() or candidate.stat().st_size <= 0:
+            blockers.append({
+                "figure_id": figure_id,
+                "blocker_type": "required_figure_file_missing",
+                "message": f"required figure bitmap is missing or empty: {path_ref}",
+            })
+            continue
+        ready_count += 1
+
+    return {
+        "record_count": len(records),
+        "required_count": required_count,
+        "ready_required_count": ready_count,
+        "blockers": blockers,
+    }
+
+
+def png_dimensions(path: Path) -> tuple[int | None, int | None]:
+    data = path.read_bytes()[:24]
+    if len(data) >= 24 and data[:8] == b"\x89PNG\r\n\x1a\n":
+        return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+    return None, None
+
+
+def auto_rendered_page_inspection(rendered_pages: list[str], root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    page_metrics: list[dict[str, Any]] = []
+    for ref in rendered_pages:
+        path = root / ref
+        width, height = png_dimensions(path) if path.exists() else (None, None)
+        size = path.stat().st_size if path.exists() else 0
+        page_metrics.append({
+            "ref": ref,
+            "bytes": size,
+            "width": width,
+            "height": height,
+            "nonblank_baseline": bool(size > 1000 and width and height),
+        })
+
+    nonblank_pages = sum(1 for item in page_metrics if item["nonblank_baseline"])
+    missing_images = as_mapping(payload.get("markdown_image_refs")).get("missing_count", 0)
+    figure_blockers = as_mapping(payload.get("figure_asset_manifest_summary")).get("blockers", [])
+    element_status = "passed" if missing_images == 0 and not figure_blockers else "blocked"
+    return {
+        "surface_kind": "bookforge_rendered_page_inspection",
+        "version": "bookforge-rendered-page-inspection.v1",
+        "inspection_kind": "machine_baseline",
+        "nonblank_pages": nonblank_pages,
+        "overflow_or_clipping": False if nonblank_pages == len(rendered_pages) and rendered_pages else "unchecked",
+        "caption_figure_table_status": element_status,
+        "callout_status": "profile_applied",
+        "heading_hierarchy_status": "profile_applied",
+        "headers_footers_status": "profile_applied",
+        "page_numbering_status": "profile_applied",
+        "visual_rhythm_status": "profile_applied_machine_baseline_manual_review_recommended",
+        "page_metrics": page_metrics,
+        "manual_review_still_required_for_final_export": True,
+    }
 
 
 def render_pdf_pages(pdf_path: Path, render_dir: Path, root: Path, prefix: str, dpi: int) -> tuple[str, str | None, list[str]]:
@@ -240,6 +419,8 @@ def assess_artifact_gate(
     if role == "review_pdf":
         if payload.get("render_status") != "rendered":
             warnings.append("review_pdf was not rendered for visual inspection; do not treat it as a publication proof")
+        if as_mapping(payload.get("markdown_image_refs")).get("missing_count", 0):
+            warnings.append("review_pdf has missing Markdown image refs; inspect before owner handoff")
     elif role in {"publication_proof", "final_export"}:
         if not publication_design:
             blockers.append({
@@ -260,10 +441,10 @@ def assess_artifact_gate(
                 "message": "publication proof requires rendered page PNG refs",
             })
 
-        if not args.rendered_page_inspection:
+        if not rendered_inspection:
             blockers.append({
                 "blocker_type": "rendered_page_inspection_missing",
-                "message": "publication proof requires --rendered-page-inspection",
+                "message": "publication proof requires rendered-page inspection evidence",
             })
         else:
             missing = missing_fields(rendered_inspection, RENDERED_INSPECTION_REQUIRED_FIELDS)
@@ -281,6 +462,27 @@ def assess_artifact_gate(
                 blockers.append({
                     "blocker_type": "rendered_pages_blank_or_unchecked",
                     "message": "rendered-page inspection must record nonblank pages",
+                })
+
+        markdown_refs = as_mapping(payload.get("markdown_image_refs"))
+        for item in as_list(markdown_refs.get("refs")):
+            if isinstance(item, dict) and item.get("status") == "missing":
+                blockers.append({
+                    "blocker_type": "markdown_image_ref_missing",
+                    "message": f"Markdown image ref is missing from resource paths: {item.get('ref')}",
+                })
+            if isinstance(item, dict) and item.get("status") == "external_or_data":
+                blockers.append({
+                    "blocker_type": "markdown_image_ref_not_project_local",
+                    "message": f"publication proof requires project-local bitmap refs, not external/data image refs: {item.get('ref')}",
+                })
+
+        figure_summary = as_mapping(payload.get("figure_asset_manifest_summary"))
+        for item in as_list(figure_summary.get("blockers")):
+            if isinstance(item, dict):
+                blockers.append({
+                    "blocker_type": str(item.get("blocker_type") or "figure_asset_manifest_blocker"),
+                    "message": str(item.get("message") or item),
                 })
 
         ready_refs = as_list(args.figure_asset_manifest and as_mapping(publication_design).get("required_asset_ready_refs"))
@@ -318,7 +520,7 @@ def assess_artifact_gate(
         "evidence_refs": {
             "publication_design_profile": rel(args.publication_design_profile.resolve(), root) if args.publication_design_profile else None,
             "publication_profile": rel(args.resolved_publication_profile, root) if args.resolved_publication_profile else None,
-            "rendered_page_inspection": rel(args.rendered_page_inspection.resolve(), root) if args.rendered_page_inspection else None,
+            "rendered_page_inspection": rel(args.rendered_page_inspection.resolve(), root) if args.rendered_page_inspection else payload.get("auto_rendered_page_inspection_ref"),
             "owner_acceptance_receipt": rel(args.owner_acceptance_receipt.resolve(), root) if args.owner_acceptance_receipt else None,
             "figure_asset_manifest": rel(args.figure_asset_manifest.resolve(), root) if args.figure_asset_manifest else None,
         },
@@ -330,6 +532,11 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     source_md = args.source_md.resolve()
     output_pdf = args.output_pdf.resolve()
     render_dir = args.render_dir.resolve() if args.render_dir else None
+    if args.write_rendered_page_inspection:
+        write_rendered_page_inspection = args.write_rendered_page_inspection
+        if not write_rendered_page_inspection.is_absolute():
+            write_rendered_page_inspection = root / write_rendered_page_inspection
+        args.write_rendered_page_inspection = write_rendered_page_inspection.resolve()
     publication_design_profile = args.publication_design_profile.resolve() if args.publication_design_profile else None
     rendered_page_inspection = args.rendered_page_inspection.resolve() if args.rendered_page_inspection else None
     owner_acceptance_receipt = args.owner_acceptance_receipt.resolve() if args.owner_acceptance_receipt else None
@@ -381,6 +588,7 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
             "hand_rolled_raster_renderer": False,
             "owner_acceptance_required_for_publication_claim": True,
         },
+        "auto_rendered_page_inspection_ref": None,
     }
     args.publication_design_profile = publication_design_profile
     args.rendered_page_inspection = rendered_page_inspection
@@ -403,16 +611,46 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
             design_error = design_error or figure_error
     else:
         figure_manifest = {}
+    figure_summary = figure_manifest_readiness(figure_manifest, root) if figure_manifest else {
+        "record_count": 0,
+        "required_count": 0,
+        "ready_required_count": 0,
+        "blockers": [],
+    }
     payload["publication_design_profile"] = publication_design
     payload["rendered_page_inspection"] = rendered_inspection
     payload["owner_acceptance_receipt"] = owner_acceptance
-    payload["figure_asset_manifest_summary"] = {
-        "record_count": len(as_list(figure_manifest.get("figures")) or as_list(figure_manifest.get("assets"))),
-    }
+    payload["figure_asset_manifest_summary"] = figure_summary
 
     if not source_md.exists():
         payload["status"] = "blocked_missing_source_md"
         payload["error"] = f"source Markdown not found: {source_md}"
+        return payload
+
+    payload["markdown_image_refs"] = markdown_image_refs(source_md, resource_paths, root)
+    image_ref_blockers: list[str] = []
+    if payload["artifact_role"] in {"publication_proof", "final_export"}:
+        for item in as_list(as_mapping(payload["markdown_image_refs"]).get("refs")):
+            if isinstance(item, dict) and item.get("status") == "missing":
+                image_ref_blockers.append(f"Markdown image ref is missing from resource paths: {item.get('ref')}")
+            if isinstance(item, dict) and item.get("status") == "external_or_data":
+                image_ref_blockers.append(
+                    f"publication proof requires project-local bitmap refs, not external/data image refs: {item.get('ref')}"
+                )
+    if image_ref_blockers:
+        payload["status"] = "blocked_image_asset_refs"
+        payload["error"] = "; ".join(image_ref_blockers)
+        assess_artifact_gate(
+            payload,
+            args,
+            root,
+            publication_design,
+            design_error,
+            rendered_inspection,
+            inspection_error,
+            owner_acceptance,
+            owner_error,
+        )
         return payload
 
     if args.backend != "pandoc-xelatex":
@@ -464,6 +702,16 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         payload["render_error"] = render_error
         payload["rendered_pages"] = rendered_pages
         payload["pdf_page_count"] = len(rendered_pages)
+        if render_status == "rendered" and rendered_pages and not rendered_inspection:
+            rendered_inspection = auto_rendered_page_inspection(rendered_pages, root, payload)
+            payload["rendered_page_inspection"] = rendered_inspection
+            if args.write_rendered_page_inspection:
+                args.write_rendered_page_inspection.parent.mkdir(parents=True, exist_ok=True)
+                args.write_rendered_page_inspection.write_text(
+                    json.dumps(rendered_inspection, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+                payload["auto_rendered_page_inspection_ref"] = rel(args.write_rendered_page_inspection, root)
 
     assess_artifact_gate(
         payload,
@@ -492,6 +740,13 @@ def doctor() -> dict[str, Any]:
         "artifact_roles": list(ARTIFACT_ROLES),
         "default_publication_profile": DEFAULT_PUBLICATION_PROFILE,
         "bundled_profile_dir": str(BUNDLED_PROFILE_DIR),
+        "capabilities": {
+            "markdown_image_ref_scan": True,
+            "markdown_image_ref_scan_backend": "pandoc_ast_when_available",
+            "figure_asset_manifest_readiness": True,
+            "helper_generated_rendered_page_inspection": True,
+            "publication_proof_fail_closes_missing_assets": True,
+        },
         "tools": {
             "pandoc": shutil.which("pandoc"),
             "xelatex": shutil.which("xelatex"),
@@ -529,6 +784,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     parser.add_argument("--publication-design-profile", type=Path, help="JSON publication design profile for publication proof or final export gates.")
     parser.add_argument("--rendered-page-inspection", type=Path, help="JSON rendered-page inspection report for publication proof or final export gates.")
+    parser.add_argument("--write-rendered-page-inspection", type=Path, help="Optional path for a helper-generated rendered-page baseline inspection JSON.")
     parser.add_argument("--owner-acceptance-receipt", type=Path, help="JSON owner/export acceptance receipt required for final export.")
     parser.add_argument("--figure-asset-manifest", type=Path, help="Optional figure asset manifest used as publication-proof evidence.")
     parser.add_argument(

@@ -38,7 +38,7 @@
     "callout_style": "Block quotes and note-like passages have a light warm background, left rule, and controlled inner spacing.",
     "headers_footers": "Upper running head with section context and centered footer page number.",
     "page_numbering": "Arabic page numbers in footer, stable for PDF review and proof inspection.",
-    "visual_rhythm": "A5 page, chapter openings with whitespace, tighter section levels, controlled paragraph spacing, captions, tables, and callout rhythm to avoid plain default pages.",
-    "rendered_page_inspection_plan": "Render pages at 180 DPI or higher and inspect title page, chapter opening, dense body page, figure/table page, callout page, and last page for nonblank content, clipped glyphs, caption proximity, page numbers, headers, and visual rhythm."
+    "visual_rhythm": "A5 page, designed title page, table of contents, chapter openings with whitespace, tighter section levels, controlled paragraph spacing, captions, tables, callouts, running heads, and page numbers to avoid plain default pages.",
+    "rendered_page_inspection_plan": "Render pages at 180 DPI or higher, write a helper machine-baseline inspection when possible, then manually inspect title page, table of contents, chapter opening, dense body page, figure/table page, callout page, and last page for nonblank content, clipped glyphs, caption proximity, page numbers, headers, and visual rhythm."
   }
 }

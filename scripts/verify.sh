@@ -72,6 +72,7 @@ if command -v pandoc >/dev/null 2>&1 && command -v xelatex >/dev/null 2>&1; then
 title: "BookForge PDF Smoke"
 author: "OPL BookForge"
 lang: zh-CN
+date: "2026-06-19"
 ---
 
 # 第一章
@@ -89,6 +90,32 @@ lang: zh-CN
 | review_pdf | readable | compile and render |
 | publication_proof | designed | profile and inspection |
 | final_export | accepted | owner receipt |
+
+![图 0-1：出版 proof 图片解析 smoke](artifacts/figures/smoke-figure.png)
+EOF
+  mkdir -p "${tmp_dir}/artifacts/figures"
+  python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" \
+    --mock \
+    --root "${tmp_dir}" \
+    --figure-id smoke-figure \
+    --title "图 0-1：出版 proof 图片解析 smoke" \
+    --prompt "mock publication proof figure resource path smoke" \
+    --output-file artifacts/figures/smoke-figure.png \
+    --manifest artifacts/figures/smoke-figure.receipt.json
+  cat >"${tmp_dir}/figure-asset-manifest.json" <<'EOF'
+{
+  "surface_kind": "bookforge_figure_asset_manifest",
+  "version": "bookforge-figure-asset-manifest.v1",
+  "figures": [
+    {
+      "id": "smoke-figure",
+      "title": "图 0-1：出版 proof 图片解析 smoke",
+      "required": true,
+      "asset_status": "asset_ready",
+      "project_local_path": "artifacts/figures/smoke-figure.png"
+    }
+  ]
+}
 EOF
   python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
     --root "${tmp_dir}" \
@@ -108,6 +135,16 @@ EOF
     echo "publication_proof without design/inspection evidence unexpectedly passed" >&2
     exit 1
   fi
+  cat >"${tmp_dir}/remote-image.md" <<'EOF'
+---
+title: "Remote Image Blocker"
+lang: zh-CN
+---
+
+# 第一章
+
+![远程图片不应作为出版 proof 资产](https://example.com/remote.png)
+EOF
 
   cat >"${tmp_dir}/publication-design.json" <<'EOF'
 {
@@ -144,7 +181,30 @@ EOF
     --render-prefix proof-page \
     --artifact-role publication_proof \
     --publication-design-profile "${tmp_dir}/publication-design.json" \
-    --rendered-page-inspection "${tmp_dir}/rendered-page-inspection.json"
+    --rendered-page-inspection "${tmp_dir}/rendered-page-inspection.json" \
+    --figure-asset-manifest "${tmp_dir}/figure-asset-manifest.json"
+  if python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
+    --root "${tmp_dir}" \
+    --source-md "${tmp_dir}/remote-image.md" \
+    --output-pdf "${tmp_dir}/remote-image-proof.pdf" \
+    --manifest "${tmp_dir}/remote-image-proof-manifest.json" \
+    --render-dir "${tmp_dir}/rendered-remote-image-proof-pages" \
+    --render-prefix remote-image-proof-page \
+    --artifact-role publication_proof \
+    --publication-design-profile "${tmp_dir}/publication-design.json" \
+    --rendered-page-inspection "${tmp_dir}/rendered-page-inspection.json"; then
+    echo "publication_proof with external image ref unexpectedly passed" >&2
+    exit 1
+  fi
+  python3 - "${tmp_dir}" <<'PY'
+import json
+import sys
+from pathlib import Path
+root = Path(sys.argv[1])
+payload = json.loads((root / "remote-image-proof-manifest.json").read_text(encoding="utf-8"))
+blocker_types = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
+assert "markdown_image_ref_not_project_local" in blocker_types, payload["artifact_gate"]
+PY
 
   python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
     --root "${tmp_dir}" \
@@ -154,16 +214,24 @@ EOF
     --render-dir "${tmp_dir}/rendered-bundled-profile-pages" \
     --render-prefix bundled-proof-page \
     --artifact-role publication_proof \
-    --rendered-page-inspection "${tmp_dir}/rendered-page-inspection.json"
+    --write-rendered-page-inspection "${tmp_dir}/auto-rendered-page-inspection.json" \
+    --figure-asset-manifest "${tmp_dir}/figure-asset-manifest.json"
   python3 - "${tmp_dir}" <<'PY'
 import json
 import sys
 from pathlib import Path
 root = Path(sys.argv[1])
 payload = json.loads((root / "bundled-profile-proof-manifest.json").read_text(encoding="utf-8"))
+auto = json.loads((root / "auto-rendered-page-inspection.json").read_text(encoding="utf-8"))
 assert payload["status"] == "generated", payload
 assert payload["artifact_gate"]["status"] == "passed", payload["artifact_gate"]
 assert payload["publication_profile"]["profile_id"] == "bookforge-zh-publication-proof", payload["publication_profile"]
+assert payload["markdown_image_refs"]["total"] == 1, payload["markdown_image_refs"]
+assert payload["markdown_image_refs"]["missing_count"] == 0, payload["markdown_image_refs"]
+assert payload["figure_asset_manifest_summary"]["ready_required_count"] == 1, payload["figure_asset_manifest_summary"]
+assert payload["artifact_gate"]["evidence_refs"]["rendered_page_inspection"] == "auto-rendered-page-inspection.json", payload["artifact_gate"]
+assert auto["inspection_kind"] == "machine_baseline", auto
+assert auto["nonblank_pages"] == len(payload["rendered_pages"]), auto
 assert payload["rendered_pages"], payload
 for ref in payload["rendered_pages"]:
     path = root / ref

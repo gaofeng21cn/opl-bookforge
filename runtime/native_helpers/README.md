@@ -12,6 +12,7 @@ Current backend:
 - Optional Pandoc profile controls: `--metadata-file` plus repeatable `-V/--variable`, so review and publication design profiles can control page geometry, fonts, document class, and related PDF variables without project-local renderer code.
 - Resource path controls: repeatable `--resource-path`, defaulting to the source Markdown directory plus project root, so relative figure paths in chapter Markdown can resolve in generated PDFs.
 - Publication profile controls: `--publication-profile bookforge-zh-publication-proof` is the default bundled proof profile for Chinese nonfiction e-books. It applies an A5 electronic-book page, Chinese body/head fonts, running heads, footer page numbers, chapter-title hierarchy, caption styling, table/callout treatment, and visual-rhythm expectations. Pass `--publication-profile none` only for diagnostics or owner-approved custom styling.
+- Asset and page checks: the helper scans Markdown image refs against the effective resource paths, checks required `figure_asset_manifest` items for `asset_ready` project-local bitmap files, and can write a machine-baseline rendered-page inspection JSON through `--write-rendered-page-inspection`.
 
 Artifact roles:
 
@@ -26,6 +27,7 @@ Publication-proof quality:
 - Review PDFs may use simple styling for fast reading.
 - Publication proofs should use the bundled `bookforge-zh-publication-proof` profile or an owner-approved equivalent. Unstyled Pandoc defaults are review-output quality, not publication-proof quality.
 - Rendered-page inspection should sample front matter, chapter openings, dense body pages, figure/table pages, callouts, and closing pages for nonblank content, clipped glyphs, caption proximity, image rendering, header/footer/page-number presence, and monotony.
+- Helper-generated rendered-page inspection is a machine baseline for nonblank pages, profile plumbing, and asset resolution. It is useful for continuous review PDFs and proof gates, but it is not a substitute for human publication-design review or owner final-export acceptance.
 
 Boundary:
 
@@ -54,7 +56,7 @@ python3 runtime/native_helpers/bookforge_pdf_export.py \
   --artifact-role publication_proof \
   --publication-profile bookforge-zh-publication-proof \
   --publication-design-profile "$BOOK_PROJECT/publication-design/profile.json" \
-  --rendered-page-inspection "$BOOK_PROJECT/quality/rendered-page-inspection.json" \
+  --write-rendered-page-inspection "$BOOK_PROJECT/quality/rendered-page-inspection.machine.json" \
   --figure-asset-manifest "$BOOK_PROJECT/artifacts/figures/figure-asset-manifest.json" \
   --manifest "$BOOK_PROJECT/receipts/book-publication-proof.json"
 ```

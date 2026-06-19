@@ -26,6 +26,8 @@ Machine boundary: Human-readable hard constraints. Machine truth remains in cont
 - Require a publication design profile and real typesetting backend for publication proof and final export; hand-rolled raster text drawing is not the normal BookForge publication path.
 - Do not treat unstyled Pandoc/default backend output as publication-proof quality. Publication proof must use the bundled BookForge publication profile or an owner-approved equivalent and must show deliberate page geometry, typography hierarchy, figures, tables, callouts, captions, headers/footers, page numbers, and visual rhythm.
 - Require backend resource paths or equivalent asset resolution configuration when Markdown references project-local figures, so generated PDFs cannot silently drop images.
+- Require PDF helper evidence for Markdown image-ref resolution and required figure-asset-manifest readiness before any publication-proof or final-export claim; missing project-local bitmap assets remain blockers even when the PDF command compiles.
+- Treat helper-generated rendered-page machine-baseline inspection as proof plumbing evidence only. It can support nonblank page and asset-resolution gates, but it cannot replace human visual review or owner final-export acceptance.
 - Require caption, callout, table, figure, cross-reference, header/footer, page-number, overflow, and visual-rhythm inspection before any publication-proof claim.
 - Require owner/export acceptance receipts before any final-export claim.
 - Retire invalid compact/sample drafts when the owner requires a book-length restart; do not expand an invalid compact draft in place as the active workflow.
