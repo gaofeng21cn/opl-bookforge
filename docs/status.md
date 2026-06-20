@@ -11,7 +11,7 @@ Current state: OPL standard structural baseline plus one historical real short-b
 
 - OPL standard scaffold and generated interface descriptors validate through `scripts/verify.sh`.
 - The stage pack exposes two primary stages, `storyline-architecture` and `book-materialization`, plus domain refs for revision routing, chapter context, source-claim integrity, style calibration, publication design, PDF proof gates, image asset receipts, and workspace lifecycle hygiene.
-- The PDF export helper uses real typesetting backends, distinguishes `review_pdf`, `publication_proof`, and `final_export`, scans Markdown image refs, checks figure asset manifest readiness, writes rendered-page machine-baseline inspection when requested, and fail-closes proof/export claims when required evidence is missing.
+- The PDF export helper uses real typesetting backends, distinguishes `review_pdf`, `publication_proof`, and `final_export`, scans Markdown image refs, checks figure asset manifest readiness, writes rendered-page machine-baseline inspection when requested, reads embedded fonts through `pdffonts` when available, scans rendered-page density and trailing whitespace, and fail-closes `publication_proof` / `final_export` claims when required proof evidence or machine QA fields are missing.
 - BookForge consumes OPL-owned dependency and workspace-lifecycle routes. It does not own OS/TeX package installation, OPL runtime, queue, attempt ledger, generated interface hosting, or app shell routing.
 
 ## Evidence Packages

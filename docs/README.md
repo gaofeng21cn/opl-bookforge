@@ -34,4 +34,4 @@ Current evidence supports OPL-standard scaffold validity, generated interface de
 
 Current evidence does not support production-ready book-writing claims, publication approval, owner acceptance, or hosted runtime parity. Those require human owner receipt and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence.
 
-Kami-inspired publication proof rules are domain contracts only. They define proof refs and gates; they do not import Kami's runtime, visual identity, or proof readiness evidence.
+Kami-inspired publication proof rules are BookForge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's runtime or visual identity, and they still do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
