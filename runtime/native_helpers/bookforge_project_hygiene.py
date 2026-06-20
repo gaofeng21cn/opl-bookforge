@@ -40,6 +40,7 @@ CURRENT_STATUS_METRIC_FILENAMES = (
     "owner-handoff.md",
     "manuscript-metrics.md",
     "pdf-backend-audit.md",
+    "imagegen-asset-path-audit.md",
 )
 HIGH_QUALITY_REF_GROUPS = {
     "chapter_function_contract": (
@@ -184,6 +185,44 @@ def review_pdf_export_summary(root: Path) -> dict[str, Any]:
     }
 
 
+def figure_asset_summary(root: Path) -> dict[str, Any]:
+    manifest_path = root / "artifacts/stage_outputs/book-materialization/figure-asset-manifest.json"
+    if not manifest_path.exists():
+        return {}
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    figures = manifest.get("figures") if isinstance(manifest.get("figures"), list) else []
+    asset_ready = 0
+    preview_only = 0
+    planned = 0
+    project_local_paths = 0
+    for item in figures:
+        status = item.get("asset_status")
+        if status == "asset_ready":
+            asset_ready += 1
+        elif status == "preview_only":
+            preview_only += 1
+        elif status == "planned":
+            planned += 1
+        asset = item.get("project_local_path")
+        if asset and (root / asset).exists():
+            project_local_paths += 1
+    figure_dir = root / "artifacts/figures"
+    figure_files = [
+        path for path in figure_dir.glob("*")
+        if path.is_file() and path.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+    ] if figure_dir.exists() else []
+    return {
+        "asset_ready": asset_ready,
+        "preview_only": preview_only,
+        "planned": planned,
+        "project_local_paths": project_local_paths,
+        "figure_files": len(figure_files),
+    }
+
+
 def chapter_chars_by_label(metrics: dict[str, Any]) -> dict[str, int]:
     chapters = metrics.get("chapters") if isinstance(metrics.get("chapters"), list) else []
     mapping: dict[str, int] = {}
@@ -248,6 +287,52 @@ def stale_metric_claims(root: Path, path: Path, text: str, metrics: dict[str, An
                 "current": current_chars,
                 "excerpt": match.group(0),
             })
+    issues.extend(stale_figure_asset_claims(root, path, text))
+    return issues
+
+
+def stale_figure_asset_claims(root: Path, path: Path, text: str) -> list[dict[str, Any]]:
+    if path.name != "imagegen-asset-path-audit.md":
+        return []
+    figure_summary = figure_asset_summary(root)
+    export_summary = review_pdf_export_summary(root)
+    issues: list[dict[str, Any]] = []
+    if figure_summary.get("figure_files", 0) > 0 and re.search(r"artifacts/figures/`?\s+contains\s+0\s+files", text):
+        issues.append({
+            "kind": "stale_figure_asset_status",
+            "path": rel(path, root),
+            "metric": "artifacts/figures.file_count",
+            "claimed": 0,
+            "current": figure_summary["figure_files"],
+            "excerpt": "artifacts/figures contains 0 files",
+        })
+    if figure_summary.get("preview_only") == 0 and re.search(r"records[^\n]+as\s+`preview_only`|`preview_only`,\s+not\s+`asset_ready`", text):
+        issues.append({
+            "kind": "stale_figure_asset_status",
+            "path": rel(path, root),
+            "metric": "figure_manifest.preview_only",
+            "claimed": "preview_only_present",
+            "current": 0,
+            "excerpt": "preview_only",
+        })
+    if figure_summary.get("asset_ready", 0) > 0 and "not `asset_ready`" in text:
+        issues.append({
+            "kind": "stale_figure_asset_status",
+            "path": rel(path, root),
+            "metric": "figure_manifest.asset_ready",
+            "claimed": "not_asset_ready",
+            "current": figure_summary["asset_ready"],
+            "excerpt": "not `asset_ready`",
+        })
+    if export_summary.get("markdown_image_refs_present", 0) > 0 and re.search(r"no embedded images|returned no embedded images", text, re.IGNORECASE):
+        issues.append({
+            "kind": "stale_figure_asset_status",
+            "path": rel(path, root),
+            "metric": "review_pdf.images",
+            "claimed": "no_embedded_images",
+            "current": export_summary["markdown_image_refs_present"],
+            "excerpt": "no embedded images",
+        })
     return issues
 
 
@@ -632,6 +717,63 @@ def run_self_test() -> None:
         stale_metrics = [issue for issue in payload["issues"] if issue["kind"] == "stale_status_metric"]
         stale_metric_names = {issue["metric"] for issue in stale_metrics}
         assert {"total_chars", "pdf_page_count", "nonblank_pages", "Chapter 8.chars", "conclusion.chars"} <= stale_metric_names, payload
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        stage = root / "artifacts/stage_outputs/book-materialization"
+        review = root / "artifacts/review"
+        quality = root / "quality"
+        figures = root / "artifacts/figures"
+        stage.mkdir(parents=True)
+        review.mkdir(parents=True)
+        quality.mkdir(parents=True)
+        figures.mkdir(parents=True)
+        (stage / "manuscript-metrics.json").write_text(json.dumps({
+            "assembly_status": "final_book_assembly_ready",
+            "extent_status": "meets_declared_minimum",
+            "total_chars": 126955,
+            "target_chars_min": 120000,
+            "missing_chars_min": 0,
+            "completed_chapters_review": {"pdf_page_count": 167},
+            "chapters": [],
+        }), encoding="utf-8")
+        (stage / "figure-asset-manifest.json").write_text(json.dumps({
+            "figures": [
+                {
+                    "id": "fig-1-1",
+                    "asset_status": "asset_ready",
+                    "project_local_path": "artifacts/figures/fig-1-1.png",
+                }
+            ]
+        }), encoding="utf-8")
+        (figures / "fig-1-1.png").write_bytes(b"png")
+        (review / "completed-chapters.review-pdf-export.json").write_text(json.dumps({
+            "markdown_image_refs": {"present_count": 1, "total": 1, "missing_count": 0},
+        }), encoding="utf-8")
+        (quality / "imagegen-asset-path-audit.md").write_text(
+            "- `artifacts/figures/` contains 0 files.\n"
+            "- `figure-asset-manifest.json` records 图 1-1 as `preview_only`, not `asset_ready`.\n"
+            "- `pdfimages -list artifacts/review/completed-chapters.review.pdf` returned no embedded images.\n",
+            encoding="utf-8",
+        )
+        payload = run_check(argparse.Namespace(
+            root=root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["quality"],
+            archive_dir=["archive"],
+            report=None,
+        ))
+        stale_figure_metrics = {
+            issue["metric"]
+            for issue in payload["issues"]
+            if issue["kind"] == "stale_figure_asset_status"
+        }
+        assert {
+            "artifacts/figures.file_count",
+            "figure_manifest.preview_only",
+            "figure_manifest.asset_ready",
+            "review_pdf.images",
+        } <= stale_figure_metrics, payload
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
