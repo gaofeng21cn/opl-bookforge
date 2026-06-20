@@ -4,6 +4,7 @@ Use this skill inside `book-materialization` when the owner supplies a stronger 
 
 Working policy:
 
+- Reference absorption is advisory-by-default and trigger-bound. Run it when the owner explicitly supplies a reference, asks for comparison, says another draft is better, or claims reference absorption / publication-level critique closure. Do not turn it into a default preflight blocker for ordinary chapter drafting, local prose repair, claim-integrity work, or review-PDF refresh.
 - Treat reference absorption as an editorial-learning step, not as a copy source. Extract transferable craft patterns, reader-fit decisions, chapter rhythm, evidence handling, and layout expectations; do not copy protected prose, unique examples, unsupported claims, or source-specific facts unless they are independently present in the book source map.
 - Run reference absorption before new visible chapter drafting or a major rewrite when the owner explicitly says a reference version is better, more natural, more complete, or more publishable.
 - Produce a durable `reference-draft-absorption` ref or equivalent report that records:
@@ -77,4 +78,6 @@ Working policy:
   - the reference's secondary-reader accommodation silently changes the declared primary readers;
   - BookForge copies reference prose without source authority or owner permission.
 
-This skill improves BookForge's drafting pattern. It does not authorize final editorial acceptance, publication proof readiness, or owner approval.
+Fail-closed applies to the reference-related claim being made. If the current task is ordinary drafting, chapter QC, local repair, context compilation, or a review-only PDF and no owner/reference-absorption claim is being made, missing reference absorption should become an advisory route-back or owner question, not a global workflow stop.
+
+This skill improves BookForge's drafting pattern. It does not authorize final editorial acceptance, publication proof readiness, final export, or owner approval.
