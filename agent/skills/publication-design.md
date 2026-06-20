@@ -8,6 +8,7 @@ Working policy:
 - A review PDF is a cumulative owner reading checkpoint. It can use a simpler layout profile, but it must render text, tables, captions, and any ready figures correctly, and it must label itself as review-only.
 - A publication proof PDF is the first artifact that should be judged for book-like visual quality. It requires a publication design profile, not just a default PDF backend.
 - A final export is owner-gated and cannot be implied by review PDF generation or a successful PDF compile.
+- Publication design tokens, Kami-inspired patterns, component inventory, font readback, rendered-page QA, and pre-ship proof review are hard gates only for `publication_proof` and `final_export` claims. They are advisory inputs for storyline shaping, chapter drafting, style calibration, claim integrity, chapter QC, and ordinary review-PDF refreshes.
 - Define a publication design profile before final proof: page size, page geometry, body font, heading scale, line length, table style, caption style, figure placement, case-box/callout style, page headers/footers, numbering, and rendered-page inspection plan.
 - Treat the publication design profile as a tokenized proof contract, not a visual mood board. Record concrete tokens for page size, margins, body and display fonts, font weights, line heights, text measure, heading scale, caption scale, table rules, callout rules, figure spacing, header/footer behavior, page numbering, color use, and density thresholds. External design systems such as Kami are pattern sources for token discipline and proof checks; do not copy their palette, font choices, HTML runtime, WeasyPrint route, or brand language into BookForge.
 - Maintain a template/component inventory before publication proof. The inventory should name the reusable book components that the proof will render: cover/title page, front matter, TOC, part opener, chapter opener, dense body page, figure page, table page, case box/callout, quote/pull-quote, caption, footnote/endnote style if used, bibliography/source note if used, and closing matter. Each component needs an owner surface, input refs, expected output role, and rendered-page sample plan.
@@ -27,6 +28,12 @@ Working policy:
 - A light methodology sketchnote style is acceptable for education-method books when it improves reader entry, model memory, and classroom/project usability. Keep it disciplined: consistent handwritten Chinese typography, restrained color, clear model structure, readable captions, and no decorative clutter.
 - A formal framework diagram style is preferable when the book is positioned as a policy report, institutional white paper, or strictly academic monograph. If selected, all figures should move toward formal layout and terminology rather than mixing casual sketchnotes with serious tables.
 - Do not mark the publication proof ready while required figures are `planned`, `preview_only`, or `blocked_missing_project_bitmap`.
+
+Advisory boundary:
+
+- External design systems such as Kami are pattern sources for proof discipline, not BookForge runtime, template, palette, font, or proof-truth owners.
+- Missing publication-proof dependency, token, component, font-readback, rendered-page QA, or owner proof review must return a blocker for proof/export claims. It must not stop narrower honest actions that do not require those proof guarantees.
+- Review PDFs may carry review-only evidence and known proof blockers. Do not describe them as publication proof, final export, book delivery ready, or owner accepted.
 
 Artifact-role boundary:
 

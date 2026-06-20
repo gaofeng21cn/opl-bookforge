@@ -34,6 +34,7 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Treat chapter task cards plus chapter QC and repair refs as the chapter-runtime surface. They are not a scheduler, queue, attempt ledger, session store, or second source of truth.
 - Treat style engine assets as reusable writing constraints and review inputs, not as authority to claim final quality or publication acceptance.
 - Adopt reference-draft absorption as a first-class BookForge materialization skill. When an owner says a prior/reference version is better, BookForge must compare it, extract transferable book-prose strengths, and update durable domain refs such as style engine, chapter task cards, reader-entry plans, QC gates, evidence maps, or publication design profiles. This stays inside OPL BookForge's domain pack and does not create a private controller or OPL runtime surface.
+- Keep reference/style memory, reference-draft absorption, and publication-design lessons advisory-by-default. They become hard gates only for the claim they are meant to protect: owner-supplied reference comparison / absorption closure, `publication_proof`, `final_export`, copied-reference authority, primary-reader drift, or proof/export readiness. They do not globally block ordinary chapter drafting, local prose repair, context compilation, claim-integrity work, chapter QC, or review-only PDF refresh.
 
 ## 2026-06-19: Project Hygiene Gate For Retired Drafts And Case Stance
 
