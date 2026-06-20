@@ -10,6 +10,14 @@ Book-length materialization is chapter-sharded by default. A complete draft shou
 
 Target budgets are gates, not post-hoc metrics. A chapter that has 2,000 characters against a 13,000-character target is not a completed chapter draft; it is a seed or in-progress chapter package. Below-target full-book assemblies must be named previews and must not occupy the final `book.md` slot unless the owner explicitly defines `book.md` as preview-only for that run.
 
+First-draft quality is a workflow property. The reader-style contract, author/source stance, chapter budget, active production queue, reader-entry plan, figure/table obligations, and anti-AI-flavor rules must shape the chapter prompt before visible prose is written. A workflow that writes all chapters thinly and only later discovers a 200-page target miss has already failed the materialization process.
+
+High-quality nonfiction needs book-level argument contracts before drafting. Storyline shaping should produce a chapter function contract, early concept map, whole-book core model map, and case evidence ladder. These refs prevent a manuscript from becoming a set of readable but repetitive essays, from making readers infer key terms too late, from using one-off tables instead of memorable models, or from treating typicalized examples as real process evidence.
+
+Owner or reviewer critique is workflow input when it identifies systemic book-quality defects. BookForge should absorb critique into storyline refs, chapter task cards, style rules, evidence maps, figure/table plans, quality gates, or publication design refs before revising prose. A polished manuscript that leaves the workflow unable to prevent the same defect has not fully absorbed the critique.
+
+Reader-facing prose should not expose BookForge operations. Terms about current version state, final export readiness, source-of-truth mechanics, QC, blockers, manifests, backend workflow, or public-source observation of a practice-involved case belong in briefs, manifests, reports, and handoff refs, not in the book body. Known recurring phrases should be added to deterministic hygiene scans once observed.
+
 If an earlier pass produced a compact or sample draft against a book-length target, that draft is historical evidence, not the active seed for completion. Retire it to an archive/tombstone ref and restart the active manuscript from chapter packages, briefs, drafts, QC refs, and final assembly.
 
 Target extent is part of book truth. If the owner brief, source plan, publisher brief, or storyline map declares a page count, word count, chapter count, or series volume, materialization must preserve that target or return a typed extent blocker. A compact draft, sample chapter, or synopsis is a different deliverable and needs an explicit owner decision.
@@ -23,6 +31,8 @@ When a real manuscript needs new visual artwork, final figures default to Codex 
 Book memory is a domain artifact contract, not a new control plane. For nonfiction manuscripts, working memory covers the active chapter brief, local source notes, current reader promise, terminology decisions, unresolved claims, and near-term style constraints. Episodic memory covers prior chapter QC results, owner comments, revision receipts, style drift incidents, figure/table decisions, and route-back history. Semantic memory covers durable thesis, audience model, source canon, glossary, style asset bundle, structural principles, claim taxonomy, and evidence rules.
 
 Chapter runtime is expressed as owner-inspectable chapter task cards, chapter QC refs, repair reports, memory updates, review-PDF refs, and OPL stage receipts. It must not become a BookForge-private scheduler, queue, attempt ledger, session store, or generic runtime.
+
+Freshness is part of readiness. Assembly metrics, hygiene scans, PDF receipts, image-resolution checks, and owner handoff refs must be generated after the source refs they inspect, or carry digest evidence tying them to those refs. Older reports can guide repair, but they cannot support a new readiness claim.
 
 Style engine means reusable writing assets: voice principles, sentence rhythm, terminology policy, analogy policy, sample passages, forbidden patterns, accepted repair rules, and style drift findings. It guides prompts and review gates but does not authorize quality, export, or publication acceptance.
 

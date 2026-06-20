@@ -904,6 +904,10 @@
         },
         {
           "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/meta-review-loop.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
           "ref": "agent/skills/book-production.md"
         },
         {
@@ -1056,6 +1060,7 @@
           "prompt-ref:agent/prompts/book-materialization.md",
           "skill-ref:agent/skills/reader-facing-draft.md",
           "skill-ref:agent/skills/reference-draft-absorption.md",
+          "skill-ref:agent/skills/meta-review-loop.md",
           "skill-ref:agent/skills/book-production.md",
           "skill-ref:agent/skills/publication-design.md",
           "knowledge-ref:agent/knowledge/book-production-boundary.md",
@@ -1098,6 +1103,9 @@
           "chapter-draft-bundle-ref:book-materialization",
           "reader-facing-draft-ref:book-materialization",
           "reference-draft-absorption-ref:book-materialization",
+          "meta-review-loop-ref:book-materialization",
+          "meta-review-round-ref:book-materialization/{round_id}",
+          "meta-review-repair-plan-ref:book-materialization/{round_id}",
           "illustration-table-plan-ref:book-materialization",
           "style-consistency-report-ref:book-materialization",
           "publication-design-profile-ref:book-materialization",

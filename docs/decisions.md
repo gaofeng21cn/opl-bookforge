@@ -42,3 +42,38 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Practice-involved cases require deterministic forbidden-phrase scans in addition to editorial review when a concrete regression has been found. For the Red Bird case, active refs must not keep outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, or `观察它如何强调` after the reader-style contract calls for practice-involved voice.
 - README and owner-handoff refs must be refreshed from current metrics or treated as stale status blockers after chapter readiness, figure counts, or review-PDF page counts change.
 - Keep App/default product exposure separate until a product owner decision and App-owned contracts add BookForge to visible default routes.
+
+## 2026-06-19: First-Draft Quality Gates From Real Manuscript Run
+
+- Treat first-draft quality as a workflow property, not a late polishing task. Reader-style contract, author/source stance, chapter budget, active production queue, reader-entry plan, figure/table obligations, and anti-AI-flavor rules must shape chapter prompts before visible prose is drafted.
+- Require active production queues to track target minimum, current measured extent, missing extent, next action, review-PDF eligibility, and typed blockers for every required unit. This prevents a thin all-chapter pass from being mislabeled as a completed manuscript.
+- Block reader-facing manuscript text that leaks internal workflow or status language, including current-version commentary, source-of-truth mechanics, QC/blocker/manifest terms, backend/PDF readiness notes, and known outside-observer case phrases that violate the stance contract.
+- Make AI-flavor review concrete and repeatable. Style reports should scan high-risk formulaic negation, generic intensifiers, outline scaffolds, and empty summaries, then record accepted exceptions or repairs instead of relying on impressionistic "polished" claims.
+- Treat freshness as part of readiness. Assembly metrics, hygiene scans, review-PDF receipts, image-resolution checks, and owner-handoff refs must be newer than, or digest-linked to, the chapter Markdown, figure manifest, PDF source, and style refs they inspect.
+- Require review/publication PDF evidence to prove image resolution when figures are expected. A PDF that compiles but omits `asset_ready` project-local figures is an export blocker, not a usable review or proof artifact.
+
+## 2026-06-19: Reference Revision Absorption For Better First Drafts
+
+- When a reference or edited version reads better, convert the improvement into reusable editorial actions: reader-action openings, relationship sentences, chapter-scope narrowing, process-chain movement, argument-embedded cases, and prose-prepared figure/table interpretation.
+- Treat reference absorption as workflow learning before further drafting. Update style engine, chapter task cards, reader-entry plans, QC gates, or publication design refs instead of only patching the visible text.
+- Guard against the main side effects of smoother reference revisions: over-compression, loss of reasoning, weakened primary-reader density, local-slice scope being mistaken for whole-book completion, and merge artifacts such as sentence fragments or duplicated labels.
+
+## 2026-06-19: High-Quality Nonfiction Gates From Owner Critique
+
+- Treat serious owner or reviewer critique as BookForge workflow input, not only prose feedback. Repetition, unclear concepts, thin cases, weak modelization, and publication-quality concerns must update the relevant storyline, chapter, evidence, style, QC, or publication-design refs before manuscript repair is claimed.
+- Require a chapter function contract for book-length nonfiction: one primary job, one new argument movement, adjacent-chapter handoffs, and explicit non-repeat claims for each chapter. Character budget alone does not make a chapter ready.
+- Require an early concept map for recurring terms that carry the argument. Readers should get orientation before the first sustained use, then deeper definitions and applications in the assigned chapters.
+- Require a whole-book core model map. Two or three selected models should be introduced, interpreted, applied in later chapters or cases, and recovered in final synthesis; local tables alone do not satisfy modelization.
+- Require a case evidence ladder for major examples. Constructed scenes, typical scenarios, documented process materials, authorized interviews/materials, and outcome evidence support different claim strengths, and missing real-case material remains a typed evidence gap.
+
+## 2026-06-19: Reference PDF Front Matter And TOC Absorption
+
+- When the owner supplies a stronger PDF/proof artifact as a reference version, BookForge must compare front matter, proof label, page geometry, image placement, chapter punctuation, and table-of-contents hierarchy as production quality inputs, not only body prose.
+- A reader-facing TOC is an argument map. Review notes, production metadata, case-box labels, table labels, figure labels, empty headings, and blocker/status language must not appear as normal TOC entries in review PDFs, publication proofs, or final exports.
+- Chinese nonfiction outputs should normalize chapter labels toward `前言：...`, `第一章：...`, and `结语：...` in reader-facing PDF/export surfaces unless an owner-approved house style says otherwise.
+
+## 2026-06-19: Independent Meta-Review Loop
+
+- Add an independent full-manuscript meta-review loop after the assembled draft reaches chapter budget and required asset gates. This mirrors MAS-style independent review: a context-isolated reviewer evaluates viewpoint clarity, whole-book logic, prose fluency, chapter repetition, evidence/case adequacy, practice-involved case voice, and AI-flavor/internal-language residue.
+- Treat meta-review as a bounded quality loop, not an infinite polishing lane. Each round must produce a durable review report, a repair plan for required findings, manuscript/source/style/QC updates where accepted, regenerated metrics/hygiene/review-PDF evidence, and then a fresh review if needed.
+- Stop early on `pass` or when remaining comments are optional preferences, owner/source-material gaps, publication-proof inspection, or final-export acceptance. If required manuscript repairs remain after three rounds, return a typed `meta_review_iteration_limit_reached` blocker with owner decision options.

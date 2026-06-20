@@ -35,6 +35,35 @@ DEFAULT_STATUS_PATHS = (
     "quality",
     "receipts",
 )
+HIGH_QUALITY_REF_GROUPS = {
+    "chapter_function_contract": (
+        "chapter-function-contract.md",
+        "chapter-function-contract.json",
+    ),
+    "concept_map": (
+        "concept-map.md",
+        "concept-map-application.md",
+        "early-concept-map.md",
+    ),
+    "core_model_map": (
+        "core-model-map.md",
+        "whole-book-core-model-map.md",
+        "core-model-application.md",
+    ),
+    "case_evidence_ladder": (
+        "case-evidence-ladder.md",
+        "case-evidence-ladder.json",
+    ),
+    "high_quality_review_audit": (
+        "high-quality-book-review-audit.md",
+        "reviewer-suggestion-absorption.md",
+        "reviewer-critique-absorption.md",
+    ),
+    "meta_review_loop": (
+        "round-1.md",
+        "round-1-repair-plan.md",
+    ),
+}
 TEXT_EXTENSIONS = (".md", ".txt", ".json", ".yaml", ".yml")
 RETIRED_FULLTEXT_MARKERS = (
     "retired_no_longer_searchable_source",
@@ -113,11 +142,154 @@ def chapter_statuses(root: Path) -> dict[str, Any]:
     chapters = metrics.get("chapters")
     return {
         "status": "loaded" if isinstance(chapters, list) else "missing_chapters",
+        "assembly_status": metrics.get("assembly_status"),
+        "extent_status": metrics.get("extent_status"),
         "total_chars": metrics.get("total_chars"),
+        "target_chars_min": metrics.get("target_chars_min"),
         "missing_chars_min": metrics.get("missing_chars_min"),
         "review_pdf": metrics.get("completed_chapters_review", {}),
         "chapters": chapters if isinstance(chapters, list) else [],
     }
+
+
+def is_book_length_final_nonfiction_candidate(metrics: dict[str, Any]) -> bool:
+    total_chars = metrics.get("total_chars")
+    target_chars_min = metrics.get("target_chars_min")
+    chapters = metrics.get("chapters") if isinstance(metrics.get("chapters"), list) else []
+    assembly_status = metrics.get("assembly_status")
+    extent_status = metrics.get("extent_status")
+    if assembly_status == "final_book_assembly_ready" and extent_status == "meets_target":
+        return True
+    if isinstance(total_chars, int) and total_chars >= 50000 and len(chapters) >= 6:
+        return True
+    if isinstance(target_chars_min, int) and target_chars_min >= 50000 and len(chapters) >= 6:
+        return True
+    return False
+
+
+def extract_meta_review_round(path: Path) -> int:
+    match = re.match(r"round-(\d+)\.md$", path.name)
+    return int(match.group(1)) if match else 0
+
+
+def extract_meta_review_verdict(text: str) -> str:
+    match = re.search(r"verdict\s*[:：]\s*`?([a-zA-Z_]+)`?", text, re.IGNORECASE)
+    if match:
+        return match.group(1).lower()
+    if re.search(r"##\s*Verdict\s*\n\s*`?([a-zA-Z_]+)`?", text, re.IGNORECASE):
+        return re.search(r"##\s*Verdict\s*\n\s*`?([a-zA-Z_]+)`?", text, re.IGNORECASE).group(1).lower()  # type: ignore[union-attr]
+    return ""
+
+
+def is_independent_meta_review(text: str) -> bool:
+    lower = text.lower()
+    if "owner waived meta-review" in lower or "owner explicitly waived meta-review" in lower:
+        return True
+    if "same-executor" in lower or "self-review" in lower or "not an independent" in lower:
+        return False
+    return "independent" in lower or "context-isolated" in lower or "context isolated" in lower
+
+
+def meta_review_loop_status(root: Path) -> dict[str, Any]:
+    meta_review_dir = root / "quality/meta-review"
+    round_paths = sorted(
+        (
+            path
+            for path in meta_review_dir.glob("round-*.md")
+            if re.match(r"round-\d+\.md$", path.name)
+        ),
+        key=extract_meta_review_round,
+    ) if meta_review_dir.exists() else []
+    if not round_paths:
+        return {"ok": False, "reason": "missing_meta_review_round"}
+    if len(round_paths) > 3:
+        return {
+            "ok": False,
+            "reason": "meta_review_iteration_limit_exceeded",
+            "round_count": len(round_paths),
+        }
+
+    round_reports = []
+    missing_repair_plans = []
+    for path in round_paths:
+        text = read_text(path)
+        round_no = extract_meta_review_round(path)
+        verdict = extract_meta_review_verdict(text)
+        independent = is_independent_meta_review(text)
+        if verdict in {"revise_minor", "revise_major", "revise"}:
+            repair_plan = meta_review_dir / f"round-{round_no}-repair-plan.md"
+            if not repair_plan.exists():
+                missing_repair_plans.append(rel(repair_plan, root))
+        round_reports.append({
+            "round": round_no,
+            "ref": rel(path, root),
+            "verdict": verdict,
+            "independent": independent,
+        })
+
+    if missing_repair_plans:
+        return {
+            "ok": False,
+            "reason": "missing_meta_review_repair_plan",
+            "missing_repair_plans": missing_repair_plans,
+            "rounds": round_reports,
+        }
+
+    independent_rounds = [item for item in round_reports if item["independent"]]
+    if not independent_rounds:
+        return {
+            "ok": False,
+            "reason": "missing_independent_meta_review_round",
+            "rounds": round_reports,
+        }
+    latest = independent_rounds[-1]
+    if latest["verdict"] != "pass":
+        return {
+            "ok": False,
+            "reason": "latest_independent_meta_review_not_pass",
+            "latest_independent_round": latest,
+            "rounds": round_reports,
+        }
+    return {
+        "ok": True,
+        "latest_independent_round": latest,
+        "rounds": round_reports,
+    }
+
+
+def high_quality_ref_scan(root: Path, metrics: dict[str, Any]) -> list[dict[str, Any]]:
+    if not is_book_length_final_nonfiction_candidate(metrics):
+        return []
+    search_roots = [
+        root / "artifacts/stage_outputs/storyline-architecture",
+        root / "artifacts/stage_outputs/book-materialization",
+        root / "quality",
+    ]
+    existing = {path.name for path in iter_text_files(search_roots)}
+    issues: list[dict[str, Any]] = []
+    for group, filenames in HIGH_QUALITY_REF_GROUPS.items():
+        has_required_ref = any(filename in existing for filename in filenames)
+        if group == "meta_review_loop":
+            meta_status = meta_review_loop_status(root)
+            has_required_ref = bool(meta_status.get("ok"))
+            if not has_required_ref:
+                issues.append({
+                    "kind": "missing_high_quality_nonfiction_ref",
+                    "group": group,
+                    "expected_any_of": list(filenames),
+                    "reason": "book-length final assemblies should have a bounded independent meta-review loop whose latest independent verdict is pass, or a typed blocker/owner waiver",
+                    "meta_review_status": meta_status,
+                })
+                continue
+        if has_required_ref:
+            continue
+        issues.append({
+            "kind": "missing_high_quality_nonfiction_ref",
+            "group": group,
+            "expected_any_of": list(filenames),
+                "reason": "book-length final assemblies should carry chapter-function, concept, model, case-evidence, critique-absorption, and independent meta-review refs",
+            })
+    return issues
 
 
 def active_scan(root: Path, voice_paths: list[Path], status_paths: list[Path]) -> list[dict[str, Any]]:
@@ -175,6 +347,7 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
     issues.extend(active_scan(root, voice_paths, status_paths))
     issues.extend(archive_scan(root, archive_paths))
     metrics = chapter_statuses(root)
+    issues.extend(high_quality_ref_scan(root, metrics))
     payload = {
         "surface_kind": "bookforge_project_hygiene",
         "version": VERSION,
@@ -225,6 +398,98 @@ def run_self_test() -> None:
             report=None,
         ))
         assert payload["status"] == "passed", payload
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        stage = root / "artifacts/stage_outputs/book-materialization"
+        stage.mkdir(parents=True)
+        (stage / "manuscript-metrics.json").write_text(json.dumps({
+            "assembly_status": "final_book_assembly_ready",
+            "extent_status": "meets_target",
+            "total_chars": 120000,
+            "target_chars_min": 120000,
+            "missing_chars_min": 0,
+            "chapters": [{"id": str(i), "status": "chapter_draft_ready"} for i in range(8)],
+        }), encoding="utf-8")
+        payload = run_check(argparse.Namespace(
+            root=root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["README.md"],
+            archive_dir=["archive"],
+            report=None,
+        ))
+        missing_groups = {
+            issue["group"]
+            for issue in payload["issues"]
+            if issue["kind"] == "missing_high_quality_nonfiction_ref"
+        }
+        assert {
+            "chapter_function_contract",
+            "concept_map",
+            "core_model_map",
+            "case_evidence_ladder",
+            "high_quality_review_audit",
+            "meta_review_loop",
+        } <= missing_groups, payload
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        stage = root / "artifacts/stage_outputs/book-materialization"
+        quality = root / "quality"
+        story = root / "artifacts/stage_outputs/storyline-architecture"
+        stage.mkdir(parents=True)
+        quality.mkdir(parents=True)
+        story.mkdir(parents=True)
+        (stage / "manuscript-metrics.json").write_text(json.dumps({
+            "assembly_status": "final_book_assembly_ready",
+            "extent_status": "meets_target",
+            "total_chars": 120000,
+            "target_chars_min": 120000,
+            "missing_chars_min": 0,
+            "chapters": [{"id": str(i), "status": "chapter_draft_ready"} for i in range(8)],
+        }), encoding="utf-8")
+        (stage / "chapter-function-contract.md").write_text("# Chapter Function Contract\n", encoding="utf-8")
+        (story / "concept-map.md").write_text("# Concept Map\n", encoding="utf-8")
+        (stage / "core-model-map.md").write_text("# Core Model Map\n", encoding="utf-8")
+        (stage / "case-evidence-ladder.md").write_text("# Case Evidence Ladder\n", encoding="utf-8")
+        (quality / "high-quality-book-review-audit.md").write_text("# High Quality Book Review Audit\n", encoding="utf-8")
+        meta_review = quality / "meta-review"
+        meta_review.mkdir()
+        (meta_review / "round-1.md").write_text(
+            "# Round 1\n\nReviewer context boundary: `same-executor-limited-meta-review`\n\nVerdict: `revise_minor`\n",
+            encoding="utf-8",
+        )
+        (meta_review / "round-1-repair-plan.md").write_text("# Round 1 Repair Plan\n", encoding="utf-8")
+        payload = run_check(argparse.Namespace(
+            root=root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["README.md"],
+            archive_dir=["archive"],
+            report=None,
+        ))
+        meta_issues = [
+            issue
+            for issue in payload["issues"]
+            if issue["kind"] == "missing_high_quality_nonfiction_ref" and issue["group"] == "meta_review_loop"
+        ]
+        assert meta_issues, payload
+
+        (meta_review / "round-2.md").write_text(
+            "# Round 2\n\nReviewer context boundary: independent subagent review; reviewer received assembled manuscript and limited quality refs, not the drafting conversation.\n\n## Verdict\n\n`pass`\n",
+            encoding="utf-8",
+        )
+        payload = run_check(argparse.Namespace(
+            root=root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["README.md"],
+            archive_dir=["archive"],
+            report=None,
+        ))
+        assert not [
+            issue
+            for issue in payload["issues"]
+            if issue["kind"] == "missing_high_quality_nonfiction_ref"
+        ], payload
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
