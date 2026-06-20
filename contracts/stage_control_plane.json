@@ -908,6 +908,10 @@
         },
         {
           "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/revision-entrypoint-router.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
           "ref": "agent/skills/fast-track-revision.md"
         },
         {
@@ -1077,6 +1081,7 @@
           "skill-ref:agent/skills/reader-facing-draft.md",
           "skill-ref:agent/skills/reference-draft-absorption.md",
           "skill-ref:agent/skills/meta-review-loop.md",
+          "skill-ref:agent/skills/revision-entrypoint-router.md",
           "skill-ref:agent/skills/fast-track-revision.md",
           "skill-ref:agent/skills/chapter-context-compiler.md",
           "skill-ref:agent/skills/source-claim-integrity.md",
@@ -1128,6 +1133,9 @@
           "reference-draft-absorption-ref:book-materialization",
           "meta-review-loop-ref:book-materialization",
           "meta-review-round-ref:book-materialization/{round_id}",
+          "revision-entrypoint-decision-ref:book-materialization/{decision_id}",
+          "reverse-outline-ref:book-materialization/{decision_id}",
+          "revision-route-back-ref:book-materialization/{decision_id}",
           "meta-review-repair-plan-ref:book-materialization/{round_id}",
           "fast-track-revision-audit-ref:book-materialization",
           "chapter-context-compiler-ref:book-materialization",
