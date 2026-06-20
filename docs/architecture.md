@@ -20,6 +20,23 @@ BookForge uses two primary stages:
 
 The stage split is intentionally coarse. Each stage should produce a reviewable handoff package rather than a chain of small status updates.
 
+## Revision Architecture
+
+BookForge treats serious critique and independent meta-review as a routed repair system, not a local prose queue. After a full-manuscript meta-review, complete-version comparison, or serious owner/reviewer critique, the domain pack first records a revision entrypoint decision.
+
+The repair hierarchy is:
+
+- artifact target: decide whether the manuscript is a concise review edition, internal trial reading edition, formal publication manuscript, or another owner-approved target.
+- storyline architecture: repair reader promise, primary audience, central thesis, argument arc, source map, author/source stance, or evidence burden.
+- outline sequence: repair chapter order, split/merge, part structure, front matter, conclusion path, and handoffs.
+- chapter function: repair a chapter's primary job, new movement, adjacent handoff, and non-repeat claims.
+- evidence/model: repair claim ledgers, source locators, case evidence ladder, concept map, core model map, figures, and tables.
+- publication design: repair proof target, TOC/front matter, figure stance, page profile, and rendered-page inspection plan.
+- local prose: repair sentence rhythm, paragraph movement, terminology clarity, transitions, and AI-flavor residue.
+- owner/source blocker: return a typed blocker when source material, authorization, owner decision, outcome evidence, publication acceptance, or final export acceptance is missing.
+
+This hierarchy preserves the two-stage model. Structural route-back goes to the owning BookForge refs, especially `storyline-architecture` when top-level design changes. OPL only transports opaque route refs, blockers, receipts, and current-owner projections; it does not decide manuscript semantics or quality.
+
 ## Generated Surface Boundary
 
 The action catalog exposes `shape-storyline` and `materialize-book`. Generated MCP/OpenAI/AI SDK descriptors are interface descriptors unless a runtime surface provides execution evidence.

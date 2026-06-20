@@ -18,7 +18,8 @@ Pass conditions:
 - Claim language matches evidence class. Constructed scenes, typical scenarios, documented process material, authorized material/interviews, owner-supplied sources, and outcome/impact evidence are not upgraded into stronger evidence classes for narrative smoothness.
 - Style calibration is run from owner-inspectable evidence when owner samples, reference drafts, comparable works, house style, prior chapters, or recurring QC findings are available. The style profile records adopted rules, rejected patterns, fatigue scan evidence, accepted exceptions, and back-propagation refs.
 - After a full draft reaches chapter budget and required asset gates, an independent meta-review loop is run before handoff quality, publication proof, or final export claims. The review is context-isolated from the drafting run as far as the environment allows, produces a durable round report, and returns `pass`, `revise_minor`, or `revise_major`.
-- Required meta-review findings are mapped to a repair plan, chapter Markdown edits, and durable production refs where reusable. Optional preferences and owner/source-material blockers are recorded separately.
+- Required meta-review findings are first mapped through a durable revision entrypoint decision. The decision selects the topmost repair level across artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker before any prose edits.
+- Required meta-review findings are then mapped to a repair plan, chapter Markdown edits, and durable production refs where reusable. Optional preferences and owner/source-material blockers are recorded separately.
 - Meta-review iteration is bounded: stop on `pass`, stop when only optional or owner-material blockers remain, or return `meta_review_iteration_limit_reached` after at most three rounds with unresolved required repairs.
 - Chapter drafts cite and obey the reader-style contract from `storyline-architecture`; naturalness is judged against the declared reader groups and reading situation, not a generic prose ideal.
 - When an owner-supplied stronger reference draft, edited version, or comparable sample is used, BookForge produces a reference-draft absorption report and shows how accepted strengths updated the style engine, chapter task cards, reader-entry plans, QC gates, or publication design profile.
@@ -78,6 +79,8 @@ Fail-closed conditions:
 - Missing storyline map, reader-style contract, chapter plan, source refs, manuscript body refs, image/table refs, layout target, or owner gate.
 - Missing chapter function contract, early concept map, whole-book core model map, or case evidence ladder for book-length nonfiction where those issues affect argument quality.
 - Reviewer/owner critique is answered only by a prose-polish note while the underlying chapter function, concept, evidence, model, style, or QC refs remain unchanged.
+- A serious critique or `revise_major` meta-review finding is edited directly without a revision entrypoint decision and route-back/blocker analysis.
+- A higher-order repair need is misclassified as local prose while storyline, outline, chapter-function, evidence/model, publication-design, or artifact-target refs remain stale.
 - A local reviewer/owner suggestion is fast-tracked without an audit, without touched refs, without refreshed downstream artifacts, or while it introduces unsupported facts, Red Bird outcomes, publication-proof claims, or owner decisions.
 - Chapter drafting, repair, or resume starts without a chapter context pack when the next action depends on reader-style, source, target, style, memory, or evidence boundaries.
 - A compiled context pack is used to claim `chapter_text_ready`, `chapter_draft_ready`, book readiness, publication proof readiness, final export readiness, quality acceptance, or owner acceptance.
@@ -93,6 +96,7 @@ Fail-closed conditions:
 - The meta-reviewer is given the drafting conversation or self-justification as primary context and the result is still represented as independent.
 - Latest meta-review verdict is `revise_minor` or `revise_major` and required manuscript findings remain unresolved while BookForge claims pass, owner-ready, publication-proof-ready, or final-export-ready.
 - Meta-review findings are summarized in chat or handoff only, without a durable repair plan, manuscript edits, production-ref updates, or typed blockers.
+- Meta-review findings produce a repair plan but no durable entrypoint decision when the verdict is `revise_major` or the findings touch storyline, outline, chapter function, evidence/model, publication design, artifact target, or owner/source blockers.
 - BookForge runs more than three meta-review repair rounds without stopping for a typed blocker or owner decision.
 - Two or more adjacent chapters perform the same primary function, repeat the same core claim as their main movement, or rely on generic restatement instead of new evidence, mechanism, model application, or case detail.
 - A recurring concept carries the early chapters but is not defined, previewed, or mapped until too late for readers to understand how the argument is using it.

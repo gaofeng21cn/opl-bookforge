@@ -12,6 +12,8 @@ Machine boundary: Human-readable project overview. Machine truth belongs in cont
 - `storyline-architecture`: shape the premise, reader promise, argument arc, source map, chapter thesis chain, and writing style contract.
 - `book-materialization`: create chapter drafts, manuscript body, illustration plans, table plans, style reports, AI-flavor revision checks, layout QC, exports, and owner handoff refs.
 
+After full-manuscript meta-review or serious critique, BookForge routes repairs by level before editing: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. This keeps top-level book design defects from being hidden by sentence-level polish.
+
 The product name is `OPL BookForge`. The repo slug, `domain_id`, and `foundry_agent_id` are `opl-bookforge`.
 
 ## Current Evidence

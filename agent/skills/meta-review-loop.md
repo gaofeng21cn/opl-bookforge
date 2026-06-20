@@ -14,15 +14,18 @@ Working policy:
   - verdict: `pass`, `revise_minor`, or `revise_major`;
   - findings ranked by severity;
   - each finding's location, reader impact, and concrete repair suggestion;
+  - each finding's likely repair layer when visible: artifact target, storyline, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker;
   - a distinction between required repairs, optional preferences, and owner/source-material blockers;
   - explicit evidence-boundary notes for cases that cannot be repaired without owner materials.
-- BookForge must convert required meta-review findings into a `meta-review/round-N-repair-plan.md` or equivalent. Each accepted finding should map to manuscript chapter refs and, when reusable, to chapter task cards, style engine, concept map, core model map, case evidence ladder, publication design profile, or quality gate refs.
+- BookForge must run the revision-entrypoint-router skill before converting required findings into prose edits. The router produces `meta-review/round-N-entrypoint-decision.md`, `revision-routing/decision-N.md`, or an equivalent ref that selects the topmost repair level and names route-back, owner/source blocker, and downstream freshness obligations.
+- BookForge must convert routed required meta-review findings into a `meta-review/round-N-repair-plan.md` or equivalent. Each accepted finding should map to the selected entrypoint first, then to manuscript chapter refs and, when reusable, to storyline map, chapter thesis chain, chapter task cards, style engine, concept map, core model map, case evidence ladder, publication design profile, or quality gate refs.
 - After repairs, regenerate the assembly, metrics, hygiene report, and cumulative owner-review PDF before the next meta-review round. Stale PDFs or metrics cannot support a round verdict.
 - Run at most three meta-review rounds by default. A round counts only when an independent review report exists against a fresh assembled manuscript.
 - Stop early when the independent reviewer returns `pass`, or when remaining issues are only optional preferences, owner evidence gaps, publication-proof/final-export acceptance, or source-material blockers that cannot be solved by prose editing.
 - If the third round still returns required manuscript repairs, stop and return a typed `meta_review_iteration_limit_reached` blocker with unresolved findings and owner decision options. Do not keep revising indefinitely.
 - Do not let the drafting executor mark its own manuscript as passing meta-review. The drafting executor may summarize, repair, and verify, but the pass/revise verdict must come from the independent review ref or owner receipt.
 - Do not hide disagreements. If BookForge rejects a meta-review suggestion, record why: conflicts with reader-style contract, unsupported by sources, weakens primary-reader density, repeats already accepted material, requires owner evidence, or is an optional taste preference.
+- Do not use meta-review as a local polishing lane when the report exposes a higher-order defect. A finding that changes reader promise, argument arc, chapter order, chapter function, evidence/model burden, artifact target, or publication design must be routed to that level before sentence repair.
 
 Review rubric:
 
@@ -40,6 +43,8 @@ Required fail-closed conditions:
 - Full draft handoff occurs without a durable independent meta-review report unless the owner explicitly waives meta-review.
 - The meta-reviewer receives the drafting conversation, self-justification, or repair notes as primary context and then presents the result as independent.
 - Required meta-review findings are summarized in chat but not mapped to a repair plan, manuscript edits, durable style/QC refs, or typed blockers.
+- Required meta-review findings lead directly to manuscript edits without a durable revision entrypoint decision.
+- A `revise_major` verdict is handled as local prose repair without a route-back or blocker analysis.
 - Repairs are made but assembly metrics, hygiene scans, and owner-review PDF are not refreshed before the next review or handoff.
 - BookForge performs more than three review-repair rounds without returning a typed blocker or owner decision request.
 - A `pass` is claimed while the latest review verdict is `revise_minor` or `revise_major` and the required findings remain unresolved.

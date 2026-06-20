@@ -16,6 +16,8 @@ High-quality nonfiction needs book-level argument contracts before drafting. Sto
 
 Owner or reviewer critique is workflow input when it identifies systemic book-quality defects. BookForge should absorb critique into storyline refs, chapter task cards, style rules, evidence maps, figure/table plans, quality gates, or publication design refs before revising prose. A polished manuscript that leaves the workflow unable to prevent the same defect has not fully absorbed the critique.
 
+Meta-review is not a sentence-polish queue. It is a whole-book diagnostic that must be followed by a revision entrypoint decision whenever required findings touch higher-order concerns. The decision should classify whether repair begins at artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. Local edits are allowed only after the higher layer is stable or explicitly routed.
+
 Reader-facing prose should not expose BookForge operations. Terms about current version state, final export readiness, source-of-truth mechanics, QC, blockers, manifests, backend workflow, or public-source observation of a practice-involved case belong in briefs, manifests, reports, and handoff refs, not in the book body. Known recurring phrases should be added to deterministic hygiene scans once observed.
 
 If an earlier pass produced a compact or sample draft against a book-length target, that draft is historical evidence, not the active seed for completion. Retire it to an archive/tombstone ref and restart the active manuscript from chapter packages, briefs, drafts, QC refs, and final assembly.

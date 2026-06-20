@@ -110,3 +110,12 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - BookForge may use the doctor result as proof/export gate input, but it must not implement a private OS package manager, TeX package installer, runtime scheduler, or second dependency truth source inside this repo.
 - Dependency failures block `publication_proof` and `final_export` claims, not ordinary writing progress. Storyline shaping, chapter drafting, context packs, claim integrity, style calibration, and other narrower honest actions should continue when they do not require the missing proof backend.
 - The bundled proof header removed `titling.sty` and `tocloft.sty`; those packages are legacy diagnostics only and must not be required by the current BookForge proof profile.
+
+## 2026-06-20: Meta-Review Revision Entrypoint Router
+
+- Upgrade Meta Review from a terminal prose repair loop into a whole-book diagnostic plus repair routing gate. Required findings must produce a durable revision entrypoint decision before manuscript edits when they touch more than local prose.
+- The entrypoint decision uses a hierarchy adapted from mature writing revision, developmental editing, reverse outlining, architecture risk review, and hierarchical system views: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, and owner/source blocker.
+- A reverse outline or equivalent structure extraction is required when the finding may concern whole-book organization. The router compares the manuscript's actual jobs, repeated claims, handoffs, and evidence/model use against the approved storyline and chapter thesis chain.
+- Fast-track revision remains available only for local or explicitly bounded low-risk findings. It must not bypass unresolved storyline, outline, chapter-function, evidence/model, publication-design, artifact-target, or owner/source defects.
+- Structural route-back stays inside BookForge-owned refs. If the repair begins at storyline architecture, BookForge updates or requests owner review of storyline refs before claiming manuscript repair.
+- OPL base optimization should provide generic review-repair transport for opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, iteration caps, current-owner projection, and freshness gates. OPL must not own the repair-level decision, manuscript body, memory body, quality/export verdict, or owner receipt.

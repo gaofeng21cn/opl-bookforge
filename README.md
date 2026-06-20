@@ -68,6 +68,9 @@ BookForge keeps chapter tasks, target budgets, source refs, asset status, QC not
 **Figures, Tables, And Layout Are Part Of The Work**<br/>
 BookForge treats figures, tables, captions, export shape, rendered pages, and layout review as book-delivery surfaces.
 
+**Meta Review Routes The Repair Level**<br/>
+After whole-book review or serious critique, BookForge decides whether repair starts at artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or an owner/source blocker before editing.
+
 **PDF Export Uses A Real Typesetting Backend**<br/>
 BookForge includes a native PDF export helper that compiles Markdown through Pandoc with XeLaTeX and renders pages for inspection when Poppler is available. Quarto book rendering and Typst are planned backend families for richer book projects.
 
@@ -83,7 +86,7 @@ You can start with prompts like:
 
 - "Use this source corpus to shape a book storyline, define the reader promise, chapter thesis chain, and style contract, then stop for owner review."
 - "Turn this approved storyline into a short book manuscript with chapter drafts, figure plans, table plans, style checks, layout QC, and DOCX/PDF export handoff."
-- "Audit this manuscript for voice drift, AI-flavor phrasing, weak chapter transitions, missing figures or tables, and export-blocking layout issues."
+- "Run a whole-book meta-review and decide whether the repair should start from storyline, outline, chapter function, evidence/model, publication design, or local prose."
 
 ## What It Helps With
 
@@ -96,7 +99,7 @@ You can start with prompts like:
 ## Current Delivery Focus
 
 - `storyline-architecture`: premise, reader promise, argument arc, source map, chapter thesis chain, style contract, and owner handoff.
-- `book-materialization`: chapter draft bundle, manuscript body, figure plan, table plan, style consistency report, AI-flavor revision report, layout QC, exports, and owner handoff.
+- `book-materialization`: chapter draft bundle, manuscript body, figure plan, table plan, style consistency report, AI-flavor revision report, revision entrypoint decision, layout QC, exports, and owner handoff.
 - `OMA Agent Lab`: baseline takeover suite, AI reviewer evaluation, mechanism proposal refs, external-suite self-evolution, and no-patch work-order receipt.
 - `real book pilot`: a short-book pilot produced storyline artifacts, manuscript body, two PNG figures, table plan, DOCX/HTML/PDF exports, rendered PDF pages, quality receipts, and typed owner blockers.
 
