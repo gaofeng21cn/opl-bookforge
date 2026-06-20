@@ -122,7 +122,7 @@ You can start with prompts like:
 - OMA evidence lives under `docs/evidence/oma-agent-lab/`.
 - The real pilot evidence lives under `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot exports include DOCX, HTML, PDF, rendered pages, generated figures, quality receipts, and typed owner blockers. They are evidence artifacts, not owner publication acceptance.
-- Kami-inspired publication proof rules are absorbed as BookForge domain refs only. They do not import Kami's visual language, WeasyPrint runtime, font installer, update checker, or a second proof truth source.
+- Kami-inspired publication proof rules are absorbed as BookForge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's visual language, WeasyPrint runtime, font installer, update checker, or a second proof truth source, and they do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
 - Scaffold validation, generated interface readiness, OMA takeover evidence, external-suite no-patch receipts, pilot exports, or rendered pages cannot become owner receipt, publication approval, production readiness, or hosted runtime parity by themselves.
 
 </details>
