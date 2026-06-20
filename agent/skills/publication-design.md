@@ -18,6 +18,9 @@ Working policy:
 - Use the BookForge PDF helper's Markdown image-ref scan, figure-asset-manifest scan, and helper-generated rendered-page baseline inspection when available. A machine baseline can satisfy proof plumbing evidence for nonblank pages and asset resolution, but it does not replace human publication-design review or owner final-export acceptance.
 - Use rendered-page checks before owner handoff. Inspect sampled pages for page rhythm, heading hierarchy, table readability, caption proximity, figure sharpness, missing images, overfull lines, and visually monotonous spreads.
 - A high-quality nonfiction book should use visual rhythm intentionally: meaningful figures, tables, case boxes, pull quotes, and section breaks. Do not add decorative noise to compensate for weak structure.
+- Choose a whole-book figure stance before final proof when figure style is questioned or when multiple figure styles exist. Record whether the book uses `light_methodology_sketchnote`, `formal_framework_diagram`, or another owner-approved stance, and align figure prompts, captions, image placement, and rendered-page inspection with that choice.
+- A light methodology sketchnote style is acceptable for education-method books when it improves reader entry, model memory, and classroom/project usability. Keep it disciplined: consistent handwritten Chinese typography, restrained color, clear model structure, readable captions, and no decorative clutter.
+- A formal framework diagram style is preferable when the book is positioned as a policy report, institutional white paper, or strictly academic monograph. If selected, all figures should move toward formal layout and terminology rather than mixing casual sketchnotes with serious tables.
 - Do not mark the publication proof ready while required figures are `planned`, `preview_only`, or `blocked_missing_project_bitmap`.
 
 External practice notes:
