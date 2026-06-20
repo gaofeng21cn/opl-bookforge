@@ -15,9 +15,10 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 4. [Invariants](./invariants.md)
 5. [Decisions](./decisions.md)
 6. [External learning: revision routing](./external-learning-revision-routing-2026-06-20.md)
-7. [OPL base revision routing handoff](./opl-base-revision-routing-handoff.md)
-8. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
-9. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
+7. [External learning: Kami publication proof](./external-learning-kami-publication-proof-2026-06-20.md)
+8. [OPL base revision routing handoff](./opl-base-revision-routing-handoff.md)
+9. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
+10. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
 
 ## Evidence Surfaces
 
@@ -27,9 +28,12 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 - Real short-book pilot evidence: `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
 - Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/external-learning-revision-routing-2026-06-20.md`, and `docs/opl-base-revision-routing-handoff.md`.
+- Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/book-materialization-quality-gate.md`, and `docs/external-learning-kami-publication-proof-2026-06-20.md`.
 
 ## Claim Boundary
 
 Current evidence supports OPL-standard scaffold validity, generated interface descriptors, OMA Agent Lab takeover evidence, external-suite self-evolution evidence, and a real short-book pilot with DOCX/HTML/PDF exports and render checks.
 
 Current evidence does not support production-ready book-writing claims, publication approval, owner acceptance, or hosted runtime parity. Those require human owner receipt and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence.
+
+Kami-inspired publication proof rules are domain contracts only. They define proof refs and gates; they do not import Kami's runtime, visual identity, or proof readiness evidence.

@@ -74,6 +74,9 @@ After whole-book review or serious critique, BookForge decides whether repair st
 **PDF Export Uses A Real Typesetting Backend**<br/>
 BookForge includes a native PDF export helper that compiles Markdown through Pandoc with XeLaTeX and renders pages for inspection when Poppler is available. Quarto book rendering and Typst are planned backend families for richer book projects.
 
+**Publication Proof Has Its Own Gates**<br/>
+Review PDFs remain progress-first reading checkpoints. Publication proofs add design tokens, component inventory, font readback, rendered-page QA, front matter and TOC cleanliness, page rhythm/density/orphan checks, asset coverage, and pre-ship proof review. Final export still requires owner/export acceptance.
+
 **Owner-Gated Publication Boundary**<br/>
 BookForge can produce evidence, drafts, exports, and typed blockers. Publication approval, owner acceptance, and production-ready claims still require the right owner receipts and runtime evidence.
 
@@ -119,6 +122,7 @@ You can start with prompts like:
 - OMA evidence lives under `docs/evidence/oma-agent-lab/`.
 - The real pilot evidence lives under `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot exports include DOCX, HTML, PDF, rendered pages, generated figures, quality receipts, and typed owner blockers. They are evidence artifacts, not owner publication acceptance.
+- Kami-inspired publication proof rules are absorbed as BookForge domain refs only. They do not import Kami's visual language, WeasyPrint runtime, font installer, update checker, or a second proof truth source.
 - Scaffold validation, generated interface readiness, OMA takeover evidence, external-suite no-patch receipts, pilot exports, or rendered pages cannot become owner receipt, publication approval, production readiness, or hosted runtime parity by themselves.
 
 </details>
