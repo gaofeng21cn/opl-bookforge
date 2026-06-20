@@ -40,7 +40,7 @@ BookForge owns manuscript bodies, book-domain truth, memory body, style/claim ru
 | Publication-proof run | Proof helper and proof rules exist, but no book-specific publication-proof visual inspection package closes the proof route. | Produce a project-local publication design profile, rendered pages, asset/font/readback evidence, visual inspection, and owner/export decision. |
 | Revision route-back evidence | Router refs exist; current evidence does not show a real independent meta-review finding routed back to storyline, outline, chapter, evidence/model, publication design, local prose, or owner blocker. | Exercise `revision-entrypoint-router` on a real manuscript review and refresh the owning BookForge refs. |
 | OPL artifact lifecycle integration | OPL refs-only transport exists as local source/test evidence; BookForge has no real workspace apply receipt for review-repair transport and refreshed downstream refs. | Run `opl workspace artifact-lifecycle --apply` against a real BookForge workspace with `handoff/review-repair-transport.json`. |
-| Active portfolio coverage | Core current docs are aligned enough for the current baton; evidence-pack leaf documents still include historical artifact material and are not active truth owners. | Keep historical evidence under `docs/evidence/**` and `docs/history/**`; do not convert it into current status or active process logs. |
+| Active portfolio coverage | Core current docs are aligned enough for the current baton; evidence package role now has a single index, and evidence leaves remain package payloads rather than active truth owners. | Keep historical evidence under `docs/evidence/**` and `docs/history/**`; route evidence-package navigation through `docs/evidence/README.md`; do not convert evidence leaves into current status or active process logs. |
 
 ## Test / Evidence Gaps
 
@@ -87,5 +87,5 @@ Foldback target: docs/active/bookforge-ideal-state-gap-plan.md is the active tru
 
 - Covered by this active owner: current progress, functional/structural gaps, test/evidence gaps, and next executable prompt.
 - Current-status SSOT remains `docs/status.md`; this file should not duplicate evidence package lists or dated run transcripts.
-- Support/reference docs remain `docs/references/**`; history/provenance remains `docs/history/**` and `docs/evidence/**`.
+- Support/reference docs remain `docs/references/**`; history/provenance remains `docs/history/**`; evidence-package navigation remains `docs/evidence/README.md`, with evidence payloads under `docs/evidence/**`.
 - Remaining stale/retire candidates need fresh no-active-caller or replacement-owner proof before physical deletion. Current scans mainly show history/provenance or contract-backed no-resurrection contexts, not safe delete authority.

@@ -16,15 +16,13 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 5. [Invariants](./invariants.md)
 6. [Decisions](./decisions.md)
 7. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
-8. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
-9. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
+8. [Evidence package index](./evidence/README.md)
 
 ## Evidence Surfaces
 
 - Structural validation: `scripts/verify.sh`.
 - PDF backend helper doctor: `python3 runtime/native_helpers/bookforge_pdf_export.py --doctor`.
-- OMA baseline takeover and self-evolution evidence: `docs/evidence/oma-agent-lab/`.
-- Real short-book pilot evidence: `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
+- Evidence package index: `docs/evidence/README.md`.
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
 - Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/history/external-learning/revision-routing-2026-06-20.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
 - Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/book-materialization-quality-gate.md`, and `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
