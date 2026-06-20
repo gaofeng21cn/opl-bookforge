@@ -4,7 +4,7 @@ Use this skill inside `book-materialization` for long-form nonfiction projects t
 
 Working policy:
 
-- Maintain book memory as domain artifact refs, not OPL runtime state. OPL may project memory refs, but the memory body belongs to OPL BookForge or the book workspace.
+- Maintain book memory as domain artifact refs, not OPL runtime state. OPL may project memory refs, but the memory body belongs to OPL Book Forge or the book workspace.
 - For OPL-indexed workspaces, refresh and inspect `opl workspace artifact-lifecycle` after memory ref changes. The OPL projection is the lifecycle/readback layer for whether required memory refs exist; it must not contain or replace the memory body.
 - Keep three memory layers:
   - `working_memory`: current chapter brief, current chapter draft, previous chapter summary, next chapter promise, local source refs, and unresolved review notes.
@@ -15,8 +15,8 @@ Working policy:
 - Keep memory concise and cited. A memory item should name the chapter/source/ref that supports it; unsupported conclusions stay in notes or blockers, not semantic memory.
 - Feed memory into chapter context packs through explicit selected refs and traces. Do not dump the whole memory body into every chapter prompt, and do not let compression remove owner decisions, evidence boundaries, reader-style constraints, target extent, or source stance.
 - Keep private source details and unpublished owner comments inside the book workspace memory refs. Do not leak them into generated public docs or OPL-generated interface descriptors.
-- Treat memory updates as a quality operation, not a separate private scheduler. The selected executor updates memory refs during the existing BookForge stages and OPL records only stage receipts, refs, and blockers.
-- Do not manage continuity through BookForge-private pages, hidden notes, provider session memory, or a private attempt ledger when the project is inside an OPL workspace. Use book-memory refs for content and OPL artifact-lifecycle refs for lifecycle/currentness.
+- Treat memory updates as a quality operation, not a separate private scheduler. The selected executor updates memory refs during the existing Book Forge stages and OPL records only stage receipts, refs, and blockers.
+- Do not manage continuity through Book Forge-private pages, hidden notes, provider session memory, or a private attempt ledger when the project is inside an OPL workspace. Use book-memory refs for content and OPL artifact-lifecycle refs for lifecycle/currentness.
 
 Required memory refs for book-length work:
 

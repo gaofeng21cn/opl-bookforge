@@ -1,4 +1,4 @@
-# OPL BookForge Domain Intake Stage
+# OPL Book Forge Domain Intake Stage
 
 Purpose: capture the first domain-specific request, source refs, authority boundary, and handoff criteria before any OPL-hosted execution starts.
 

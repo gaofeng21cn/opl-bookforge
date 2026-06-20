@@ -1,16 +1,16 @@
 # Source Claim Integrity Skill
 
-Use this skill when BookForge drafts, reviews, repairs, or packages nonfiction
+Use this skill when Book Forge drafts, reviews, repairs, or packages nonfiction
 material whose claims depend on source refs, owner material, cases, interviews,
 process evidence, or impact evidence.
 
 Working policy:
 
-- Treat claim integrity as a BookForge domain gate. OPL may project source-map,
+- Treat claim integrity as a Book Forge domain gate. OPL may project source-map,
   claim-ledger, claim-locator, blocker, and receipt refs, but the truth body
-  stays in BookForge-owned book workspace refs.
+  stays in Book Forge-owned book workspace refs.
 - For OPL-indexed book projects, the source passport lifecycle is read through
-  `opl workspace artifact-lifecycle`. BookForge owns `sources/source-map.json`
+  `opl workspace artifact-lifecycle`. Book Forge owns `sources/source-map.json`
   and claim/source bodies; OPL owns the refs-only lifecycle projection that
   reports source-map presence, provenance-field gaps, memory refs, output refs,
   current refs, and lifecycle health.
@@ -23,7 +23,7 @@ Working policy:
     boundary changes, and audit repairs.
   - LibriScribe: local retrieval and cross-reference discipline for finding
     source slices and neighboring claims before drafting or repair.
-- Keep local retrieval BookForge-scoped: retrieve from declared book workspace
+- Keep local retrieval Book Forge-scoped: retrieve from declared book workspace
   refs, owner-supplied material, source maps, chapter packages, and approved
   local reference packs. Do not import a general retrieval service as the gate.
 - Record source provenance before using a source: who supplied it, where it
@@ -32,7 +32,7 @@ Working policy:
 - Source maps for book-length nonfiction must carry lifecycle fields that OPL
   can project: `owner`, `provenance`, `allowed_use`, `privacy`,
   `evidence_class`, and `claim_refs`. Missing fields are lifecycle blockers,
-  not a reason for BookForge to invent source authority.
+  not a reason for Book Forge to invent source authority.
 - Run claim checks at chapter-package boundaries and again after assembly,
   reference absorption, owner/source updates, or any rewrite that changes the
   strength, scope, actor, time, result, or evidence class of a claim.
@@ -113,7 +113,7 @@ Fail-closed conditions:
 - A source is fabricated, unlocatable, outside the declared source map, or cited
   with a locator/provenance that cannot be inspected.
 - An OPL-indexed project's `workspace artifact-lifecycle` source passport is
-  missing, stale, or blocked while BookForge claims source lifecycle,
+  missing, stale, or blocked while Book Forge claims source lifecycle,
   currentness, handoff quality, publication proof, or final export readiness.
 - A chapter or package uses source-dependent claims while the source map or
   source locator is missing.
@@ -126,7 +126,7 @@ Fail-closed conditions:
   slices leak into public generated interfaces or reader-facing prose beyond
   the allowed boundary.
 - A reference draft supplies prose, examples, source-specific facts, or claims
-  that are not independently supported by the BookForge source map.
+  that are not independently supported by the Book Forge source map.
 - Claim audit evidence is stale after source updates, chapter rewrites,
   reference absorption, assembly, or owner-material changes.
 - Unsupported gaps are hidden by softer wording, generic hedging, or final
@@ -149,6 +149,6 @@ Progress policy:
   end with supported claims, explicit claim repairs, typed blockers, or
   concrete next-source-actions.
 
-This skill strengthens BookForge source and claim discipline. It does not
+This skill strengthens Book Forge source and claim discipline. It does not
 authorize publication readiness, final export, owner acceptance, or generic OPL
 runtime behavior.

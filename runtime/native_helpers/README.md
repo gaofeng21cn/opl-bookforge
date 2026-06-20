@@ -1,10 +1,10 @@
-# OPL BookForge Native Helpers
+# OPL Book Forge Native Helpers
 
 Place domain-specific helper implementations here only when they cannot be represented as declarative pack inputs. OPL owns the generic helper envelope and execution contract.
 
 ## PDF Export Helper
 
-`bookforge_pdf_export.py` is the BookForge-owned Markdown-to-PDF export helper for owner-review PDFs and publication-layout candidates. It keeps manuscript prose in Markdown and delegates PDF layout to a real publication/typesetting backend.
+`bookforge_pdf_export.py` is the Book Forge-owned Markdown-to-PDF export helper for owner-review PDFs and publication-layout candidates. It keeps manuscript prose in Markdown and delegates PDF layout to a real publication/typesetting backend.
 
 Current backend:
 
@@ -18,7 +18,7 @@ Current backend:
 Dependency route:
 
 - OPL owns local helper dependency diagnosis and maintenance for this profile through `opl system dependency-doctor --profile bookforge-publication-proof --json` and `opl system dependency-maintenance --profile bookforge-publication-proof --json`.
-- BookForge owns the proof helper, proof profile, artifact gates, manuscript evidence, and owner/export boundaries; it does not implement a system package manager or TeX installer.
+- Book Forge owns the proof helper, proof profile, artifact gates, manuscript evidence, and owner/export boundaries; it does not implement a system package manager or TeX installer.
 - Missing required dependencies block `publication_proof` and `final_export` claims, but they do not block unrelated storyline, chapter drafting, context compilation, claim integrity, or style calibration progress when a narrower honest writing action remains available.
 - The bundled `bookforge-zh-publication-proof` header no longer requires `titling.sty` or `tocloft.sty`; OPL may report those packages as legacy diagnostics, but they are not current proof blockers.
 
@@ -72,7 +72,7 @@ python3 runtime/native_helpers/bookforge_pdf_export.py \
 
 ## Imagegen Asset Helper
 
-`bookforge_imagegen_asset.py` is the BookForge-owned project-local bitmap materialization helper for final manuscript figures.
+`bookforge_imagegen_asset.py` is the Book Forge-owned project-local bitmap materialization helper for final manuscript figures.
 
 Default backend:
 
@@ -87,11 +87,11 @@ Boundary:
 - Project-bound book figures must end as project-local PNG/WebP/JPEG assets and be tracked by the figure asset manifest.
 - Chat previews and default `$CODEX_HOME/generated_images` files are not final book assets until copied into the book project and recorded.
 - The `--mock` / `--self-test` paths only verify helper structure. Mock images must not be counted as final manuscript illustrations.
-- API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen, not the default BookForge route.
+- API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen, not the default Book Forge route.
 
 ## Project Hygiene Helper
 
-`bookforge_project_hygiene.py` scans a BookForge book workspace for workflow hygiene regressions that should not rely on human memory.
+`bookforge_project_hygiene.py` scans a Book Forge book workspace for workflow hygiene regressions that should not rely on human memory.
 
 Current checks:
 

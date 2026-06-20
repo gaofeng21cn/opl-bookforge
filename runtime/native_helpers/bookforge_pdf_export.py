@@ -501,7 +501,7 @@ def auto_rendered_page_inspection(
         "surface_kind": "bookforge_rendered_page_inspection",
         "version": "bookforge-rendered-page-inspection.v1",
         "inspection_kind": "machine_baseline",
-        "source_pattern": "kami-inspired executable proof QA adapted for BookForge publication proofs",
+        "source_pattern": "kami-inspired executable proof QA adapted for Book Forge publication proofs",
         "nonblank_pages": nonblank_pages,
         "overflow_or_clipping": False if nonblank_pages == len(rendered_pages) and rendered_pages else "unchecked",
         "caption_figure_table_status": element_status,
@@ -644,7 +644,7 @@ def assess_artifact_gate(
         if not publication_design:
             blockers.append({
                 "blocker_type": "publication_design_profile_missing",
-                "message": "publication proof requires a publication design profile or BookForge publication profile",
+                "message": "publication proof requires a publication design profile or Book Forge publication profile",
             })
         else:
             missing = missing_fields(publication_design, PUBLICATION_DESIGN_REQUIRED_FIELDS)
@@ -1005,7 +1005,7 @@ def doctor() -> dict[str, Any]:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="OPL BookForge publication/typesetting PDF export helper.",
+        description="OPL Book Forge publication/typesetting PDF export helper.",
     )
     parser.add_argument("--doctor", action="store_true", help="Print backend availability JSON and exit.")
     parser.add_argument("--root", type=Path, default=Path.cwd(), help="Project root for relative refs.")

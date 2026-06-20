@@ -6,15 +6,15 @@ Purpose:
 
 - Decide where revision must begin before editing starts.
 - Keep higher-order book defects from being hidden by sentence-level polishing.
-- Route structural findings back to the correct BookForge domain refs while keeping OPL as a refs-only transport layer.
+- Route structural findings back to the correct Book Forge domain refs while keeping OPL as a refs-only transport layer.
 
 External practice basis:
 
-- Writing-center revision practice separates higher-order concerns such as thesis, audience, purpose, organization, and development from lower-order sentence concerns. BookForge maps this to book-level storyline, reader promise, chapter sequence, evidence/model development, and local prose.
-- Developmental or structural editing treats content, organization, genre, and manuscript structure as distinct from copyediting. BookForge therefore allows route-back to storyline or outline refs before paragraph repair.
-- Reverse outlining turns a completed draft back into a structure map so reviewers can see what the manuscript is actually doing. BookForge uses reverse-outline evidence before deciding whether the draft follows the approved chapter thesis chain.
-- Architecture evaluation practice classifies scenarios, risks, tradeoffs, sensitivity points, and risk themes before changing architecture. BookForge uses the same discipline for manuscript repair: classify the risk layer first, then choose the smallest truthful repair route.
-- Hierarchical architecture views keep system, container, component, and code concerns separate. BookForge uses an analogous zoom ladder for artifact target, storyline, outline, chapter function, evidence/model, publication design, and local prose.
+- Writing-center revision practice separates higher-order concerns such as thesis, audience, purpose, organization, and development from lower-order sentence concerns. Book Forge maps this to book-level storyline, reader promise, chapter sequence, evidence/model development, and local prose.
+- Developmental or structural editing treats content, organization, genre, and manuscript structure as distinct from copyediting. Book Forge therefore allows route-back to storyline or outline refs before paragraph repair.
+- Reverse outlining turns a completed draft back into a structure map so reviewers can see what the manuscript is actually doing. Book Forge uses reverse-outline evidence before deciding whether the draft follows the approved chapter thesis chain.
+- Architecture evaluation practice classifies scenarios, risks, tradeoffs, sensitivity points, and risk themes before changing architecture. Book Forge uses the same discipline for manuscript repair: classify the risk layer first, then choose the smallest truthful repair route.
+- Hierarchical architecture views keep system, container, component, and code concerns separate. Book Forge uses an analogous zoom ladder for artifact target, storyline, outline, chapter function, evidence/model, publication design, and local prose.
 
 Required inputs:
 
@@ -86,7 +86,7 @@ OPL boundary:
 
 - OPL may transport and display the router output as opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, and `owner-decision-ref`.
 - OPL must not decide the repair level, rewrite manuscript body, update book memory body, authorize quality/export, or sign owner receipts.
-- A future OPL generic review-repair transport should support route-back refs, current-owner projection, iteration caps, and freshness gates without reading or owning BookForge manuscript semantics.
+- A future OPL generic review-repair transport should support route-back refs, current-owner projection, iteration caps, and freshness gates without reading or owning Book Forge manuscript semantics.
 
 Fail-closed conditions:
 

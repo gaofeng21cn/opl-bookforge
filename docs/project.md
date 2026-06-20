@@ -1,4 +1,4 @@
-# OPL BookForge
+# OPL Book Forge
 
 Owner: `opl-bookforge`
 Purpose: `domain_agent_project_overview`
@@ -7,14 +7,14 @@ Machine boundary: Human-readable project overview. Machine truth belongs in cont
 
 ## Project Role
 
-`OPL BookForge` is the OPL-standard Foundry Agent domain pack for book authoring. It turns source material into a coherent book route through two primary stages:
+`OPL Book Forge` is the OPL-standard Foundry Agent domain pack for book authoring. It turns source material into a coherent book route through two primary stages:
 
 - `storyline-architecture`: shape the premise, reader promise, argument arc, source map, chapter thesis chain, and writing style contract.
 - `book-materialization`: create chapter drafts, manuscript body, illustration plans, table plans, style reports, AI-flavor revision checks, layout QC, exports, and owner handoff refs.
 
-After full-manuscript meta-review or serious critique, BookForge routes repairs by level before editing: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. This keeps top-level book design defects from being hidden by sentence-level polish.
+After full-manuscript meta-review or serious critique, Book Forge routes repairs by level before editing: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. This keeps top-level book design defects from being hidden by sentence-level polish.
 
-The product name is `OPL BookForge`. The repo slug, `domain_id`, and `foundry_agent_id` are `opl-bookforge`.
+The product name is `OPL Book Forge`. The repo slug, `domain_id`, and `foundry_agent_id` are `opl-bookforge`.
 
 ## Current Evidence
 
@@ -22,7 +22,7 @@ The repo has OPL scaffold/interface validation, OMA Agent Lab takeover and exter
 
 ## Current Boundary
 
-BookForge owns book-domain truth, manuscript quality rules, writing style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
+Book Forge owns book-domain truth, manuscript quality rules, writing style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 
 OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
 

@@ -1,13 +1,13 @@
 <INSTRUCTIONS>
 你始终用中文回复。
 
-本仓是 OPL BookForge 的 OPL 标准 Foundry Agent 领域包。修改前先读取相关 `contracts/`、`agent/`、`docs/` 与验证入口，结论以 fresh OPL validator 输出为准。
+本仓是 OPL Book Forge 的 OPL 标准 Foundry Agent 领域包。修改前先读取相关 `contracts/`、`agent/`、`docs/` 与验证入口，结论以 fresh OPL validator 输出为准。
 
 核心边界：
-- 产品名：`OPL BookForge`。
+- 产品名：`OPL Book Forge`。
 - repo slug / domain_id / foundry_agent_id：`opl-bookforge`。
 - 本仓当前目标是书籍写作智能体的标准结构基线，不能把 scaffold/interface 通过声明为 production ready、book delivery ready、质量通过、出版通过或 owner acceptance。
-- OPL 拥有生成接口、runtime 投影和通用框架；OPL BookForge 拥有领域真相、书稿质量、导出/出版裁决、记忆正文和 owner receipts。
+- OPL 拥有生成接口、runtime 投影和通用框架；OPL Book Forge 拥有领域真相、书稿质量、导出/出版裁决、记忆正文和 owner receipts。
 - 不在本仓实现通用 OPL runtime、queue、attempt ledger、generic scheduler、app shell 或手写默认入口。
 
 验证入口：

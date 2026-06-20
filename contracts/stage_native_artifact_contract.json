@@ -4,7 +4,7 @@
   "target_domain_id": "opl-bookforge",
   "owner": "one-person-lab",
   "materialized_by": "opl-meta-agent",
-  "domain_truth_owner": "OPL BookForge",
+  "domain_truth_owner": "OPL Book Forge",
   "bundle_role": "stage_native_artifact_contract_refs_only",
   "artifact_native_contract_refs": [
     "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
@@ -70,7 +70,7 @@
       "stage_id": "storyline-architecture",
       "owner": "one-person-lab",
       "materialized_by": "opl-meta-agent",
-      "domain_truth_owner": "OPL BookForge",
+      "domain_truth_owner": "OPL Book Forge",
       "role": "stage_folder_manifest_receipt_blocker_current_pointer_and_canonical_refs_only",
       "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
       "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/storyline-architecture",
@@ -209,7 +209,7 @@
         "receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
-        "owner_receipt_body_owner": "OPL BookForge",
+        "owner_receipt_body_owner": "OPL Book Forge",
         "oma_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
@@ -223,14 +223,14 @@
       "canonical_artifact_contract": {
         "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/storyline-architecture",
         "canonical_file_name": "canonical.json",
-        "body_owner": "OPL BookForge",
+        "body_owner": "OPL Book Forge",
         "contains_target_artifact_body": false,
         "canonical_body_requires_target_owner_receipt": true
       },
       "export_contract": {
         "export_ref_template": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
         "export_file_name": "export.json",
-        "export_owner": "OPL BookForge",
+        "export_owner": "OPL Book Forge",
         "oma_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
@@ -360,19 +360,19 @@
         {
           "role_id": "typed_blocker",
           "ref_kind": "stage_typed_blocker_ref",
-          "body_owner": "OPL BookForge",
+          "body_owner": "OPL Book Forge",
           "contains_target_artifact_body": false
         },
         {
           "role_id": "canonical_artifact_ref",
           "ref_kind": "canonical_artifact_ref",
-          "body_owner": "OPL BookForge",
+          "body_owner": "OPL Book Forge",
           "contains_target_artifact_body": false
         },
         {
           "role_id": "export_ref",
           "ref_kind": "stage_export_ref",
-          "body_owner": "OPL BookForge",
+          "body_owner": "OPL Book Forge",
           "contains_target_artifact_body": false
         },
         {
@@ -436,7 +436,7 @@
       "stage_id": "book-materialization",
       "owner": "one-person-lab",
       "materialized_by": "opl-meta-agent",
-      "domain_truth_owner": "OPL BookForge",
+      "domain_truth_owner": "OPL Book Forge",
       "role": "stage_folder_manifest_receipt_blocker_current_pointer_and_canonical_refs_only",
       "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/book-materialization",
       "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/book-materialization",
@@ -575,7 +575,7 @@
         "receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
-        "owner_receipt_body_owner": "OPL BookForge",
+        "owner_receipt_body_owner": "OPL Book Forge",
         "oma_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
@@ -589,14 +589,14 @@
       "canonical_artifact_contract": {
         "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/book-materialization",
         "canonical_file_name": "canonical.json",
-        "body_owner": "OPL BookForge",
+        "body_owner": "OPL Book Forge",
         "contains_target_artifact_body": false,
         "canonical_body_requires_target_owner_receipt": true
       },
       "export_contract": {
         "export_ref_template": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
         "export_file_name": "export.json",
-        "export_owner": "OPL BookForge",
+        "export_owner": "OPL Book Forge",
         "oma_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
@@ -726,19 +726,19 @@
         {
           "role_id": "typed_blocker",
           "ref_kind": "stage_typed_blocker_ref",
-          "body_owner": "OPL BookForge",
+          "body_owner": "OPL Book Forge",
           "contains_target_artifact_body": false
         },
         {
           "role_id": "canonical_artifact_ref",
           "ref_kind": "canonical_artifact_ref",
-          "body_owner": "OPL BookForge",
+          "body_owner": "OPL Book Forge",
           "contains_target_artifact_body": false
         },
         {
           "role_id": "export_ref",
           "ref_kind": "stage_export_ref",
-          "body_owner": "OPL BookForge",
+          "body_owner": "OPL Book Forge",
           "contains_target_artifact_body": false
         },
         {

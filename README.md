@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="assets/branding/opl-bookforge-logo.png" alt="OPL BookForge logo" width="132" />
+  <img src="assets/branding/opl-bookforge-logo.png" alt="OPL Book Forge logo" width="132" />
 </p>
 
 <p align="center">
   <a href="./README.md"><strong>English</strong></a> | <a href="./README.zh-CN.md">中文</a>
 </p>
 
-<h1 align="center">OPL BookForge</h1>
+<h1 align="center">OPL Book Forge</h1>
 
 <p align="center"><strong>An OPL-standard book-writing agent for turning a storyline into a finished manuscript package</strong></p>
 <p align="center">Storyline architecture · Chapter drafting · Figures and tables · Style control · Export handoff</p>
@@ -20,7 +20,7 @@ Machine boundary: Human-readable public entry. Machine truth remains in `contrac
 
 Writing a book is long-form delivery work. The hard part is keeping the reader promise, chapter logic, source grounding, voice, figures, tables, layout, and owner review on one line until the manuscript can be handed off.
 
-`OPL BookForge` is built around that work:
+`OPL Book Forge` is built around that work:
 
 - What is the book's promise, audience, argument arc, and chapter thesis chain?
 - Which source material supports each chapter, figure, table, and claim?
@@ -48,13 +48,13 @@ It organizes a two-stage route from storyline architecture to book materializati
 </table>
 
 <p align="center">
-  <img src="assets/branding/opl-bookforge-overview-v2.png" alt="OPL BookForge overview" width="100%" />
+  <img src="assets/branding/opl-bookforge-overview-v2.png" alt="OPL Book Forge overview" width="100%" />
 </p>
 
 ## Core Highlights
 
 **Storyline First**<br/>
-BookForge starts with the book's premise, reader promise, source map, argument arc, chapter thesis chain, and style contract before materializing chapters.
+Book Forge starts with the book's premise, reader promise, source map, argument arc, chapter thesis chain, and style contract before materializing chapters.
 
 **Book Materialization As A Stage**<br/>
 The second stage produces chapter drafts, manuscript body, illustration plans, table plans, style reports, AI-flavor revision checks, layout QC, and export handoff refs.
@@ -63,22 +63,22 @@ The second stage produces chapter drafts, manuscript body, illustration plans, t
 The style contract travels with the book project. Checks look for consistent terminology, concrete phrasing, affirmative editorial language, and repeated patterns that make prose feel generated.
 
 **First Drafts Should Already Read Like Book Prose**<br/>
-BookForge keeps chapter tasks, target budgets, source refs, asset status, QC notes, and blockers in briefs and reports. The manuscript body is expected to open from reader-facing scenes, questions, tensions, and consequences instead of exposing production scaffolding.
+Book Forge keeps chapter tasks, target budgets, source refs, asset status, QC notes, and blockers in briefs and reports. The manuscript body is expected to open from reader-facing scenes, questions, tensions, and consequences instead of exposing production scaffolding.
 
 **Figures, Tables, And Layout Are Part Of The Work**<br/>
-BookForge treats figures, tables, captions, export shape, rendered pages, and layout review as book-delivery surfaces.
+Book Forge treats figures, tables, captions, export shape, rendered pages, and layout review as book-delivery surfaces.
 
 **Meta Review Routes The Repair Level**<br/>
-After whole-book review or serious critique, BookForge decides whether repair starts at artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or an owner/source blocker before editing.
+After whole-book review or serious critique, Book Forge decides whether repair starts at artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or an owner/source blocker before editing.
 
 **PDF Export Uses A Real Typesetting Backend**<br/>
-BookForge includes a native PDF export helper that compiles Markdown through Pandoc with XeLaTeX and renders pages for inspection when Poppler is available. Quarto book rendering and Typst are planned backend families for richer book projects.
+Book Forge includes a native PDF export helper that compiles Markdown through Pandoc with XeLaTeX and renders pages for inspection when Poppler is available. Quarto book rendering and Typst are planned backend families for richer book projects.
 
 **Publication Proof Has Its Own Gates**<br/>
 Review PDFs remain progress-first reading checkpoints. Publication proofs add design tokens, component inventory, font readback, rendered-page QA, front matter and TOC cleanliness, page rhythm/density/orphan checks, asset coverage, and pre-ship proof review. Final export still requires owner/export acceptance.
 
 **Owner-Gated Publication Boundary**<br/>
-BookForge can produce evidence, drafts, exports, and typed blockers. Publication approval, owner acceptance, and production-ready claims still require the right owner receipts and runtime evidence.
+Book Forge can produce evidence, drafts, exports, and typed blockers. Publication approval, owner acceptance, and production-ready claims still require the right owner receipts and runtime evidence.
 
 **Built Through OMA And Agent Lab**<br/>
 This baseline includes OPL Meta Agent takeover evidence, independent AI reviewer evidence, and an external-suite self-evolution pass. New-agent delivery must go through that loop rather than ending at scaffold readiness.
@@ -108,9 +108,9 @@ You can start with prompts like:
 
 ## Current Boundary
 
-- `OPL BookForge` is an OPL-standard Foundry Agent domain pack for book authoring.
+- `OPL Book Forge` is an OPL-standard Foundry Agent domain pack for book authoring.
 - OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
-- BookForge owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
+- Book Forge owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 - Current evidence supports structural baseline, generated interface descriptors, OMA Agent Lab evaluation, and a real short-book pilot with export/render checks.
 - Current evidence does not authorize a production-ready book-writing claim. The real pilot remains `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false` until human owner acceptance and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence exist.
 
@@ -122,7 +122,7 @@ You can start with prompts like:
 - OMA evidence lives under `docs/evidence/oma-agent-lab/`.
 - The real pilot evidence lives under `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot exports include DOCX, HTML, PDF, rendered pages, generated figures, quality receipts, and typed owner blockers. They are evidence artifacts, not owner publication acceptance.
-- Kami-inspired publication proof rules are absorbed as BookForge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's visual language, WeasyPrint runtime, font installer, update checker, or a second proof truth source, and they do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
+- Kami-inspired publication proof rules are absorbed as Book Forge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's visual language, WeasyPrint runtime, font installer, update checker, or a second proof truth source, and they do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
 - Scaffold validation, generated interface readiness, OMA takeover evidence, external-suite no-patch receipts, pilot exports, or rendered pages cannot become owner receipt, publication approval, production readiness, or hosted runtime parity by themselves.
 
 </details>
@@ -138,9 +138,9 @@ You can start with prompts like:
 <details>
   <summary><strong>Start here if you are handing this repo to Codex or another agent</strong></summary>
 
-- Cloning this repo does not install the OPL Framework or a hosted BookForge runtime. If hosted execution is needed, prepare the current `one-person-lab` checkout or release bundle first.
+- Cloning this repo does not install the OPL Framework or a hosted Book Forge runtime. If hosted execution is needed, prepare the current `one-person-lab` checkout or release bundle first.
 - Read this README, [Docs Guide](./docs/README.md), [Status](./docs/status.md), and `AGENTS.md` before editing.
-- Treat `OPL BookForge` as the book-domain owner and OPL as generated/runtime surface owner.
+- Treat `OPL Book Forge` as the book-domain owner and OPL as generated/runtime surface owner.
 - Use OMA / Agent Lab evidence when evaluating the baseline. Do not stop at scaffold or interface validation when claiming a new-agent delivery is complete.
 - Keep publication, export acceptance, and production-ready claims fail-closed until owner receipts and runtime parity evidence exist.
 

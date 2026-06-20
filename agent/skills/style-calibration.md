@@ -1,12 +1,12 @@
 # Style Calibration Skill
 
-Use this skill when BookForge needs to calibrate a reusable writing style
+Use this skill when Book Forge needs to calibrate a reusable writing style
 profile from owner-inspectable evidence before drafting, revising, or checking
 book prose.
 
 Boundary:
 
-- Style calibration is a BookForge domain ref, not a model router, detector
+- Style calibration is a Book Forge domain ref, not a model router, detector
   evasion layer, or generic humanizer.
 - The calibrated style must obey the reader-style contract, source stance map,
   evidence map, chapter job, and house style.

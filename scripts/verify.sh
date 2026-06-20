@@ -98,21 +98,21 @@ if command -v pandoc >/dev/null 2>&1 && command -v xelatex >/dev/null 2>&1; then
   trap 'rm -rf "${tmp_dir}"' EXIT
   cat >"${tmp_dir}/sample.md" <<'EOF'
 ---
-title: "BookForge PDF Smoke"
-author: "OPL BookForge"
+title: "Book Forge PDF Smoke"
+author: "OPL Book Forge"
 lang: zh-CN
 date: "2026-06-19"
 ---
 
 # 第一章
 
-这是 OPL BookForge PDF 出口的中文 smoke test。
+这是 OPL Book Forge PDF 出口的中文 smoke test。
 
 > 审阅 PDF 可以检查内容连续性；出版 proof 还要检查页面节奏、图表、页眉页码和视觉层级。
 
 ## 图表与页面节奏
 
-出版级电子书不能只有默认正文灰度。BookForge 的出版 profile 应当给标题、表格、引用块、图注和页码一个稳定层级。
+出版级电子书不能只有默认正文灰度。Book Forge 的出版 profile 应当给标题、表格、引用块、图注和页码一个稳定层级。
 
 | Artifact | Gate | Evidence |
 | --- | --- | --- |
@@ -339,7 +339,7 @@ repo = Path(sys.argv[1])
 profile = json.loads((repo / "runtime/native_helpers/pdf_profiles/bookforge-zh-publication-proof.json").read_text(encoding="utf-8"))
 tokens = profile["design_tokens"]
 expectations = profile["visual_qa_expectations"]
-assert tokens["owner"] == "OPL BookForge", tokens
+assert tokens["owner"] == "OPL Book Forge", tokens
 assert "inspired_by_kami_patterns" in tokens["source_pattern_note"], tokens
 for key in ("page", "font", "heading", "body", "caption", "table", "callout", "front_matter", "running_head", "page_number"):
     assert key in tokens, key

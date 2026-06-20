@@ -1,6 +1,6 @@
 {
   "profile_id": "bookforge-zh-publication-proof",
-  "profile_label": "BookForge Chinese Publication Proof",
+  "profile_label": "Book Forge Chinese Publication Proof",
   "backend": "pandoc-xelatex",
   "pandoc_variables": [
     "documentclass=ctexbook",
@@ -30,8 +30,8 @@
     "bookforge-zh-publication-proof-header.tex"
   ],
   "design_tokens": {
-    "owner": "OPL BookForge",
-    "source_pattern_note": "inspired_by_kami_patterns: executable page proof checks, embedded font inspection, density/whitespace scan, and sample-role checklist; visual identity remains BookForge.",
+    "owner": "OPL Book Forge",
+    "source_pattern_note": "inspired_by_kami_patterns: executable page proof checks, embedded font inspection, density/whitespace scan, and sample-role checklist; visual identity remains Book Forge.",
     "page": {
       "size": "A5",
       "paper_width": "148mm",

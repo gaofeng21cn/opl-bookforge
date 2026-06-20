@@ -1,7 +1,7 @@
 # TASTE
 
 Owner: `opl-bookforge`
-Purpose: 记录 OPL BookForge 的本地维护偏好。
+Purpose: 记录 OPL Book Forge 的本地维护偏好。
 State: `active_preference`
 Machine boundary: 本文是协作偏好；机器真相以 `contracts/`、OPL validator 输出、runtime receipts 和 owner receipts 为准。
 

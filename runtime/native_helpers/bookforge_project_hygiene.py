@@ -1056,7 +1056,7 @@ def run_self_test() -> None:
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Check BookForge project hygiene for active manuscript and retired draft archives.")
+    parser = argparse.ArgumentParser(description="Check Book Forge project hygiene for active manuscript and retired draft archives.")
     parser.add_argument("--root", type=Path, default=Path.cwd(), help="Book project root.")
     parser.add_argument("--active-path", action="append", default=None, help="Backward-compatible alias: add the same active text path to voice and status scans. Repeatable.")
     parser.add_argument("--voice-path", action="append", default=None, help="Active reader-facing or handoff path to scan for forbidden case-stance phrases. Repeatable.")

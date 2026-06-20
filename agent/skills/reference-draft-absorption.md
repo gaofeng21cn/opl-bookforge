@@ -21,7 +21,7 @@ Working policy:
   - style-engine updates;
   - quality-gate updates;
   - remaining owner decisions or evidence gaps.
-- Absorb strengths into BookForge-owned production surfaces, not into a private controller. Durable learnings should update the reader-style contract, style engine, chapter task cards, glossary, evidence map, chapter briefs, QC reports, or publication design profile.
+- Absorb strengths into Book Forge-owned production surfaces, not into a private controller. Durable learnings should update the reader-style contract, style engine, chapter task cards, glossary, evidence map, chapter briefs, QC reports, or publication design profile.
 - Prefer reference-derived rules that improve first-pass book prose:
   - chapters open from a lived scene, concrete institutional tension, practical reader question, or visible consequence;
   - abstract theme questions are rewritten into reader action questions, such as "where does the student practice this?" instead of only "where does this ability come from?";
@@ -65,7 +65,7 @@ Working policy:
   - formulaic negation counts are interpreted with context, because some contrasts carry real conceptual work;
   - chapter budgets and target extent are not silently reduced by a polishing pass;
   - case stance, evidence gaps, and primary-reader density remain consistent with the reader-style contract.
-- When a reference version exposes a systemic defect in current BookForge output, update the drafting pattern before continuing chapter production. Do not only patch the visible chapter text.
+- When a reference version exposes a systemic defect in current Book Forge output, update the drafting pattern before continuing chapter production. Do not only patch the visible chapter text.
 - Required fail-closed conditions:
   - reference comparison is mentioned in owner handoff but no adoption report or style/chapter-task update exists;
   - current drafts still expose review metadata, blocker phrasing, target budgets, source refs, or internal status in reader-facing prose after the reference showed a cleaner book surface;
@@ -76,8 +76,8 @@ Working policy:
   - a local reference slice is described as a whole-book completion, publication proof, or final export;
   - merged reference text introduces broken sentences, dangling fragments, duplicated numbering, or stale partial-generation residue;
   - the reference's secondary-reader accommodation silently changes the declared primary readers;
-  - BookForge copies reference prose without source authority or owner permission.
+  - Book Forge copies reference prose without source authority or owner permission.
 
 Fail-closed applies to the reference-related claim being made. If the current task is ordinary drafting, chapter QC, local repair, context compilation, or a review-only PDF and no owner/reference-absorption claim is being made, missing reference absorption should become an advisory route-back or owner question, not a global workflow stop.
 
-This skill improves BookForge's drafting pattern. It does not authorize final editorial acceptance, publication proof readiness, final export, or owner approval.
+This skill improves Book Forge's drafting pattern. It does not authorize final editorial acceptance, publication proof readiness, final export, or owner approval.

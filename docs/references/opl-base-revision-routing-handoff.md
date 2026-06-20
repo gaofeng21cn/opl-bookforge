@@ -3,11 +3,11 @@
 Owner: `opl-bookforge`
 Purpose: `support_reference_opl_base_handoff`
 State: `reference_landed_initial_opl_transport`
-Machine boundary: Human-readable cross-repo handoff reference. Machine truth remains in BookForge contracts, OPL validator output, OPL source/tests, runtime receipts, owner receipts, and typed blockers.
+Machine boundary: Human-readable cross-repo handoff reference. Machine truth remains in Book Forge contracts, OPL validator output, OPL source/tests, runtime receipts, owner receipts, and typed blockers.
 
 ## Problem
 
-BookForge Meta Review can now discover that a manuscript should not be repaired from a sentence or chapter. Some findings require a route back to artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, or owner/source decisions.
+Book Forge Meta Review can now discover that a manuscript should not be repaired from a sentence or chapter. Some findings require a route back to artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, or owner/source decisions.
 
 The domain owns those semantics, but the OPL base should make the route easy to execute and inspect across agents.
 
@@ -32,11 +32,11 @@ The transport treats domain repair decisions as opaque refs:
 - `iteration_limit_ref`
 - `current_owner_delta_ref`
 
-It projects current owner, accepted next-answer shape, route-back target, iteration count, stale downstream refs, and closure options. It does not parse or decide BookForge manuscript meaning.
+It projects current owner, accepted next-answer shape, route-back target, iteration count, stale downstream refs, and closure options. It does not parse or decide Book Forge manuscript meaning.
 
 ## Domain-Owned Semantics
 
-BookForge owns:
+Book Forge owns:
 
 - repair level selection;
 - reverse-outline interpretation;
@@ -68,16 +68,16 @@ OPL may own:
 
 - `npm run typecheck` in `/Users/gaofeng/workspace/one-person-lab`: passed on 2026-06-20.
 - `node --experimental-strip-types --test tests/src/cli/cases/workspace-domain.initializer.test.ts` in `/Users/gaofeng/workspace/one-person-lab`: 19/19 passed on 2026-06-20.
-- Focused test coverage includes a BookForge success path that materializes source passport, memory lifecycle, output lifecycle, review-repair transport, health, and index projections.
-- Focused test coverage includes a fail-closed BookForge path for missing current owner, missing accepted answer shape, missing route-back target, stale downstream refs, and exceeded iteration limit.
+- Focused test coverage includes a Book Forge success path that materializes source passport, memory lifecycle, output lifecycle, review-repair transport, health, and index projections.
+- Focused test coverage includes a fail-closed Book Forge path for missing current owner, missing accepted answer shape, missing route-back target, stale downstream refs, and exceeded iteration limit.
 
 This is local OPL source/test evidence for the transport surface. It is not hosted runtime parity, production readiness, repair acceptance, publication readiness, or owner acceptance.
 
-## BookForge Evidence Needed Before Promotion
+## Book Forge Evidence Needed Before Promotion
 
 - A real manuscript meta-review that produces a revision entrypoint decision.
-- At least one routed repair that refreshes the corresponding BookForge refs and downstream artifacts.
+- At least one routed repair that refreshes the corresponding Book Forge refs and downstream artifacts.
 - A route-back case to `storyline-architecture` or `outline_sequence_repair`.
 - A local prose case that proves fast-track does not bypass higher-order defects.
-- BookForge `scripts/verify.sh` after the domain refs are updated.
-- OPL `workspace artifact-lifecycle --apply` evidence against a real BookForge workspace with project-local handoff refs.
+- Book Forge `scripts/verify.sh` after the domain refs are updated.
+- OPL `workspace artifact-lifecycle --apply` evidence against a real Book Forge workspace with project-local handoff refs.

@@ -1,11 +1,11 @@
-# OPL BookForge Docs Guide
+# OPL Book Forge Docs Guide
 
 Owner: `opl-bookforge`
 Purpose: `docs_index`
 State: `active_index`
 Machine boundary: Human-readable navigation. Machine truth remains in contracts, agent pack files, OPL validator output, OMA Agent Lab evidence, pilot evidence, future runtime receipts, owner receipts, and typed blockers.
 
-This directory is the documentation entry for the OPL BookForge domain agent package.
+This directory is the documentation entry for the OPL Book Forge domain agent package.
 
 ## Current Reading Order
 
@@ -33,4 +33,4 @@ Current evidence supports OPL-standard scaffold validity, generated interface de
 
 Current evidence does not support production-ready book-writing claims, publication approval, owner acceptance, or hosted runtime parity. Those require human owner receipt and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence.
 
-Kami-inspired publication proof rules are BookForge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's runtime or visual identity, and they still do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
+Kami-inspired publication proof rules are Book Forge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's runtime or visual identity, and they still do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.

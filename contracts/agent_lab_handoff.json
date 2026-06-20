@@ -110,7 +110,7 @@
         "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/baseline-review",
         "no_shared_context": true,
         "independent_attempt": true,
-        "critique": "The OPL BookForge baseline has a clear two-stage book workflow and keeps book quality, manuscript body, export, and publication decisions under owner gates. The next evidence should exercise a real source corpus and produce owner-reviewed chapter, illustration, table, and layout receipts.",
+        "critique": "The OPL Book Forge baseline has a clear two-stage book workflow and keeps book quality, manuscript body, export, and publication decisions under owner gates. The next evidence should exercise a real source corpus and produce owner-reviewed chapter, illustration, table, and layout receipts.",
         "suggestions": [
           "Add a real-source Agent Lab suite that checks storyline-to-chapter traceability.",
           "Add owner-gated examples for illustration and table planning before claiming book-delivery readiness.",

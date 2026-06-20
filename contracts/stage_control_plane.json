@@ -3,10 +3,10 @@
   "version": "family-stage-control-plane.v1",
   "plane_id": "opl_bookforge_stage_plane",
   "target_domain_id": "opl-bookforge",
-  "owner": "OPL BookForge",
+  "owner": "OPL Book Forge",
   "stage_pack_conformance_version": "standard-stage-pack.v2",
   "authority_boundary": {
-    "domain_truth_owner": "OPL BookForge",
+    "domain_truth_owner": "OPL Book Forge",
     "opl_role": "stage_runtime_projection_and_generated_interface_owner",
     "opl_can_write_domain_truth": false,
     "opl_can_write_memory_body": false,
@@ -19,7 +19,7 @@
       "title": "Storyline Architecture",
       "summary": "Shape the premise, reader promise, argument arc, evidence map, chapter thesis chain, and prose style contract before drafting.",
       "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
-      "owner": "OPL BookForge",
+      "owner": "OPL Book Forge",
       "stage_pack_conformance_version": "standard-stage-pack.v2",
       "selected_executor": {
         "executor_kind": "codex_cli",
@@ -157,7 +157,7 @@
       },
       "independent_gate_policy": {
         "gate_ref": "agent/quality_gates/storyline-architecture-quality-gate.md",
-        "gate_owner": "OPL BookForge",
+        "gate_owner": "OPL Book Forge",
         "execution_review_separation_required": true,
         "mechanical_completion_can_close_stage": false,
         "provider_completion_can_claim_domain_ready": false,
@@ -176,7 +176,7 @@
         ]
       },
       "handoff": {
-        "next_owner": "OPL BookForge",
+        "next_owner": "OPL Book Forge",
         "allowed_closure_refs": [
           "independent-gate-receipt-ref:storyline-architecture",
           "owner-receipt-ref:storyline-architecture",
@@ -383,7 +383,7 @@
           "stage_id": "storyline-architecture",
           "owner": "one-person-lab",
           "materialized_by": "opl-meta-agent",
-          "domain_truth_owner": "OPL BookForge",
+          "domain_truth_owner": "OPL Book Forge",
           "role": "stage_folder_manifest_receipt_blocker_current_pointer_and_canonical_refs_only",
           "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
           "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/storyline-architecture",
@@ -522,7 +522,7 @@
             "receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
             "receipt_file_name": "receipt.json",
             "receipt_owner": "one-person-lab",
-            "owner_receipt_body_owner": "OPL BookForge",
+            "owner_receipt_body_owner": "OPL Book Forge",
             "oma_can_generate_target_domain_owner_receipt": false,
             "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
           },
@@ -536,14 +536,14 @@
           "canonical_artifact_contract": {
             "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/storyline-architecture",
             "canonical_file_name": "canonical.json",
-            "body_owner": "OPL BookForge",
+            "body_owner": "OPL Book Forge",
             "contains_target_artifact_body": false,
             "canonical_body_requires_target_owner_receipt": true
           },
           "export_contract": {
             "export_ref_template": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
             "export_file_name": "export.json",
-            "export_owner": "OPL BookForge",
+            "export_owner": "OPL Book Forge",
             "oma_can_authorize_target_quality_or_export": false,
             "export_requires_target_owner_gate": true
           },
@@ -673,19 +673,19 @@
             {
               "role_id": "typed_blocker",
               "ref_kind": "stage_typed_blocker_ref",
-              "body_owner": "OPL BookForge",
+              "body_owner": "OPL Book Forge",
               "contains_target_artifact_body": false
             },
             {
               "role_id": "canonical_artifact_ref",
               "ref_kind": "canonical_artifact_ref",
-              "body_owner": "OPL BookForge",
+              "body_owner": "OPL Book Forge",
               "contains_target_artifact_body": false
             },
             {
               "role_id": "export_ref",
               "ref_kind": "stage_export_ref",
-              "body_owner": "OPL BookForge",
+              "body_owner": "OPL Book Forge",
               "contains_target_artifact_body": false
             },
             {
@@ -849,7 +849,7 @@
         "runtime_guard_required": true
       },
       "authority_boundary": {
-        "domain_truth_owner": "OPL BookForge",
+        "domain_truth_owner": "OPL Book Forge",
         "opl_role": "projection_only",
         "can_write_target_domain_truth": false,
         "can_write_target_domain_memory_body": false,
@@ -863,7 +863,7 @@
       "title": "Book Materialization",
       "summary": "Create chapter drafts and production specs, then run consistency, AI-flavor, illustration, table, layout, and handoff checks.",
       "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
-      "owner": "OPL BookForge",
+      "owner": "OPL Book Forge",
       "stage_pack_conformance_version": "standard-stage-pack.v2",
       "selected_executor": {
         "executor_kind": "codex_cli",
@@ -1045,7 +1045,7 @@
       },
       "independent_gate_policy": {
         "gate_ref": "agent/quality_gates/book-materialization-quality-gate.md",
-        "gate_owner": "OPL BookForge",
+        "gate_owner": "OPL Book Forge",
         "execution_review_separation_required": true,
         "mechanical_completion_can_close_stage": false,
         "provider_completion_can_claim_domain_ready": false,
@@ -1064,7 +1064,7 @@
         ]
       },
       "handoff": {
-        "next_owner": "OPL BookForge",
+        "next_owner": "OPL Book Forge",
         "allowed_closure_refs": [
           "independent-gate-receipt-ref:book-materialization",
           "owner-receipt-ref:book-materialization",
@@ -1311,7 +1311,7 @@
           "stage_id": "book-materialization",
           "owner": "one-person-lab",
           "materialized_by": "opl-meta-agent",
-          "domain_truth_owner": "OPL BookForge",
+          "domain_truth_owner": "OPL Book Forge",
           "role": "stage_folder_manifest_receipt_blocker_current_pointer_and_canonical_refs_only",
           "artifact_native_contract_ref": "artifact-native-contract-ref:opl-bookforge/book-materialization",
           "stage_folder_contract_ref": "stage-folder-contract-ref:opl-bookforge/book-materialization",
@@ -1450,7 +1450,7 @@
             "receipt_ref_template": "stage-attempt-receipt-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
             "receipt_file_name": "receipt.json",
             "receipt_owner": "one-person-lab",
-            "owner_receipt_body_owner": "OPL BookForge",
+            "owner_receipt_body_owner": "OPL Book Forge",
             "oma_can_generate_target_domain_owner_receipt": false,
             "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
           },
@@ -1464,14 +1464,14 @@
           "canonical_artifact_contract": {
             "canonical_artifact_ref": "canonical-artifact-ref:opl-bookforge/book-materialization",
             "canonical_file_name": "canonical.json",
-            "body_owner": "OPL BookForge",
+            "body_owner": "OPL Book Forge",
             "contains_target_artifact_body": false,
             "canonical_body_requires_target_owner_receipt": true
           },
           "export_contract": {
             "export_ref_template": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
             "export_file_name": "export.json",
-            "export_owner": "OPL BookForge",
+            "export_owner": "OPL Book Forge",
             "oma_can_authorize_target_quality_or_export": false,
             "export_requires_target_owner_gate": true
           },
@@ -1601,19 +1601,19 @@
             {
               "role_id": "typed_blocker",
               "ref_kind": "stage_typed_blocker_ref",
-              "body_owner": "OPL BookForge",
+              "body_owner": "OPL Book Forge",
               "contains_target_artifact_body": false
             },
             {
               "role_id": "canonical_artifact_ref",
               "ref_kind": "canonical_artifact_ref",
-              "body_owner": "OPL BookForge",
+              "body_owner": "OPL Book Forge",
               "contains_target_artifact_body": false
             },
             {
               "role_id": "export_ref",
               "ref_kind": "stage_export_ref",
-              "body_owner": "OPL BookForge",
+              "body_owner": "OPL Book Forge",
               "contains_target_artifact_body": false
             },
             {
@@ -1777,7 +1777,7 @@
         "runtime_guard_required": true
       },
       "authority_boundary": {
-        "domain_truth_owner": "OPL BookForge",
+        "domain_truth_owner": "OPL Book Forge",
         "opl_role": "projection_only",
         "can_write_target_domain_truth": false,
         "can_write_target_domain_memory_body": false,

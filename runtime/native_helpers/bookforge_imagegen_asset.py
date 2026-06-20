@@ -260,7 +260,7 @@ def build_task_prompt(args: argparse.Namespace, output_file: Path, prompt: str) 
         "background": "opaque",
     }
     return "\n".join([
-        "你是 OPL BookForge 的 Codex executor，负责执行书稿插图资产生成任务。",
+        "你是 OPL Book Forge 的 Codex executor，负责执行书稿插图资产生成任务。",
         "必须显式使用 $imagegen 或 Codex 原生 image_generation 能力生成 raster bitmap。不要使用脚本绘图、SVG、HTML 截图、占位图、外部 curl/fetch、显式 Base URL、显式 API key 或 OPENAI_API_KEY。",
         "使用内置 imagegen 默认路径生成后，把最终图片复制或移动到指定 output_file。不要把 book/project-bound asset 只留在 $CODEX_HOME/generated_images。",
         "如果可以看到内置 imagegen 的原始生成路径，请在 generated_image_file 字段返回它。",
@@ -394,7 +394,7 @@ def update_asset_manifest(asset_manifest: Path | None, receipt_path: Path | None
             )
             if key in runtime
         }
-        target["review_result"] = "Generated through BookForge native imagegen helper; visual review still required before publication proof."
+        target["review_result"] = "Generated through Book Forge native imagegen helper; visual review still required before publication proof."
     else:
         target.pop("asset", None)
         target.pop("generation_runtime", None)
@@ -550,7 +550,7 @@ def doctor(args: argparse.Namespace) -> dict[str, Any]:
         "generated_images_dir_exists": root.is_dir(),
         "newest_generated_image": newest,
         "default_route": "codex_native_imagegen_child_executor",
-        "api_fallback_boundary": "explicit owner/operator choice for large batches or unavailable built-in imagegen; not the default BookForge route",
+        "api_fallback_boundary": "explicit owner/operator choice for large batches or unavailable built-in imagegen; not the default Book Forge route",
         "token_policy": {
             "helper_reads_openai_api_key": False,
             "helper_reads_base_url": False,
@@ -569,10 +569,10 @@ def run_self_test(args: argparse.Namespace) -> dict[str, Any]:
         test_args.root = root
         test_args.output_file = output
         test_args.manifest = manifest
-        test_args.prompt = "Draw a simple BookForge imagegen helper self-test bitmap."
+        test_args.prompt = "Draw a simple Book Forge imagegen helper self-test bitmap."
         test_args.prompt_file = None
         test_args.figure_id = "self-test"
-        test_args.title = "BookForge imagegen helper self-test"
+        test_args.title = "Book Forge imagegen helper self-test"
         payload = generate_mock(test_args, root, output, test_args.prompt)
         write_json(manifest, payload)
         return {
@@ -586,7 +586,7 @@ def run_self_test(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate OPL BookForge project-local bitmap figure assets through Codex native imagegen.")
+    parser = argparse.ArgumentParser(description="Generate OPL Book Forge project-local bitmap figure assets through Codex native imagegen.")
     parser.add_argument("--doctor", action="store_true", help="Print local capability diagnostics without generating an image.")
     parser.add_argument("--self-test", action="store_true", help="Run a mock helper self-test without provider calls.")
     parser.add_argument("--update-asset-manifest", action="store_true", help="Update --asset-manifest from an existing --receipt-file without generating.")

@@ -7,7 +7,7 @@
   "status": "real_target_delivery_evidence_recorded",
   "target_agent": {
     "domain_id": "opl-bookforge",
-    "domain_label": "OPL BookForge",
+    "domain_label": "OPL Book Forge",
     "delivery_domain": "book_authoring",
     "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
     "repo_dir": "/tmp/opl-bookforge-oma-baseline/opl-bookforge",

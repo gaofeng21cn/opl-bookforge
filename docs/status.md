@@ -1,4 +1,4 @@
-# OPL BookForge Status
+# OPL Book Forge Status
 
 Owner: `opl-bookforge`
 Purpose: `current_status`
@@ -12,7 +12,7 @@ Current state: OPL standard structural baseline plus one historical real short-b
 - OPL standard scaffold and generated interface descriptors validate through `scripts/verify.sh`.
 - The stage pack exposes two primary stages, `storyline-architecture` and `book-materialization`, plus domain refs for revision routing, chapter context, source-claim integrity, style calibration, publication design, PDF proof gates, image asset receipts, and workspace lifecycle hygiene.
 - The PDF export helper uses real typesetting backends, distinguishes `review_pdf`, `publication_proof`, and `final_export`, scans Markdown image refs, checks figure asset manifest readiness, writes rendered-page machine-baseline inspection when requested, reads embedded fonts through `pdffonts` when available, scans rendered-page density and trailing whitespace, and fail-closes `publication_proof` / `final_export` claims when required proof evidence or machine QA fields are missing.
-- BookForge consumes OPL-owned dependency and workspace-lifecycle routes. It does not own OS/TeX package installation, OPL runtime, queue, attempt ledger, generated interface hosting, or app shell routing.
+- Book Forge consumes OPL-owned dependency and workspace-lifecycle routes. It does not own OS/TeX package installation, OPL runtime, queue, attempt ledger, generated interface hosting, or app shell routing.
 
 ## Evidence Packages
 
@@ -61,7 +61,7 @@ External-learning and handoff provenance:
 - A real book project receipt from `runtime/native_helpers/bookforge_pdf_export.py` using a project-local publication design profile, resource-path-backed asset resolution, rendered-page refs, rendered-page inspection, and owner/export acceptance when the target is `final_export`.
 - Fresh OPL dependency doctor readback for `bookforge-publication-proof` when making publication-proof or final-export claims.
 - A real manuscript run that exercises `revision-entrypoint-router` with independent meta-review evidence, route-back or repair-plan refs, refreshed artifacts, and owner decisions.
-- A real BookForge workspace run that exercises OPL `workspace artifact-lifecycle --apply` against domain-owned `handoff/review-repair-transport.json` and refreshed downstream refs.
+- A real Book Forge workspace run that exercises OPL `workspace artifact-lifecycle --apply` against domain-owned `handoff/review-repair-transport.json` and refreshed downstream refs.
 - A book-specific publication-proof visual inspection report covering front matter, chapter openings, dense body pages, figure/table pages, callouts, closing pages, and owner-directed design preferences.
-- A real publication-proof run that exercises the Kami-inspired BookForge proof refs: design token receipt, component inventory, font actual-load/readback, rendered-page QA, front matter/TOC cleanliness, page rhythm/density/orphan checks, material/asset coverage, and pre-ship proof review.
+- A real publication-proof run that exercises the Kami-inspired Book Forge proof refs: design token receipt, component inventory, font actual-load/readback, rendered-page QA, front matter/TOC cleanliness, page rhythm/density/orphan checks, material/asset coverage, and pre-ship proof review.
 - Direct `opl-bookforge` runtime CLI or hosted OPL artifact-handoff parity evidence.

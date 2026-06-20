@@ -2,7 +2,7 @@
   "surface_kind": "domain_agent_descriptor",
   "schema_version": 1,
   "domain_id": "opl-bookforge",
-  "domain_label": "OPL BookForge",
+  "domain_label": "OPL Book Forge",
   "marker": "generated_by_opl_standard_domain_agent_scaffold_v1",
   "standard_contract_refs": {
     "foundry_agent_series": "contracts/foundry_agent_series.json",

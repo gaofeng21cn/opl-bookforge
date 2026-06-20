@@ -38,4 +38,4 @@ Escalate instead of fast-tracking when:
 - The issue concerns publication proof quality, final export acceptance, or owner publication approval.
 - The executor cannot state the evidence boundary before editing.
 
-Fast-track revision is still BookForge materialization work. It does not approve manuscript quality, publication proof, final export, or owner acceptance by itself.
+Fast-track revision is still Book Forge materialization work. It does not approve manuscript quality, publication proof, final export, or owner acceptance by itself.

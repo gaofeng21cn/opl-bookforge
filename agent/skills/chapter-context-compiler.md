@@ -19,12 +19,12 @@ External learning map:
 
 Working policy:
 
-- Treat the compiled pack as a BookForge domain ref inside
+- Treat the compiled pack as a Book Forge domain ref inside
   `book-materialization`, linked from the chapter task card, chapter QC, repair
   log, or handoff packet.
-- Do not create a BookForge-private scheduler, queue, session store, attempt
+- Do not create a Book Forge-private scheduler, queue, session store, attempt
   ledger, generic runtime, or hidden context database. OPL owns hosted runtime
-  and projection; BookForge owns the domain refs and owner receipts.
+  and projection; Book Forge owns the domain refs and owner receipts.
 - Preserve progress-first drafting. The compiler should unblock the next honest
   chapter action whenever required reader, source, style, target, and evidence
   boundaries are sufficient.
@@ -108,4 +108,4 @@ Fail-closed conditions:
 
 This skill improves chapter context discipline while keeping progress,
 materialization truth, runtime orchestration, and owner acceptance on their
-existing BookForge and OPL authority surfaces.
+existing Book Forge and OPL authority surfaces.

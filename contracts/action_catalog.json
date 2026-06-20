@@ -3,10 +3,10 @@
   "version": "family-action-catalog.v1",
   "catalog_id": "opl_bookforge_action_catalog",
   "target_domain_id": "opl-bookforge",
-  "owner": "OPL BookForge",
+  "owner": "OPL Book Forge",
   "authority_boundary": {
     "opl_role": "generated_interface_projection_only",
-    "domain_truth_owner": "OPL BookForge",
+    "domain_truth_owner": "OPL Book Forge",
     "opl_can_write_domain_truth": false,
     "opl_can_write_memory_body": false,
     "opl_can_authorize_quality_or_export": false,
@@ -18,7 +18,7 @@
       "title": "Shape Storyline",
       "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
       "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
-      "owner": "OPL BookForge",
+      "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
         "command": "opl-bookforge shape-storyline --workspace-root <workspace_root>",
@@ -60,7 +60,7 @@
         }
       },
       "authority_boundary": {
-        "domain_truth_owner": "OPL BookForge",
+        "domain_truth_owner": "OPL Book Forge",
         "opl_role": "projection_only",
         "can_write_target_domain_truth": false,
         "can_write_target_domain_memory_body": false,
@@ -73,7 +73,7 @@
       "title": "Materialize Book",
       "summary": "Materialize the book into chapter drafts, illustration and table specs, style pass, layout checks, and owner-gated handoff refs.",
       "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
-      "owner": "OPL BookForge",
+      "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
         "command": "opl-bookforge materialize-book --workspace-root <workspace_root>",
@@ -115,7 +115,7 @@
         }
       },
       "authority_boundary": {
-        "domain_truth_owner": "OPL BookForge",
+        "domain_truth_owner": "OPL Book Forge",
         "opl_role": "projection_only",
         "can_write_target_domain_truth": false,
         "can_write_target_domain_memory_body": false,

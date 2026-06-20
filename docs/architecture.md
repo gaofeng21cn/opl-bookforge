@@ -1,4 +1,4 @@
-# OPL BookForge Architecture
+# OPL Book Forge Architecture
 
 Owner: `opl-bookforge`
 Purpose: `architecture`
@@ -13,7 +13,7 @@ OPL owns generated interfaces, generic runtime, queue, attempt ledger, transitio
 
 ## Stage Model
 
-BookForge uses two primary stages:
+Book Forge uses two primary stages:
 
 - `storyline-architecture`: build the premise, reader promise, argument arc, source map, chapter thesis chain, style contract, and owner handoff.
 - `book-materialization`: produce the chapter draft bundle, manuscript body, figure plan, table plan, style consistency report, AI-flavor revision report, layout QC report, exports, and owner handoff.
@@ -22,7 +22,7 @@ The stage split is intentionally coarse. Each stage should produce a reviewable 
 
 ## Revision Architecture
 
-BookForge treats serious critique and independent meta-review as a routed repair system, not a local prose queue. After a full-manuscript meta-review, complete-version comparison, or serious owner/reviewer critique, the domain pack first records a revision entrypoint decision.
+Book Forge treats serious critique and independent meta-review as a routed repair system, not a local prose queue. After a full-manuscript meta-review, complete-version comparison, or serious owner/reviewer critique, the domain pack first records a revision entrypoint decision.
 
 The repair hierarchy is:
 
@@ -35,7 +35,7 @@ The repair hierarchy is:
 - local prose: repair sentence rhythm, paragraph movement, terminology clarity, transitions, and AI-flavor residue.
 - owner/source blocker: return a typed blocker when source material, authorization, owner decision, outcome evidence, publication acceptance, or final export acceptance is missing.
 
-This hierarchy preserves the two-stage model. Structural route-back goes to the owning BookForge refs, especially `storyline-architecture` when top-level design changes. OPL only transports opaque route refs, blockers, receipts, and current-owner projections; it does not decide manuscript semantics or quality.
+This hierarchy preserves the two-stage model. Structural route-back goes to the owning Book Forge refs, especially `storyline-architecture` when top-level design changes. OPL only transports opaque route refs, blockers, receipts, and current-owner projections; it does not decide manuscript semantics or quality.
 
 ## Generated Surface Boundary
 

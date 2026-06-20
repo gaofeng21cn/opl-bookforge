@@ -7,7 +7,7 @@
   "meta_agent_kind": "opl_compatible_meta_agent",
   "target_agent": {
     "domain_id": "opl-bookforge",
-    "domain_label": "OPL BookForge",
+    "domain_label": "OPL Book Forge",
     "delivery_domain": "book_authoring",
     "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions."
   },
@@ -53,7 +53,7 @@
     "run_ref": "run:ai-reviewer/opl-meta-agent/opl-bookforge/baseline",
     "execution_attempt_ref": "attempt:executor/opl-meta-agent/opl-bookforge/baseline",
     "review_attempt_ref": "attempt:ai-reviewer/opl-meta-agent/opl-bookforge/baseline-review",
-    "critique": "The OPL BookForge baseline has a clear two-stage book workflow and keeps book quality, manuscript body, export, and publication decisions under owner gates. The next evidence should exercise a real source corpus and produce owner-reviewed chapter, illustration, table, and layout receipts.",
+    "critique": "The OPL Book Forge baseline has a clear two-stage book workflow and keeps book quality, manuscript body, export, and publication decisions under owner gates. The next evidence should exercise a real source corpus and produce owner-reviewed chapter, illustration, table, and layout receipts.",
     "suggestions": [
       "Add a real-source Agent Lab suite that checks storyline-to-chapter traceability.",
       "Add owner-gated examples for illustration and table planning before claiming book-delivery readiness.",
