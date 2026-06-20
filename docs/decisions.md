@@ -135,4 +135,4 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Require a template/component inventory before `publication_proof` claims: title/front matter, TOC, chapter opener, dense body, figures, tables, callouts/case boxes, captions, and closing matter.
 - Require font actual-load/readback where available and rerender/reinspect when fallback fonts are used. Font fallback is a proof/export blocker, not a drafting blocker.
 - Preserve progress priority: missing publication-proof tokens, component inventory, font readback, rendered-page QA, pre-ship proof review, or owner/export acceptance blocks only `publication_proof` and `final_export` claims. It does not block chapter drafting, claim integrity, style calibration, chapter QC, or ordinary `review_pdf` refreshes with narrower honest evidence.
-- Record the external learning landing in `docs/external-learning-kami-publication-proof-2026-06-20.md`.
+- Record the external learning landing in `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.

@@ -1,31 +1,20 @@
 # OPL BookForge Status
 
-Current state: OPL standard structural baseline plus one real short-book pilot run with owner-gated production-readiness blocker.
+Owner: `opl-bookforge`
+Purpose: `current_status`
+State: `active_truth`
+Machine boundary: Human-readable status summary. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, evidence receipts, owner receipts, and typed blockers.
 
-Fresh local evidence:
+Current state: OPL standard structural baseline plus one historical real short-book pilot evidence pack with owner-gated production-readiness blocker.
 
-- `opl agents scaffold --validate /Users/gaofeng/workspace/opl-bookforge --json`: passed.
-- `opl agents interfaces --repo-dir /Users/gaofeng/workspace/opl-bookforge --json`: ready.
-- `npm --prefix /Users/gaofeng/workspace/opl-meta-agent run --silent takeover:test -- --agent-dir /Users/gaofeng/workspace/opl-bookforge --output-dir /Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab --opl-bin /Users/gaofeng/workspace/one-person-lab/bin/opl`: passed.
-- `npm --prefix /Users/gaofeng/workspace/opl-meta-agent run --silent improve:external-suite -- --suite /Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/agent-lab-takeover-suite.json --target-agent-dir /Users/gaofeng/workspace/opl-bookforge --output-dir /Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/external-suite-improvement --opl-bin /Users/gaofeng/workspace/one-person-lab/bin/opl --ai-reviewer-evaluation /Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json --feedback-ref user-request:2026-06-18/oma-agent-lab-quality-loop-required`: passed.
-- `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/generate_pilot.py && python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/export_pilot.py && python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`: passed with owner-gate blocker.
-- `npm --prefix /Users/gaofeng/workspace/opl-meta-agent run --silent takeover:test -- --agent-dir /Users/gaofeng/workspace/opl-bookforge --output-dir /Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/oma-takeover-after-pilot --opl-bin /Users/gaofeng/workspace/one-person-lab/bin/opl`: passed.
-- `npm --prefix /Users/gaofeng/workspace/opl-meta-agent run --silent improve:external-suite -- --suite /Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/oma-takeover-after-pilot/agent-lab-takeover-suite.json --target-agent-dir /Users/gaofeng/workspace/opl-bookforge --output-dir /Users/gaofeng/workspace/opl-bookforge/docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/oma-external-suite-after-pilot --opl-bin /Users/gaofeng/workspace/one-person-lab/bin/opl --ai-reviewer-evaluation /Users/gaofeng/workspace/opl-bookforge/docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json --feedback-ref user-request:2026-06-18/bookforge-production-readiness-pilot`: passed.
+## Current Validated Surfaces
 
-Scope of the claim:
+- OPL standard scaffold and generated interface descriptors validate through `scripts/verify.sh`.
+- The stage pack exposes two primary stages, `storyline-architecture` and `book-materialization`, plus domain refs for revision routing, chapter context, source-claim integrity, style calibration, publication design, PDF proof gates, image asset receipts, and workspace lifecycle hygiene.
+- The PDF export helper uses real typesetting backends, distinguishes `review_pdf`, `publication_proof`, and `final_export`, scans Markdown image refs, checks figure asset manifest readiness, writes rendered-page machine-baseline inspection when requested, and fail-closes proof/export claims when required evidence is missing.
+- BookForge consumes OPL-owned dependency and workspace-lifecycle routes. It does not own OS/TeX package installation, OPL runtime, queue, attempt ledger, generated interface hosting, or app shell routing.
 
-- This proves the repo has a valid OPL standard scaffold, stage pack v2 fields, domain pack refs, foundry series contract, generated interface descriptors, OMA Agent Lab takeover evidence, independent AI reviewer evidence, and external-suite self-evolution evidence.
-- This also proves a real pilot book project produced inputs, `storyline-architecture` artifacts, `book-materialization` artifacts, manuscript body, figure/table plans, style and AI-flavor checks, layout QC, DOCX/HTML/PDF exports, PDF page renders, independent gate receipts, and typed blockers.
-- This does not prove final production readiness, publication approval, owner acceptance, direct `opl-bookforge` runtime CLI availability, or OPL-hosted artifact-handoff parity.
-- The 2026-06-18 pilot generator is historical evidence only. Its prose-in-code generation pattern is superseded by the current Markdown-first, chapter-sharded materialization invariant.
-- The 2026-06-19 200-page manuscript incident exposed additional rules now recorded in the domain pack: target readers, reader priority, and natural expression must be fixed as a reader-style contract before drafting; secondary readers must not become hidden co-primary writing targets without owner approval; reader-facing prose is a first-draft target driven by chapter-local reader-entry plans, and production scaffolding must not leak into manuscript body; routine late reader-facing rewrite is not the normal quality path; target extent must be converted to chapter budgets and an active production queue before body drafting; chapter target budgets are production gates; invalid compact drafts must be retired rather than expanded in place; all-chapter short coverage remains seed material rather than completed materialization; cumulative completed-contiguous review PDFs should refresh after chapter text-readiness or full readiness changes through the BookForge PDF export helper or an equivalent real publication/typesetting backend and must not skip unfinished earlier book units; review PDF / publication proof PDF / final export are distinct artifact levels requiring a publication design profile before publication-grade proof; book-bound `imagegen` figures need project-local bitmap paths recorded in a figure asset manifest; and final figure generation should use the BookForge native imagegen asset helper / Codex executor route by default rather than direct Base URL or API-key provider calls.
-- The 2026-06-19 external-learning landing slice records lessons from current AI long-form writing systems as BookForge domain surfaces: three-layer book memory, chapter task cards, repair back-propagation, reusable style engine assets, transparent prompt bundles, Git/Markdown-first manuscript refs, and quality gates that keep those refs owner-inspectable without adding a BookForge-private scheduler or control plane.
-- The 2026-06-20 external-learning completion slice adds three materialization skills and stage refs: chapter context compiler, source-claim integrity, and style calibration. These fold current long-form writing-agent patterns into BookForge as owner-inspectable refs for context packs, rule stacks, traces, claim ledgers, source locators, truth deltas, style profiles, and fatigue scans, while preserving progress-first drafting and avoiding a foreign runtime or second truth source.
-- The 2026-06-19 PDF publication-proof slice upgrades `runtime/native_helpers/bookforge_pdf_export.py` from a review-PDF compiler into a compile-plus-artifact-gate helper. It still uses real typesetting backends, now records resource paths for relative figures, and fail-closes `publication_proof` / `final_export` when design profile, rendered-page inspection, local asset evidence, or owner acceptance evidence is missing.
-- The 2026-06-19 publication-style slice adds a bundled `bookforge-zh-publication-proof` Pandoc/XeLaTeX profile for Chinese nonfiction e-book proof output. The profile is verified through `scripts/verify.sh` with rendered nonblank proof pages, Markdown image-ref checks, figure-asset-manifest readiness checks, and helper-generated rendered-page machine-baseline inspection. This still does not replace owner acceptance or book-specific human publication review.
-- The 2026-06-20 dependency-route slice moves BookForge publication proof local dependency diagnosis and maintenance to OPL system commands: `opl system dependency-doctor --profile bookforge-publication-proof --json` and `opl system dependency-maintenance --profile bookforge-publication-proof --json`. BookForge still owns helper behavior and proof/export gates, but does not own OS/TeX package installation. Required dependency failures block proof/export claims, not unrelated writing progress.
-- The 2026-06-20 revision-entrypoint-router slice upgrades Meta Review from a local repair loop into a routed whole-book design gate. Serious critique and independent meta-review now require a durable entrypoint decision before prose repair, classifying the topmost needed repair as artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. This is a domain contract update only; it does not prove a new runtime surface or owner acceptance.
-- The 2026-06-20 Kami-inspired publication-proof slice folds external publication design discipline into BookForge domain refs: publication design tokens, template/component inventory, font actual-load/readback, rendered-page QA, pre-ship proof review, front matter/TOC cleanliness, page rhythm/density/orphan checks, and material/asset coverage. This is a domain/docs lane only; it does not import Kami's visual identity, WeasyPrint runtime, font installer, update workflow, or proof runtime evidence. Missing proof evidence blocks `publication_proof` and `final_export` claims only, not ordinary chapter drafting or review-PDF progress.
+## Evidence Packages
 
 OMA / Agent Lab evidence:
 
@@ -54,7 +43,19 @@ Real book pilot production-readiness evidence:
 - After-pilot OMA external-suite improvement receipt: `oma-external-suite-after-pilot/meta-agent-improvement-receipt.json`, status `external_suite_passed_no_mechanism_patch_required`.
 - After-pilot developer patch work order: `oma-external-suite-after-pilot/developer-patch-work-order.json`, status `no_patch_required`.
 
-Next evidence required for stronger claims:
+External-learning and handoff provenance:
+
+- Revision-routing learning record: `docs/history/external-learning/revision-routing-2026-06-20.md`.
+- Kami-inspired publication-proof learning record: `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
+- OPL base revision-routing handoff proposal: `docs/references/opl-base-revision-routing-handoff.md`.
+
+## Claim Boundary
+
+- Existing evidence proves a valid OPL standard scaffold, generated interface descriptors, OMA Agent Lab baseline evidence, external-suite self-evolution evidence, and a historical short-book pilot with generated artifacts, exports, rendered pages, quality receipts, and owner blockers.
+- Existing evidence does not prove final production readiness, publication approval, owner acceptance, direct `opl-bookforge` runtime CLI availability, hosted OPL artifact-handoff parity, or book-specific publication-proof visual acceptance.
+- The historical pilot generator's prose-in-code pattern is superseded by the current Markdown-first, chapter-sharded materialization invariant. Keep the pilot as evidence, not as the current implementation pattern for book-length manuscript source management.
+
+## Next Evidence Required
 
 - Human owner receipt accepting the pilot topic, reader promise, manuscript quality, figure/table plan, DOCX/PDF layout, and publication intent.
 - A real book project receipt from `runtime/native_helpers/bookforge_pdf_export.py` using a project-local publication design profile, resource-path-backed asset resolution, rendered-page refs, rendered-page inspection, and owner/export acceptance when the target is `final_export`.

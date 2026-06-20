@@ -2,7 +2,7 @@
 
 Owner: `opl-bookforge`
 Purpose: `external_learning_landing`
-State: `landed_domain_contract`
+State: `history_provenance_landed_domain_contract`
 Machine boundary: Human-readable learning record. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, owner receipts, and typed blockers.
 
 ## Sources Inspected
@@ -49,7 +49,7 @@ The router preserves the existing two-stage model. If repair begins at storyline
 
 OPL should support generic review-repair transport for opaque refs: `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, freshness gates, iteration caps, and current-owner projection. OPL should not inspect manuscript semantics or own quality/export verdicts.
 
-The handoff proposal is `docs/opl-base-revision-routing-handoff.md`.
+The handoff proposal is `docs/references/opl-base-revision-routing-handoff.md`.
 
 ## Learning Landing Audit
 
@@ -59,4 +59,4 @@ The handoff proposal is `docs/opl-base-revision-routing-handoff.md`.
 | Reverse-outline diagnostic | Reverse outlining | BookForge materialization refs | `reverse-outline-ref` in stage contract | done | 100% | `contracts/stage_control_plane.json` | no runtime artifact yet | Exercise on real manuscript |
 | Architecture-style risk routing | ATAM risk/theme classification | BookForge route decision | finding-to-level table and topmost entrypoint | done | 100% | `agent/skills/revision-entrypoint-router.md` | none for domain contract | Add OPL transport when base owner accepts |
 | Hierarchical repair model | C4-style named abstraction levels | Docs/contracts | repair hierarchy in architecture and invariants | done | 100% | `docs/architecture.md`, `docs/invariants.md` | none for domain contract | Use in future review reports |
-| OPL base optimization | generic opaque transport | OPL owner handoff | proposal doc only | partial | 60% | `docs/opl-base-revision-routing-handoff.md` | OPL repo implementation and runtime evidence | Land in OPL base repo separately |
+| OPL base optimization | generic opaque transport | OPL owner handoff | proposal doc only | partial | 60% | `docs/references/opl-base-revision-routing-handoff.md` | OPL repo implementation and runtime evidence | Land in OPL base repo separately |

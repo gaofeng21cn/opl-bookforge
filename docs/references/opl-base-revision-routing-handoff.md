@@ -1,8 +1,8 @@
 # OPL Base Revision Routing Handoff
 
 Owner: `opl-bookforge`
-Purpose: `opl_base_handoff`
-State: `proposal_for_opl_owner`
+Purpose: `support_reference_opl_base_handoff`
+State: `reference_proposal_for_opl_owner`
 Machine boundary: Human-readable handoff proposal. Machine truth remains in BookForge contracts, OPL validator output, runtime receipts, owner receipts, and typed blockers.
 
 ## Problem

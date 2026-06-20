@@ -14,11 +14,9 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 3. [Architecture](./architecture.md)
 4. [Invariants](./invariants.md)
 5. [Decisions](./decisions.md)
-6. [External learning: revision routing](./external-learning-revision-routing-2026-06-20.md)
-7. [External learning: Kami publication proof](./external-learning-kami-publication-proof-2026-06-20.md)
-8. [OPL base revision routing handoff](./opl-base-revision-routing-handoff.md)
-9. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
-10. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
+6. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
+7. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
+8. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
 
 ## Evidence Surfaces
 
@@ -27,8 +25,8 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 - OMA baseline takeover and self-evolution evidence: `docs/evidence/oma-agent-lab/`.
 - Real short-book pilot evidence: `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
-- Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/external-learning-revision-routing-2026-06-20.md`, and `docs/opl-base-revision-routing-handoff.md`.
-- Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/book-materialization-quality-gate.md`, and `docs/external-learning-kami-publication-proof-2026-06-20.md`.
+- Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/history/external-learning/revision-routing-2026-06-20.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
+- Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/book-materialization-quality-gate.md`, and `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
 
 ## Claim Boundary
 
