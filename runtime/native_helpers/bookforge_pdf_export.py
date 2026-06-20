@@ -38,8 +38,42 @@ RENDERED_INSPECTION_REQUIRED_FIELDS = (
     "headers_footers_status",
     "page_numbering_status",
     "visual_rhythm_status",
+    "embedded_font_status",
+    "page_density_status",
+    "trailing_whitespace_status",
+    "rendered_page_size_status",
+    "sample_page_roles_status",
+    "checklist_refs_status",
 )
 MARKDOWN_IMAGE_RE = re.compile(r"!\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+BLOCKING_PROOF_QA_STATUSES = {
+    "blocked",
+    "error",
+    "failed",
+    "missing",
+    "tool_missing",
+    "unavailable",
+    "unchecked",
+}
+DEFAULT_RENDERED_PAGE_ROLES = (
+    "front_matter",
+    "table_of_contents",
+    "chapter_opening",
+    "dense_body",
+    "figure_or_table",
+    "callout",
+    "closing_page",
+)
+DEFAULT_RENDERED_PAGE_CHECKLIST_REFS = (
+    "nonblank_pages",
+    "embedded_fonts",
+    "page_size_consistency",
+    "caption_proximity",
+    "figure_table_rendering",
+    "running_head",
+    "page_number",
+    "trailing_whitespace",
+)
 
 
 def rel(path: Path, root: Path) -> str:
@@ -281,21 +315,185 @@ def png_dimensions(path: Path) -> tuple[int | None, int | None]:
     return None, None
 
 
-def auto_rendered_page_inspection(rendered_pages: list[str], root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+def profile_threshold(profile: dict[str, Any], key: str, default: float) -> float:
+    expectations = as_mapping(profile.get("visual_qa_expectations"))
+    value = expectations.get(key)
+    if isinstance(value, (int, float)):
+        return float(value)
+    return default
+
+
+def profile_string_list(profile: dict[str, Any], section: str, key: str, default: tuple[str, ...]) -> list[str]:
+    value = as_mapping(profile.get(section)).get(key)
+    if isinstance(value, list) and all(isinstance(item, str) and item.strip() for item in value):
+        return [item for item in value if item.strip()]
+    return list(default)
+
+
+def inspect_pdf_fonts(pdf_path: Path, root: Path) -> dict[str, Any]:
+    tool = shutil.which("pdffonts")
+    if not tool:
+        return {
+            "status": "tool_missing",
+            "tool": "pdffonts",
+            "embedded_font_count": 0,
+            "non_embedded_font_count": 0,
+            "fonts": [],
+            "error": "pdffonts not found",
+        }
+
+    result = subprocess.run(
+        [tool, str(pdf_path)],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return {
+            "status": "failed",
+            "tool": tool,
+            "embedded_font_count": 0,
+            "non_embedded_font_count": 0,
+            "fonts": [],
+            "error": (result.stderr or result.stdout or "pdffonts failed").strip()[-1000:],
+        }
+
+    fonts: list[dict[str, Any]] = []
+    for raw_line in result.stdout.splitlines()[2:]:
+        line = raw_line.strip()
+        if not line:
+            continue
+        parts = line.split()
+        embedded = parts[-5].lower() if len(parts) >= 6 else "unknown"
+        fonts.append({
+            "name": parts[0],
+            "embedded": embedded == "yes",
+            "embedded_raw": embedded,
+            "raw": raw_line.rstrip(),
+        })
+
+    non_embedded = [font for font in fonts if font["embedded_raw"] not in ("yes", "unknown")]
+    embedded_count = sum(1 for font in fonts if font["embedded"])
+    if not fonts:
+        status = "unchecked"
+    elif non_embedded:
+        status = "failed"
+    elif embedded_count == 0:
+        status = "unchecked"
+    else:
+        status = "passed"
+    return {
+        "status": status,
+        "tool": tool,
+        "embedded_font_count": embedded_count,
+        "non_embedded_font_count": len(non_embedded),
+        "fonts": fonts,
+        "error": None,
+    }
+
+
+def png_visual_metrics(path: Path, *, min_fill_ratio: float, max_trailing_whitespace_ratio: float) -> dict[str, Any]:
+    width, height = png_dimensions(path) if path.exists() else (None, None)
+    size = path.stat().st_size if path.exists() else 0
+    metrics: dict[str, Any] = {
+        "bytes": size,
+        "width": width,
+        "height": height,
+        "nonblank_baseline": bool(size > 1000 and width and height),
+        "fill_ratio": None,
+        "trailing_whitespace_ratio": None,
+        "density_status": "unchecked",
+        "trailing_whitespace_status": "unchecked",
+        "visual_scan_error": None,
+    }
+    if not path.exists():
+        metrics["visual_scan_error"] = "rendered page PNG missing"
+        return metrics
+
+    try:
+        from PIL import Image
+    except ImportError:
+        metrics["visual_scan_error"] = "Pillow not available"
+        return metrics
+
+    try:
+        with Image.open(path) as image:
+            rgb = image.convert("RGB")
+            width, height = rgb.size
+            bg = rgb.getpixel((0, 0))
+            sample_step = max(1, width // 160)
+            row_step = max(1, height // 240)
+            non_bg_pixels = 0
+            sampled_pixels = 0
+            last_content_y = 0
+            for y in range(0, height, row_step):
+                row_has_content = False
+                for x in range(0, width, sample_step):
+                    pixel = rgb.getpixel((x, y))
+                    sampled_pixels += 1
+                    if max(abs(pixel[index] - bg[index]) for index in range(3)) > 12:
+                        non_bg_pixels += 1
+                        row_has_content = True
+                if row_has_content:
+                    last_content_y = y
+            fill_ratio = non_bg_pixels / sampled_pixels if sampled_pixels else 0
+            trailing_whitespace_ratio = (height - last_content_y) / height if height else 1
+            metrics.update({
+                "width": width,
+                "height": height,
+                "nonblank_baseline": non_bg_pixels > 0,
+                "fill_ratio": round(fill_ratio, 4),
+                "trailing_whitespace_ratio": round(trailing_whitespace_ratio, 4),
+                "density_status": "passed" if fill_ratio >= min_fill_ratio else "checked_with_warnings",
+                "trailing_whitespace_status": (
+                    "passed" if trailing_whitespace_ratio <= max_trailing_whitespace_ratio else "checked_with_warnings"
+                ),
+            })
+    except Exception as exc:
+        metrics["visual_scan_error"] = str(exc)
+    return metrics
+
+
+def auto_rendered_page_inspection(
+    rendered_pages: list[str],
+    root: Path,
+    payload: dict[str, Any],
+    output_pdf: Path,
+    publication_profile: dict[str, Any],
+) -> dict[str, Any]:
+    min_fill_ratio = profile_threshold(publication_profile, "min_machine_page_fill_ratio", 0.01)
+    max_trailing_whitespace_ratio = profile_threshold(publication_profile, "max_trailing_whitespace_ratio", 0.35)
+    sample_page_roles = profile_string_list(
+        publication_profile,
+        "visual_qa_expectations",
+        "sample_page_roles",
+        DEFAULT_RENDERED_PAGE_ROLES,
+    )
+    checklist_refs = profile_string_list(
+        publication_profile,
+        "visual_qa_expectations",
+        "checklist_refs",
+        DEFAULT_RENDERED_PAGE_CHECKLIST_REFS,
+    )
     page_metrics: list[dict[str, Any]] = []
     for ref in rendered_pages:
         path = root / ref
-        width, height = png_dimensions(path) if path.exists() else (None, None)
-        size = path.stat().st_size if path.exists() else 0
+        metrics = png_visual_metrics(
+            path,
+            min_fill_ratio=min_fill_ratio,
+            max_trailing_whitespace_ratio=max_trailing_whitespace_ratio,
+        )
         page_metrics.append({
             "ref": ref,
-            "bytes": size,
-            "width": width,
-            "height": height,
-            "nonblank_baseline": bool(size > 1000 and width and height),
+            **metrics,
         })
 
     nonblank_pages = sum(1 for item in page_metrics if item["nonblank_baseline"])
+    dimensions = {(item.get("width"), item.get("height")) for item in page_metrics if item.get("width") and item.get("height")}
+    density_statuses = {str(item.get("density_status")) for item in page_metrics}
+    trailing_statuses = {str(item.get("trailing_whitespace_status")) for item in page_metrics}
+    font_inspection = inspect_pdf_fonts(output_pdf, root)
     missing_images = as_mapping(payload.get("markdown_image_refs")).get("missing_count", 0)
     figure_blockers = as_mapping(payload.get("figure_asset_manifest_summary")).get("blockers", [])
     element_status = "passed" if missing_images == 0 and not figure_blockers else "blocked"
@@ -303,6 +501,7 @@ def auto_rendered_page_inspection(rendered_pages: list[str], root: Path, payload
         "surface_kind": "bookforge_rendered_page_inspection",
         "version": "bookforge-rendered-page-inspection.v1",
         "inspection_kind": "machine_baseline",
+        "source_pattern": "kami-inspired executable proof QA adapted for BookForge publication proofs",
         "nonblank_pages": nonblank_pages,
         "overflow_or_clipping": False if nonblank_pages == len(rendered_pages) and rendered_pages else "unchecked",
         "caption_figure_table_status": element_status,
@@ -311,6 +510,23 @@ def auto_rendered_page_inspection(rendered_pages: list[str], root: Path, payload
         "headers_footers_status": "profile_applied",
         "page_numbering_status": "profile_applied",
         "visual_rhythm_status": "profile_applied_machine_baseline_manual_review_recommended",
+        "embedded_font_status": font_inspection["status"],
+        "embedded_font_inspection": font_inspection,
+        "page_density_status": "checked_with_warnings" if "checked_with_warnings" in density_statuses else (
+            "passed" if density_statuses == {"passed"} and page_metrics else "unchecked"
+        ),
+        "trailing_whitespace_status": "checked_with_warnings" if "checked_with_warnings" in trailing_statuses else (
+            "passed" if trailing_statuses == {"passed"} and page_metrics else "unchecked"
+        ),
+        "rendered_page_size_status": "passed" if len(dimensions) == 1 and nonblank_pages == len(rendered_pages) and rendered_pages else "unchecked",
+        "sample_page_roles_status": "passed" if sample_page_roles else "unchecked",
+        "checklist_refs_status": "passed" if checklist_refs else "unchecked",
+        "sample_page_roles": sample_page_roles,
+        "checklist_refs": checklist_refs,
+        "machine_thresholds": {
+            "min_machine_page_fill_ratio": min_fill_ratio,
+            "max_trailing_whitespace_ratio": max_trailing_whitespace_ratio,
+        },
         "page_metrics": page_metrics,
         "manual_review_still_required_for_final_export": True,
     }
@@ -456,6 +672,20 @@ def assess_artifact_gate(
                     "blocker_type": "rendered_page_inspection_incomplete",
                     "message": f"missing rendered page inspection field: {field}",
                 })
+            for field in (
+                "embedded_font_status",
+                "page_density_status",
+                "trailing_whitespace_status",
+                "rendered_page_size_status",
+                "sample_page_roles_status",
+                "checklist_refs_status",
+            ):
+                status = str(rendered_inspection.get(field) or "missing")
+                if status in BLOCKING_PROOF_QA_STATUSES:
+                    blockers.append({
+                        "blocker_type": f"rendered_page_{field}_not_passed",
+                        "message": f"publication proof requires {field}; got {status}",
+                    })
             if rendered_inspection.get("overflow_or_clipping") not in (False, "false", "none", "clean", "passed"):
                 blockers.append({
                     "blocker_type": "rendered_page_overflow_or_clipping",
@@ -707,7 +937,13 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         payload["rendered_pages"] = rendered_pages
         payload["pdf_page_count"] = len(rendered_pages)
         if render_status == "rendered" and rendered_pages and not rendered_inspection:
-            rendered_inspection = auto_rendered_page_inspection(rendered_pages, root, payload)
+            rendered_inspection = auto_rendered_page_inspection(
+                rendered_pages,
+                root,
+                payload,
+                output_pdf,
+                publication_profile,
+            )
             payload["rendered_page_inspection"] = rendered_inspection
             if args.write_rendered_page_inspection:
                 args.write_rendered_page_inspection.parent.mkdir(parents=True, exist_ok=True)
@@ -749,6 +985,10 @@ def doctor() -> dict[str, Any]:
             "markdown_image_ref_scan_backend": "pandoc_ast_when_available",
             "figure_asset_manifest_readiness": True,
             "helper_generated_rendered_page_inspection": True,
+            "embedded_font_inspection": True,
+            "rendered_page_density_scan": True,
+            "rendered_page_trailing_whitespace_scan": True,
+            "publication_proof_fail_closes_unchecked_machine_proof_qa": True,
             "publication_proof_fail_closes_missing_assets": True,
             "configurable_section_numbering": True,
         },
@@ -756,6 +996,7 @@ def doctor() -> dict[str, Any]:
             "pandoc": shutil.which("pandoc"),
             "xelatex": shutil.which("xelatex"),
             "pdftoppm": shutil.which("pdftoppm"),
+            "pdffonts": shutil.which("pdffonts"),
             "quarto": shutil.which("quarto"),
             "typst": shutil.which("typst"),
         },

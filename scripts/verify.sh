@@ -154,6 +154,17 @@ EOF
     --render-dir "${tmp_dir}/rendered-pages" \
     --render-prefix sample-page \
     --artifact-role review_pdf
+  python3 - "${tmp_dir}" <<'PY'
+import json
+import sys
+from pathlib import Path
+root = Path(sys.argv[1])
+payload = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+assert payload["status"] == "generated", payload
+assert payload["artifact_role"] == "review_pdf", payload
+assert payload["artifact_gate"]["status"] == "passed", payload["artifact_gate"]
+assert payload["artifact_gate"]["claim_boundary"]["review_pdf_counts_as_publication_proof"] is False, payload["artifact_gate"]
+PY
 
   if python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
     --root "${tmp_dir}" \
@@ -189,7 +200,7 @@ EOF
   "rendered_page_inspection_plan": "sample pages"
 }
 EOF
-  cat >"${tmp_dir}/rendered-page-inspection.json" <<'EOF'
+  cat >"${tmp_dir}/rendered-page-inspection-incomplete.json" <<'EOF'
 {
   "nonblank_pages": 1,
   "overflow_or_clipping": false,
@@ -199,6 +210,47 @@ EOF
   "headers_footers_status": "passed",
   "page_numbering_status": "passed",
   "visual_rhythm_status": "passed"
+}
+EOF
+  if python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
+    --root "${tmp_dir}" \
+    --source-md "${tmp_dir}/sample.md" \
+    --output-pdf "${tmp_dir}/sample-proof-incomplete-inspection.pdf" \
+    --manifest "${tmp_dir}/proof-incomplete-inspection.json" \
+    --render-dir "${tmp_dir}/rendered-incomplete-proof-pages" \
+    --render-prefix incomplete-proof-page \
+    --artifact-role publication_proof \
+    --publication-design-profile "${tmp_dir}/publication-design.json" \
+    --rendered-page-inspection "${tmp_dir}/rendered-page-inspection-incomplete.json" \
+    --figure-asset-manifest "${tmp_dir}/figure-asset-manifest.json"; then
+    echo "publication_proof with incomplete machine proof QA unexpectedly passed" >&2
+    exit 1
+  fi
+  python3 - "${tmp_dir}" <<'PY'
+import json
+import sys
+from pathlib import Path
+root = Path(sys.argv[1])
+payload = json.loads((root / "proof-incomplete-inspection.json").read_text(encoding="utf-8"))
+blocker_types = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
+assert "rendered_page_inspection_incomplete" in blocker_types, payload["artifact_gate"]
+PY
+  cat >"${tmp_dir}/rendered-page-inspection.json" <<'EOF'
+{
+  "nonblank_pages": 1,
+  "overflow_or_clipping": false,
+  "caption_figure_table_status": "passed",
+  "callout_status": "passed",
+  "heading_hierarchy_status": "passed",
+  "headers_footers_status": "passed",
+  "page_numbering_status": "passed",
+  "visual_rhythm_status": "passed",
+  "embedded_font_status": "passed",
+  "page_density_status": "passed",
+  "trailing_whitespace_status": "passed",
+  "rendered_page_size_status": "passed",
+  "sample_page_roles_status": "passed",
+  "checklist_refs_status": "passed"
 }
 EOF
   python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" \
@@ -260,6 +312,15 @@ assert payload["markdown_image_refs"]["missing_count"] == 0, payload["markdown_i
 assert payload["figure_asset_manifest_summary"]["ready_required_count"] == 1, payload["figure_asset_manifest_summary"]
 assert payload["artifact_gate"]["evidence_refs"]["rendered_page_inspection"] == "auto-rendered-page-inspection.json", payload["artifact_gate"]
 assert auto["inspection_kind"] == "machine_baseline", auto
+assert auto["embedded_font_status"] == "passed", auto
+assert auto["embedded_font_inspection"]["embedded_font_count"] > 0, auto
+assert auto["page_density_status"] in {"passed", "checked_with_warnings"}, auto
+assert auto["trailing_whitespace_status"] in {"passed", "checked_with_warnings"}, auto
+assert auto["rendered_page_size_status"] == "passed", auto
+assert auto["sample_page_roles_status"] == "passed", auto
+assert auto["checklist_refs_status"] == "passed", auto
+assert "front_matter" in auto["sample_page_roles"], auto
+assert "embedded_fonts" in auto["checklist_refs"], auto
 assert auto["nonblank_pages"] == len(payload["rendered_pages"]), auto
 assert payload["rendered_pages"], payload
 for ref in payload["rendered_pages"]:
@@ -267,3 +328,23 @@ for ref in payload["rendered_pages"]:
     assert path.exists() and path.stat().st_size > 1000, ref
 PY
 fi
+
+
+python3 - "${repo_dir}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+profile = json.loads((repo / "runtime/native_helpers/pdf_profiles/bookforge-zh-publication-proof.json").read_text(encoding="utf-8"))
+tokens = profile["design_tokens"]
+expectations = profile["visual_qa_expectations"]
+assert tokens["owner"] == "OPL BookForge", tokens
+assert "inspired_by_kami_patterns" in tokens["source_pattern_note"], tokens
+for key in ("page", "font", "heading", "body", "caption", "table", "callout", "front_matter", "running_head", "page_number"):
+    assert key in tokens, key
+assert expectations["fail_close_artifact_roles"] == ["publication_proof", "final_export"], expectations
+assert expectations["review_pdf_policy"].startswith("unchecked proof QA remains warning-only"), expectations
+assert {"front_matter", "table_of_contents", "chapter_opening", "dense_body", "figure_or_table", "callout"} <= set(expectations["sample_page_roles"]), expectations
+assert {"embedded_fonts", "rendered_page_size", "trailing_whitespace"} <= set(expectations["checklist_refs"]), expectations
+PY

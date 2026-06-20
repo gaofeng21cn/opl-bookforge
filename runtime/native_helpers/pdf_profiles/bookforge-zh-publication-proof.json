@@ -29,6 +29,96 @@
   "include_in_header": [
     "bookforge-zh-publication-proof-header.tex"
   ],
+  "design_tokens": {
+    "owner": "OPL BookForge",
+    "source_pattern_note": "inspired_by_kami_patterns: executable page proof checks, embedded font inspection, density/whitespace scan, and sample-role checklist; visual identity remains BookForge.",
+    "page": {
+      "size": "A5",
+      "paper_width": "148mm",
+      "paper_height": "210mm",
+      "top_margin": "18mm",
+      "bottom_margin": "20mm",
+      "left_margin": "18mm",
+      "right_margin": "18mm",
+      "head_height": "14pt",
+      "head_sep": "7mm",
+      "foot_skip": "10mm"
+    },
+    "font": {
+      "body": "Noto Serif CJK SC",
+      "heading": "PingFang SC",
+      "mono": "Menlo",
+      "body_size": "11pt",
+      "line_stretch": 1.24,
+      "embedded_font_required_for_publication_proof": true
+    },
+    "heading": {
+      "chapter_opening": "restrained chapter number plus clear chapter title hierarchy",
+      "section": "tighter sans-serif hierarchy with visible spacing before section movement",
+      "subsection": "body-adjacent hierarchy, no oversized dashboard-style labels"
+    },
+    "body": {
+      "paragraph_rhythm": "Chinese nonfiction body text with stable line length and controlled paragraph spacing",
+      "widow_orphan_policy": "manual proof review required for final export"
+    },
+    "caption": {
+      "font_family": "PingFang SC",
+      "size": "small",
+      "label_treatment": "warm accent label separated from body prose"
+    },
+    "table": {
+      "style": "booktabs",
+      "density": "small readable type without decorative grid overload",
+      "break_policy": "avoid ambiguous split tables in publication proof"
+    },
+    "callout": {
+      "style": "light warm background with left rule",
+      "spacing": "controlled inner spacing and separation from body prose"
+    },
+    "front_matter": {
+      "title_page": "designed title page rather than plain backend default",
+      "toc": "reader-facing table of contents without production metadata"
+    },
+    "running_head": {
+      "position": "upper running head",
+      "content": "section context"
+    },
+    "page_number": {
+      "position": "centered footer",
+      "format": "arabic"
+    }
+  },
+  "visual_qa_expectations": {
+    "min_render_dpi": 180,
+    "min_machine_page_fill_ratio": 0.01,
+    "max_trailing_whitespace_ratio": 0.35,
+    "require_embedded_fonts_when_pdffonts_available": true,
+    "fail_close_artifact_roles": [
+      "publication_proof",
+      "final_export"
+    ],
+    "review_pdf_policy": "unchecked proof QA remains warning-only for ordinary review PDFs",
+    "sample_page_roles": [
+      "front_matter",
+      "table_of_contents",
+      "chapter_opening",
+      "dense_body",
+      "figure_or_table",
+      "callout",
+      "closing_page"
+    ],
+    "checklist_refs": [
+      "nonblank_pages",
+      "embedded_fonts",
+      "rendered_page_size",
+      "caption_proximity",
+      "figure_table_rendering",
+      "running_head",
+      "page_number",
+      "trailing_whitespace",
+      "visual_rhythm"
+    ]
+  },
   "publication_design_profile": {
     "page_geometry": "A5 e-book proof, 148mm x 210mm, 18mm side margins, 18/20mm top/bottom margins, readable line length for Chinese nonfiction.",
     "typography_hierarchy": "Noto Serif CJK SC body, PingFang SC chapter headings, restrained chapter numbers, increased section spacing, running heads, and table of contents.",
