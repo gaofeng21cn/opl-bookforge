@@ -912,6 +912,18 @@
         },
         {
           "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/chapter-context-compiler.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/source-claim-integrity.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
+          "ref": "agent/skills/style-calibration.md"
+        },
+        {
+          "ref_kind": "domain_skill_ref",
           "ref": "agent/skills/book-production.md"
         },
         {
@@ -1066,6 +1078,9 @@
           "skill-ref:agent/skills/reference-draft-absorption.md",
           "skill-ref:agent/skills/meta-review-loop.md",
           "skill-ref:agent/skills/fast-track-revision.md",
+          "skill-ref:agent/skills/chapter-context-compiler.md",
+          "skill-ref:agent/skills/source-claim-integrity.md",
+          "skill-ref:agent/skills/style-calibration.md",
           "skill-ref:agent/skills/book-production.md",
           "skill-ref:agent/skills/publication-design.md",
           "knowledge-ref:agent/knowledge/book-production-boundary.md",
@@ -1083,7 +1098,10 @@
           "skill-ref:agent/skills/book-memory.md",
           "style-engine-ref:book/style-engine",
           "book-memory-ref:book/book-memory",
-          "chapter-runtime-ref:book/chapter-runtime"
+          "chapter-runtime-ref:book/chapter-runtime",
+          "chapter-context-compiler-ref:book/chapter-context-compiler",
+          "source-claim-integrity-ref:book/source-claim-integrity",
+          "style-calibration-ref:book/style-calibration"
         ],
         "ensures": [
           "stage-attempt-receipt-ref:book-materialization",
@@ -1112,6 +1130,16 @@
           "meta-review-round-ref:book-materialization/{round_id}",
           "meta-review-repair-plan-ref:book-materialization/{round_id}",
           "fast-track-revision-audit-ref:book-materialization",
+          "chapter-context-compiler-ref:book-materialization",
+          "chapter-context-pack-ref:book-materialization/{chapter_id}",
+          "chapter-context-trace-ref:book-materialization/{chapter_id}",
+          "source-claim-integrity-ref:book-materialization",
+          "claim-ledger-ref:book-materialization/{chapter_id}",
+          "source-locator-ref:book-materialization/{chapter_id}",
+          "truth-delta-ref:book-materialization/{chapter_id}",
+          "style-calibration-ref:book-materialization",
+          "style-profile-ref:book-materialization",
+          "style-fatigue-scan-ref:book-materialization",
           "illustration-table-plan-ref:book-materialization",
           "style-consistency-report-ref:book-materialization",
           "publication-design-profile-ref:book-materialization",

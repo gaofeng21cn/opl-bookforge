@@ -6,6 +6,7 @@ Working policy:
 
 - The style engine is a domain artifact contract, not a private model router or runtime control plane.
 - Build the style engine from the reader-style contract, owner examples, comparable works, source constraints, and chapter QC findings.
+- When a reusable style profile is needed, run style calibration first: classify owner/reference/house/prior-chapter inputs, record adopted and rejected patterns, scan fatigue terms with evidence, and then fold accepted rules into the style engine.
 - When the owner supplies a stronger prior version or reference draft, create a `reference-draft-absorption` ref and fold transferable craft patterns into the style engine before drafting or rewriting more chapters.
 - Keep the style engine explicit and reusable across chapters:
   - audience stance
@@ -35,6 +36,7 @@ Working policy:
 - When editing for rhythm, preserve density that matters to the primary reader: why the claim holds, what evidence or case shows, where the boundary sits, and what action follows. Do not optimize only for lower counts of flagged phrases.
 - Flag high-risk AI-flavor scaffolds during style QC: generic intensifiers such as `真正`, `本质上`, `关键在于`, `更准确地说`, `其实`, `显然`, `毋庸置疑`; outline echoes such as `本章将讨论`, `这一部分`, `从三个方面`; and empty summarizers such as `综上所述` when they only restate the obvious. Replace them with reader-visible movement, concrete examples, or direct claims.
 - Require style QC to scan for known forbidden or high-risk patterns before handoff. The report should either record counts/locations and accepted exceptions, or state that the scan found no active manuscript occurrences. Do not rely on impressionistic "去 AI 味" review when concrete regressions have already been observed.
+- Style calibration and style QC must preserve source integrity. Smoother rhythm must not hide unsupported claims, remove evidence boundaries, weaken primary-reader density, or copy reference voice beyond its authority.
 - Run a sentence-integrity pass after every merge or large rewrite. Broken clauses, duplicated transitional fragments, dangling "also can..." continuations, and repeated headings are style failures even when the passage otherwise sounds polished.
 - Keep owner voice and authorial responsibility visible. The style engine may guide prose, but it cannot authorize final editorial acceptance.
 

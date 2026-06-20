@@ -6,6 +6,7 @@ Working policy:
 
 - Treat chapter runtime as a BookForge domain workflow pattern executed inside the existing OPL stage runtime. Do not create a private scheduler, queue, control plane, session store, or attempt ledger.
 - Every production chapter should move through a visible package:
+  - chapter context pack with selected refs, rule stack, protected/compressible context, and trace
   - chapter brief
   - reader-entry plan
   - source/evidence slice
@@ -18,6 +19,7 @@ Working policy:
   - review PDF refresh when eligible
 - The active production queue must carry the inherited minimum extent, current measured extent, missing extent, next action, and blocker state for every required unit. Do not rely on a later whole-book metrics surprise to discover that all chapters are thin.
 - The active chapter package must carry the chapter function contract: one job, new movement, adjacent handoffs, and non-repeat claims. A chapter that mainly restates an adjacent chapter's movement remains in repair, even if it meets the character budget.
+- The chapter context pack must be refreshed before drafting, repair, or resume when source refs, memory refs, style rules, owner decisions, figure/table obligations, or target budgets changed since the last chapter action.
 - Chapter QC should check concept-map placement, core-model usage, and case evidence level when the chapter uses recurring concepts, whole-book models, or major examples.
 - Start with the earliest unfinished required unit. Do not continue later chapters when an earlier required preface, introduction, or chapter is below target unless the owner explicitly approves a non-contiguous exploration pass.
 - Classify chapter states conservatively:

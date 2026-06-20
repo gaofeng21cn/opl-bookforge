@@ -12,6 +12,7 @@ Working policy:
 - Refresh memory after every chapter-level checkpoint: `chapter_brief_ready`, `chapter_text_ready`, `chapter_draft_ready`, owner review, figure/table update, major style repair, or publication-proof pass.
 - Use memory to prevent repeated arguments, drifting terminology, forgotten examples, duplicated cases, stale blockers, and chapter-to-chapter discontinuity.
 - Keep memory concise and cited. A memory item should name the chapter/source/ref that supports it; unsupported conclusions stay in notes or blockers, not semantic memory.
+- Feed memory into chapter context packs through explicit selected refs and traces. Do not dump the whole memory body into every chapter prompt, and do not let compression remove owner decisions, evidence boundaries, reader-style constraints, target extent, or source stance.
 - Keep private source details and unpublished owner comments inside the book workspace memory refs. Do not leak them into generated public docs or OPL-generated interface descriptors.
 - Treat memory updates as a quality operation, not a separate private scheduler. The selected executor updates memory refs during the existing BookForge stages and OPL records only stage receipts, refs, and blockers.
 
