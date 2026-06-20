@@ -47,7 +47,7 @@ External-learning and handoff provenance:
 
 - Revision-routing learning record: `docs/history/external-learning/revision-routing-2026-06-20.md`.
 - Kami-inspired publication-proof learning record: `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
-- OPL base revision-routing handoff proposal: `docs/references/opl-base-revision-routing-handoff.md`.
+- OPL base revision-routing transport reference: `docs/references/opl-base-revision-routing-handoff.md`.
 
 ## Claim Boundary
 
@@ -61,6 +61,7 @@ External-learning and handoff provenance:
 - A real book project receipt from `runtime/native_helpers/bookforge_pdf_export.py` using a project-local publication design profile, resource-path-backed asset resolution, rendered-page refs, rendered-page inspection, and owner/export acceptance when the target is `final_export`.
 - Fresh OPL dependency doctor readback for `bookforge-publication-proof` when making publication-proof or final-export claims.
 - A real manuscript run that exercises `revision-entrypoint-router` with independent meta-review evidence, route-back or repair-plan refs, refreshed artifacts, and owner decisions.
+- A real BookForge workspace run that exercises OPL `workspace artifact-lifecycle --apply` against domain-owned `handoff/review-repair-transport.json` and refreshed downstream refs.
 - A book-specific publication-proof visual inspection report covering front matter, chapter openings, dense body pages, figure/table pages, callouts, closing pages, and owner-directed design preferences.
 - A real publication-proof run that exercises the Kami-inspired BookForge proof refs: design token receipt, component inventory, font actual-load/readback, rendered-page QA, front matter/TOC cleanliness, page rhythm/density/orphan checks, material/asset coverage, and pre-ship proof review.
 - Direct `opl-bookforge` runtime CLI or hosted OPL artifact-handoff parity evidence.

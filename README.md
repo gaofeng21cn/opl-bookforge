@@ -48,7 +48,7 @@ It organizes a two-stage route from storyline architecture to book materializati
 </table>
 
 <p align="center">
-  <img src="assets/branding/opl-bookforge-overview.png" alt="OPL BookForge overview" width="100%" />
+  <img src="assets/branding/opl-bookforge-overview-v2.png" alt="OPL BookForge overview" width="100%" />
 </p>
 
 ## Core Highlights

@@ -15,6 +15,9 @@ Machine boundary: Human-readable learning record. Machine truth remains in contr
 - CMU SEI, Architecture Tradeoff Analysis Method collection: https://www.sei.cmu.edu/library/architecture-tradeoff-analysis-method-collection/
 - C4 model official site: https://c4model.com/
 - C4 model abstractions: https://c4model.com/abstractions
+- Martin Fowler, Scaling the Practice of Architecture, Conversationally: https://martinfowler.com/articles/scaling-architecture-conversationally.html
+- Google SRE Workbook, Postmortem Practices for Incident Management: https://sre.google/workbook/postmortem-culture/
+- NASA Systems Engineering Handbook: https://www.nasa.gov/wp-content/uploads/2018/09/nasa_systems_engineering_handbook_0.pdf
 
 ## Patterns Adopted
 
@@ -25,6 +28,9 @@ Machine boundary: Human-readable learning record. Machine truth remains in contr
 | Developmental/structural editing before copyediting | Separate storyline/outline/chapter-function repair from local prose polish | adapt | BookForge materialization quality gate | repair entrypoint hierarchy |
 | Architecture risk/tradeoff review | Classify risks and topmost affected layer before changing design | adapt | BookForge revision route decision | finding-to-level table and route-back refs |
 | Hierarchical architecture views | Keep repair levels named and bounded so maintainers can reason by zoom level | adapt | BookForge docs/contracts | artifact target -> storyline -> outline -> chapter -> evidence/model -> publication design -> local prose |
+| Decision record discipline | Keep context, decision, and consequences inspectable near the artifact | adapt | BookForge revision route decision and docs | durable entrypoint decision refs and handoff reference |
+| Postmortem/action-item discipline | Classify root cause and preventive action instead of only fixing the visible symptom | adapt | Meta Review repair plan | finding-to-level table, owner, next action, and freshness obligations |
+| Systems traceability | Preserve requirement/design/verification links across major changes | adapt | BookForge + OPL refs-only transport | route-back refs, downstream freshness refs, and projection health |
 
 ## Rejected Patterns
 
@@ -47,9 +53,9 @@ The router preserves the existing two-stage model. If repair begins at storyline
 
 ## OPL Base Handoff
 
-OPL should support generic review-repair transport for opaque refs: `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, freshness gates, iteration caps, and current-owner projection. OPL should not inspect manuscript semantics or own quality/export verdicts.
+OPL now has an initial local refs-only workspace transport for opaque review-repair refs through `opl workspace artifact-lifecycle`. It projects `revision_entrypoint_decision_ref`, `route_back_ref`, `repair_plan_ref`, `typed_blocker_ref`, `owner_decision_ref`, freshness gates, iteration caps, and current-owner shape without inspecting manuscript semantics or owning quality/export verdicts.
 
-The handoff proposal is `docs/references/opl-base-revision-routing-handoff.md`.
+The handoff reference is `docs/references/opl-base-revision-routing-handoff.md`.
 
 ## Learning Landing Audit
 
@@ -59,4 +65,4 @@ The handoff proposal is `docs/references/opl-base-revision-routing-handoff.md`.
 | Reverse-outline diagnostic | Reverse outlining | BookForge materialization refs | `reverse-outline-ref` in stage contract | done | 100% | `contracts/stage_control_plane.json` | no runtime artifact yet | Exercise on real manuscript |
 | Architecture-style risk routing | ATAM risk/theme classification | BookForge route decision | finding-to-level table and topmost entrypoint | done | 100% | `agent/skills/revision-entrypoint-router.md` | none for domain contract | Add OPL transport when base owner accepts |
 | Hierarchical repair model | C4-style named abstraction levels | Docs/contracts | repair hierarchy in architecture and invariants | done | 100% | `docs/architecture.md`, `docs/invariants.md` | none for domain contract | Use in future review reports |
-| OPL base optimization | generic opaque transport | OPL owner handoff | proposal doc only | partial | 60% | `docs/references/opl-base-revision-routing-handoff.md` | OPL repo implementation and runtime evidence | Land in OPL base repo separately |
+| OPL base optimization | generic opaque transport | OPL base source/test surface | local OPL `workspace artifact-lifecycle` transport | done | 100% for local source/test transport; 60% for hosted/runtime adoption | `/Users/gaofeng/workspace/one-person-lab/src/workspace-artifact-lifecycle.ts`, `tests/src/cli/cases/workspace-domain.initializer.test.ts`, `docs/references/opl-base-revision-routing-handoff.md` | real BookForge workspace runtime evidence and owner acceptance remain separate | Exercise on real manuscript workspace |

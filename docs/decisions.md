@@ -125,7 +125,7 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - A reverse outline or equivalent structure extraction is required when the finding may concern whole-book organization. The router compares the manuscript's actual jobs, repeated claims, handoffs, and evidence/model use against the approved storyline and chapter thesis chain.
 - Fast-track revision remains available only for local or explicitly bounded low-risk findings. It must not bypass unresolved storyline, outline, chapter-function, evidence/model, publication-design, artifact-target, or owner/source defects.
 - Structural route-back stays inside BookForge-owned refs. If the repair begins at storyline architecture, BookForge updates or requests owner review of storyline refs before claiming manuscript repair.
-- OPL base optimization should provide generic review-repair transport for opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, iteration caps, current-owner projection, and freshness gates. OPL must not own the repair-level decision, manuscript body, memory body, quality/export verdict, or owner receipt.
+- OPL base optimization now has an initial local source/test transport through `opl workspace artifact-lifecycle` for opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, iteration caps, current-owner projection, and freshness gates. OPL must not own the repair-level decision, manuscript body, memory body, quality/export verdict, or owner receipt.
 
 ## 2026-06-20: Kami-Inspired Publication Proof Domain Slice
 
