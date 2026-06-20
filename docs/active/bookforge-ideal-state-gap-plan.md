@@ -25,6 +25,7 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 | Area | Current status | Evidence owner | Boundary |
 | --- | --- | --- | --- |
 | OPL standard structure | `done_structural_baseline` | `scripts/verify.sh`, OPL scaffold/interface validators, contracts and agent pack files | Proves structure/interface readability only. |
+| Golden path default route | `done_structural_baseline` | `contracts/golden_path_profile.json`, `contracts/stage_control_plane.json`, OPL conformance validator | The ordinary default route is `storyline-architecture` only; `book-materialization` remains a follow-on stage by handoff or explicit selection, not a second default entry or delivery-ready claim. |
 | OMA Agent Lab evidence | `evidence_recorded` | `docs/evidence/oma-agent-lab/` | Supports baseline/takeover evidence, not book quality or owner acceptance. |
 | Historical real short-book pilot | `evidence_recorded_owner_blocked` | `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical pilot evidence with owner blockers; not the current long-book source pattern. |
 | Book-length workflow rules | `domain_rules_landed` | `docs/invariants.md`, `docs/decisions.md`, agent skills, quality gates | Rules exist; real long-book run evidence remains open. |

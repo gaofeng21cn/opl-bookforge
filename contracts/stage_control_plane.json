@@ -860,6 +860,8 @@
     {
       "stage_id": "book-materialization",
       "stage_kind": "creation",
+      "lane_kind": "variant",
+      "route_classification": "explicit_follow_on_stage",
       "title": "Book Materialization",
       "summary": "Create chapter drafts and production specs, then run consistency, AI-flavor, illustration, table, layout, and handoff checks.",
       "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
@@ -868,6 +870,7 @@
       "selected_executor": {
         "executor_kind": "codex_cli",
         "default_executor": true,
+        "lane_kind": "variant",
         "executor_binding_ref": "default_codex_cli"
       },
       "domain_stage_refs": [
