@@ -11,12 +11,13 @@ This directory is the documentation entry for the OPL BookForge domain agent pac
 
 1. [Project](./project.md)
 2. [Status](./status.md)
-3. [Architecture](./architecture.md)
-4. [Invariants](./invariants.md)
-5. [Decisions](./decisions.md)
-6. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
-7. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
-8. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
+3. [Active gap plan](./active/bookforge-ideal-state-gap-plan.md)
+4. [Architecture](./architecture.md)
+5. [Invariants](./invariants.md)
+6. [Decisions](./decisions.md)
+7. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
+8. OMA Agent Lab evidence under [evidence/oma-agent-lab](./evidence/oma-agent-lab/)
+9. Real pilot evidence under [evidence/production-readiness/bookforge-real-book-pilot-2026-06-18](./evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/)
 
 ## Evidence Surfaces
 
