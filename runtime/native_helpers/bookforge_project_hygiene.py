@@ -35,6 +35,12 @@ DEFAULT_STATUS_PATHS = (
     "quality",
     "receipts",
 )
+CURRENT_STATUS_METRIC_FILENAMES = (
+    "plan-completion-audit.md",
+    "owner-handoff.md",
+    "manuscript-metrics.md",
+    "pdf-backend-audit.md",
+)
 HIGH_QUALITY_REF_GROUPS = {
     "chapter_function_contract": (
         "chapter-function-contract.md",
@@ -95,6 +101,7 @@ STALE_STATUS_PATTERNS = (
     "41 页，包含前言、第一章、第二章和第三章",
     "128 rendered pages",
 )
+STATUS_NUMBER_RE = r"([0-9][0-9,_，]*)"
 
 
 def project_path(root: Path, ref: str) -> Path:
@@ -131,6 +138,14 @@ def contains_any(text: str, patterns: tuple[str, ...]) -> list[str]:
     return [pattern for pattern in patterns if pattern in text]
 
 
+def parse_int_claim(value: str) -> int | None:
+    cleaned = value.replace(",", "").replace("_", "").replace("，", "")
+    try:
+        return int(cleaned)
+    except ValueError:
+        return None
+
+
 def chapter_statuses(root: Path) -> dict[str, Any]:
     metrics_path = root / "artifacts/stage_outputs/book-materialization/manuscript-metrics.json"
     if not metrics_path.exists():
@@ -145,11 +160,95 @@ def chapter_statuses(root: Path) -> dict[str, Any]:
         "assembly_status": metrics.get("assembly_status"),
         "extent_status": metrics.get("extent_status"),
         "total_chars": metrics.get("total_chars"),
+        "estimated_pages_at_600_chars": metrics.get("estimated_pages_at_600_chars"),
         "target_chars_min": metrics.get("target_chars_min"),
         "missing_chars_min": metrics.get("missing_chars_min"),
         "review_pdf": metrics.get("completed_chapters_review", {}),
         "chapters": chapters if isinstance(chapters, list) else [],
     }
+
+
+def review_pdf_export_summary(root: Path) -> dict[str, Any]:
+    export_path = root / "artifacts/review/completed-chapters.review-pdf-export.json"
+    if not export_path.exists():
+        return {}
+    try:
+        export = json.loads(export_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return {
+        "nonblank_pages": export.get("rendered_page_inspection", {}).get("nonblank_pages"),
+        "markdown_image_refs_present": export.get("markdown_image_refs", {}).get("present_count"),
+        "markdown_image_refs_total": export.get("markdown_image_refs", {}).get("total"),
+        "markdown_image_refs_missing": export.get("markdown_image_refs", {}).get("missing_count"),
+    }
+
+
+def chapter_chars_by_label(metrics: dict[str, Any]) -> dict[str, int]:
+    chapters = metrics.get("chapters") if isinstance(metrics.get("chapters"), list) else []
+    mapping: dict[str, int] = {}
+    for row in chapters:
+        title = str(row.get("title", ""))
+        chars = row.get("chars")
+        if not isinstance(chars, int):
+            continue
+        if title.startswith("第八章"):
+            mapping["Chapter 8"] = chars
+        if title.startswith("结语"):
+            mapping["conclusion"] = chars
+    return mapping
+
+
+def stale_metric_claims(root: Path, path: Path, text: str, metrics: dict[str, Any]) -> list[dict[str, Any]]:
+    if path.name not in CURRENT_STATUS_METRIC_FILENAMES:
+        return []
+
+    export_summary = review_pdf_export_summary(root)
+    expected = {
+        "total_chars": metrics.get("total_chars"),
+        "pdf_page_count": metrics.get("review_pdf", {}).get("pdf_page_count"),
+        "nonblank_pages": export_summary.get("nonblank_pages"),
+    }
+    patterns = (
+        ("total_chars", rf"total_chars\s*=?\s*`?{STATUS_NUMBER_RE}`?"),
+        ("pdf_page_count", rf"completed-chapters\.review\.pdf`?:\s*{STATUS_NUMBER_RE}\s+pages"),
+        ("pdf_page_count", rf"current\s+A5\s+review\s+PDF\s+is\s+{STATUS_NUMBER_RE}\s+pages"),
+        ("nonblank_pages", rf"nonblank_pages\s*=?\s*`?{STATUS_NUMBER_RE}`?"),
+    )
+    issues: list[dict[str, Any]] = []
+    for metric_name, pattern in patterns:
+        current_value = expected.get(metric_name)
+        if not isinstance(current_value, int):
+            continue
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            claimed_value = parse_int_claim(match.group(1))
+            if claimed_value is None or claimed_value == current_value:
+                continue
+            issues.append({
+                "kind": "stale_status_metric",
+                "path": rel(path, root),
+                "metric": metric_name,
+                "claimed": claimed_value,
+                "current": current_value,
+                "excerpt": match.group(0),
+            })
+
+    chapter_chars = chapter_chars_by_label(metrics)
+    for label, current_chars in chapter_chars.items():
+        pattern = rf"{re.escape(label)}\s+`{STATUS_NUMBER_RE}/[0-9,_，]+`"
+        for match in re.finditer(pattern, text):
+            claimed_chars = parse_int_claim(match.group(1))
+            if claimed_chars is None or claimed_chars == current_chars:
+                continue
+            issues.append({
+                "kind": "stale_status_metric",
+                "path": rel(path, root),
+                "metric": f"{label}.chars",
+                "claimed": claimed_chars,
+                "current": current_chars,
+                "excerpt": match.group(0),
+            })
+    return issues
 
 
 def is_book_length_final_nonfiction_candidate(metrics: dict[str, Any]) -> bool:
@@ -292,7 +391,7 @@ def high_quality_ref_scan(root: Path, metrics: dict[str, Any]) -> list[dict[str,
     return issues
 
 
-def active_scan(root: Path, voice_paths: list[Path], status_paths: list[Path]) -> list[dict[str, Any]]:
+def active_scan(root: Path, voice_paths: list[Path], status_paths: list[Path], metrics: dict[str, Any]) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
     for path in iter_text_files(voice_paths):
         text = read_text(path)
@@ -314,6 +413,7 @@ def active_scan(root: Path, voice_paths: list[Path], status_paths: list[Path]) -
                 "path": rel(path, root),
                 "patterns": stale_hits,
             })
+        issues.extend(stale_metric_claims(root, path, text, metrics))
     return issues
 
 
@@ -344,9 +444,9 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
     status_paths = [project_path(root, ref) for ref in args.status_path]
     archive_paths = [project_path(root, ref) for ref in args.archive_dir]
     issues = []
-    issues.extend(active_scan(root, voice_paths, status_paths))
-    issues.extend(archive_scan(root, archive_paths))
     metrics = chapter_statuses(root)
+    issues.extend(active_scan(root, voice_paths, status_paths, metrics))
+    issues.extend(archive_scan(root, archive_paths))
     issues.extend(high_quality_ref_scan(root, metrics))
     payload = {
         "surface_kind": "bookforge_project_hygiene",
@@ -490,6 +590,48 @@ def run_self_test() -> None:
             for issue in payload["issues"]
             if issue["kind"] == "missing_high_quality_nonfiction_ref"
         ], payload
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        stage = root / "artifacts/stage_outputs/book-materialization"
+        review = root / "artifacts/review"
+        quality = root / "quality"
+        stage.mkdir(parents=True)
+        review.mkdir(parents=True)
+        quality.mkdir(parents=True)
+        (stage / "manuscript-metrics.json").write_text(json.dumps({
+            "assembly_status": "final_book_assembly_ready",
+            "extent_status": "meets_declared_minimum",
+            "total_chars": 126955,
+            "estimated_pages_at_600_chars": 211.6,
+            "target_chars_min": 120000,
+            "missing_chars_min": 0,
+            "completed_chapters_review": {"pdf_page_count": 167},
+            "chapters": [
+                {"title": "第八章 大学的未来意义", "chars": 11780},
+                {"title": "结语 教学生发现值得干的事", "chars": 3099},
+            ],
+        }), encoding="utf-8")
+        (review / "completed-chapters.review-pdf-export.json").write_text(json.dumps({
+            "rendered_page_inspection": {"nonblank_pages": 167},
+        }), encoding="utf-8")
+        (quality / "plan-completion-audit.md").write_text(
+            "`total_chars=124153`\n"
+            "`artifacts/review/completed-chapters.review.pdf`: 166 pages\n"
+            "`nonblank_pages=166`\n"
+            "Chapter 8 `11306/9600`; conclusion `2788/2400`\n",
+            encoding="utf-8",
+        )
+        payload = run_check(argparse.Namespace(
+            root=root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["quality"],
+            archive_dir=["archive"],
+            report=None,
+        ))
+        stale_metrics = [issue for issue in payload["issues"] if issue["kind"] == "stale_status_metric"]
+        stale_metric_names = {issue["metric"] for issue in stale_metrics}
+        assert {"total_chars", "pdf_page_count", "nonblank_pages", "Chapter 8.chars", "conclusion.chars"} <= stale_metric_names, payload
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
