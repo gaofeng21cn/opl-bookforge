@@ -13,6 +13,7 @@ Current state: OPL standard structural baseline plus one historical real short-b
 - The stage pack exposes two primary stages, `storyline-architecture` and `book-materialization`, plus domain refs for revision routing, chapter context, source-claim integrity, style calibration, publication design, PDF proof gates, image asset receipts, and workspace lifecycle hygiene.
 - The PDF export helper uses real typesetting backends, distinguishes `review_pdf`, `publication_proof`, and `final_export`, scans Markdown image refs, checks figure asset manifest readiness, writes rendered-page machine-baseline inspection when requested, reads embedded fonts through `pdffonts` when available, scans rendered-page density and trailing whitespace, and fail-closes `publication_proof` / `final_export` claims when required proof evidence or machine QA fields are missing.
 - Book Forge consumes OPL-owned dependency and workspace-lifecycle routes. It does not own OS/TeX package installation, OPL runtime, queue, attempt ledger, generated interface hosting, or app shell routing.
+- `contracts/functional_privatization_audit.json` now declares bridge exit gates for generated wrapper handler targets, the domain handler target, and refs-only status/workbench projection. Fresh OPL default-caller readback for this repo observes no missing no-forbidden-write proof and observes typed-blocker refs for the physical-delete decision path, while keeping `physical_delete_authorized=false` and `default_caller_delete_ready=false`.
 
 ## Evidence Packages
 
@@ -52,7 +53,7 @@ External-learning and handoff provenance:
 ## Claim Boundary
 
 - Existing evidence proves a valid OPL standard scaffold, generated interface descriptors, OMA Agent Lab baseline evidence, external-suite self-evolution evidence, and a historical short-book pilot with generated artifacts, exports, rendered pages, quality receipts, and owner blockers.
-- Existing evidence does not prove final production readiness, publication approval, owner acceptance, direct `opl-bookforge` runtime CLI availability, hosted OPL artifact-handoff parity, or book-specific publication-proof visual acceptance.
+- Existing evidence does not prove final production readiness, publication approval, owner acceptance, direct `opl-bookforge` runtime CLI availability, hosted OPL artifact-handoff parity, physical delete authorization, default-caller delete readiness, or book-specific publication-proof visual acceptance.
 - The historical pilot generator's prose-in-code pattern is superseded by the current Markdown-first, chapter-sharded materialization invariant. Keep the pilot as evidence, not as the current implementation pattern for book-length manuscript source management.
 
 ## Next Evidence Required

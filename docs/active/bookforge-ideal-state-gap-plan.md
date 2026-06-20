@@ -31,6 +31,7 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 | PDF/proof helper plumbing | `helper_plumbing_landed` | `runtime/native_helpers/bookforge_pdf_export.py`, proof/profile checks in `scripts/verify.sh` | Helper evidence supports proof plumbing, not final visual judgment. |
 | Revision entrypoint routing | `domain_refs_landed` | `agent/skills/revision-entrypoint-router.md`, `docs/references/opl-base-revision-routing-handoff.md` | Needs real manuscript meta-review route-back evidence. |
 | OPL workspace artifact lifecycle | `local_transport_reference_landed` | OPL `workspace artifact-lifecycle` source/tests and Book Forge handoff reference | Needs apply evidence against a real Book Forge workspace. |
+| Default-caller deletion structural gates | `structural_gate_landed_not_delete_ready` | `contracts/functional_privatization_audit.json`, OPL `agents default-callers --agent opl-bookforge=<repo> --json` | No-forbidden-write proof and typed-blocker refs are structurally visible to OPL; physical delete and default-caller delete readiness remain false. |
 
 ## Functional / Structural Gaps
 
@@ -40,7 +41,7 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 | Publication-proof run | Proof helper and proof rules exist, but no book-specific publication-proof visual inspection package closes the proof route. | Produce a project-local publication design profile, rendered pages, asset/font/readback evidence, visual inspection, and owner/export decision. |
 | Revision route-back evidence | Router refs exist; current evidence does not show a real independent meta-review finding routed back to storyline, outline, chapter, evidence/model, publication design, local prose, or owner blocker. | Exercise `revision-entrypoint-router` on a real manuscript review and refresh the owning Book Forge refs. |
 | OPL artifact lifecycle integration | OPL refs-only transport exists as local source/test evidence; Book Forge has no real workspace apply receipt for review-repair transport and refreshed downstream refs. | Run `opl workspace artifact-lifecycle --apply` against a real Book Forge workspace with `handoff/review-repair-transport.json`. |
-| Active portfolio coverage | Core current docs are aligned enough for the current baton; evidence package role now has a single index, and evidence leaves remain package payloads rather than active truth owners. | Keep historical evidence under `docs/evidence/**` and `docs/history/**`; route evidence-package navigation through `docs/evidence/README.md`; do not convert evidence leaves into current status or active process logs. |
+| Active portfolio coverage | Core current docs are aligned enough for the current baton; evidence package role now has a single index, evidence leaves remain package payloads rather than active truth owners, and default-caller structural delete gates are recorded without authorizing deletion. | Keep historical evidence under `docs/evidence/**` and `docs/history/**`; route evidence-package navigation through `docs/evidence/README.md`; do not convert evidence leaves into current status, active process logs, physical delete authorization, or ready claims. |
 
 ## Test / Evidence Gaps
 
