@@ -126,3 +126,13 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Fast-track revision remains available only for local or explicitly bounded low-risk findings. It must not bypass unresolved storyline, outline, chapter-function, evidence/model, publication-design, artifact-target, or owner/source defects.
 - Structural route-back stays inside BookForge-owned refs. If the repair begins at storyline architecture, BookForge updates or requests owner review of storyline refs before claiming manuscript repair.
 - OPL base optimization should provide generic review-repair transport for opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, iteration caps, current-owner projection, and freshness gates. OPL must not own the repair-level decision, manuscript body, memory body, quality/export verdict, or owner receipt.
+
+## 2026-06-20: Kami-Inspired Publication Proof Domain Slice
+
+- Adopt Kami as an external pattern source for publication-proof discipline: tokenized print design, template/component inventory, font actual-load/readback, rendered-page QA, page rhythm/density/orphan checks, material coverage, and pre-ship proof review.
+- Keep BookForge's visual and runtime identity separate. BookForge must not copy Kami's parchment/ink-blue visual language, HTML templates, WeasyPrint route, font downloader, plugin update workflow, or any private proof truth source.
+- Add publication design tokens as BookForge-owned proof refs covering page geometry, typography, line height, measure, captions, tables, callouts, figures, headers/footers, page numbering, color restraint, density thresholds, and rendered-page expectations.
+- Require a template/component inventory before `publication_proof` claims: title/front matter, TOC, chapter opener, dense body, figures, tables, callouts/case boxes, captions, and closing matter.
+- Require font actual-load/readback where available and rerender/reinspect when fallback fonts are used. Font fallback is a proof/export blocker, not a drafting blocker.
+- Preserve progress priority: missing publication-proof tokens, component inventory, font readback, rendered-page QA, pre-ship proof review, or owner/export acceptance blocks only `publication_proof` and `final_export` claims. It does not block chapter drafting, claim integrity, style calibration, chapter QC, or ordinary `review_pdf` refreshes with narrower honest evidence.
+- Record the external learning landing in `docs/external-learning-kami-publication-proof-2026-06-20.md`.
