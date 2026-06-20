@@ -110,3 +110,10 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - BookForge may use the doctor result as proof/export gate input, but it must not implement a private OS package manager, TeX package installer, runtime scheduler, or second dependency truth source inside this repo.
 - Dependency failures block `publication_proof` and `final_export` claims, not ordinary writing progress. Storyline shaping, chapter drafting, context packs, claim integrity, style calibration, and other narrower honest actions should continue when they do not require the missing proof backend.
 - The bundled proof header removed `titling.sty` and `tocloft.sty`; those packages are legacy diagnostics only and must not be required by the current BookForge proof profile.
+
+## 2026-06-20: OPL Artifact Lifecycle For Book Workspaces
+
+- BookForge keeps manuscript, source-map bodies, memory bodies, figures, exports, quality reports, typed blockers, and owner receipts as domain-owned workspace refs.
+- OPL owns the shared refs-only lifecycle projection for indexed workspaces through `opl workspace artifact-lifecycle`. The projection records source passport, memory lifecycle, output lifecycle, current refs, retention/archive refs, and health without storing domain bodies or claiming publication readiness.
+- OBF hygiene consumes this OPL projection through `bookforge_project_hygiene.py --require-opl-lifecycle` for book-length OPL workspaces. Missing or blocked OPL lifecycle health is a BookForge hygiene failure for lifecycle/currentness and handoff-readiness claims.
+- BookForge must not replace OPL lifecycle with private pages, hidden provider memory, private schedulers, or a domain-local attempt ledger. If the OPL projection is insufficient, improve the OPL substrate first and then consume it from BookForge.

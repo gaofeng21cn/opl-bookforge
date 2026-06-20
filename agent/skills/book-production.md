@@ -27,6 +27,7 @@ Working policy:
 - Open each chapter or major section through a concrete scene, reader tension, practical question, or consequence before introducing categories or definitions.
 - Keep prose in author-facing Markdown chapter files or equivalent Markdown refs. Treat scripts as thin assembly, metrics, validation, export, and report helpers; do not make generator-code string literals the manuscript source of truth.
 - Keep the long-form workspace file-first and owner-inspectable. External high-star writing agents show value in autonomous pipelines, multi-agent roles, local workspaces, Markdown studios, and chapter/state organization; BookForge adopts those as chapter packages, Markdown refs, context packs, memory refs, style profiles, claim ledgers, and handoff receipts, not as a foreign CrewAI/Dify/vector-store runtime or second truth source.
+- In an OPL-indexed workspace, use OPL's `workspace artifact-lifecycle` surface for input/source/memory/output lifecycle currentness. BookForge still writes and owns source maps, chapter Markdown, memory bodies, figures, exports, quality reports, owner receipts, and typed blockers; it must not replace OPL lifecycle with private BookForge pages or hidden state.
 - For book-length work, draft and review by chapter/part first, then assemble and run whole-book checks. The assembled `book.md` is a delivery/export ref, not the only creative working file unless the owner explicitly chooses that workflow.
 - Preserve the target extent declared by the owner brief, source plan, publisher brief, or storyline map. Do not reduce a book-length target to a compact/sample draft unless the owner explicitly changes that target; record any shortfall as a typed extent blocker.
 - Enforce chapter budgets before completion labels. A chapter below its target minimum is not drafted or done; mark it `seed_in_progress` or `draft_in_progress` and keep it in the production queue.
@@ -62,6 +63,7 @@ Working policy:
 - Do not make direct OpenAI Base URL/API-key provider calls the default figure route. API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen.
 - Run a wording pass that favors direct claims, precise verbs, concrete nouns, and affirmative editorial movement.
 - After assembling manuscript, review PDF, metrics, hygiene report, or handoff refs, refresh downstream receipts in order and compare their timestamps or source digests. Do not claim readiness from reports produced before the latest chapter, figure manifest, or PDF source changes.
+- Run BookForge project hygiene with OPL lifecycle required for book-length OPL workspaces, for example `bookforge_project_hygiene.py --require-opl-lifecycle`, after the OPL artifact-lifecycle projection has been refreshed.
 - Run layout and typography checks before handoff.
 - Return typed blockers for missing manuscript, source, reader-style, image, table, layout, or owner gate refs.
 

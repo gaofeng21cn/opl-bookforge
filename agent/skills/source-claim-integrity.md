@@ -9,6 +9,11 @@ Working policy:
 - Treat claim integrity as a BookForge domain gate. OPL may project source-map,
   claim-ledger, claim-locator, blocker, and receipt refs, but the truth body
   stays in BookForge-owned book workspace refs.
+- For OPL-indexed book projects, the source passport lifecycle is read through
+  `opl workspace artifact-lifecycle`. BookForge owns `sources/source-map.json`
+  and claim/source bodies; OPL owns the refs-only lifecycle projection that
+  reports source-map presence, provenance-field gaps, memory refs, output refs,
+  current refs, and lifecycle health.
 - Do not create a second truth source, generic vector store, generic retrieval
   runtime, private source database, or hidden attempt ledger for integrity work.
 - Adapt external lessons as patterns only:
@@ -24,6 +29,10 @@ Working policy:
 - Record source provenance before using a source: who supplied it, where it
   lives, what scope it authorizes, what it may support, and what must not leak
   into reader-facing prose or generated public interface descriptors.
+- Source maps for book-length nonfiction must carry lifecycle fields that OPL
+  can project: `owner`, `provenance`, `allowed_use`, `privacy`,
+  `evidence_class`, and `claim_refs`. Missing fields are lifecycle blockers,
+  not a reason for BookForge to invent source authority.
 - Run claim checks at chapter-package boundaries and again after assembly,
   reference absorption, owner/source updates, or any rewrite that changes the
   strength, scope, actor, time, result, or evidence class of a claim.
@@ -103,6 +112,9 @@ Fail-closed conditions:
   performance claim appears without `outcome/impact_evidence`.
 - A source is fabricated, unlocatable, outside the declared source map, or cited
   with a locator/provenance that cannot be inspected.
+- An OPL-indexed project's `workspace artifact-lifecycle` source passport is
+  missing, stale, or blocked while BookForge claims source lifecycle,
+  currentness, handoff quality, publication proof, or final export readiness.
 - A chapter or package uses source-dependent claims while the source map or
   source locator is missing.
 - A constructed scene, typical scenario, or documented process material is

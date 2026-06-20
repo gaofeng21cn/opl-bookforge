@@ -31,6 +31,7 @@ Pass conditions:
 - The production pipeline contract identifies chapter packages, chapter briefs, chapter drafts, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, and retired obsolete drafts.
 - Retired obsolete drafts are tombstone/archive records rather than full searchable obsolete manuscript prose inside the active workspace, unless the owner explicitly asks to preserve old full text and the files are labeled as non-source evidence.
 - The book-memory contract maps working memory, episodic memory, and semantic memory to nonfiction manuscript refs and keeps them owner-inspectable.
+- For OPL-indexed book projects, OPL `workspace artifact-lifecycle` projections exist for source passport, memory lifecycle, output lifecycle, current refs, and lifecycle health. These projections are refs-only, and their health must be `passed` before source lifecycle, output lifecycle, handoff quality, publication proof, or final export readiness claims.
 - Every active chapter has a chapter task card with reader promise, chapter job, thesis movement, source refs, figure/table obligations, target extent, active memory refs, style constraints, QC state, and blockers.
 - Chapter repair reports show which QC findings updated the chapter draft, task card, style asset bundle, glossary, evidence map, or semantic memory refs.
 - The style engine bundle and transparent prompt bundle are cited by chapter drafting, review, repair, style pass, and handoff reports.
@@ -61,6 +62,7 @@ Pass conditions:
 - The default final-figure route uses the BookForge native imagegen asset helper or an equivalent BookForge-owned backend adapter that delegates provider credentials to the Codex executor/native imagegen surface; direct Base URL/API-key provider calls are not the default route.
 - A completed-contiguous review PDF is refreshed after chapter text-readiness or full readiness changes through a real publication/typesetting backend; it includes the reviewable reader sequence from the beginning of the book, stops at the first below-target required unit, and is labeled as an owner review artifact, not final export readiness.
 - Assembly, metrics, hygiene, review-PDF, and owner-handoff receipts are generated after the latest inspected chapter/figure/source changes and record enough timestamp or source-digest evidence to prove freshness.
+- BookForge project hygiene is run with OPL lifecycle required for book-length OPL workspaces, and its report records the OPL lifecycle workspace/project, dry-run readback, projection refs, health status, and blockers.
 - If the manuscript already includes Chinese chapter or figure numbering, review-PDF rendering prevents backend-generated duplicate section/caption numbers.
 - Review PDF, publication proof PDF, and final export are separate artifact levels. Publication proof requires a publication design profile covering page geometry, typography, captions, figures, tables, case boxes/callouts, headers/footers, numbering, visual rhythm, and rendered-page inspection.
 - PDF export evidence classifies the artifact as `review_pdf`, `publication_proof`, or `final_export`; review PDFs are not treated as publication proofs.
@@ -99,6 +101,8 @@ Fail-closed conditions:
 - Figures and tables remain local lists when the book needs reusable whole-book models, or selected core models appear once and then disappear from later chapters and the conclusion.
 - Constructed scenes or typicalized examples are used as if they were documented process evidence, authorized participant material, or outcome/impact evidence.
 - Missing book-memory contract, chapter task cards, chapter runtime refs, style asset bundle, repair back-propagation report, or transparent prompt bundle for a book-length materialization.
+- Missing or blocked OPL `workspace artifact-lifecycle` projection for an OPL-indexed book workspace when BookForge claims lifecycle/currentness, handoff quality, publication proof, final export readiness, or owner-review package completeness.
+- Required `book-memory/working.md`, `book-memory/episodic.md`, `book-memory/semantic.md`, or `book-memory/memory-qc.md` refs are absent while an OPL lifecycle projection or BookForge handoff claims memory lifecycle management.
 - Chapter runtime state is implemented as a private scheduler, queue, session store, or hidden attempt ledger instead of owner-inspectable OPL stage refs and task cards.
 - Chapter prose uses a generic style that does not match the declared reader groups, or materialization proceeds after the reader-style contract asks for owner clarification.
 - A case that the author team designed, executed, or directly participated in is drafted as third-party public-source observation, external commentary, or neutral "publicly observable" description after the reader-style contract called for a practice-involved stance.
