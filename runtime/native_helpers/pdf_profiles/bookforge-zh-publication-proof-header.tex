@@ -1,8 +1,6 @@
 % OPL BookForge publication proof profile for Pandoc + XeLaTeX.
 % This file controls book-level presentation only; it is not an owner acceptance gate.
 \usepackage{xcolor}
-\usepackage{titling}
-\usepackage{tocloft}
 \definecolor{BookForgeInk}{HTML}{25231F}
 \definecolor{BookForgeMuted}{HTML}{6F685F}
 \definecolor{BookForgeAccent}{HTML}{8B3A2B}
@@ -18,32 +16,7 @@
 \renewcommand{\headrule}{\hbox to\headwidth{\color{BookForgeRule}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrulewidth}{0pt}
 
-\pretitle{%
-  \begin{center}
-  \vspace*{2.8em}
-  {\color{BookForgeAccent}\rule{0.62\linewidth}{1.2pt}}\par
-  \vspace{1.4em}
-  \sffamily\bfseries\Huge\color{BookForgeInk}
-}
-\posttitle{%
-  \par\vspace{1.1em}
-  {\color{BookForgeRule}\rule{0.36\linewidth}{0.6pt}}\par
-  \vspace{1.4em}
-  \end{center}
-}
-\preauthor{\begin{center}\sffamily\large\color{BookForgeMuted}}
-\postauthor{\end{center}}
-\predate{\begin{center}\sffamily\small\color{BookForgeMuted}}
-\postdate{\end{center}\vfill\clearpage}
-
 \renewcommand{\contentsname}{目录}
-\renewcommand{\cfttoctitlefont}{\sffamily\Large\bfseries\color{BookForgeInk}}
-\renewcommand{\cftchapfont}{\sffamily\bfseries\color{BookForgeInk}}
-\renewcommand{\cftsecfont}{\sffamily\color{BookForgeInk}}
-\renewcommand{\cftchappagefont}{\sffamily\bfseries\color{BookForgeAccent}}
-\renewcommand{\cftsecpagefont}{\sffamily\color{BookForgeMuted}}
-\setlength{\cftbeforechapskip}{0.5em}
-\setlength{\cftbeforesecskip}{0.12em}
 
 \usepackage{titlesec}
 \titleformat{\chapter}[display]

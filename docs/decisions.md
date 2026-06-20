@@ -91,3 +91,18 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Add a source-claim integrity skill so nonfiction claims, tables, figures, captions, callouts, and case boxes carry claim IDs, source locators, evidence classes, provenance, unsupported gaps, truth deltas, and anti-leakage notes.
 - Add a style calibration skill so owner samples, reference drafts, comparable works, house style, prior chapters, and QC findings become reusable style profiles, fatigue scans, adopted/rejected rules, accepted exceptions, and style-engine updates.
 - Reject importing external runtimes such as generic multi-agent orchestrators, Dify/CrewAI-style controllers, private vector stores, hidden schedulers, or second truth sources. OPL keeps runtime/projection ownership; OPL BookForge keeps manuscript, evidence, memory, quality, export, and owner-gate truth.
+
+## 2026-06-20: Complete-Version Reference Absorption
+
+- When the owner compares two full-book review PDFs or says another version is more publishable, BookForge must run a complete-version absorption pass, not a local wording pass.
+- The pass compares reader-entry path, localized scope language, chapter decomposition, book-like transition and explanation density, practice-chapter methodization, conclusion action path, PDF/TOC hierarchy, and active-manuscript strengths to retain.
+- The default repair rule is to preserve cases and transitions that help readers follow the argument, compress repeated central judgments that do not add evidence or mechanism, keep the primary-reader contract stable, and avoid inflating length only to imitate the reference.
+- Durable outputs must update the reference absorption report plus the relevant reader-entry plans, chapter function contracts, style/QC rules, or publication-design refs before manuscript repair is claimed.
+
+## 2026-06-20: OPL-Owned Publication Proof Dependency Route
+
+- BookForge publication proof depends on local Pandoc, XeLaTeX, Poppler, and TeX Live package availability, but dependency diagnosis and maintenance belong to the OPL system layer.
+- The canonical read route is `opl system dependency-doctor --profile bookforge-publication-proof --json`; the canonical maintenance plan route is `opl system dependency-maintenance --profile bookforge-publication-proof --json`.
+- BookForge may use the doctor result as proof/export gate input, but it must not implement a private OS package manager, TeX package installer, runtime scheduler, or second dependency truth source inside this repo.
+- Dependency failures block `publication_proof` and `final_export` claims, not ordinary writing progress. Storyline shaping, chapter drafting, context packs, claim integrity, style calibration, and other narrower honest actions should continue when they do not require the missing proof backend.
+- The bundled proof header removed `titling.sty` and `tocloft.sty`; those packages are legacy diagnostics only and must not be required by the current BookForge proof profile.

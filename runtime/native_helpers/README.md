@@ -15,6 +15,13 @@ Current backend:
 - Publication profile controls: `--publication-profile bookforge-zh-publication-proof` is the default bundled proof profile for Chinese nonfiction e-books. It applies an A5 electronic-book page, Chinese body/head fonts, running heads, footer page numbers, chapter-title hierarchy, caption styling, table/callout treatment, and visual-rhythm expectations. Pass `--publication-profile none` only for diagnostics or owner-approved custom styling.
 - Asset and page checks: the helper scans Markdown image refs against the effective resource paths, checks required `figure_asset_manifest` items for `asset_ready` project-local bitmap files, and can write a machine-baseline rendered-page inspection JSON through `--write-rendered-page-inspection`.
 
+Dependency route:
+
+- OPL owns local helper dependency diagnosis and maintenance for this profile through `opl system dependency-doctor --profile bookforge-publication-proof --json` and `opl system dependency-maintenance --profile bookforge-publication-proof --json`.
+- BookForge owns the proof helper, proof profile, artifact gates, manuscript evidence, and owner/export boundaries; it does not implement a system package manager or TeX installer.
+- Missing required dependencies block `publication_proof` and `final_export` claims, but they do not block unrelated storyline, chapter drafting, context compilation, claim integrity, or style calibration progress when a narrower honest writing action remains available.
+- The bundled `bookforge-zh-publication-proof` header no longer requires `titling.sty` or `tocloft.sty`; OPL may report those packages as legacy diagnostics, but they are not current proof blockers.
+
 Artifact roles:
 
 - `review_pdf`: cumulative owner/editor reading checkpoint. A generated review PDF can pass its helper gate when the PDF compiles; rendered pages are strongly preferred for visual review, but it remains review-only.

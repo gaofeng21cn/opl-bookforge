@@ -45,6 +45,7 @@ Pass conditions:
 - Chapter rhythm, paragraph movement, case treatment, figure/table integration, and ending transitions reflect accepted reference-derived book-prose rules when a reference absorption report exists.
 - Reference-derived PDF/front-matter rules are applied when a reference proof is stronger: title page, proof label, page geometry, chapter punctuation, and TOC hierarchy are inspected as part of draft quality, not deferred to final export.
 - Accepted reference-derived rules are expressed as transferable editorial actions, including reader-action openings, relationship sentences, chapter-scope narrowing, process-chain movement, argument-embedded cases, and figure/table interpretation, rather than only as a one-off prose patch.
+- When the owner supplies or compares a stronger full-book version, the absorption report covers complete-version craft dimensions: reader-entry path, localized scope language, chapter decomposition, book-like transition/explanation density, practice-chapter methodization, conclusion action path, current-manuscript strengths to retain, and the rule for preserving cases/transitions while compressing repeated judgments.
 - Reference absorption records local-slice scope when the reference improves only selected chapters, and preserves whole-book completion, target extent, figure, evidence, and publication gates.
 - The wording pass replaces generic AI-flavored phrasing with direct, specific, affirmative prose.
 - The AI-flavor/style report includes concrete scan evidence for high-risk patterns such as formulaic negation pairs, generic intensifiers, outline scaffolds, and empty summaries, with accepted exceptions named instead of hidden inside a generic "polished" claim.
@@ -106,6 +107,7 @@ Fail-closed conditions:
 - Reference-derived patterns shift the book toward a secondary-reader voice, lower-density exposition, or unsupported claims that conflict with the reader-style contract.
 - Reference prose, examples, claims, or case details are copied without independent source authority, owner permission, or evidence-map support.
 - Reference comparison reports only that a version "reads better" without extracting reusable reader-entry, chapter-scope, argument-movement, case-treatment, or style rules.
+- A full-book reference comparison chooses a better version or changes visible prose without updating durable complete-version rules for reader path, chapter decomposition, methodized practice chapters, conclusion action, and repetition control.
 - Reference comparison ignores front matter, page geometry, TOC hierarchy, image placement, or proof-label differences when the owner supplied a PDF/proof artifact as the comparison target.
 - A reference-driven polish shortens chapters below target, removes necessary reasoning or evidence, weakens primary-reader density, or drops case/process conflict without a deliberate owner/editor decision.
 - A local reference slice is used to claim whole-book completion, publication proof readiness, final export readiness, or owner acceptance.

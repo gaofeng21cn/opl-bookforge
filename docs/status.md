@@ -23,6 +23,7 @@ Scope of the claim:
 - The 2026-06-20 external-learning completion slice adds three materialization skills and stage refs: chapter context compiler, source-claim integrity, and style calibration. These fold current long-form writing-agent patterns into BookForge as owner-inspectable refs for context packs, rule stacks, traces, claim ledgers, source locators, truth deltas, style profiles, and fatigue scans, while preserving progress-first drafting and avoiding a foreign runtime or second truth source.
 - The 2026-06-19 PDF publication-proof slice upgrades `runtime/native_helpers/bookforge_pdf_export.py` from a review-PDF compiler into a compile-plus-artifact-gate helper. It still uses real typesetting backends, now records resource paths for relative figures, and fail-closes `publication_proof` / `final_export` when design profile, rendered-page inspection, local asset evidence, or owner acceptance evidence is missing.
 - The 2026-06-19 publication-style slice adds a bundled `bookforge-zh-publication-proof` Pandoc/XeLaTeX profile for Chinese nonfiction e-book proof output. The profile is verified through `scripts/verify.sh` with rendered nonblank proof pages, Markdown image-ref checks, figure-asset-manifest readiness checks, and helper-generated rendered-page machine-baseline inspection. This still does not replace owner acceptance or book-specific human publication review.
+- The 2026-06-20 dependency-route slice moves BookForge publication proof local dependency diagnosis and maintenance to OPL system commands: `opl system dependency-doctor --profile bookforge-publication-proof --json` and `opl system dependency-maintenance --profile bookforge-publication-proof --json`. BookForge still owns helper behavior and proof/export gates, but does not own OS/TeX package installation. Required dependency failures block proof/export claims, not unrelated writing progress.
 
 OMA / Agent Lab evidence:
 
@@ -55,5 +56,6 @@ Next evidence required for stronger claims:
 
 - Human owner receipt accepting the pilot topic, reader promise, manuscript quality, figure/table plan, DOCX/PDF layout, and publication intent.
 - A real book project receipt from `runtime/native_helpers/bookforge_pdf_export.py` using a project-local publication design profile, resource-path-backed asset resolution, rendered-page refs, rendered-page inspection, and owner/export acceptance when the target is `final_export`.
+- Fresh OPL dependency doctor readback for `bookforge-publication-proof` when making publication-proof or final-export claims.
 - A book-specific publication-proof visual inspection report covering front matter, chapter openings, dense body pages, figure/table pages, callouts, closing pages, and owner-directed design preferences.
 - Direct `opl-bookforge` runtime CLI or hosted OPL artifact-handoff parity evidence.
