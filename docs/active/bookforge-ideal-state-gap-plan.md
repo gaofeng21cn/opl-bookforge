@@ -7,6 +7,8 @@ Machine boundary: Human-readable active plan. Machine truth remains in contracts
 
 This document is the active development baton for OPL Book Forge. It tracks current completion progress, the gap from the ideal Book Forge domain pack, and the next executable agent prompt. It does not make runtime, publication, export, owner-acceptance, or production-readiness claims.
 
+Live Evidence deferred is the execution rule for this plan. Functional and structural gaps should be closed first when they do not require long-running or owner-gated proof: scaffold/interface shape, golden-path route shape, stage pack refs, generated/hosted surface consumption, PDF/proof helper plumbing, revision-entrypoint routing, workspace artifact-lifecycle handoff refs, default-caller structural gates, no-active-caller/tombstone/provenance cleanup, and no-second-truth guards. Owner acceptance, real long-book project evidence, final export acceptance, publication-proof visual acceptance, direct runtime CLI / hosted artifact-handoff parity, physical delete authorization, and production-ready claims are later evidence lanes. They must not reopen completed structural cleanup, and structural validation, OMA evidence, pilot exports, rendered pages, docs foldback, or helper proof plumbing cannot become readiness proof by themselves.
+
 ## Ideal-State Reference
 
 Book Forge should be an OPL-standard Foundry Agent domain pack for long-form book authoring:
