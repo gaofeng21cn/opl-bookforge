@@ -49,7 +49,20 @@
       "dist/",
       "coverage/",
       "node_modules/"
-    ]
+    ],
+    "repo_source_byproduct_guard": {
+      "guard_surface": "bookforge_repo_source_byproduct_hygiene",
+      "helper_ref": "runtime/native_helpers/bookforge_project_hygiene.py",
+      "verify_entrypoint_ref": "scripts/verify.sh",
+      "guard_command": "python3 runtime/native_helpers/bookforge_project_hygiene.py --root <repo> --source-root <repo> --source-byproduct-check",
+      "must_fail_on_ignored_residue": true,
+      "must_run_before_and_after_repo_verification": true,
+      "claim_boundary": {
+        "byproduct_clean_counts_as_book_delivery_ready": false,
+        "byproduct_clean_counts_as_publication_ready": false,
+        "byproduct_clean_counts_as_owner_acceptance": false
+      }
+    }
   },
   "lifecycle_authority_split": {
     "opl_owned_primitives": [

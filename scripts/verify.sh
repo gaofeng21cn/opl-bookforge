@@ -3,6 +3,19 @@ set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 opl_bin="${OPL_BIN:-/Users/gaofeng/workspace/one-person-lab/bin/opl}"
+hygiene_helper="${repo_dir}/runtime/native_helpers/bookforge_project_hygiene.py"
+
+export PYTHONDONTWRITEBYTECODE=1
+
+cleanup_paths=()
+cleanup() {
+  if [ "${#cleanup_paths[@]}" -gt 0 ]; then
+    rm -rf "${cleanup_paths[@]}"
+  fi
+}
+trap cleanup EXIT
+
+python3 "${hygiene_helper}" --root "${repo_dir}" --source-root "${repo_dir}" --source-byproduct-check
 
 "${opl_bin}" agents scaffold --validate "${repo_dir}" --json
 "${opl_bin}" agents interfaces --repo-dir "${repo_dir}" --json
@@ -38,9 +51,10 @@ assert "--number-sections" not in unnumbered_command, unnumbered_command
 PY
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --doctor
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
-python3 "${repo_dir}/runtime/native_helpers/bookforge_project_hygiene.py" --self-test
+python3 "${hygiene_helper}" --self-test
 
 image_tmp_dir="$(mktemp -d)"
+cleanup_paths+=("${image_tmp_dir}")
 python3 - "${image_tmp_dir}" <<'PY'
 import json
 import sys
@@ -95,7 +109,7 @@ rm -rf "${image_tmp_dir}"
 
 if command -v pandoc >/dev/null 2>&1 && command -v xelatex >/dev/null 2>&1; then
   tmp_dir="$(mktemp -d)"
-  trap 'rm -rf "${tmp_dir}"' EXIT
+  cleanup_paths+=("${tmp_dir}")
   cat >"${tmp_dir}/sample.md" <<'EOF'
 ---
 title: "Book Forge PDF Smoke"
@@ -348,3 +362,5 @@ assert expectations["review_pdf_policy"].startswith("unchecked proof QA remains 
 assert {"front_matter", "table_of_contents", "chapter_opening", "dense_body", "figure_or_table", "callout"} <= set(expectations["sample_page_roles"]), expectations
 assert {"embedded_fonts", "rendered_page_size", "trailing_whitespace"} <= set(expectations["checklist_refs"]), expectations
 PY
+
+python3 "${hygiene_helper}" --root "${repo_dir}" --source-root "${repo_dir}" --source-byproduct-check

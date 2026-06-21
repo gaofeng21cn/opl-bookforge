@@ -118,6 +118,8 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - OPL owns the shared refs-only lifecycle projection for indexed workspaces through `opl workspace artifact-lifecycle`. The projection records source passport, memory lifecycle, output lifecycle, current refs, retention/archive refs, and health without storing domain bodies or claiming publication readiness.
 - OBF hygiene consumes this OPL projection through `bookforge_project_hygiene.py --require-opl-lifecycle` for book-length OPL workspaces. Missing or blocked OPL lifecycle health is a Book Forge hygiene failure for lifecycle/currentness and handoff-readiness claims.
 - Book Forge must not replace OPL lifecycle with private pages, hidden provider memory, private schedulers, or a domain-local attempt ledger. If the OPL projection is insufficient, improve the OPL substrate first and then consume it from Book Forge.
+- Repo-source hygiene now treats ignored Python/cache/install residue as an executable structural failure, not a cosmetic `.gitignore` detail. `scripts/verify.sh` runs the Book Forge source-byproduct hygiene guard before and after verification and disables bytecode writes through `PYTHONDONTWRITEBYTECODE=1`; the guard is recorded in `contracts/workspace_lifecycle_policy.json#byproduct_policy.repo_source_byproduct_guard`.
+- The byproduct guard proves only that the source checkout has not accumulated forbidden generated residue. It does not prove workspace lifecycle apply evidence, publication proof, final export, book delivery, owner acceptance, or production readiness.
 
 ## 2026-06-20: Meta-Review Revision Entrypoint Router
 

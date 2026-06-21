@@ -98,8 +98,10 @@ Current checks:
 - Active manuscript/workflow refs must not contain known Red Bird outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, `观察它如何强调`, or equivalent phrases that contradict a practice-involved author stance.
 - Active status files must not keep stale early-run metrics such as obsolete chapter blockers or old review-PDF page counts after later chapters have advanced.
 - Retired archive dirs should be tombstone refs, not full readable obsolete drafts that can pollute search results or be mistaken for current manuscript source.
+- Repo source checkouts must not contain ignored Python/cache/install residue. Use `--source-byproduct-check` to fail on `.venv`, `__pycache__`, `.pytest_cache`, `*.pyc`, `*.pyo`, `*.egg-info`, `dist`, `coverage`, or `node_modules`; `scripts/verify.sh` runs this guard before and after helper verification while setting `PYTHONDONTWRITEBYTECODE=1`.
 
 Boundary:
 
 - This helper is a deterministic hygiene scan. It does not replace chapter-level editorial review or owner acceptance.
 - The forbidden-pattern list is intentionally narrow and should be extended when a concrete regression appears.
+- A clean byproduct scan is source-structure evidence only. It is not book delivery, publication proof, final export, owner acceptance, or production-readiness evidence.

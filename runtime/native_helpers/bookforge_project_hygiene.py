@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -11,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 
-VERSION = "bookforge-project-hygiene.v1"
+VERSION = "bookforge-project-hygiene.v2"
 OPL_ARTIFACT_LIFECYCLE_DIR = Path("control/opl/artifact_lifecycle")
 OPL_ARTIFACT_LIFECYCLE_INDEX_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "artifact_lifecycle_index.json"
 OPL_ARTIFACT_LIFECYCLE_HEALTH_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "artifact_lifecycle_health.json"
@@ -111,6 +113,17 @@ STALE_STATUS_PATTERNS = (
     "128 rendered pages",
 )
 STATUS_NUMBER_RE = r"([0-9][0-9,_，]*)"
+SOURCE_SCAN_EXCLUDED_DIRS = (".git", ".worktrees", "worktrees")
+SOURCE_BYPRODUCT_DIR_NAMES = (
+    ".venv",
+    "__pycache__",
+    ".pytest_cache",
+    "dist",
+    "coverage",
+    "node_modules",
+)
+SOURCE_BYPRODUCT_FILE_GLOBS = ("*.pyc", "*.pyo")
+SOURCE_BYPRODUCT_SUFFIXES = (".egg-info",)
 
 
 def project_path(root: Path, ref: str) -> Path:
@@ -156,6 +169,55 @@ def rel(path: Path, root: Path) -> str:
 
 def contains_any(text: str, patterns: tuple[str, ...]) -> list[str]:
     return [pattern for pattern in patterns if pattern in text]
+
+
+def source_byproduct_scan(source_root: Path) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    if not source_root.exists():
+        return [{
+            "kind": "repo_source_byproduct_scan_failed",
+            "path": str(source_root),
+            "reason": "source_root_missing",
+        }]
+    for dirpath, dirnames, filenames in os.walk(source_root):
+        current = Path(dirpath)
+        try:
+            rel_parts = current.resolve().relative_to(source_root.resolve()).parts
+        except ValueError:
+            rel_parts = ()
+        if any(part in SOURCE_SCAN_EXCLUDED_DIRS for part in rel_parts):
+            dirnames[:] = []
+            continue
+
+        kept_dirnames = []
+        for dirname in dirnames:
+            if dirname in SOURCE_SCAN_EXCLUDED_DIRS:
+                continue
+            if dirname in SOURCE_BYPRODUCT_DIR_NAMES or dirname.endswith(SOURCE_BYPRODUCT_SUFFIXES):
+                byproduct_path = current / dirname
+                issues.append({
+                    "kind": "repo_source_generated_byproduct",
+                    "path": rel(byproduct_path, source_root),
+                    "byproduct_type": "directory",
+                    "reason": "repo source must not rely on ignored Python/cache/install byproducts",
+                })
+                continue
+            kept_dirnames.append(dirname)
+        dirnames[:] = kept_dirnames
+
+        for filename in filenames:
+            if (
+                any(fnmatch.fnmatch(filename, glob) for glob in SOURCE_BYPRODUCT_FILE_GLOBS)
+                or filename.endswith(SOURCE_BYPRODUCT_SUFFIXES)
+            ):
+                byproduct_path = current / filename
+                issues.append({
+                    "kind": "repo_source_generated_byproduct",
+                    "path": rel(byproduct_path, source_root),
+                    "byproduct_type": "file",
+                    "reason": "repo source must not rely on ignored Python/cache/install byproducts",
+                })
+    return issues
 
 
 def parse_int_claim(value: str) -> int | None:
@@ -724,6 +786,8 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         opl_bin=getattr(args, "opl_bin", None),
     )
     issues.extend(opl_artifact_lifecycle_issues(lifecycle_summary))
+    source_byproduct_summary = repo_source_byproduct_summary(args)
+    issues.extend(source_byproduct_summary["issues"])
     payload = {
         "surface_kind": "bookforge_project_hygiene",
         "version": VERSION,
@@ -732,8 +796,47 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         "issues": issues,
         "metrics_summary": metrics,
         "opl_artifact_lifecycle": lifecycle_summary,
+        "repo_source_byproducts": source_byproduct_summary,
     }
     if args.report:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return payload
+
+
+def repo_source_byproduct_summary(args: argparse.Namespace) -> dict[str, Any]:
+    required = bool(getattr(args, "require_source_byproduct_clean", False))
+    source_root = getattr(args, "source_root", None) or getattr(args, "root", Path.cwd())
+    source_root = Path(source_root).resolve()
+    issues = source_byproduct_scan(source_root) if required else []
+    return {
+        "required": required,
+        "source_root": str(source_root),
+        "status": "passed" if not issues else "failed",
+        "issues": issues,
+        "excluded_dirs": list(SOURCE_SCAN_EXCLUDED_DIRS),
+        "forbidden_dir_names": list(SOURCE_BYPRODUCT_DIR_NAMES),
+        "forbidden_file_globs": list(SOURCE_BYPRODUCT_FILE_GLOBS),
+        "forbidden_suffixes": list(SOURCE_BYPRODUCT_SUFFIXES),
+    }
+
+
+def run_source_byproduct_check(args: argparse.Namespace) -> dict[str, Any]:
+    summary = repo_source_byproduct_summary(args)
+    payload = {
+        "surface_kind": "bookforge_repo_source_byproduct_hygiene",
+        "version": VERSION,
+        "root": str(Path(getattr(args, "root", Path.cwd())).resolve()),
+        "status": summary["status"],
+        "issues": summary["issues"],
+        "repo_source_byproducts": summary,
+        "claim_boundary": {
+            "byproduct_clean_counts_as_book_delivery_ready": False,
+            "byproduct_clean_counts_as_publication_ready": False,
+            "byproduct_clean_counts_as_owner_acceptance": False,
+        },
+    }
+    if getattr(args, "report", None):
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return payload
@@ -1054,6 +1157,38 @@ def run_self_test() -> None:
             if issue["kind"].startswith("opl_artifact_lifecycle")
         ], payload
 
+    with tempfile.TemporaryDirectory() as tmp:
+        source_root = Path(tmp) / "repo"
+        source_root.mkdir()
+        (source_root / "runtime/native_helpers/__pycache__").mkdir(parents=True)
+        (source_root / "runtime/native_helpers/__pycache__/helper.cpython-314.pyc").write_bytes(b"pyc")
+        (source_root / "dist").mkdir()
+        (source_root / ".worktrees/lane/runtime/native_helpers/__pycache__").mkdir(parents=True)
+        payload = run_source_byproduct_check(argparse.Namespace(
+            root=source_root,
+            source_root=source_root,
+            require_source_byproduct_clean=True,
+            report=None,
+        ))
+        issue_paths = {
+            issue["path"]
+            for issue in payload["issues"]
+            if issue["kind"] == "repo_source_generated_byproduct"
+        }
+        assert "runtime/native_helpers/__pycache__" in issue_paths, payload
+        assert "dist" in issue_paths, payload
+        assert not any(path.startswith(".worktrees/") for path in issue_paths), payload
+
+        shutil.rmtree(source_root / "runtime/native_helpers/__pycache__")
+        shutil.rmtree(source_root / "dist")
+        payload = run_source_byproduct_check(argparse.Namespace(
+            root=source_root,
+            source_root=source_root,
+            require_source_byproduct_clean=True,
+            report=None,
+        ))
+        assert payload["status"] == "passed", payload
+
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Check Book Forge project hygiene for active manuscript and retired draft archives.")
@@ -1065,6 +1200,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--report", type=Path, help="Optional JSON report path.")
     parser.add_argument("--require-opl-lifecycle", action="store_true", help="Require passed OPL workspace artifact-lifecycle refs and dry-run readback.")
     parser.add_argument("--opl-bin", help="Path to the OPL CLI used for artifact-lifecycle dry-run readback.")
+    parser.add_argument("--require-source-byproduct-clean", action="store_true", help="Fail when repo-local Python/cache/install byproducts are present under the source root.")
+    parser.add_argument("--source-root", type=Path, help="Source checkout root for repo-local byproduct scanning. Defaults to --root.")
+    parser.add_argument("--source-byproduct-check", action="store_true", help="Run only the repo source byproduct hygiene check.")
     parser.add_argument("--self-test", action="store_true", help="Run helper self-test.")
     args = parser.parse_args(argv)
     if args.active_path:
@@ -1082,7 +1220,11 @@ def main(argv: list[str] | None = None) -> int:
         run_self_test()
         print(json.dumps({"status": "passed", "self_test": True, "version": VERSION}, ensure_ascii=False))
         return 0
-    payload = run_check(args)
+    if args.source_byproduct_check:
+        args.require_source_byproduct_clean = True
+        payload = run_source_byproduct_check(args)
+    else:
+        payload = run_check(args)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0 if payload["status"] == "passed" else 1
 
