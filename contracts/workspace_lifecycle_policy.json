@@ -25,6 +25,7 @@
   "workspace_runtime_artifact_roots": {
     "externalized": true,
     "repo_source_policy": "locator_index_schema_receipt_refs_only",
+    "artifact_lifecycle_handoff_contract_ref": "contracts/artifact_lifecycle_handoff.json",
     "allowed_authoritative_roots": [
       "workspace_root",
       "runtime_artifact_root",

@@ -15,11 +15,13 @@ if str(HELPER_DIR) not in sys.path:
 
 from bookforge_project_hygiene_parts.byproducts import repo_source_byproduct_summary, run_source_byproduct_check
 from bookforge_project_hygiene_parts.opl_lifecycle import (
+    ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF,
     OPL_ARTIFACT_LIFECYCLE_HEALTH_REF,
     OPL_ARTIFACT_LIFECYCLE_INDEX_REF,
     OPL_ARTIFACT_LIFECYCLE_MEMORY_REF,
     OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF,
     OPL_ARTIFACT_LIFECYCLE_SOURCE_REF,
+    artifact_lifecycle_handoff_contract_summary,
     opl_artifact_lifecycle_issues,
     opl_artifact_lifecycle_summary,
 )
@@ -540,6 +542,12 @@ def archive_scan(root: Path, archive_paths: list[Path]) -> list[dict[str, Any]]:
 
 def run_check(args: argparse.Namespace) -> dict[str, Any]:
     root = args.root.resolve()
+    source_root = Path(getattr(args, "source_root", None) or root).resolve()
+    source_root_arg = getattr(args, "source_root", None)
+    source_root_looks_like_bookforge_repo = (
+        (source_root / "contracts/workspace_lifecycle_policy.json").exists()
+        and (source_root / "runtime/native_helpers/bookforge_project_hygiene.py").exists()
+    )
     voice_paths = [project_path(root, ref) for ref in args.voice_path]
     status_paths = [project_path(root, ref) for ref in args.status_path]
     archive_paths = [project_path(root, ref) for ref in args.archive_dir]
@@ -554,6 +562,11 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         opl_bin=getattr(args, "opl_bin", None),
     )
     issues.extend(opl_artifact_lifecycle_issues(lifecycle_summary))
+    handoff_contract_summary = artifact_lifecycle_handoff_contract_summary(
+        source_root,
+        required=bool(source_root_arg) or source_root_looks_like_bookforge_repo,
+    )
+    issues.extend(handoff_contract_summary["issues"])
     source_byproduct_summary = repo_source_byproduct_summary(args)
     issues.extend(source_byproduct_summary["issues"])
     payload = {
@@ -564,6 +577,7 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         "issues": issues,
         "metrics_summary": metrics,
         "opl_artifact_lifecycle": lifecycle_summary,
+        "artifact_lifecycle_handoff_contract": handoff_contract_summary,
         "repo_source_byproducts": source_byproduct_summary,
     }
     if args.report:
@@ -574,6 +588,49 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
 
 def run_self_test() -> None:
     import tempfile
+
+    def write_valid_handoff_contract(source_root: Path, **false_ready_overrides: bool) -> None:
+        contract_path = source_root / ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF
+        contract_path.parent.mkdir(parents=True, exist_ok=True)
+        false_ready_guard = {
+            "contract_present_counts_as_workspace_apply_evidence": False,
+            "dry_run_counts_as_workspace_apply_evidence": False,
+            "projection_clean_counts_as_book_delivery_ready": False,
+            "projection_clean_counts_as_publication_ready": False,
+            "projection_clean_counts_as_final_export_ready": False,
+            "projection_clean_counts_as_owner_acceptance": False,
+            "projection_clean_counts_as_production_ready": False,
+            "helper_hygiene_counts_as_book_delivery_ready": False,
+            "helper_hygiene_counts_as_publication_ready": False,
+            "helper_hygiene_counts_as_owner_acceptance": False,
+        }
+        false_ready_guard.update(false_ready_overrides)
+        contract_path.write_text(json.dumps({
+            "surface_kind": "bookforge_artifact_lifecycle_handoff_contract",
+            "version": "bookforge-artifact-lifecycle-handoff.v1",
+            "structural_gate_only": True,
+            "required_opl_projection_refs": [
+                OPL_ARTIFACT_LIFECYCLE_INDEX_REF.as_posix(),
+                OPL_ARTIFACT_LIFECYCLE_SOURCE_REF.as_posix(),
+                OPL_ARTIFACT_LIFECYCLE_MEMORY_REF.as_posix(),
+                OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF.as_posix(),
+                OPL_ARTIFACT_LIFECYCLE_HEALTH_REF.as_posix(),
+            ],
+            "readback_surface": {
+                "command": "opl workspace artifact-lifecycle --workspace <workspace> --project-id <project-id> --dry-run|--apply --json",
+                "dry_run_counts_as_workspace_apply_evidence": False,
+            },
+            "forbidden_authority": {
+                "opl_can_write_bookforge_domain_truth": False,
+                "opl_can_write_memory_body": False,
+                "opl_can_mutate_manuscript_or_artifact_body": False,
+                "opl_can_authorize_quality_export_or_publication": False,
+                "opl_can_sign_owner_receipts": False,
+                "bookforge_can_replace_opl_lifecycle_projection": False,
+                "bookforge_can_create_private_lifecycle_second_truth": False,
+            },
+            "false_ready_guard": false_ready_guard,
+        }), encoding="utf-8")
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -890,6 +947,44 @@ def run_self_test() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         source_root = Path(tmp) / "repo"
         source_root.mkdir()
+        write_valid_handoff_contract(source_root)
+        payload = run_check(argparse.Namespace(
+            root=source_root,
+            source_root=source_root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["README.md"],
+            archive_dir=["archive"],
+            report=None,
+            require_opl_lifecycle=False,
+            opl_bin=None,
+        ))
+        assert payload["artifact_lifecycle_handoff_contract"]["status"] == "passed", payload
+
+        write_valid_handoff_contract(
+            source_root,
+            projection_clean_counts_as_publication_ready=True,
+        )
+        payload = run_check(argparse.Namespace(
+            root=source_root,
+            source_root=source_root,
+            voice_path=["artifacts/manuscript"],
+            status_path=["README.md"],
+            archive_dir=["archive"],
+            report=None,
+            require_opl_lifecycle=False,
+            opl_bin=None,
+        ))
+        false_ready_issues = [
+            issue
+            for issue in payload["issues"]
+            if issue["kind"] == "artifact_lifecycle_handoff_false_ready_guard_failed"
+        ]
+        assert false_ready_issues, payload
+
+    with tempfile.TemporaryDirectory() as tmp:
+        source_root = Path(tmp) / "repo"
+        source_root.mkdir()
+        write_valid_handoff_contract(source_root)
         (source_root / "runtime/native_helpers/__pycache__").mkdir(parents=True)
         (source_root / "runtime/native_helpers/__pycache__/helper.cpython-314.pyc").write_bytes(b"pyc")
         (source_root / "dist").mkdir()

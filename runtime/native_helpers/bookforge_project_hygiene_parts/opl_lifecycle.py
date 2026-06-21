@@ -13,6 +13,36 @@ OPL_ARTIFACT_LIFECYCLE_HEALTH_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "artifact_lifec
 OPL_ARTIFACT_LIFECYCLE_SOURCE_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "source_passport.json"
 OPL_ARTIFACT_LIFECYCLE_MEMORY_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "memory_lifecycle.json"
 OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "output_lifecycle.json"
+ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF = Path("contracts/artifact_lifecycle_handoff.json")
+
+REQUIRED_CONTRACT_FALSE_READY_FLAGS = (
+    "contract_present_counts_as_workspace_apply_evidence",
+    "dry_run_counts_as_workspace_apply_evidence",
+    "projection_clean_counts_as_book_delivery_ready",
+    "projection_clean_counts_as_publication_ready",
+    "projection_clean_counts_as_final_export_ready",
+    "projection_clean_counts_as_owner_acceptance",
+    "projection_clean_counts_as_production_ready",
+    "helper_hygiene_counts_as_book_delivery_ready",
+    "helper_hygiene_counts_as_publication_ready",
+    "helper_hygiene_counts_as_owner_acceptance",
+)
+REQUIRED_CONTRACT_FORBIDDEN_AUTHORITY_FLAGS = (
+    "opl_can_write_bookforge_domain_truth",
+    "opl_can_write_memory_body",
+    "opl_can_mutate_manuscript_or_artifact_body",
+    "opl_can_authorize_quality_export_or_publication",
+    "opl_can_sign_owner_receipts",
+    "bookforge_can_replace_opl_lifecycle_projection",
+    "bookforge_can_create_private_lifecycle_second_truth",
+)
+REQUIRED_CONTRACT_PROJECTION_REFS = (
+    OPL_ARTIFACT_LIFECYCLE_INDEX_REF.as_posix(),
+    OPL_ARTIFACT_LIFECYCLE_SOURCE_REF.as_posix(),
+    OPL_ARTIFACT_LIFECYCLE_MEMORY_REF.as_posix(),
+    OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF.as_posix(),
+    OPL_ARTIFACT_LIFECYCLE_HEALTH_REF.as_posix(),
+)
 
 
 def rel(path: Path, root: Path) -> str:
@@ -193,3 +223,118 @@ def opl_artifact_lifecycle_issues(summary: dict[str, Any]) -> list[dict[str, Any
             "health_blockers": summary.get("health_blockers"),
         })
     return issues
+
+
+def artifact_lifecycle_handoff_contract_summary(source_root: Path, *, required: bool) -> dict[str, Any]:
+    contract_path = source_root.resolve() / ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF
+    contract = safe_read_json(contract_path)
+    if not isinstance(contract, dict):
+        if not required:
+            return {
+                "required": False,
+                "status": "not_applicable",
+                "contract_ref": ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF.as_posix(),
+                "contract_path": rel(contract_path, source_root),
+                "issues": [],
+            }
+        return {
+            "required": True,
+            "status": "failed",
+            "contract_ref": ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF.as_posix(),
+            "contract_path": rel(contract_path, source_root),
+            "issues": [{
+                "kind": "artifact_lifecycle_handoff_contract_missing_or_invalid",
+                "path": rel(contract_path, source_root),
+                "reason": "contract JSON is missing or invalid",
+            }],
+        }
+
+    issues: list[dict[str, Any]] = []
+    if contract.get("surface_kind") != "bookforge_artifact_lifecycle_handoff_contract":
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_contract_invalid",
+            "path": rel(contract_path, source_root),
+            "reason": "surface_kind must be bookforge_artifact_lifecycle_handoff_contract",
+        })
+    if contract.get("structural_gate_only") is not True:
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_contract_invalid",
+            "path": rel(contract_path, source_root),
+            "reason": "structural_gate_only must be true",
+        })
+
+    projection_refs = contract.get("required_opl_projection_refs")
+    missing_projection_refs = [
+        ref
+        for ref in REQUIRED_CONTRACT_PROJECTION_REFS
+        if not isinstance(projection_refs, list) or ref not in projection_refs
+    ]
+    if missing_projection_refs:
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_contract_invalid",
+            "path": rel(contract_path, source_root),
+            "reason": "required OPL projection refs are missing from the contract",
+            "missing_refs": missing_projection_refs,
+        })
+
+    readback = contract.get("readback_surface")
+    if not isinstance(readback, dict):
+        readback = {}
+    command = readback.get("command")
+    if not isinstance(command, str) or "opl workspace artifact-lifecycle" not in command:
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_contract_invalid",
+            "path": rel(contract_path, source_root),
+            "reason": "readback command must point to OPL workspace artifact-lifecycle",
+        })
+    if readback.get("dry_run_counts_as_workspace_apply_evidence") is not False:
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_false_ready_guard_failed",
+            "path": rel(contract_path, source_root),
+            "field": "readback_surface.dry_run_counts_as_workspace_apply_evidence",
+            "reason": "dry-run readback must not count as workspace apply evidence",
+        })
+
+    forbidden_authority = contract.get("forbidden_authority")
+    if not isinstance(forbidden_authority, dict):
+        forbidden_authority = {}
+    bad_forbidden_flags = [
+        flag
+        for flag in REQUIRED_CONTRACT_FORBIDDEN_AUTHORITY_FLAGS
+        if forbidden_authority.get(flag) is not False
+    ]
+    if bad_forbidden_flags:
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_authority_guard_failed",
+            "path": rel(contract_path, source_root),
+            "fields": bad_forbidden_flags,
+            "reason": "forbidden authority flags must be explicit false",
+        })
+
+    false_ready_guard = contract.get("false_ready_guard")
+    if not isinstance(false_ready_guard, dict):
+        false_ready_guard = {}
+    bad_false_ready_flags = [
+        flag
+        for flag in REQUIRED_CONTRACT_FALSE_READY_FLAGS
+        if false_ready_guard.get(flag) is not False
+    ]
+    if bad_false_ready_flags:
+        issues.append({
+            "kind": "artifact_lifecycle_handoff_false_ready_guard_failed",
+            "path": rel(contract_path, source_root),
+            "fields": bad_false_ready_flags,
+            "reason": "false-ready guard flags must be explicit false",
+        })
+
+    return {
+        "required": required,
+        "status": "passed" if not issues else "failed",
+        "contract_ref": ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF.as_posix(),
+        "contract_path": rel(contract_path, source_root),
+        "version": contract.get("version"),
+        "structural_gate_only": contract.get("structural_gate_only"),
+        "readback_command": command,
+        "required_opl_projection_refs": projection_refs if isinstance(projection_refs, list) else None,
+        "issues": issues,
+    }

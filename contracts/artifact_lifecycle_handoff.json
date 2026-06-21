@@ -1,0 +1,82 @@
+{
+  "surface_kind": "bookforge_artifact_lifecycle_handoff_contract",
+  "version": "bookforge-artifact-lifecycle-handoff.v1",
+  "contract_owner": "opl-bookforge",
+  "domain_id": "opl-bookforge",
+  "structural_gate_only": true,
+  "opl_owned_primitives": [
+    "workspace_artifact_lifecycle_projection",
+    "artifact_locator_index",
+    "source_passport_projection",
+    "memory_lifecycle_projection",
+    "output_lifecycle_projection",
+    "retention_restore_projection",
+    "operator_readback_projection"
+  ],
+  "bookforge_owned_authority": [
+    "manuscript_body",
+    "artifact_body_authority",
+    "book_domain_truth",
+    "memory_body",
+    "style_claim_and_quality_rules",
+    "quality_export_verdict",
+    "owner_receipts",
+    "typed_blockers",
+    "owner_decisions"
+  ],
+  "required_opl_projection_refs": [
+    "control/opl/artifact_lifecycle/artifact_lifecycle_index.json",
+    "control/opl/artifact_lifecycle/source_passport.json",
+    "control/opl/artifact_lifecycle/memory_lifecycle.json",
+    "control/opl/artifact_lifecycle/output_lifecycle.json",
+    "control/opl/artifact_lifecycle/artifact_lifecycle_health.json"
+  ],
+  "required_bookforge_refs": [
+    "handoff/review-repair-transport.json",
+    "artifacts/stage_outputs/book-materialization/owner-handoff.md",
+    "artifacts/stage_outputs/book-materialization/style-consistency-report.md",
+    "artifacts/stage_outputs/book-materialization/figure-asset-manifest.json",
+    "quality/plan-completion-audit.md",
+    "receipts/"
+  ],
+  "optional_projection_refs": [
+    "control/opl/artifact_lifecycle/review_repair_transport.json"
+  ],
+  "readback_surface": {
+    "command": "opl workspace artifact-lifecycle --workspace <workspace> --project-id <project-id> --dry-run|--apply --json",
+    "dry_run_counts_as_structural_readback": true,
+    "apply_counts_as_real_workspace_lifecycle_evidence": true,
+    "dry_run_counts_as_workspace_apply_evidence": false,
+    "readback_payload_root": "workspace_artifact_lifecycle",
+    "required_pass_status": "passed"
+  },
+  "claim_gate": {
+    "lifecycle_currentness_claim_requires_passed_opl_artifact_lifecycle_readback": true,
+    "handoff_claim_requires_bookforge_domain_refs": true,
+    "owner_review_package_claim_requires_bookforge_qc_and_owner_gate": true,
+    "publication_proof_claim_requires_bookforge_publication_proof_refs": true,
+    "final_export_claim_requires_owner_export_acceptance_receipt": true
+  },
+  "forbidden_authority": {
+    "opl_can_write_bookforge_domain_truth": false,
+    "opl_can_write_memory_body": false,
+    "opl_can_mutate_manuscript_or_artifact_body": false,
+    "opl_can_authorize_quality_export_or_publication": false,
+    "opl_can_sign_owner_receipts": false,
+    "bookforge_can_replace_opl_lifecycle_projection": false,
+    "bookforge_can_create_private_lifecycle_second_truth": false
+  },
+  "false_ready_guard": {
+    "contract_present_counts_as_workspace_apply_evidence": false,
+    "dry_run_counts_as_workspace_apply_evidence": false,
+    "projection_clean_counts_as_book_delivery_ready": false,
+    "projection_clean_counts_as_publication_ready": false,
+    "projection_clean_counts_as_final_export_ready": false,
+    "projection_clean_counts_as_owner_acceptance": false,
+    "projection_clean_counts_as_production_ready": false,
+    "helper_hygiene_counts_as_book_delivery_ready": false,
+    "helper_hygiene_counts_as_publication_ready": false,
+    "helper_hygiene_counts_as_owner_acceptance": false
+  },
+  "marker": "bookforge_artifact_lifecycle_handoff_contract_v1"
+}

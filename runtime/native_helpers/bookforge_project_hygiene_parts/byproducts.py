@@ -6,6 +6,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+from bookforge_project_hygiene_parts.opl_lifecycle import artifact_lifecycle_handoff_contract_summary
+
 
 SOURCE_SCAN_EXCLUDED_DIRS = (".git", ".worktrees", "worktrees")
 SOURCE_BYPRODUCT_DIR_NAMES = (
@@ -95,13 +97,16 @@ def repo_source_byproduct_summary(args: Any) -> dict[str, Any]:
 
 def run_source_byproduct_check(args: Any, *, version: str) -> dict[str, Any]:
     summary = repo_source_byproduct_summary(args)
+    contract_summary = artifact_lifecycle_handoff_contract_summary(Path(summary["source_root"]), required=True)
+    issues = [*summary["issues"], *contract_summary["issues"]]
     payload = {
         "surface_kind": "bookforge_repo_source_byproduct_hygiene",
         "version": version,
         "root": str(Path(getattr(args, "root", Path.cwd())).resolve()),
-        "status": summary["status"],
-        "issues": summary["issues"],
+        "status": "passed" if not issues else "failed",
+        "issues": issues,
         "repo_source_byproducts": summary,
+        "artifact_lifecycle_handoff_contract": contract_summary,
         "claim_boundary": {
             "byproduct_clean_counts_as_book_delivery_ready": False,
             "byproduct_clean_counts_as_publication_ready": False,
