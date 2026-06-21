@@ -2,24 +2,29 @@
 from __future__ import annotations
 
 import argparse
-import fnmatch
 import json
-import os
 import re
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 from typing import Any
 
+HELPER_DIR = Path(__file__).resolve().parent
+if str(HELPER_DIR) not in sys.path:
+    sys.path.insert(0, str(HELPER_DIR))
+
+from bookforge_project_hygiene_parts.byproducts import repo_source_byproduct_summary, run_source_byproduct_check
+from bookforge_project_hygiene_parts.opl_lifecycle import (
+    OPL_ARTIFACT_LIFECYCLE_HEALTH_REF,
+    OPL_ARTIFACT_LIFECYCLE_INDEX_REF,
+    OPL_ARTIFACT_LIFECYCLE_MEMORY_REF,
+    OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF,
+    OPL_ARTIFACT_LIFECYCLE_SOURCE_REF,
+    opl_artifact_lifecycle_issues,
+    opl_artifact_lifecycle_summary,
+)
 
 VERSION = "bookforge-project-hygiene.v2"
-OPL_ARTIFACT_LIFECYCLE_DIR = Path("control/opl/artifact_lifecycle")
-OPL_ARTIFACT_LIFECYCLE_INDEX_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "artifact_lifecycle_index.json"
-OPL_ARTIFACT_LIFECYCLE_HEALTH_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "artifact_lifecycle_health.json"
-OPL_ARTIFACT_LIFECYCLE_SOURCE_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "source_passport.json"
-OPL_ARTIFACT_LIFECYCLE_MEMORY_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "memory_lifecycle.json"
-OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF = OPL_ARTIFACT_LIFECYCLE_DIR / "output_lifecycle.json"
 
 DEFAULT_ACTIVE_PATHS = (
     "README.md",
@@ -113,17 +118,6 @@ STALE_STATUS_PATTERNS = (
     "128 rendered pages",
 )
 STATUS_NUMBER_RE = r"([0-9][0-9,_，]*)"
-SOURCE_SCAN_EXCLUDED_DIRS = (".git", ".worktrees", "worktrees")
-SOURCE_BYPRODUCT_DIR_NAMES = (
-    ".venv",
-    "__pycache__",
-    ".pytest_cache",
-    "dist",
-    "coverage",
-    "node_modules",
-)
-SOURCE_BYPRODUCT_FILE_GLOBS = ("*.pyc", "*.pyo")
-SOURCE_BYPRODUCT_SUFFIXES = (".egg-info",)
 
 
 def project_path(root: Path, ref: str) -> Path:
@@ -133,17 +127,6 @@ def project_path(root: Path, ref: str) -> Path:
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
-
-
-def read_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def safe_read_json(path: Path) -> Any | None:
-    try:
-        return read_json(path)
-    except (OSError, json.JSONDecodeError):
-        return None
 
 
 def iter_text_files(paths: list[Path]) -> list[Path]:
@@ -169,55 +152,6 @@ def rel(path: Path, root: Path) -> str:
 
 def contains_any(text: str, patterns: tuple[str, ...]) -> list[str]:
     return [pattern for pattern in patterns if pattern in text]
-
-
-def source_byproduct_scan(source_root: Path) -> list[dict[str, Any]]:
-    issues: list[dict[str, Any]] = []
-    if not source_root.exists():
-        return [{
-            "kind": "repo_source_byproduct_scan_failed",
-            "path": str(source_root),
-            "reason": "source_root_missing",
-        }]
-    for dirpath, dirnames, filenames in os.walk(source_root):
-        current = Path(dirpath)
-        try:
-            rel_parts = current.resolve().relative_to(source_root.resolve()).parts
-        except ValueError:
-            rel_parts = ()
-        if any(part in SOURCE_SCAN_EXCLUDED_DIRS for part in rel_parts):
-            dirnames[:] = []
-            continue
-
-        kept_dirnames = []
-        for dirname in dirnames:
-            if dirname in SOURCE_SCAN_EXCLUDED_DIRS:
-                continue
-            if dirname in SOURCE_BYPRODUCT_DIR_NAMES or dirname.endswith(SOURCE_BYPRODUCT_SUFFIXES):
-                byproduct_path = current / dirname
-                issues.append({
-                    "kind": "repo_source_generated_byproduct",
-                    "path": rel(byproduct_path, source_root),
-                    "byproduct_type": "directory",
-                    "reason": "repo source must not rely on ignored Python/cache/install byproducts",
-                })
-                continue
-            kept_dirnames.append(dirname)
-        dirnames[:] = kept_dirnames
-
-        for filename in filenames:
-            if (
-                any(fnmatch.fnmatch(filename, glob) for glob in SOURCE_BYPRODUCT_FILE_GLOBS)
-                or filename.endswith(SOURCE_BYPRODUCT_SUFFIXES)
-            ):
-                byproduct_path = current / filename
-                issues.append({
-                    "kind": "repo_source_generated_byproduct",
-                    "path": rel(byproduct_path, source_root),
-                    "byproduct_type": "file",
-                    "reason": "repo source must not rely on ignored Python/cache/install byproducts",
-                })
-    return issues
 
 
 def parse_int_claim(value: str) -> int | None:
@@ -557,172 +491,6 @@ def high_quality_ref_scan(root: Path, metrics: dict[str, Any]) -> list[dict[str,
     return issues
 
 
-def default_opl_bin() -> str | None:
-    candidates = [
-        Path("/Users/gaofeng/workspace/one-person-lab/bin/opl"),
-    ]
-    found = shutil.which("opl")
-    if found:
-        candidates.append(Path(found))
-    for candidate in candidates:
-        if candidate.exists() and candidate.is_file():
-            return str(candidate)
-    return None
-
-
-def find_opl_workspace(project_root: Path) -> tuple[Path | None, str | None]:
-    resolved = project_root.resolve()
-    for candidate in [resolved, *resolved.parents]:
-        index_path = candidate / "workspace_index.json"
-        index = safe_read_json(index_path)
-        if not isinstance(index, dict):
-            continue
-        projects = index.get("projects")
-        if not isinstance(projects, list):
-            continue
-        for item in projects:
-            if not isinstance(item, dict):
-                continue
-            project_id = item.get("project_id")
-            project_ref = item.get("project_root")
-            if not isinstance(project_id, str) or not isinstance(project_ref, str):
-                continue
-            project_path_candidate = (candidate / project_ref).resolve()
-            if project_path_candidate == resolved:
-                return candidate, project_id
-    return None, None
-
-
-def opl_artifact_lifecycle_summary(root: Path, require: bool, opl_bin: str | None) -> dict[str, Any]:
-    workspace_path, project_id = find_opl_workspace(root)
-    projection_refs = [
-        OPL_ARTIFACT_LIFECYCLE_INDEX_REF,
-        OPL_ARTIFACT_LIFECYCLE_SOURCE_REF,
-        OPL_ARTIFACT_LIFECYCLE_MEMORY_REF,
-        OPL_ARTIFACT_LIFECYCLE_OUTPUT_REF,
-        OPL_ARTIFACT_LIFECYCLE_HEALTH_REF,
-    ]
-    projection_files = {
-        ref.as_posix(): {
-            "exists": (root / ref).exists(),
-            "path": rel(root / ref, root),
-        }
-        for ref in projection_refs
-    }
-    health = safe_read_json(root / OPL_ARTIFACT_LIFECYCLE_HEALTH_REF)
-    index = safe_read_json(root / OPL_ARTIFACT_LIFECYCLE_INDEX_REF)
-    lifecycle_status = health.get("status") if isinstance(health, dict) else None
-    missing_projection_refs = [
-        ref
-        for ref, meta in projection_files.items()
-        if not bool(meta["exists"])
-    ]
-    command_result: dict[str, Any] = {
-        "attempted": False,
-        "status": "not_run",
-    }
-    requested_opl_bin = opl_bin
-    selected_opl_bin = opl_bin or default_opl_bin()
-    opl_bin_found = bool(
-        selected_opl_bin
-        and Path(selected_opl_bin).exists()
-        and Path(selected_opl_bin).is_file()
-    )
-    if workspace_path and project_id and selected_opl_bin and opl_bin_found:
-        command = [
-            selected_opl_bin,
-            "workspace",
-            "artifact-lifecycle",
-            "--workspace",
-            str(workspace_path),
-            "--project-id",
-            project_id,
-            "--dry-run",
-            "--json",
-        ]
-        command_result = {
-            "attempted": True,
-            "status": "error",
-            "command": command,
-        }
-        try:
-            completed = subprocess.run(
-                command,
-                check=False,
-                capture_output=True,
-                text=True,
-                timeout=30,
-            )
-            parsed = json.loads(completed.stdout) if completed.stdout.strip() else None
-            command_result.update({
-                "exit_code": completed.returncode,
-                "status": "passed" if completed.returncode == 0 else "failed",
-                "lifecycle_status": (
-                    parsed.get("workspace_artifact_lifecycle", {}).get("lifecycle_status")
-                    if isinstance(parsed, dict)
-                    else None
-                ),
-                "stderr": completed.stderr.strip(),
-            })
-        except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
-            command_result.update({
-                "status": "error",
-                "error": str(exc),
-            })
-    return {
-        "required": require,
-        "workspace_path": str(workspace_path) if workspace_path else None,
-        "project_id": project_id,
-        "opl_bin": selected_opl_bin if opl_bin_found else None,
-        "requested_opl_bin": requested_opl_bin,
-        "opl_bin_found": opl_bin_found,
-        "projection_files": projection_files,
-        "missing_projection_refs": missing_projection_refs,
-        "health_status": lifecycle_status,
-        "health_blockers": health.get("blockers") if isinstance(health, dict) else None,
-        "index_status": index.get("status") if isinstance(index, dict) else None,
-        "dry_run": command_result,
-    }
-
-
-def opl_artifact_lifecycle_issues(summary: dict[str, Any]) -> list[dict[str, Any]]:
-    if not summary.get("required"):
-        return []
-    issues: list[dict[str, Any]] = []
-    if not summary.get("workspace_path") or not summary.get("project_id"):
-        issues.append({
-            "kind": "opl_artifact_lifecycle_missing",
-            "reason": "book project is not indexed under an OPL workspace_index.json",
-        })
-    if not summary.get("opl_bin"):
-        issues.append({
-            "kind": "opl_artifact_lifecycle_missing",
-            "reason": "opl binary not found",
-        })
-    dry_run = summary.get("dry_run") if isinstance(summary.get("dry_run"), dict) else {}
-    if dry_run.get("attempted") and dry_run.get("status") != "passed":
-        issues.append({
-            "kind": "opl_artifact_lifecycle_blocked",
-            "reason": "OPL artifact-lifecycle dry-run failed",
-            "details": dry_run,
-        })
-    missing_projection_refs = summary.get("missing_projection_refs")
-    if isinstance(missing_projection_refs, list) and missing_projection_refs:
-        issues.append({
-            "kind": "opl_artifact_lifecycle_missing",
-            "reason": "OPL artifact lifecycle projection refs have not been applied",
-            "missing_refs": missing_projection_refs,
-        })
-    if summary.get("health_status") != "passed":
-        issues.append({
-            "kind": "opl_artifact_lifecycle_blocked",
-            "reason": "OPL artifact lifecycle health is not passed",
-            "health_status": summary.get("health_status"),
-            "health_blockers": summary.get("health_blockers"),
-        })
-    return issues
-
-
 def active_scan(root: Path, voice_paths: list[Path], status_paths: list[Path], metrics: dict[str, Any]) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
     for path in iter_text_files(voice_paths):
@@ -799,44 +567,6 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         "repo_source_byproducts": source_byproduct_summary,
     }
     if args.report:
-        args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return payload
-
-
-def repo_source_byproduct_summary(args: argparse.Namespace) -> dict[str, Any]:
-    required = bool(getattr(args, "require_source_byproduct_clean", False))
-    source_root = getattr(args, "source_root", None) or getattr(args, "root", Path.cwd())
-    source_root = Path(source_root).resolve()
-    issues = source_byproduct_scan(source_root) if required else []
-    return {
-        "required": required,
-        "source_root": str(source_root),
-        "status": "passed" if not issues else "failed",
-        "issues": issues,
-        "excluded_dirs": list(SOURCE_SCAN_EXCLUDED_DIRS),
-        "forbidden_dir_names": list(SOURCE_BYPRODUCT_DIR_NAMES),
-        "forbidden_file_globs": list(SOURCE_BYPRODUCT_FILE_GLOBS),
-        "forbidden_suffixes": list(SOURCE_BYPRODUCT_SUFFIXES),
-    }
-
-
-def run_source_byproduct_check(args: argparse.Namespace) -> dict[str, Any]:
-    summary = repo_source_byproduct_summary(args)
-    payload = {
-        "surface_kind": "bookforge_repo_source_byproduct_hygiene",
-        "version": VERSION,
-        "root": str(Path(getattr(args, "root", Path.cwd())).resolve()),
-        "status": summary["status"],
-        "issues": summary["issues"],
-        "repo_source_byproducts": summary,
-        "claim_boundary": {
-            "byproduct_clean_counts_as_book_delivery_ready": False,
-            "byproduct_clean_counts_as_publication_ready": False,
-            "byproduct_clean_counts_as_owner_acceptance": False,
-        },
-    }
-    if getattr(args, "report", None):
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return payload
@@ -1169,7 +899,7 @@ def run_self_test() -> None:
             source_root=source_root,
             require_source_byproduct_clean=True,
             report=None,
-        ))
+        ), version=VERSION)
         issue_paths = {
             issue["path"]
             for issue in payload["issues"]
@@ -1186,7 +916,7 @@ def run_self_test() -> None:
             source_root=source_root,
             require_source_byproduct_clean=True,
             report=None,
-        ))
+        ), version=VERSION)
         assert payload["status"] == "passed", payload
 
 
@@ -1222,7 +952,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.source_byproduct_check:
         args.require_source_byproduct_clean = True
-        payload = run_source_byproduct_check(args)
+        payload = run_source_byproduct_check(args, version=VERSION)
     else:
         payload = run_check(args)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
