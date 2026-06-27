@@ -28,15 +28,6 @@ from bookforge_project_hygiene_parts.opl_lifecycle import (
 
 VERSION = "bookforge-project-hygiene.v2"
 
-DEFAULT_ACTIVE_PATHS = (
-    "README.md",
-    "inputs",
-    "artifacts/manuscript",
-    "artifacts/review",
-    "artifacts/stage_outputs",
-    "quality",
-    "receipts",
-)
 DEFAULT_ARCHIVE_DIRS = ("archive",)
 DEFAULT_VOICE_PATHS = (
     "README.md",
