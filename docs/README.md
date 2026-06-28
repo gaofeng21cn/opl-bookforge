@@ -15,8 +15,9 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 4. [Architecture](./architecture.md)
 5. [Invariants](./invariants.md)
 6. [Decisions](./decisions.md)
-7. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
-8. [Evidence package index](./evidence/README.md)
+7. [Docs portfolio governance](./docs_portfolio_consolidation.md)
+8. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
+9. [Evidence package index](./evidence/README.md)
 
 ## Evidence Surfaces
 
