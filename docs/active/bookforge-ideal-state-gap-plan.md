@@ -27,6 +27,7 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 | Area | Current status | Evidence owner | Boundary |
 | --- | --- | --- | --- |
 | OPL standard structure | `done_structural_baseline` | `scripts/verify.sh`, OPL scaffold/interface validators, contracts and agent pack files | Proves structure/interface readability only. |
+| Standard Foundry Agent public projection | `done_structural_baseline` | `contracts/foundry_agent_series.json`, `contracts/generated_surface_handoff.json`, `scripts/verify.sh` | Proves Book Forge is represented as a standard domain agent and that public membership/status are not generated-surface or plugin-transport axes; does not prove direct runtime CLI or hosted artifact-handoff parity. |
 | Golden path default route | `done_structural_baseline` | `contracts/golden_path_profile.json`, `contracts/stage_control_plane.json`, OPL conformance validator | The ordinary default route is `storyline-architecture` only; `book-materialization` remains a follow-on stage by handoff or explicit selection, not a second default entry or delivery-ready claim. |
 | OMA Agent Lab evidence | `evidence_recorded` | `docs/evidence/oma-agent-lab/` | Supports baseline/takeover evidence, not book quality or owner acceptance. |
 | Historical real short-book pilot | `evidence_recorded_owner_blocked` | `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical pilot evidence with owner blockers; not the current long-book source pattern. |
@@ -52,7 +53,7 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 | Evidence gap | Why it matters | Minimum proof |
 | --- | --- | --- |
 | Owner acceptance | Required before publication, final export, or production-ready claims. | Owner receipt accepting topic, reader promise, manuscript quality, figure/table plan, layout, and publication intent. |
-| Runtime/hosted parity | Generated descriptors are not runtime execution. | Direct `opl-bookforge` runtime CLI evidence or hosted OPL artifact-handoff parity evidence. |
+| Runtime/hosted parity | Standard public projection and generated descriptors are not runtime execution. | Direct `opl-bookforge` runtime CLI evidence or hosted OPL artifact-handoff parity evidence. |
 | Publication proof visual acceptance | Rendered/nonblank pages do not prove human visual quality. | Visual inspection report for front matter, chapter openings, dense pages, figures/tables, callouts, closing pages, and owner-directed design preferences. |
 | Lifecycle/currentness readback | Book-length workspaces need refs-only lifecycle/currentness projection before handoff/readiness claims. Repo-source byproduct hygiene and `contracts/artifact_lifecycle_handoff.json` now prevent ignored residue, private lifecycle pages, and false-ready projection claims from masquerading as clean source state or lifecycle readiness, but they are not workspace apply evidence. | Fresh OPL artifact-lifecycle apply/readback over Book Forge project refs. |
 

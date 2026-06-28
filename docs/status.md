@@ -12,6 +12,7 @@ Live Evidence deferred / functional structure first is the current Book Forge de
 ## Current Validated Surfaces
 
 - OPL standard scaffold and generated interface descriptors validate through `scripts/verify.sh`.
+- `contracts/foundry_agent_series.json` and `contracts/generated_surface_handoff.json` declare the standard Foundry Agent public projection and generated-surface ownership split: Book Forge remains `standard_domain_agent`, public membership/status do not split by generated surface or plugin transport, and generated CLI/MCP/skill/product-entry surfaces stay OPL-owned descriptor surfaces.
 - The stage pack exposes two primary stages, `storyline-architecture` and `book-materialization`, plus domain refs for revision routing, chapter context, source-claim integrity, style calibration, publication design, PDF proof gates, image asset receipts, and workspace lifecycle hygiene. The OPL golden path profile keeps `storyline-architecture` as the only ordinary default route; `book-materialization` remains the follow-on stage reached through storyline handoff or explicit stage selection, not a second default App/CLI entry.
 - The PDF export helper uses real typesetting backends, distinguishes `review_pdf`, `publication_proof`, and `final_export`, scans Markdown image refs, checks figure asset manifest readiness, writes rendered-page machine-baseline inspection when requested, reads embedded fonts through `pdffonts` when available, scans rendered-page density and trailing whitespace, and fail-closes `publication_proof` / `final_export` claims when required proof evidence or machine QA fields are missing.
 - Book Forge consumes OPL-owned dependency and workspace-lifecycle routes. It does not own OS/TeX package installation, OPL runtime, queue, attempt ledger, generated interface hosting, or app shell routing.
@@ -56,7 +57,7 @@ External-learning and handoff provenance:
 
 ## Claim Boundary
 
-- Existing evidence proves a valid OPL standard scaffold, generated interface descriptors, single-default golden path structure, OMA Agent Lab baseline evidence, external-suite self-evolution evidence, and a historical short-book pilot with generated artifacts, exports, rendered pages, quality receipts, and owner blockers.
+- Existing evidence proves a valid OPL standard scaffold, generated interface descriptors, standard Foundry Agent public projection/generation ownership contracts, single-default golden path structure, OMA Agent Lab baseline evidence, external-suite self-evolution evidence, and a historical short-book pilot with generated artifacts, exports, rendered pages, quality receipts, and owner blockers.
 - Existing evidence does not prove real workspace artifact-lifecycle apply, final production readiness, publication approval, owner acceptance, direct `opl-bookforge` runtime CLI availability, hosted OPL artifact-handoff parity, physical delete authorization, default-caller delete readiness, or book-specific publication-proof visual acceptance.
 - The historical pilot generator's prose-in-code pattern is superseded by the current Markdown-first, chapter-sharded materialization invariant. Keep the pilot as evidence, not as the current implementation pattern for book-length manuscript source management.
 
