@@ -14,6 +14,19 @@ REQUIRED_CLOSEOUT_REFS = {
     "route_back_ref",
 }
 
+COMPLETION_ACCOUNTS = {
+    "review_pdf",
+    "publication_proof",
+    "final_export",
+    "owner_acceptance",
+}
+
+FALSE_COMPLETION_ACCOUNTS = {
+    "provider_attempt_completion",
+    "generated_surface_ready",
+    "stage_run_status_ready",
+}
+
 
 def load_json(repo: Path, ref: str) -> dict[str, Any]:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
@@ -38,6 +51,22 @@ def assert_closeout_refs(fields: list[str] | tuple[str, ...], label: str) -> Non
     assert REQUIRED_CLOSEOUT_REFS <= actual, f"{label} missing closeout refs: {REQUIRED_CLOSEOUT_REFS - actual}"
     forbidden = {"provider_completion_ref", "temporal_workflow_completion_ref", "generated_surface_ready_ref"}
     assert not (actual & forbidden), f"{label} includes false-ready closeout refs: {actual & forbidden}"
+
+
+def assert_ref_fields(fields: list[str] | tuple[str, ...], expected: set[str], label: str) -> None:
+    actual = set(fields)
+    assert expected <= actual, f"{label} missing required refs: {expected - actual}"
+
+
+def assert_false_completion_account(account: dict[str, Any], label: str) -> None:
+    for field in (
+        "counts_as_bookforge_domain_completion",
+        "counts_as_review_pdf_ready",
+        "counts_as_publication_proof_ready",
+        "counts_as_final_export_ready",
+        "counts_as_owner_acceptance",
+    ):
+        assert account[field] is False, f"{label}.{field} expected false"
 
 
 def main() -> int:
@@ -65,7 +94,75 @@ def main() -> int:
     assert_true(policy, "projection_policy.projection_must_not_create_attempt_ledger")
     assert_closeout_refs(policy["completion_boundary"]["domain_completion_ref_fields"], "policy completion_boundary")
 
+    audit = policy["completion_audit"]
+    assert audit["audit_role"] == "separate_opl_transport_generated_status_from_bookforge_domain_completion"
+    assert audit["acceptance_tail"]["real_book_pilot_evidence_role"] == "historical_evidence_only"
+    assert audit["acceptance_tail"]["real_book_pilot_counts_as_final_export_acceptance"] is False
+    assert audit["acceptance_tail"]["owner_receipt_body_must_not_be_synthesized_by_contract"] is True
+    assert audit["acceptance_tail"]["live_stage_run_evidence_required_for_runtime_claims"] is True
+    assert audit["acceptance_tail"]["owner_export_acceptance_required_for_final_export_claims"] is True
+
+    opl_accounts = audit["opl_provider_generated_and_stage_run_accounts"]
+    assert set(opl_accounts) == FALSE_COMPLETION_ACCOUNTS
+    for account_name, account in opl_accounts.items():
+        assert account["owner"] == "one-person-lab", account_name
+        assert_false_completion_account(account, account_name)
+
+    completion_accounts = audit["bookforge_completion_accounts"]
+    assert set(completion_accounts) == COMPLETION_ACCOUNTS
+    review_pdf = completion_accounts["review_pdf"]
+    assert review_pdf["owner"] == "OPL Book Forge"
+    assert_ref_fields(
+        review_pdf["minimum_ref_fields"],
+        {"review_pdf_ref", "review_pdf_receipt_ref"},
+        "review_pdf",
+    )
+    assert review_pdf["counts_as_publication_proof_ready"] is False
+    assert review_pdf["counts_as_final_export_ready"] is False
+    assert review_pdf["counts_as_owner_acceptance"] is False
+
+    publication_proof = completion_accounts["publication_proof"]
+    assert publication_proof["owner"] == "OPL Book Forge"
+    assert_ref_fields(
+        publication_proof["minimum_ref_fields"],
+        {
+            "publication_proof_ref",
+            "publication_design_profile_ref",
+            "rendered_page_inspection_ref",
+            "asset_resolution_receipt_ref",
+        },
+        "publication_proof",
+    )
+    assert publication_proof["counts_as_final_export_ready"] is False
+    assert publication_proof["counts_as_owner_acceptance"] is False
+
+    final_export = completion_accounts["final_export"]
+    assert final_export["owner"] == "OPL Book Forge"
+    assert final_export["requires_owner_export_acceptance"] is True
+    assert_ref_fields(
+        final_export["minimum_ref_fields"],
+        {"final_export_ref", "publication_proof_ref", "owner_export_acceptance_ref"},
+        "final_export",
+    )
+    assert final_export["counts_as_owner_acceptance"] is False
+
+    owner_acceptance = completion_accounts["owner_acceptance"]
+    assert owner_acceptance["owner"] == "owner_or_human_gate"
+    assert_ref_fields(owner_acceptance["minimum_ref_fields"], {"owner_receipt_ref"}, "owner_acceptance")
+    assert owner_acceptance["can_be_written_by_opl_provider"] is False
+    assert owner_acceptance["can_be_written_by_generated_surface"] is False
+    assert owner_acceptance["can_be_inferred_from_stage_run_status"] is False
+
     assert action_catalog["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
+    assert action_catalog["completion_audit_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#completion_audit"
+    catalog_audit = action_catalog["completion_audit_summary"]
+    assert catalog_audit["review_pdf_publication_proof_final_export_are_distinct"] is True
+    assert catalog_audit["provider_completion_counts_as_any_bookforge_completion_account"] is False
+    assert catalog_audit["generated_surface_ready_counts_as_any_bookforge_completion_account"] is False
+    assert catalog_audit["stage_run_status_ready_counts_as_any_bookforge_completion_account"] is False
+    assert catalog_audit["final_export_requires_owner_export_acceptance_ref"] is True
+    assert catalog_audit["owner_acceptance_cannot_be_inferred_from_generated_or_stage_run_status"] is True
+    assert catalog_audit["real_book_pilot_evidence_is_acceptance_tail_not_completion"] is True
     assert_false(action_catalog, "authority_boundary.provider_completion_is_domain_completion")
     assert_false(action_catalog, "authority_boundary.domain_repo_can_own_temporal_runtime")
     assert_false(action_catalog, "authority_boundary.generated_surface_ready_counts_as_domain_ready")
@@ -78,6 +175,9 @@ def main() -> int:
         assert boundary["bookforge_can_write_opl_stage_attempts"] is False, action["action_id"]
         assert boundary["temporal_attempt_ledger_owner"] == "one-person-lab", action["action_id"]
         assert_closeout_refs(boundary["domain_completion_ref_fields"], f"action {action['action_id']}")
+        assert boundary["completion_audit_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#completion_audit", action["action_id"]
+        assert set(boundary["completion_accounts"]) == COMPLETION_ACCOUNTS, action["action_id"]
+        assert set(boundary["false_completion_accounts"]) == FALSE_COMPLETION_ACCOUNTS, action["action_id"]
 
     assert generated_handoff["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     projection = generated_handoff["temporal_stage_run_projection"]

@@ -18,6 +18,16 @@
     "generated_surface_ready_counts_as_domain_ready": false,
     "bookforge_can_write_opl_stage_attempts": false
   },
+  "completion_audit_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit",
+  "completion_audit_summary": {
+    "review_pdf_publication_proof_final_export_are_distinct": true,
+    "provider_completion_counts_as_any_bookforge_completion_account": false,
+    "generated_surface_ready_counts_as_any_bookforge_completion_account": false,
+    "stage_run_status_ready_counts_as_any_bookforge_completion_account": false,
+    "final_export_requires_owner_export_acceptance_ref": true,
+    "owner_acceptance_cannot_be_inferred_from_generated_or_stage_run_status": true,
+    "real_book_pilot_evidence_is_acceptance_tail_not_completion": true
+  },
   "actions": [
     {
       "action_id": "shape-storyline",
@@ -81,6 +91,18 @@
           "typed_blocker_ref",
           "human_gate_ref",
           "route_back_ref"
+        ],
+        "completion_audit_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit",
+        "completion_accounts": [
+          "review_pdf",
+          "publication_proof",
+          "final_export",
+          "owner_acceptance"
+        ],
+        "false_completion_accounts": [
+          "provider_attempt_completion",
+          "generated_surface_ready",
+          "stage_run_status_ready"
         ]
       }
     },
@@ -146,6 +168,18 @@
           "typed_blocker_ref",
           "human_gate_ref",
           "route_back_ref"
+        ],
+        "completion_audit_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit",
+        "completion_accounts": [
+          "review_pdf",
+          "publication_proof",
+          "final_export",
+          "owner_acceptance"
+        ],
+        "false_completion_accounts": [
+          "provider_attempt_completion",
+          "generated_surface_ready",
+          "stage_run_status_ready"
         ]
       }
     }
