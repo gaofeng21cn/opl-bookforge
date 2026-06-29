@@ -21,6 +21,27 @@
       "typed_blocker_ref",
       "human_gate_ref",
       "route_back_ref"
+    ],
+    "bookforge_exposed_domain_surfaces": [
+      "book_domain_action_contract_ref",
+      "chapter_task_card_ref",
+      "manuscript_authority_ref",
+      "style_authority_ref",
+      "artifact_authority_ref",
+      "owner_gated_publication_decision_ref",
+      "owner_gated_export_decision_ref",
+      "typed_blocker_ref",
+      "owner_receipt_ref"
+    ],
+    "forbidden_runtime_surface_exports": [
+      "private_temporal_wrapper",
+      "private_stage_run_wrapper",
+      "private_scheduler",
+      "private_queue",
+      "private_session_store",
+      "private_provider_completion_store",
+      "private_attempt_ledger",
+      "runtime_status_read_model"
     ]
   },
   "stage_native_unit": [
@@ -94,7 +115,9 @@
     "temporal_attempt_ledger_owner": "one-person-lab",
     "domain_repo_can_own_temporal_runtime": false,
     "bookforge_can_write_opl_stage_attempts": false,
-    "generated_surface_ready_counts_as_domain_ready": false
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "domain_repo_can_export_private_temporal_wrapper": false,
+    "domain_repo_can_export_private_stage_run_wrapper": false
   },
   "owner": "opl-bookforge",
   "domain_id": "opl-bookforge",

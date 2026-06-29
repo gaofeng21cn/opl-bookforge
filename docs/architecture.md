@@ -11,7 +11,9 @@ This repo owns book-domain truth, manuscript quality rules, style policy, figure
 
 OPL owns generated interfaces, generic runtime, queue, attempt ledger, transition runner, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection.
 
-Temporal-backed StageRun execution belongs to that OPL-owned runtime layer. Book Forge consumes StageRun, Temporal workflow, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`; it must not create a private Temporal runtime, queue, provider completion store, scheduler, session store, or attempt ledger.
+Temporal-backed StageRun execution belongs to that OPL-owned runtime layer. Book Forge consumes StageRun, Temporal workflow, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`; it must not create a private Temporal runtime, StageRun wrapper, queue, provider completion store, scheduler, session store, or attempt ledger.
+
+The same policy is also the positive export boundary for OPL generated surfaces: Book Forge exposes book-domain action contracts, chapter task card refs, manuscript/style/artifact authority refs, owner-gated publication/export decision refs, typed blocker refs, and owner receipt refs. It does not expose runtime status read models, private Temporal wrappers, private StageRun wrappers, private queues, private schedulers, private session stores, private provider completion stores, or private attempt ledgers.
 
 ## Stage Model
 
