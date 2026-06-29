@@ -56,23 +56,16 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 
 | Gap | Current state | Needed owner action |
 | --- | --- | --- |
-| Real long-book materialization | Existing historical pilot is short-book evidence; long-form rules are recorded but not exercised end to end. | Run a real book project through chapter-sharded Markdown packages, active production queue, chapter QC, merged manuscript, and owner handoff refs. |
-| Publication-proof run | Proof helper and proof rules exist, but no book-specific publication-proof visual inspection package closes the proof route. | Produce a project-local publication design profile, rendered pages, asset/font/readback evidence, visual inspection, and owner/export decision. |
-| Owner/export completion audit evidence | Completion accounts are now contractually split, but there is no live package that closes final export or owner acceptance. | Produce real `review_pdf`, `publication_proof`, and `final_export` refs for a book project, then obtain owner/export acceptance or record a human gate/typed blocker through the owner surface. |
-| Revision route-back evidence | Router refs exist; current evidence does not show a real independent meta-review finding routed back to storyline, outline, chapter, evidence/model, publication design, local prose, or owner blocker. | Exercise `revision-entrypoint-router` on a real manuscript review and refresh the owning Book Forge refs. |
-| OPL artifact lifecycle integration | OPL refs-only transport exists as local source/test evidence; Book Forge now has a machine-readable handoff contract and hygiene readback for projection refs, owner split, readback command, and false-ready boundaries, but no real workspace apply receipt for review-repair transport and refreshed downstream refs. | Run `opl workspace artifact-lifecycle --apply` against a real Book Forge workspace with `handoff/review-repair-transport.json`. |
+| Long-book structural workflow | Historical pilot evidence remains package payload; long-form rules, chapter-sharded Markdown package shape, chapter QC expectations, merged-manuscript handoff refs, and active production queue semantics must stay represented as Book Forge-owned structure without becoming a production-ready claim. | Keep chapter-sharded package, QC, merge, and handoff contracts/docs aligned; route real long-book run evidence to the later evidence lane. |
+| Publication-proof plumbing | Proof helper and proof rules exist; active plan only tracks helper plumbing, project-local proof-ref requirements, and false-ready boundaries. | Keep proof/profile/helper contracts and docs aligned; route visual inspection, final export acceptance, and owner decision evidence to the later evidence lane. |
+| Completion account split | Completion accounts are contractually split between OPL provider/generated/StageRun accounts and Book Forge `review_pdf`, `publication_proof`, `final_export`, and owner acceptance accounts. | Keep the split visible in contracts/docs and prevent provider completion, generated descriptors, docs, rendered pages, or helper proof plumbing from closing Book Forge domain completion. |
+| Revision route-back structure | Router refs exist and should stay as Book Forge-owned decision refs rather than a generic OPL repair router. | Keep `revision-entrypoint-router` and OPL handoff docs aligned; route real manuscript meta-review route-back evidence to the later evidence lane. |
+| OPL artifact lifecycle boundary | OPL refs-only transport exists as local source/test evidence; Book Forge has a machine-readable handoff contract and hygiene readback for projection refs, owner split, readback command, and false-ready boundaries. | Maintain `contracts/artifact_lifecycle_handoff.json`, hygiene readback, and docs as structural boundary; route real workspace apply receipts to the later evidence lane. |
 | Active portfolio coverage | Core current docs are aligned enough for the current baton; evidence package role now has a single index, evidence leaves remain package payloads rather than active truth owners, and default-caller structural delete gates are recorded without authorizing deletion. | Keep historical evidence under `docs/evidence/**` and `docs/history/**`; route evidence-package navigation through `docs/evidence/README.md`; do not convert evidence leaves into current status, active process logs, physical delete authorization, or ready claims. |
 
-## Test / Evidence Gaps
+## Later Evidence Lane
 
-| Evidence gap | Why it matters | Minimum proof |
-| --- | --- | --- |
-| Owner acceptance | Required before publication, final export, or production-ready claims. | Owner receipt accepting topic, reader promise, manuscript quality, figure/table plan, layout, and publication intent. |
-| Owner/export acceptance tail | `final_export` cannot be inferred from `review_pdf`, `publication_proof`, provider completion, generated surface readiness, or StageRun status. | `final_export_ref`, `publication_proof_ref`, and `owner_export_acceptance_ref`, or a human gate/typed blocker if real owner acceptance is unavailable. |
-| Runtime/hosted parity | Standard public projection and generated descriptors are not runtime execution. | Direct `opl-bookforge` runtime CLI evidence or hosted OPL artifact-handoff parity evidence. |
-| Live StageRun evidence | The Temporal consumption policy is structural; it does not prove a live StageRun consumed the refs. | Fresh OPL StageRun/readback evidence bound to the book project and action, or route-back to OPL if the projection is missing. |
-| Publication proof visual acceptance | Rendered/nonblank pages do not prove human visual quality. | Visual inspection report for front matter, chapter openings, dense pages, figures/tables, callouts, closing pages, and owner-directed design preferences. |
-| Lifecycle/currentness readback | Book-length workspaces need refs-only lifecycle/currentness projection before handoff/readiness claims. Repo-source byproduct hygiene and `contracts/artifact_lifecycle_handoff.json` now prevent ignored residue, private lifecycle pages, and false-ready projection claims from masquerading as clean source state or lifecycle readiness, but they are not workspace apply evidence. | Fresh OPL artifact-lifecycle apply/readback over Book Forge project refs. |
+This active plan no longer carries owner acceptance, final export acceptance, publication-proof visual acceptance, direct runtime CLI / hosted artifact-handoff parity, live StageRun evidence, real long-book project evidence, lifecycle/currentness apply evidence, physical delete authorization, or production-ready worklists. Those are later owner / release / runtime evidence lanes. This plan may mention them only as false-ready boundaries and must not list run ids, owner receipts, human gates, screenshot paths, pilot counters, or ready-claim work items.
 
 ## Next-Round Agent Prompt
 
@@ -83,24 +76,24 @@ Task: govern OPL Book Forge from the current active truth plan.
 Cwd: /Users/gaofeng/workspace/opl-bookforge
 Write scope: choose exactly one narrow lane and state the allowed write set before editing. Default writable docs are docs/active/bookforge-ideal-state-gap-plan.md plus the lane's direct evidence/reference doc. Contract/schema/authority changes require scripts/verify.sh.
 Non-goals: do not implement generic OPL runtime, queue, scheduler, app shell, hosted transport, default entrypoints, manuscript acceptance, publication approval, owner acceptance, production readiness, or final export readiness in this repo.
-Live truth inputs: contracts, agent pack files, scripts/verify.sh, docs/status.md, docs/invariants.md, docs/architecture.md, docs/decisions.md, docs/references/opl-base-revision-routing-handoff.md, OPL validator output, runtime/native helper output, project-local proof refs, owner receipts, typed blockers, and this active plan.
+Functional truth inputs: contracts, agent pack files, scripts/verify.sh, docs/status.md, docs/invariants.md, docs/architecture.md, docs/decisions.md, docs/references/opl-base-revision-routing-handoff.md, OPL validator output, runtime/native helper output, project-local structural proof refs, and this active plan. Use owner receipts, typed blockers, and live evidence refs only to prevent false-ready claims or to route the work to the later evidence lane.
 Claim boundary: structural scaffold/interface proof is not book delivery proof; helper proof plumbing is not visual acceptance; generated descriptors are not hosted runtime parity; docs are not owner acceptance.
 
 Pick one high-confidence lane only:
-1. real Book Forge workspace artifact-lifecycle apply/readback for review-repair transport;
-2. real manuscript revision-entrypoint route-back evidence;
-3. publication-proof visual inspection package with project-local proof refs;
-4. long-book materialization evidence foldback from chapter-sharded Markdown refs.
+1. artifact-lifecycle handoff contract / hygiene readback boundary cleanup;
+2. revision-entrypoint routing docs / contract boundary cleanup;
+3. publication-proof helper plumbing / false-ready guard cleanup;
+4. long-book structural package, chapter QC, merge, and handoff docs cleanup.
 
 Required actions:
 - State the semantic theme, SSOT, peer docs, section classification, allowed write set, forbidden write set, owner boundary, and exact claim boundary before editing.
 - Keep OPL runtime/generic lifecycle work in OPL; keep manuscript body, quality/export decisions, memory body, artifact authority, and owner receipts in Book Forge.
-- Update this plan after the lane so progress, functional gaps, evidence gaps, and remaining candidates reflect fresh truth.
+- Update this plan after the lane so progress, functional/structural gaps, later-evidence routing, and remaining candidates reflect fresh truth.
 
 Verification commands:
 - For docs-only lanes: git diff --check; rg -n '^(<<<<<<<|=======|>>>>>>>)' docs; targeted stale scan for the retired or rewritten terms; OPL Doc doctor as risk map.
 - For contract/schema/authority or generated-interface lanes: ./scripts/verify.sh.
-- For proof/export lanes: ./scripts/verify.sh plus the relevant runtime/native helper or project-local proof verifier.
+- For proof/export helper-plumbing lanes: ./scripts/verify.sh plus the relevant runtime/native helper or project-local proof verifier; do not claim publication/export/owner acceptance from helper proof.
 
 Completion gate: stop only after fresh verification passes, changes are committed and pushed to main, post-push parity is checked, and remaining stale/retire candidates are folded back into this plan or recorded as blocked with owner/evidence needs.
 Foldback target: docs/active/bookforge-ideal-state-gap-plan.md is the active truth owner for progress, gaps, next prompt, and remaining candidate state.
@@ -108,7 +101,7 @@ Foldback target: docs/active/bookforge-ideal-state-gap-plan.md is the active tru
 
 ## Portfolio Coverage State
 
-- Covered by this active owner: current progress, functional/structural gaps, test/evidence gaps, and next executable prompt.
+- Covered by this active owner: current progress, functional/structural gaps, later-evidence routing, and next executable prompt.
 - Current-status SSOT remains `docs/status.md`; this file should not duplicate evidence package lists or dated run transcripts.
 - Support/reference docs remain `docs/references/**`; history/provenance remains `docs/history/**`; evidence-package navigation remains `docs/evidence/README.md`, with evidence payloads under `docs/evidence/**`.
 - Remaining stale/retire candidates need fresh no-active-caller or replacement-owner proof before physical deletion. Current scans mainly show history/provenance or contract-backed no-resurrection contexts, not safe delete authority.
