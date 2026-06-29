@@ -16,6 +16,7 @@ cleanup() {
 trap cleanup EXIT
 
 python3 "${hygiene_helper}" --root "${repo_dir}" --source-root "${repo_dir}" --source-byproduct-check
+python3 "${repo_dir}/tests/test_temporal_stage_run_consumption_policy.py"
 
 "${opl_bin}" agents scaffold --validate "${repo_dir}" --json
 "${opl_bin}" agents interfaces --repo-dir "${repo_dir}" --json

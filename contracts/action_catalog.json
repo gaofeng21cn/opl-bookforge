@@ -4,13 +4,19 @@
   "catalog_id": "opl_bookforge_action_catalog",
   "target_domain_id": "opl-bookforge",
   "owner": "OPL Book Forge",
+  "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
   "authority_boundary": {
     "opl_role": "generated_interface_projection_only",
     "domain_truth_owner": "OPL Book Forge",
     "opl_can_write_domain_truth": false,
     "opl_can_write_memory_body": false,
     "opl_can_authorize_quality_or_export": false,
-    "domain_repo_can_own_generated_surface": false
+    "domain_repo_can_own_generated_surface": false,
+    "domain_repo_can_own_temporal_runtime": false,
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "provider_completion_is_domain_completion": false,
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "bookforge_can_write_opl_stage_attempts": false
   },
   "actions": [
     {
@@ -65,7 +71,17 @@
         "can_write_target_domain_truth": false,
         "can_write_target_domain_memory_body": false,
         "can_mutate_target_domain_artifact_body": false,
-        "can_authorize_target_domain_quality_or_export": false
+        "can_authorize_target_domain_quality_or_export": false,
+        "provider_completion_is_domain_completion": false,
+        "domain_repo_can_own_temporal_runtime": false,
+        "temporal_attempt_ledger_owner": "one-person-lab",
+        "bookforge_can_write_opl_stage_attempts": false,
+        "domain_completion_ref_fields": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ]
       }
     },
     {
@@ -120,7 +136,17 @@
         "can_write_target_domain_truth": false,
         "can_write_target_domain_memory_body": false,
         "can_mutate_target_domain_artifact_body": false,
-        "can_authorize_target_domain_quality_or_export": false
+        "can_authorize_target_domain_quality_or_export": false,
+        "provider_completion_is_domain_completion": false,
+        "domain_repo_can_own_temporal_runtime": false,
+        "temporal_attempt_ledger_owner": "one-person-lab",
+        "bookforge_can_write_opl_stage_attempts": false,
+        "domain_completion_ref_fields": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ]
       }
     }
   ],
@@ -144,6 +170,11 @@
     "generic_sqlite_lifecycle_owner",
     "generic_native_helper_envelope_owner",
     "generic_review_repair_transport_owner",
-    "generated_surface_owner_in_domain_repo"
+    "generated_surface_owner_in_domain_repo",
+    "temporal_runtime_owner",
+    "temporal_queue_owner",
+    "temporal_attempt_ledger_owner",
+    "provider_attempt_owner",
+    "stage_run_state_machine_owner"
   ]
 }

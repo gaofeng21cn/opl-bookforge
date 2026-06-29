@@ -8,6 +8,21 @@
   "owner_receipt_schema_ref": "contracts/opl-framework/stage-owner-receipt.schema.json",
   "typed_blocker_schema_ref": "contracts/opl-framework/stage-typed-blocker.schema.json",
   "kernel_role": "minimal_state_shell_not_domain_controller_system",
+  "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
+  "temporal_stage_run_consumption_policy": {
+    "temporal_runtime_owner": "one-person-lab",
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "provider_attempt_owner": "one-person-lab",
+    "domain_repo_can_own_temporal_runtime": false,
+    "bookforge_can_write_opl_stage_attempts": false,
+    "provider_completion_is_domain_completion": false,
+    "domain_completion_ref_fields": [
+      "owner_receipt_ref",
+      "typed_blocker_ref",
+      "human_gate_ref",
+      "route_back_ref"
+    ]
+  },
   "stage_native_unit": [
     "stage_folder",
     "stage_manifest",
@@ -23,6 +38,8 @@
   ],
   "stage_run_state_machine": {
     "provider_completion_counts_as_domain_accepted": false,
+    "provider_completion_is_domain_completion": false,
+    "domain_repo_can_own_temporal_runtime": false,
     "file_presence_counts_as_stage_complete": false,
     "latest_json_counts_as_domain_accepted": false,
     "read_model_counts_as_transition_authority": false
@@ -58,7 +75,13 @@
   "transition_authority": {
     "terminal_transition_authority": "owner_receipt_or_typed_blocker",
     "provider_completion_counts_as_transition": false,
-    "file_presence_counts_as_transition": false
+    "file_presence_counts_as_transition": false,
+    "accepted_terminal_ref_fields": [
+      "owner_receipt_ref",
+      "typed_blocker_ref",
+      "human_gate_ref",
+      "route_back_ref"
+    ]
   },
   "authority_boundary": {
     "opl_can_write_domain_truth": false,
@@ -67,7 +90,11 @@
     "opl_can_create_typed_blocker": false,
     "opl_can_authorize_quality_or_export": false,
     "provider_completion_counts_as_domain_accepted": false,
-    "read_model_can_be_truth_source": false
+    "read_model_can_be_truth_source": false,
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "domain_repo_can_own_temporal_runtime": false,
+    "bookforge_can_write_opl_stage_attempts": false,
+    "generated_surface_ready_counts_as_domain_ready": false
   },
   "owner": "opl-bookforge",
   "domain_id": "opl-bookforge",

@@ -130,6 +130,12 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 - Structural route-back stays inside Book Forge-owned refs. If the repair begins at storyline architecture, Book Forge updates or requests owner review of storyline refs before claiming manuscript repair.
 - OPL base optimization now has an initial local source/test transport through `opl workspace artifact-lifecycle` for opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, `owner-decision-ref`, iteration caps, current-owner projection, and freshness gates. OPL must not own the repair-level decision, manuscript body, memory body, quality/export verdict, or owner receipt.
 
+## 2026-06-30: OPL Temporal StageRun Consumption Boundary
+
+- Treat Temporal as an OPL-owned durable execution substrate, not as a Book Forge-private runtime. Book Forge consumes OPL Temporal-backed StageRun, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`.
+- Provider completion, Temporal workflow completion, StageRun status readiness, generated surface readiness, read-model cleanliness, or file presence cannot close Book Forge domain completion. Closeout requires one of `owner_receipt_ref`, `typed_blocker_ref`, `human_gate_ref`, or `route_back_ref`.
+- Book Forge must not write OPL stage attempts, Temporal workflow state, provider completion, provider queue, generated status read models, or attempt ledgers. If the Temporal projection is insufficient, repair the OPL substrate or route back to OPL; do not add a Book Forge-private scheduler, queue, session store, provider completion store, or attempt ledger.
+
 ## 2026-06-20: Kami-Inspired Publication Proof Domain Slice
 
 - Adopt Kami as an external pattern source for publication-proof discipline: tokenized print design, template/component inventory, font actual-load/readback, rendered-page QA, page rhythm/density/orphan checks, material coverage, and pre-ship proof review.

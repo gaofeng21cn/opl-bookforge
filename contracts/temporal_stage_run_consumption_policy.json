@@ -1,0 +1,97 @@
+{
+  "surface_kind": "opl_temporal_stage_run_consumption_policy",
+  "version": "temporal-stage-run-consumption-policy.v1",
+  "state": "active_contract",
+  "policy_id": "opl_bookforge_temporal_stage_run_consumption_policy",
+  "domain_id": "opl-bookforge",
+  "owner": "OPL Book Forge",
+  "runtime_substrate_owner": "one-person-lab",
+  "temporal_runtime_owner": "one-person-lab",
+  "temporal_attempt_ledger_owner": "one-person-lab",
+  "stage_run_owner": "one-person-lab",
+  "provider_attempt_owner": "one-person-lab",
+  "domain_truth_owner": "OPL Book Forge",
+  "policy_summary": "Book Forge consumes OPL Temporal-backed StageRun and provider attempt refs as transport/provenance only; Book Forge does not own Temporal runtime, queues, provider attempts, or OPL stage attempt ledgers.",
+  "consumed_opl_refs": [
+    "stage_run_ref",
+    "temporal_workflow_ref",
+    "provider_attempt_ref",
+    "attempt_ledger_ref",
+    "stage_manifest_ref",
+    "stage_current_pointer_ref",
+    "owner_receipt_ref",
+    "typed_blocker_ref",
+    "human_gate_ref",
+    "route_back_ref"
+  ],
+  "bookforge_owned_refs": [
+    "book_truth_ref",
+    "manuscript_quality_ref",
+    "style_policy_ref",
+    "export_publication_verdict_ref",
+    "artifact_authority_ref",
+    "memory_body_ref",
+    "owner_receipt_body_ref",
+    "minimal_book_native_authority_function_ref"
+  ],
+  "completion_boundary": {
+    "provider_completion_is_domain_completion": false,
+    "provider_completion_is_closeout": false,
+    "provider_completion_can_claim_domain_ready": false,
+    "temporal_workflow_completion_counts_as_domain_ready": false,
+    "stage_run_status_ready_counts_as_domain_ready": false,
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "generated_surface_ready_can_claim_quality_or_export": false,
+    "read_model_counts_as_transition_authority": false,
+    "file_presence_counts_as_stage_complete": false,
+    "domain_completion_ref_fields": [
+      "owner_receipt_ref",
+      "typed_blocker_ref",
+      "human_gate_ref",
+      "route_back_ref"
+    ],
+    "domain_completion_requires_one_of_ref_fields": true
+  },
+  "forbidden_domain_repo_ownership": {
+    "domain_repo_can_own_temporal_runtime": false,
+    "domain_repo_can_own_temporal_queue": false,
+    "domain_repo_can_own_provider_completion": false,
+    "domain_repo_can_own_provider_attempts": false,
+    "domain_repo_can_own_stage_run_state_machine": false,
+    "domain_repo_can_own_attempt_ledger": false,
+    "domain_repo_can_own_generic_scheduler": false,
+    "domain_repo_can_own_session_store": false,
+    "domain_repo_can_own_generated_status_surface": false,
+    "domain_repo_can_create_private_temporal_runtime": false,
+    "domain_repo_can_create_private_stage_attempt_ledger": false
+  },
+  "write_boundary": {
+    "bookforge_can_write_opl_stage_attempts": false,
+    "bookforge_can_write_temporal_attempt_ledger": false,
+    "bookforge_can_write_provider_completion": false,
+    "bookforge_can_write_provider_queue": false,
+    "bookforge_can_write_temporal_workflow_state": false,
+    "bookforge_can_write_generated_status_read_model": false,
+    "bookforge_can_write_book_truth": true,
+    "bookforge_can_write_manuscript_quality_refs": true,
+    "bookforge_can_write_style_and_export_verdict_refs": true,
+    "bookforge_can_write_memory_body": true,
+    "bookforge_can_write_owner_receipt_body": true
+  },
+  "projection_policy": {
+    "cli_or_status_may_project_policy_flags": true,
+    "projection_must_not_create_second_runtime": true,
+    "projection_must_not_create_attempt_ledger": true,
+    "projection_must_not_write_stage_attempts": true,
+    "projection_must_keep_temporal_refs_refs_only": true,
+    "projection_must_show_provider_completion_is_not_domain_completion": true,
+    "projection_must_show_generated_surface_ready_is_not_domain_ready": true
+  },
+  "route_back_policy": {
+    "insufficient_temporal_projection_routes_to": "one-person-lab",
+    "insufficient_domain_completion_ref_routes_to": "OPL Book Forge",
+    "provider_completion_without_domain_ref_routes_to": "OPL Book Forge",
+    "missing_owner_or_human_decision_routes_to": "owner_or_human_gate"
+  },
+  "marker": "generated_by_opl_standard_domain_agent_scaffold_v1"
+}

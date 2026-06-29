@@ -4,6 +4,22 @@
   "domain_id": "opl-bookforge",
   "generated_surface_owner": "one-person-lab",
   "domain_repo_can_own_generated_surface": false,
+  "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
+  "temporal_stage_run_projection": {
+    "owner": "one-person-lab",
+    "projection_role": "OPL-hosted Temporal StageRun and provider attempt refs only",
+    "provider_completion_is_domain_completion": false,
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "domain_repo_can_own_temporal_runtime": false,
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "bookforge_can_write_opl_stage_attempts": false,
+    "domain_completion_ref_fields": [
+      "owner_receipt_ref",
+      "typed_blocker_ref",
+      "human_gate_ref",
+      "route_back_ref"
+    ]
+  },
   "source_contract_ref": "contracts/pack_compiler_input.json",
   "generated_surfaces": [
     {
@@ -45,7 +61,7 @@
       "surface_id": "status_read_model",
       "owner": "one-person-lab",
       "source_contract": "contracts/generated_surface_handoff.json",
-      "domain_policy": "domain_repo_returns_receipts_refs_and_typed_blockers",
+      "domain_policy": "domain_repo_returns_receipts_refs_and_typed_blockers_and_consumes_temporal_stage_run_refs_only",
       "status": "descriptor_source_available"
     },
     {

@@ -11,6 +11,8 @@ This repo owns book-domain truth, manuscript quality rules, style policy, figure
 
 OPL owns generated interfaces, generic runtime, queue, attempt ledger, transition runner, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection.
 
+Temporal-backed StageRun execution belongs to that OPL-owned runtime layer. Book Forge consumes StageRun, Temporal workflow, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`; it must not create a private Temporal runtime, queue, provider completion store, scheduler, session store, or attempt ledger.
+
 ## Stage Model
 
 Book Forge uses two primary stages:
@@ -42,6 +44,8 @@ This hierarchy preserves the two-stage model. Structural route-back goes to the 
 The action catalog exposes `shape-storyline` and `materialize-book`. Generated MCP/OpenAI/AI SDK descriptors are interface descriptors unless a runtime surface provides execution evidence.
 
 Scaffold validation and generated interface readiness prove the domain pack can be read by OPL. They do not prove manuscript quality, export acceptance, publication readiness, owner acceptance, or hosted runtime parity.
+
+Generated status/readback surfaces may project the Temporal StageRun policy flags, including `provider_completion_is_domain_completion=false` and `generated_surface_ready_counts_as_domain_ready=false`. Domain completion still requires a Book Forge owner receipt, typed blocker, human gate, or route-back ref; provider completion and StageRun readiness are transport evidence only.
 
 ## Evidence Flow
 
