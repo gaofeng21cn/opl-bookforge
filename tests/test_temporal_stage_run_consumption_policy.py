@@ -50,6 +50,31 @@ FORBIDDEN_RUNTIME_SURFACE_EXPORTS = {
     "runtime_status_read_model",
 }
 
+LIVE_STAGE_RUN_PROGRESS_ACCEPTED_STATUSES = {
+    "owner_evidence_recorded_not_ready_claim",
+    "owner_typed_blocker_recorded_not_ready_claim",
+    "owner_evidence_required",
+}
+
+LIVE_STAGE_RUN_PROGRESS_REF_FIELDS = {
+    "typed_blocker_refs",
+    "quality_or_export_receipt_refs",
+    "no_regression_refs",
+    "doc_refs",
+    "next_verification_command_refs",
+}
+
+LIVE_STAGE_RUN_PROGRESS_FORBIDDEN_CLAIMS = {
+    "live_domain_progress_complete",
+    "domain_ready",
+    "production_ready",
+    "quality_or_export_ready",
+    "final_export_ready",
+    "owner_acceptance",
+    "owner_receipt_signed_by_opl",
+    "typed_blocker_created_by_opl",
+}
+
 
 def load_json(repo: Path, ref: str) -> dict[str, Any]:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
@@ -97,6 +122,81 @@ def assert_surface_export_boundary(payload: dict[str, Any], label: str) -> None:
     assert set(payload["forbidden_runtime_surface_exports"]) == FORBIDDEN_RUNTIME_SURFACE_EXPORTS, label
 
 
+def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
+    assert payload["surface_kind"] == "domain_live_stage_run_progress_evidence"
+    assert payload["domain_id"] == "opl-bookforge"
+    assert payload["owner"] == "OPL Book Forge"
+    assert payload["status"] in LIVE_STAGE_RUN_PROGRESS_ACCEPTED_STATUSES
+    assert payload["status"] == "owner_typed_blocker_recorded_not_ready_claim"
+    assert payload["typed_blocker_kind"] == "owner_acceptance_final_export_and_live_stage_run_evidence_tail_open"
+
+    refs = payload["refs"]
+    assert LIVE_STAGE_RUN_PROGRESS_REF_FIELDS <= set(refs), "live StageRun progress evidence missing ref groups"
+    assert_ref_fields(
+        refs["typed_blocker_refs"],
+        {
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json",
+        },
+        "live StageRun typed blockers",
+    )
+    assert_ref_fields(
+        refs["quality_or_export_receipt_refs"],
+        {
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-independent-gate-receipt.json",
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-materialization-independent-gate-receipt.json",
+        },
+        "live StageRun quality/export refs",
+    )
+    assert_ref_fields(
+        refs["no_regression_refs"],
+        {
+            "contracts/temporal_stage_run_consumption_policy.json#completion_boundary",
+            "contracts/temporal_stage_run_consumption_policy.json#completion_audit.acceptance_tail",
+        },
+        "live StageRun no-regression refs",
+    )
+    assert_ref_fields(
+        refs["next_verification_command_refs"],
+        {"python3 tests/test_temporal_stage_run_consumption_policy.py", "./scripts/verify.sh"},
+        "live StageRun verification refs",
+    )
+
+    evidence_items = payload["evidence_items"]
+    assert len(evidence_items) == 2, evidence_items
+    assert {item["result_shape"] for item in evidence_items} == {"typed_blocker_ref"}
+    assert {item["status"] for item in evidence_items} == {"blocked_owner_acceptance_missing"}
+
+    open_tail = payload["open_tail"]
+    for field in (
+        "owner_acceptance_open",
+        "final_export_acceptance_open",
+        "live_stage_run_evidence_tail_open",
+        "real_long_book_run_evidence_open",
+        "direct_runtime_cli_or_hosted_parity_evidence_open",
+    ):
+        assert open_tail[field] is True, f"open_tail.{field} expected true"
+
+    authority_boundary = payload["authority_boundary"]
+    assert authority_boundary["refs_only"] is True
+    for field in (
+        "domain_ready_claimed",
+        "production_ready_claimed",
+        "quality_or_export_ready_claimed",
+        "owner_acceptance_claimed",
+        "final_export_acceptance_claimed",
+        "live_stage_run_progress_complete_claimed",
+        "opl_can_sign_owner_receipt",
+        "opl_can_create_typed_blocker",
+        "opl_can_claim_domain_ready",
+        "opl_can_claim_production_ready",
+        "bookforge_contract_can_synthesize_owner_receipt_body",
+        "bookforge_contract_can_write_runtime_queue_or_provider_attempt",
+    ):
+        assert authority_boundary[field] is False, f"authority_boundary.{field} expected false"
+    assert LIVE_STAGE_RUN_PROGRESS_FORBIDDEN_CLAIMS <= set(payload["forbidden_claims"])
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
     policy = load_json(repo, "contracts/temporal_stage_run_consumption_policy.json")
@@ -104,6 +204,7 @@ def main() -> int:
     foundry_series = load_json(repo, "contracts/foundry_agent_series.json")
     generated_handoff = load_json(repo, "contracts/generated_surface_handoff.json")
     stage_run_profile = load_json(repo, "contracts/stage_run_kernel_profile.json")
+    live_stage_run_progress = load_json(repo, "contracts/live_stage_run_progress_evidence.json")
 
     assert policy["surface_kind"] == "opl_temporal_stage_run_consumption_policy"
     assert policy["temporal_attempt_ledger_owner"] == "one-person-lab"
@@ -248,11 +349,13 @@ def main() -> int:
     assert stage_run_profile["authority_boundary"]["generated_surface_ready_counts_as_domain_ready"] is False
     assert stage_run_profile["authority_boundary"]["domain_repo_can_export_private_temporal_wrapper"] is False
     assert stage_run_profile["authority_boundary"]["domain_repo_can_export_private_stage_run_wrapper"] is False
+    assert_live_stage_run_progress_evidence(live_stage_run_progress)
 
     print(json.dumps({
         "status": "passed",
         "test": "temporal_stage_run_consumption_policy",
-        "contract": "contracts/temporal_stage_run_consumption_policy.json"
+        "contract": "contracts/temporal_stage_run_consumption_policy.json",
+        "live_stage_run_progress_evidence_contract": "contracts/live_stage_run_progress_evidence.json"
     }, ensure_ascii=False))
     return 0
 

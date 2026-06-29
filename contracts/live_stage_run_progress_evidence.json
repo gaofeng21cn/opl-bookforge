@@ -1,0 +1,79 @@
+{
+  "surface_kind": "domain_live_stage_run_progress_evidence",
+  "domain_id": "opl-bookforge",
+  "owner": "OPL Book Forge",
+  "status": "owner_typed_blocker_recorded_not_ready_claim",
+  "evidence_contract_status": "active_refs_only_false_authority_contract",
+  "summary": "Book Forge records domain-owned typed blockers for the current live StageRun progress evidence tail. This contract is refs-only and prevents OPL structural conformance from treating missing domain progress evidence as open, while preserving not-ready and false-authority boundaries.",
+  "refs": {
+    "typed_blocker_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json"
+    ],
+    "quality_or_export_receipt_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-independent-gate-receipt.json",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-materialization-independent-gate-receipt.json"
+    ],
+    "no_regression_refs": [
+      "contracts/temporal_stage_run_consumption_policy.json#completion_boundary",
+      "contracts/temporal_stage_run_consumption_policy.json#completion_audit.acceptance_tail"
+    ],
+    "doc_refs": [
+      "docs/status.md#live-stage-progress-evidence",
+      "docs/active/bookforge-ideal-state-gap-plan.md#current-completion-progress"
+    ],
+    "next_verification_command_refs": [
+      "python3 tests/test_temporal_stage_run_consumption_policy.py",
+      "./scripts/verify.sh"
+    ]
+  },
+  "evidence_items": [
+    {
+      "stage_id": "storyline-architecture",
+      "result_shape": "typed_blocker_ref",
+      "ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+      "status": "blocked_owner_acceptance_missing",
+      "claim_boundary": "domain typed blocker only; not owner acceptance, live StageRun completion, final export acceptance, or production readiness"
+    },
+    {
+      "stage_id": "book-materialization",
+      "result_shape": "typed_blocker_ref",
+      "ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json",
+      "status": "blocked_owner_acceptance_missing",
+      "claim_boundary": "domain typed blocker only; not owner acceptance, live StageRun completion, final export acceptance, or production readiness"
+    }
+  ],
+  "typed_blocker_kind": "owner_acceptance_final_export_and_live_stage_run_evidence_tail_open",
+  "open_tail": {
+    "owner_acceptance_open": true,
+    "final_export_acceptance_open": true,
+    "live_stage_run_evidence_tail_open": true,
+    "real_long_book_run_evidence_open": true,
+    "direct_runtime_cli_or_hosted_parity_evidence_open": true
+  },
+  "authority_boundary": {
+    "refs_only": true,
+    "domain_ready_claimed": false,
+    "production_ready_claimed": false,
+    "quality_or_export_ready_claimed": false,
+    "owner_acceptance_claimed": false,
+    "final_export_acceptance_claimed": false,
+    "live_stage_run_progress_complete_claimed": false,
+    "opl_can_sign_owner_receipt": false,
+    "opl_can_create_typed_blocker": false,
+    "opl_can_claim_domain_ready": false,
+    "opl_can_claim_production_ready": false,
+    "bookforge_contract_can_synthesize_owner_receipt_body": false,
+    "bookforge_contract_can_write_runtime_queue_or_provider_attempt": false
+  },
+  "forbidden_claims": [
+    "live_domain_progress_complete",
+    "domain_ready",
+    "production_ready",
+    "quality_or_export_ready",
+    "final_export_ready",
+    "owner_acceptance",
+    "owner_receipt_signed_by_opl",
+    "typed_blocker_created_by_opl"
+  ]
+}
