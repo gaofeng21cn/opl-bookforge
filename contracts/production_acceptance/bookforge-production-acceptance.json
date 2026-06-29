@@ -1,0 +1,83 @@
+{
+  "surface_kind": "bookforge_domain_owned_production_acceptance_evidence",
+  "schema_version": 1,
+  "domain_id": "opl-bookforge",
+  "owner": "OPL Book Forge",
+  "evidence_tail_status": "domain_owned_typed_blocker_with_next_verification_ref",
+  "acceptance_status": "domain_owned_typed_blocker_with_next_verification_ref",
+  "summary": "Book Forge production acceptance remains owner-gated. The historical real-book pilot has domain-owned typed blockers for the missing owner acceptance and final-export acceptance path; this contract exposes those refs to OPL conformance as typed blockers, not as production readiness.",
+  "closure_evidence": {
+    "accepted_return_shape": "typed_blocker",
+    "typed_blocker_kind": "owner_acceptance_final_export_and_production_evidence_tail_open",
+    "next_verification_ref": "./scripts/verify.sh"
+  },
+  "refs": {
+    "typed_blocker_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json"
+    ],
+    "artifact_receipt_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/production-readiness-closeout.json",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/quality/local-verification-receipt.json"
+    ],
+    "doc_refs": [
+      "docs/status.md#claim-boundary",
+      "docs/active/bookforge-ideal-state-gap-plan.md#current-completion-progress"
+    ],
+    "next_verification_command_refs": [
+      "./scripts/verify.sh",
+      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents conformance --agent opl-bookforge=<repo> --json"
+    ]
+  },
+  "typed_blocker": {
+    "owner": "OPL Book Forge",
+    "blocker_kind": "owner_acceptance_final_export_and_production_evidence_tail_open",
+    "blocker_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json"
+    ],
+    "next_verification_command_refs": [
+      "./scripts/verify.sh",
+      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents conformance --agent opl-bookforge=<repo> --json"
+    ]
+  },
+  "open_tail": {
+    "owner_acceptance_open": true,
+    "final_export_acceptance_open": true,
+    "production_ready_claim_open": true,
+    "real_long_book_run_evidence_open": true,
+    "direct_runtime_cli_or_hosted_parity_evidence_open": true
+  },
+  "authority_boundary": {
+    "refs_only": true,
+    "domain_ready_claimed": false,
+    "production_ready_claimed": false,
+    "quality_or_export_ready_claimed": false,
+    "owner_acceptance_claimed": false,
+    "final_export_acceptance_claimed": false,
+    "live_stage_run_progress_complete_claimed": false,
+    "provider_completion_is_domain_completion": false,
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "stage_run_status_ready_counts_as_domain_ready": false,
+    "opl_can_write_domain_truth": false,
+    "opl_can_sign_owner_receipt": false,
+    "opl_can_create_typed_blocker": false,
+    "opl_can_authorize_quality_or_export": false,
+    "opl_can_authorize_domain_ready": false,
+    "opl_can_claim_domain_ready": false,
+    "opl_can_claim_production_ready": false,
+    "bookforge_contract_can_synthesize_owner_receipt_body": false,
+    "bookforge_contract_can_write_runtime_queue_or_provider_attempt": false,
+    "conformance_report_can_claim_domain_ready": false,
+    "domain_ready_claimed_by_conformance": false
+  },
+  "forbidden_claims": [
+    "domain_ready",
+    "production_ready",
+    "quality_or_export_ready",
+    "final_export_ready",
+    "owner_acceptance",
+    "owner_receipt_signed_by_opl",
+    "typed_blocker_created_by_opl"
+  ]
+}

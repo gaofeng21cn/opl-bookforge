@@ -75,6 +75,16 @@ LIVE_STAGE_RUN_PROGRESS_FORBIDDEN_CLAIMS = {
     "typed_blocker_created_by_opl",
 }
 
+PRODUCTION_ACCEPTANCE_FORBIDDEN_CLAIMS = {
+    "domain_ready",
+    "production_ready",
+    "quality_or_export_ready",
+    "final_export_ready",
+    "owner_acceptance",
+    "owner_receipt_signed_by_opl",
+    "typed_blocker_created_by_opl",
+}
+
 
 def load_json(repo: Path, ref: str) -> dict[str, Any]:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
@@ -197,6 +207,99 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
     assert LIVE_STAGE_RUN_PROGRESS_FORBIDDEN_CLAIMS <= set(payload["forbidden_claims"])
 
 
+def assert_production_acceptance_tail(payload: dict[str, Any]) -> None:
+    assert payload["surface_kind"] == "bookforge_domain_owned_production_acceptance_evidence"
+    assert payload["domain_id"] == "opl-bookforge"
+    assert payload["owner"] == "OPL Book Forge"
+    assert payload["evidence_tail_status"] == "domain_owned_typed_blocker_with_next_verification_ref"
+    assert payload["acceptance_status"] == "domain_owned_typed_blocker_with_next_verification_ref"
+
+    closure_evidence = payload["closure_evidence"]
+    assert closure_evidence["accepted_return_shape"] == "typed_blocker"
+    assert closure_evidence["typed_blocker_kind"] == "owner_acceptance_final_export_and_production_evidence_tail_open"
+    assert closure_evidence["next_verification_ref"] == "./scripts/verify.sh"
+
+    refs = payload["refs"]
+    assert_ref_fields(
+        refs["typed_blocker_refs"],
+        {
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json",
+        },
+        "production acceptance typed blockers",
+    )
+    assert_ref_fields(
+        refs["artifact_receipt_refs"],
+        {
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/production-readiness-closeout.json",
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/quality/local-verification-receipt.json",
+        },
+        "production acceptance artifact receipts",
+    )
+    assert_ref_fields(
+        refs["doc_refs"],
+        {
+            "docs/status.md#claim-boundary",
+            "docs/active/bookforge-ideal-state-gap-plan.md#current-completion-progress",
+        },
+        "production acceptance docs",
+    )
+    assert_ref_fields(
+        refs["next_verification_command_refs"],
+        {
+            "./scripts/verify.sh",
+            "/Users/gaofeng/workspace/one-person-lab/bin/opl agents conformance --agent opl-bookforge=<repo> --json",
+        },
+        "production acceptance verification refs",
+    )
+
+    typed_blocker = payload["typed_blocker"]
+    assert typed_blocker["owner"] == "OPL Book Forge"
+    assert typed_blocker["blocker_kind"] == "owner_acceptance_final_export_and_production_evidence_tail_open"
+    assert_ref_fields(
+        typed_blocker["blocker_refs"],
+        set(refs["typed_blocker_refs"]),
+        "production acceptance typed blocker body",
+    )
+
+    open_tail = payload["open_tail"]
+    for field in (
+        "owner_acceptance_open",
+        "final_export_acceptance_open",
+        "production_ready_claim_open",
+        "real_long_book_run_evidence_open",
+        "direct_runtime_cli_or_hosted_parity_evidence_open",
+    ):
+        assert open_tail[field] is True, f"open_tail.{field} expected true"
+
+    authority_boundary = payload["authority_boundary"]
+    assert authority_boundary["refs_only"] is True
+    for field in (
+        "domain_ready_claimed",
+        "production_ready_claimed",
+        "quality_or_export_ready_claimed",
+        "owner_acceptance_claimed",
+        "final_export_acceptance_claimed",
+        "live_stage_run_progress_complete_claimed",
+        "provider_completion_is_domain_completion",
+        "generated_surface_ready_counts_as_domain_ready",
+        "stage_run_status_ready_counts_as_domain_ready",
+        "opl_can_write_domain_truth",
+        "opl_can_sign_owner_receipt",
+        "opl_can_create_typed_blocker",
+        "opl_can_authorize_quality_or_export",
+        "opl_can_authorize_domain_ready",
+        "opl_can_claim_domain_ready",
+        "opl_can_claim_production_ready",
+        "bookforge_contract_can_synthesize_owner_receipt_body",
+        "bookforge_contract_can_write_runtime_queue_or_provider_attempt",
+        "conformance_report_can_claim_domain_ready",
+        "domain_ready_claimed_by_conformance",
+    ):
+        assert authority_boundary[field] is False, f"authority_boundary.{field} expected false"
+    assert PRODUCTION_ACCEPTANCE_FORBIDDEN_CLAIMS <= set(payload["forbidden_claims"])
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
     policy = load_json(repo, "contracts/temporal_stage_run_consumption_policy.json")
@@ -205,6 +308,7 @@ def main() -> int:
     generated_handoff = load_json(repo, "contracts/generated_surface_handoff.json")
     stage_run_profile = load_json(repo, "contracts/stage_run_kernel_profile.json")
     live_stage_run_progress = load_json(repo, "contracts/live_stage_run_progress_evidence.json")
+    production_acceptance = load_json(repo, "contracts/production_acceptance/bookforge-production-acceptance.json")
 
     assert policy["surface_kind"] == "opl_temporal_stage_run_consumption_policy"
     assert policy["temporal_attempt_ledger_owner"] == "one-person-lab"
@@ -350,12 +454,14 @@ def main() -> int:
     assert stage_run_profile["authority_boundary"]["domain_repo_can_export_private_temporal_wrapper"] is False
     assert stage_run_profile["authority_boundary"]["domain_repo_can_export_private_stage_run_wrapper"] is False
     assert_live_stage_run_progress_evidence(live_stage_run_progress)
+    assert_production_acceptance_tail(production_acceptance)
 
     print(json.dumps({
         "status": "passed",
         "test": "temporal_stage_run_consumption_policy",
         "contract": "contracts/temporal_stage_run_consumption_policy.json",
-        "live_stage_run_progress_evidence_contract": "contracts/live_stage_run_progress_evidence.json"
+        "live_stage_run_progress_evidence_contract": "contracts/live_stage_run_progress_evidence.json",
+        "production_acceptance_contract": "contracts/production_acceptance/bookforge-production-acceptance.json"
     }, ensure_ascii=False))
     return 0
 
