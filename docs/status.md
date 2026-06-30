@@ -25,13 +25,11 @@ Live Evidence deferred / functional structure first is the current Book Forge de
 
 ## Evidence Packages
 
-Evidence package navigation is owned by [docs/evidence/README.md](./evidence/README.md). Status only keeps the current claim boundary:
+Evidence package navigation is owned by [docs/evidence/README.md](./evidence/README.md). Status only records the current claim boundary:
 
-| Package | Current read | Claim boundary |
-| --- | --- | --- |
-| `docs/evidence/oma-agent-lab/` | OMA Agent Lab takeover, AI reviewer, external-suite improvement, candidate, mechanism proposal and no-patch receipts exist as baseline / takeover support evidence. | Supports new-agent baseline evidence only; it does not prove book quality, production readiness, publication readiness, final export readiness, or owner acceptance. |
-| `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical short-book pilot package contains inputs, stage outputs, manuscript/assets, exports, rendered pages, local verification, visual inspection, owner blockers, and after-pilot OMA receipts. | Historical pilot evidence with `blocked_owner_acceptance_missing`; it is not the current long-book materialization pattern and does not prove final production readiness, publication approval, final export acceptance, or owner acceptance. |
-| `docs/history/external-learning/*.md` and `docs/references/opl-base-revision-routing-handoff.md` | External-learning and handoff provenance for revision routing, publication proof, and OPL base transport. | Support/provenance only; durable rules must fold back to active plan, core docs, contracts, agent pack files, validators, or owner receipts. |
+- Tracked evidence supports OMA Agent Lab baseline / takeover work and one historical short-book pilot with owner blockers.
+- It does not prove book quality, production readiness, publication readiness, final export readiness, hosted runtime parity, direct runtime parity, physical delete readiness, or owner acceptance.
+- Do not add package file lists, verifier transcripts, rendered-page paths, receipt ids, or pilot closeout logs here; new package rows belong in the evidence index, and durable claim changes must fold back to the active plan, core docs, contracts, agent pack files, validators, runtime receipts, owner receipts, or typed blockers.
 
 ## Claim Boundary
 

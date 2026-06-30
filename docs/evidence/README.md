@@ -11,6 +11,21 @@ approval, final export readiness, hosted runtime parity, or owner acceptance.
 Current status stays in `docs/status.md`; current gaps and next work stay in
 `docs/active/bookforge-ideal-state-gap-plan.md`.
 
+## SSOT And Foldback
+
+This README is the evidence-package navigation SSOT. It owns package names,
+roles, and claim boundaries. It does not own current status, active gaps,
+production-readiness tasks, publication approval, final-export acceptance,
+hosted runtime parity, or owner acceptance.
+
+Add or change rows here only when a tracked evidence package is introduced,
+retired, or reclassified. Do not copy package file lists, verifier transcripts,
+rendered-page paths, receipt ids, or pilot closeout logs into `docs/status.md`
+or the active plan. Durable rules and current claims fold back to status,
+the active plan, core docs, contracts, agent pack files, validators, runtime
+receipts, owner receipts, or typed blockers; package payload detail stays in
+the package directory or git history.
+
 ## Package Index
 
 | Package | Role | Claim boundary |
