@@ -64,14 +64,14 @@ OPL may own:
 - OPL must preserve the domain's typed blocker and owner-decision labels.
 - OPL should fail closed when the route-back target, current owner, or accepted answer shape is missing.
 
-## Fresh OPL Evidence
+## OPL Transport Evidence Boundary
 
 - `npm run typecheck` in `/Users/gaofeng/workspace/one-person-lab`: passed on 2026-06-20.
 - `node --experimental-strip-types --test tests/src/cli/cases/workspace-domain.initializer.test.ts` in `/Users/gaofeng/workspace/one-person-lab`: 19/19 passed on 2026-06-20.
 - Focused test coverage includes a Book Forge success path that materializes source passport, memory lifecycle, output lifecycle, review-repair transport, health, and index projections.
 - Focused test coverage includes a fail-closed Book Forge path for missing current owner, missing accepted answer shape, missing route-back target, stale downstream refs, and exceeded iteration limit.
 
-This is local OPL source/test evidence for the transport surface. It is not hosted runtime parity, production readiness, repair acceptance, publication readiness, or owner acceptance.
+These are dated local OPL source/test refs for the initial transport surface. Current OPL transport truth must be refreshed from the OPL repo's source/tests/read-model before making a currentness claim. This handoff reference is not hosted runtime parity, production readiness, repair acceptance, publication readiness, final export acceptance, or owner acceptance.
 
 ## Book Forge Evidence Needed Before Promotion
 
