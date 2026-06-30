@@ -26,4 +26,4 @@ Book Forge owns book-domain truth, manuscript quality rules, writing style polic
 
 OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
 
-Current evidence does not authorize a production-ready writing-agent claim. Human owner acceptance and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence remain required.
+Current evidence does not authorize a production-ready writing-agent claim. Human owner acceptance plus live OPL StageRun or hosted artifact-handoff parity evidence remain required.

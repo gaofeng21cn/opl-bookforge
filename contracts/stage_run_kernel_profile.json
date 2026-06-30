@@ -13,6 +13,10 @@
     "temporal_runtime_owner": "one-person-lab",
     "temporal_attempt_ledger_owner": "one-person-lab",
     "provider_attempt_owner": "one-person-lab",
+    "default_entry_routing_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "direct_domain_cli_is_default_entry": false,
+    "evidence_package_can_be_default_entry": false,
     "domain_repo_can_own_temporal_runtime": false,
     "bookforge_can_write_opl_stage_attempts": false,
     "provider_completion_is_domain_completion": false,
@@ -91,7 +95,8 @@
     "root": "stage_run_current_owner_delta",
     "raw_worklist_default": false,
     "readiness_default": false,
-    "replay_packet_default": false
+    "replay_packet_default": false,
+    "evidence_package_default": false
   },
   "transition_authority": {
     "terminal_transition_authority": "owner_receipt_or_typed_blocker",

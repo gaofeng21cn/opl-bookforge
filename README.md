@@ -112,7 +112,7 @@ You can start with prompts like:
 - OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
 - Book Forge owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 - Current evidence supports structural baseline, generated interface descriptors, OMA Agent Lab evaluation, and a real short-book pilot with export/render checks.
-- Current evidence does not authorize a production-ready book-writing claim. The real pilot remains `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false` until human owner acceptance and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence exist.
+- Current evidence does not authorize a production-ready book-writing claim. The real pilot remains `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false` until human owner acceptance and live OPL StageRun or hosted artifact-handoff parity evidence exist.
 
 <details>
   <summary><strong>Technical OPL / operator boundary</strong></summary>

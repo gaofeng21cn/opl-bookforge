@@ -106,7 +106,7 @@ Book Forge 可以产出证据、草稿、导出文件和结构化阻塞。出版
 - OPL 负责生成接口、框架运行时投影、Agent Lab、工单执行、注册/发现和晋级门。
 - Book Forge 负责书籍领域真相、书稿质量规则、风格政策、图表规划、导出/出版裁决边界、产物权威、记忆正文和负责人签收记录。
 - 当前证据支持标准结构基线、生成接口描述符、OMA Agent Lab 评估，以及带导出/渲染检查的真实短书试运行。
-- 当前证据不能授权真实出书生产可用声明。试运行仍是 `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false`，需要人类负责人接受，以及直接 `opl-bookforge` 运行时命令行或托管产物交接等价证据才能升级。
+- 当前证据不能授权真实出书生产可用声明。试运行仍是 `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false`，需要人类负责人接受，以及 live OPL StageRun 或托管产物交接等价证据才能升级。
 
 <details>
   <summary><strong>技术 OPL / 操作者边界</strong></summary>

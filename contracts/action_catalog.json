@@ -28,6 +28,16 @@
     "owner_acceptance_cannot_be_inferred_from_generated_or_stage_run_status": true,
     "real_book_pilot_evidence_is_acceptance_tail_not_completion": true
   },
+  "default_entry_policy": {
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "entry_owner": "one-person-lab",
+    "stage_run_account_owner": "one-person-lab",
+    "domain_owner": "OPL Book Forge",
+    "stage_run_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
+    "direct_domain_cli_is_default_entry": false,
+    "evidence_package_can_be_default_entry": false,
+    "production_acceptance_routes_through_owner_answer_ref": true
+  },
   "bookforge_exposed_domain_surfaces": [
     "book_domain_action_contract_ref",
     "chapter_task_card_ref",
@@ -58,8 +68,8 @@
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
-        "command": "opl-bookforge shape-storyline --workspace-root <workspace_root>",
-        "surface_kind": "domain_cli"
+        "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+        "surface_kind": "opl_stage_run_attempt_request"
       },
       "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
       "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
@@ -71,8 +81,8 @@
       ],
       "supported_surfaces": {
         "cli": {
-          "command": "opl-bookforge shape-storyline --workspace-root <workspace_root>",
-          "surface_kind": "domain_cli"
+          "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+          "surface_kind": "opl_stage_run_attempt_request"
         },
         "mcp": {
           "tool_name": "opl_bookforge_shape_storyline",
@@ -86,8 +96,8 @@
         },
         "product_entry": {
           "action_key": "shape-storyline",
-          "command": "opl-bookforge product shape-storyline --workspace-root <workspace_root>",
-          "surface_kind": "domain_product_entry_action"
+          "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+          "surface_kind": "opl_stage_run_attempt_request"
         },
         "openai": {
           "tool_name": "opl_bookforge_shape_storyline"
@@ -107,6 +117,10 @@
         "domain_repo_can_own_temporal_runtime": false,
         "temporal_attempt_ledger_owner": "one-person-lab",
         "bookforge_can_write_opl_stage_attempts": false,
+        "default_entry_surface_kind": "opl_stage_run_attempt_request",
+        "default_entry_routes_via_stage_run_account": true,
+        "direct_domain_cli_is_default_entry": false,
+        "evidence_package_can_bypass_owner_boundary": false,
         "domain_completion_ref_fields": [
           "owner_receipt_ref",
           "typed_blocker_ref",
@@ -135,8 +149,8 @@
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
-        "command": "opl-bookforge materialize-book --workspace-root <workspace_root>",
-        "surface_kind": "domain_cli"
+        "command": "opl family-runtime attempt create --domain opl-bookforge --stage book-materialization --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+        "surface_kind": "opl_stage_run_attempt_request"
       },
       "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
       "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
@@ -148,8 +162,8 @@
       ],
       "supported_surfaces": {
         "cli": {
-          "command": "opl-bookforge materialize-book --workspace-root <workspace_root>",
-          "surface_kind": "domain_cli"
+          "command": "opl family-runtime attempt create --domain opl-bookforge --stage book-materialization --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+          "surface_kind": "opl_stage_run_attempt_request"
         },
         "mcp": {
           "tool_name": "opl_bookforge_materialize_book",
@@ -163,8 +177,8 @@
         },
         "product_entry": {
           "action_key": "materialize-book",
-          "command": "opl-bookforge product materialize-book --workspace-root <workspace_root>",
-          "surface_kind": "domain_product_entry_action"
+          "command": "opl family-runtime attempt create --domain opl-bookforge --stage book-materialization --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+          "surface_kind": "opl_stage_run_attempt_request"
         },
         "openai": {
           "tool_name": "opl_bookforge_materialize_book"
@@ -184,6 +198,10 @@
         "domain_repo_can_own_temporal_runtime": false,
         "temporal_attempt_ledger_owner": "one-person-lab",
         "bookforge_can_write_opl_stage_attempts": false,
+        "default_entry_surface_kind": "opl_stage_run_attempt_request",
+        "default_entry_routes_via_stage_run_account": true,
+        "direct_domain_cli_is_default_entry": false,
+        "evidence_package_can_bypass_owner_boundary": false,
         "domain_completion_ref_fields": [
           "owner_receipt_ref",
           "typed_blocker_ref",

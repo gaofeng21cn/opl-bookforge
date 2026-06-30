@@ -235,6 +235,71 @@
       "functional_closure_gate_can_authorize_physical_delete": false
     }
   },
+  "default_entry_routing": {
+    "routing_id": "bookforge_stage_run_owner_boundary_default_entry",
+    "entry_owner": "one-person-lab",
+    "stage_run_account_owner": "one-person-lab",
+    "domain_owner": "OPL Book Forge",
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "default_read_surface": "stage_run_current_owner_delta",
+    "domain_closeout_surface": "owner_receipt_or_typed_blocker_or_human_gate_or_route_back_ref",
+    "revision_export_and_acceptance_entries": {
+      "revision_entrypoint": {
+        "domain_ref": "agent/skills/revision-entrypoint-router.md",
+        "default_owner_path": "stage_run_current_owner_delta_then_bookforge_revision_entrypoint_decision_ref",
+        "accepted_return_shapes": [
+          "route_back_ref",
+          "repair_plan_ref",
+          "typed_blocker_ref",
+          "owner_decision_ref"
+        ],
+        "evidence_package_role": "output_refs_only_not_route_bypass"
+      },
+      "publication_or_final_export": {
+        "domain_ref": "runtime/native_helpers/bookforge_pdf_export.py",
+        "default_owner_path": "stage_run_current_owner_delta_then_bookforge_export_or_owner_acceptance_ref",
+        "accepted_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "evidence_package_role": "output_refs_only_not_route_bypass"
+      },
+      "production_acceptance": {
+        "domain_ref": "contracts/production_acceptance/bookforge-production-acceptance.json",
+        "default_owner_path": "stage_run_current_owner_delta_then_bookforge_production_acceptance_typed_blocker_or_owner_receipt_ref",
+        "accepted_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "evidence_package_role": "output_refs_only_not_route_bypass"
+      }
+    },
+    "evidence_package_policy": {
+      "index_ref": "docs/evidence/README.md",
+      "role": "historical_or_output_refs_only",
+      "can_be_default_entry": false,
+      "can_explain_around_owner_boundary": false,
+      "can_claim_acceptance": false,
+      "can_claim_production_ready": false
+    },
+    "forbidden_default_entries": [
+      "repo_local_stage_run_runner",
+      "private_stage_run_wrapper",
+      "private_temporal_wrapper",
+      "direct_opl_bookforge_runtime_cli_as_default_entry",
+      "evidence_package_as_acceptance_bypass"
+    ],
+    "forbidden_claims": {
+      "default_entry_contract_can_claim_live_stage_run_ready": false,
+      "default_entry_contract_can_claim_production_ready": false,
+      "default_entry_contract_can_claim_final_export_acceptance": false,
+      "default_entry_contract_can_claim_owner_acceptance": false
+    }
+  },
   "forbidden_domain_repo_ownership": {
     "domain_repo_can_own_temporal_runtime": false,
     "domain_repo_can_own_temporal_queue": false,

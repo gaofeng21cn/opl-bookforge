@@ -6,6 +6,16 @@
   "evidence_tail_status": "domain_owned_typed_blocker_with_next_verification_ref",
   "acceptance_status": "domain_owned_typed_blocker_with_next_verification_ref",
   "summary": "Book Forge production acceptance remains owner-gated. The historical real-book pilot has domain-owned typed blockers for the missing owner acceptance and final-export acceptance path; this contract exposes those refs to OPL conformance as typed blockers, not as production readiness.",
+  "default_entry_boundary": {
+    "default_entry_routing_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "default_read_surface": "stage_run_current_owner_delta",
+    "accepted_return_shape": "owner_receipt_or_typed_blocker_or_human_gate_or_route_back_ref",
+    "evidence_package_role": "output_refs_only_not_route_bypass",
+    "direct_domain_cli_is_default_entry": false,
+    "evidence_package_can_be_default_entry": false,
+    "production_acceptance_can_be_explained_around_owner_boundary": false
+  },
   "closure_evidence": {
     "accepted_return_shape": "typed_blocker",
     "typed_blocker_kind": "owner_acceptance_final_export_and_production_evidence_tail_open",

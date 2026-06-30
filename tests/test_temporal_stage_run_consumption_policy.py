@@ -104,6 +104,20 @@ PRODUCTION_ACCEPTANCE_FORBIDDEN_CLAIMS = {
     "typed_blocker_created_by_opl",
 }
 
+DEFAULT_ENTRY_ACCEPTED_RETURN_SHAPES = {
+    "owner_receipt_ref",
+    "typed_blocker_ref",
+    "human_gate_ref",
+    "route_back_ref",
+}
+
+REVISION_ENTRY_ACCEPTED_RETURN_SHAPES = {
+    "route_back_ref",
+    "repair_plan_ref",
+    "typed_blocker_ref",
+    "owner_decision_ref",
+}
+
 
 def load_json(repo: Path, ref: str) -> dict[str, Any]:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
@@ -188,6 +202,53 @@ def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
         assert value is False, f"functional_closure_gate.forbidden_claims.{field} expected false"
 
 
+def assert_default_entry_routing(payload: dict[str, Any]) -> None:
+    assert payload["routing_id"] == "bookforge_stage_run_owner_boundary_default_entry"
+    assert payload["entry_owner"] == "one-person-lab"
+    assert payload["stage_run_account_owner"] == "one-person-lab"
+    assert payload["domain_owner"] == "OPL Book Forge"
+    assert payload["default_entry_surface_kind"] == "opl_stage_run_attempt_request"
+    assert payload["default_read_surface"] == "stage_run_current_owner_delta"
+    assert payload["domain_closeout_surface"] == "owner_receipt_or_typed_blocker_or_human_gate_or_route_back_ref"
+
+    entries = payload["revision_export_and_acceptance_entries"]
+    revision_entry = entries["revision_entrypoint"]
+    assert revision_entry["domain_ref"] == "agent/skills/revision-entrypoint-router.md"
+    assert set(revision_entry["accepted_return_shapes"]) == REVISION_ENTRY_ACCEPTED_RETURN_SHAPES
+    assert revision_entry["evidence_package_role"] == "output_refs_only_not_route_bypass"
+
+    export_entry = entries["publication_or_final_export"]
+    assert export_entry["domain_ref"] == "runtime/native_helpers/bookforge_pdf_export.py"
+    assert set(export_entry["accepted_return_shapes"]) == DEFAULT_ENTRY_ACCEPTED_RETURN_SHAPES
+    assert export_entry["evidence_package_role"] == "output_refs_only_not_route_bypass"
+
+    production_entry = entries["production_acceptance"]
+    assert production_entry["domain_ref"] == "contracts/production_acceptance/bookforge-production-acceptance.json"
+    assert set(production_entry["accepted_return_shapes"]) == DEFAULT_ENTRY_ACCEPTED_RETURN_SHAPES
+    assert production_entry["evidence_package_role"] == "output_refs_only_not_route_bypass"
+
+    evidence_policy = payload["evidence_package_policy"]
+    assert evidence_policy["index_ref"] == "docs/evidence/README.md"
+    assert evidence_policy["role"] == "historical_or_output_refs_only"
+    for field in (
+        "can_be_default_entry",
+        "can_explain_around_owner_boundary",
+        "can_claim_acceptance",
+        "can_claim_production_ready",
+    ):
+        assert evidence_policy[field] is False, f"default_entry.evidence_package_policy.{field} expected false"
+
+    assert {
+        "repo_local_stage_run_runner",
+        "private_stage_run_wrapper",
+        "private_temporal_wrapper",
+        "direct_opl_bookforge_runtime_cli_as_default_entry",
+        "evidence_package_as_acceptance_bypass",
+    } <= set(payload["forbidden_default_entries"])
+    for field, value in payload["forbidden_claims"].items():
+        assert value is False, f"default_entry.forbidden_claims.{field} expected false"
+
+
 def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
     assert payload["surface_kind"] == "domain_live_stage_run_progress_evidence"
     assert payload["domain_id"] == "opl-bookforge"
@@ -269,6 +330,16 @@ def assert_production_acceptance_tail(payload: dict[str, Any]) -> None:
     assert payload["owner"] == "OPL Book Forge"
     assert payload["evidence_tail_status"] == "domain_owned_typed_blocker_with_next_verification_ref"
     assert payload["acceptance_status"] == "domain_owned_typed_blocker_with_next_verification_ref"
+
+    default_entry = payload["default_entry_boundary"]
+    assert default_entry["default_entry_routing_ref"] == "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing"
+    assert default_entry["default_entry_surface_kind"] == "opl_stage_run_attempt_request"
+    assert default_entry["default_read_surface"] == "stage_run_current_owner_delta"
+    assert default_entry["accepted_return_shape"] == "owner_receipt_or_typed_blocker_or_human_gate_or_route_back_ref"
+    assert default_entry["evidence_package_role"] == "output_refs_only_not_route_bypass"
+    assert default_entry["direct_domain_cli_is_default_entry"] is False
+    assert default_entry["evidence_package_can_be_default_entry"] is False
+    assert default_entry["production_acceptance_can_be_explained_around_owner_boundary"] is False
 
     closure_evidence = payload["closure_evidence"]
     assert closure_evidence["accepted_return_shape"] == "typed_blocker"
@@ -390,6 +461,7 @@ def main() -> int:
     assert_closeout_refs(policy["completion_boundary"]["domain_completion_ref_fields"], "policy completion_boundary")
     assert_surface_export_boundary(policy, "policy surface export boundary")
     assert_functional_closure_gate(policy["functional_closure_gate"])
+    assert_default_entry_routing(policy["default_entry_routing"])
 
     audit = policy["completion_audit"]
     assert audit["audit_role"] == "separate_opl_transport_generated_status_from_bookforge_domain_completion"
@@ -452,6 +524,15 @@ def main() -> int:
 
     assert action_catalog["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     assert action_catalog["completion_audit_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#completion_audit"
+    default_entry_policy = action_catalog["default_entry_policy"]
+    assert default_entry_policy["default_entry_surface_kind"] == "opl_stage_run_attempt_request"
+    assert default_entry_policy["entry_owner"] == "one-person-lab"
+    assert default_entry_policy["stage_run_account_owner"] == "one-person-lab"
+    assert default_entry_policy["domain_owner"] == "OPL Book Forge"
+    assert default_entry_policy["stage_run_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing"
+    assert default_entry_policy["direct_domain_cli_is_default_entry"] is False
+    assert default_entry_policy["evidence_package_can_be_default_entry"] is False
+    assert default_entry_policy["production_acceptance_routes_through_owner_answer_ref"] is True
     catalog_audit = action_catalog["completion_audit_summary"]
     assert catalog_audit["review_pdf_publication_proof_final_export_are_distinct"] is True
     assert catalog_audit["provider_completion_counts_as_any_bookforge_completion_account"] is False
@@ -475,10 +556,24 @@ def main() -> int:
     assert public_projection["active_public_projection_allows_compatibility_aliases"] is False
     assert public_projection["active_public_projection_allows_legacy_json_aliases"] is False
     for action in action_catalog["actions"]:
+        stage_name = "storyline-architecture" if action["action_id"] == "shape-storyline" else "book-materialization"
+        expected_command_prefix = (
+            f"opl family-runtime attempt create --domain opl-bookforge --stage {stage_name} --provider temporal "
+        )
+        assert action["source_command"]["surface_kind"] == "opl_stage_run_attempt_request", action["action_id"]
+        assert action["source_command"]["command"].startswith(expected_command_prefix), action["action_id"]
+        assert action["supported_surfaces"]["cli"]["surface_kind"] == "opl_stage_run_attempt_request", action["action_id"]
+        assert action["supported_surfaces"]["cli"]["command"] == action["source_command"]["command"], action["action_id"]
+        assert action["supported_surfaces"]["product_entry"]["surface_kind"] == "opl_stage_run_attempt_request", action["action_id"]
+        assert action["supported_surfaces"]["product_entry"]["command"] == action["source_command"]["command"], action["action_id"]
         boundary = action["authority_boundary"]
         assert boundary["provider_completion_is_domain_completion"] is False, action["action_id"]
         assert boundary["domain_repo_can_own_temporal_runtime"] is False, action["action_id"]
         assert boundary["bookforge_can_write_opl_stage_attempts"] is False, action["action_id"]
+        assert boundary["default_entry_surface_kind"] == "opl_stage_run_attempt_request", action["action_id"]
+        assert boundary["default_entry_routes_via_stage_run_account"] is True, action["action_id"]
+        assert boundary["direct_domain_cli_is_default_entry"] is False, action["action_id"]
+        assert boundary["evidence_package_can_bypass_owner_boundary"] is False, action["action_id"]
         assert boundary["temporal_attempt_ledger_owner"] == "one-person-lab", action["action_id"]
         assert_closeout_refs(boundary["domain_completion_ref_fields"], f"action {action['action_id']}")
         assert boundary["completion_audit_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#completion_audit", action["action_id"]
@@ -488,6 +583,10 @@ def main() -> int:
     assert generated_handoff["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     projection = generated_handoff["temporal_stage_run_projection"]
     assert projection["owner"] == "one-person-lab"
+    assert projection["default_entry_routing_ref"] == "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing"
+    assert projection["default_entry_surface_kind"] == "opl_stage_run_attempt_request"
+    assert projection["direct_domain_cli_is_default_entry"] is False
+    assert projection["evidence_package_can_be_default_entry"] is False
     assert projection["provider_completion_is_domain_completion"] is False
     assert projection["generated_surface_ready_counts_as_domain_ready"] is False
     assert projection["domain_repo_can_own_temporal_runtime"] is False
@@ -499,6 +598,10 @@ def main() -> int:
     assert stage_run_profile["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     embedded_policy = stage_run_profile["temporal_stage_run_consumption_policy"]
     assert embedded_policy["temporal_attempt_ledger_owner"] == "one-person-lab"
+    assert embedded_policy["default_entry_routing_ref"] == "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing"
+    assert embedded_policy["default_entry_surface_kind"] == "opl_stage_run_attempt_request"
+    assert embedded_policy["direct_domain_cli_is_default_entry"] is False
+    assert embedded_policy["evidence_package_can_be_default_entry"] is False
     assert embedded_policy["domain_repo_can_own_temporal_runtime"] is False
     assert embedded_policy["bookforge_can_write_opl_stage_attempts"] is False
     assert embedded_policy["provider_completion_is_domain_completion"] is False
@@ -510,6 +613,8 @@ def main() -> int:
     assert stage_run_profile["authority_boundary"]["generated_surface_ready_counts_as_domain_ready"] is False
     assert stage_run_profile["authority_boundary"]["domain_repo_can_export_private_temporal_wrapper"] is False
     assert stage_run_profile["authority_boundary"]["domain_repo_can_export_private_stage_run_wrapper"] is False
+    assert stage_run_profile["default_read_surface"]["root"] == "stage_run_current_owner_delta"
+    assert stage_run_profile["default_read_surface"]["evidence_package_default"] is False
     assert_live_stage_run_progress_evidence(live_stage_run_progress)
     assert_production_acceptance_tail(production_acceptance)
 

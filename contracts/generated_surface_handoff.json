@@ -8,6 +8,10 @@
   "temporal_stage_run_projection": {
     "owner": "one-person-lab",
     "projection_role": "OPL-hosted Temporal StageRun and provider attempt refs only",
+    "default_entry_routing_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "direct_domain_cli_is_default_entry": false,
+    "evidence_package_can_be_default_entry": false,
     "provider_completion_is_domain_completion": false,
     "generated_surface_ready_counts_as_domain_ready": false,
     "domain_repo_can_own_temporal_runtime": false,
@@ -47,7 +51,7 @@
       "surface_id": "cli",
       "owner": "one-person-lab",
       "source_contract": "contracts/pack_compiler_input.json",
-      "domain_policy": "domain_repo_declares_actions_stages_and_authority_receipts_only",
+      "domain_policy": "generated_cli_routes_default_actions_through_opl_stage_run_attempt_request",
       "status": "descriptor_source_available"
     },
     {
@@ -68,7 +72,7 @@
       "surface_id": "product_entry_manifest",
       "owner": "one-person-lab",
       "source_contract": "contracts/pack_compiler_input.json",
-      "domain_policy": "domain_repo_declares_product_entry_refs_and_domain_authority_refs",
+      "domain_policy": "generated_product_entry_routes_default_actions_through_opl_stage_run_attempt_request",
       "status": "descriptor_source_available"
     },
     {

@@ -32,6 +32,6 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 
 Current evidence supports OPL-standard scaffold validity, generated interface descriptors, OMA Agent Lab takeover evidence, external-suite self-evolution evidence, and a real short-book pilot with DOCX/HTML/PDF exports and render checks.
 
-Current evidence does not support production-ready book-writing claims, publication approval, owner acceptance, or hosted runtime parity. Those require human owner receipt and direct `opl-bookforge` runtime CLI or hosted artifact-handoff parity evidence.
+Current evidence does not support production-ready book-writing claims, publication approval, owner acceptance, or hosted runtime parity. Those require human owner receipt plus live OPL StageRun or hosted artifact-handoff parity evidence.
 
 Kami-inspired publication proof rules are Book Forge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's runtime or visual identity, and they still do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.

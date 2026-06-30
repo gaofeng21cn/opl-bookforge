@@ -366,17 +366,23 @@
         "product_entry_manifest"
       ],
       "active_callers": [
-        "OPL generated CLI",
+        "OPL StageRun account generated CLI dispatch",
         "OPL generated MCP",
         "OPL generated skill",
-        "OPL generated product-entry"
+        "OPL StageRun account generated product-entry dispatch"
       ],
-      "active_caller_status": "domain_handlers_active_opl_generated_wrapper_metadata_consumed",
-      "migration_action": "derive_wrapper_metadata_from_family_action_catalog_and_opl_generated_surfaces",
+      "active_caller_status": "domain_handlers_consumed_by_opl_stage_run_account_generated_surfaces_no_repo_local_default_runner",
+      "migration_action": "derive_wrapper_metadata_from_family_action_catalog_and_route_defaults_through_opl_stage_run_attempt_request",
       "retained_domain_authority": [
         "domain_action_handler",
         "owner_receipt_or_typed_blocker"
       ],
+      "default_entry_boundary": {
+        "default_entry_surface_kind": "opl_stage_run_attempt_request",
+        "direct_domain_cli_is_default_entry": false,
+        "repo_local_stage_run_runner_active": false,
+        "evidence_package_can_bypass_owner_boundary": false
+      },
       "semantic_equivalence_status": "cleared_by_boundary",
       "audit_visibility": "hidden_by_default",
       "bridge_exit_gate": {
@@ -421,13 +427,19 @@
         "domain_handler"
       ],
       "active_callers": [
-        "OPL generated domain handler dispatch"
+        "OPL StageRun account generated domain handler dispatch"
       ],
-      "active_caller_status": "domain_handler_target_returns_owner_receipt_or_typed_blocker",
-      "migration_action": "route_generated_domain_handler_to_minimal_authority_function_targets",
+      "active_caller_status": "domain_handler_target_returns_owner_receipt_or_typed_blocker_to_stage_run_owner_boundary",
+      "migration_action": "route_stage_run_domain_handler_to_minimal_authority_function_targets",
       "retained_domain_authority": [
         "owner_receipt_or_typed_blocker"
       ],
+      "default_entry_boundary": {
+        "default_entry_surface_kind": "opl_stage_run_attempt_request",
+        "direct_domain_cli_is_default_entry": false,
+        "repo_local_stage_run_runner_active": false,
+        "evidence_package_can_bypass_owner_boundary": false
+      },
       "semantic_equivalence_status": "cleared_by_boundary",
       "audit_visibility": "hidden_by_default",
       "bridge_exit_gate": {
