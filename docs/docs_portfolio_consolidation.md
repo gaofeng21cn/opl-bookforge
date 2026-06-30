@@ -18,6 +18,11 @@ Do not create empty canonical taxonomy directories for alignment. Add
 `specs` only when Book Forge has durable material with a clear owner and
 machine boundary.
 
+Because `docs/runtime/` is not present, current docs must not point to
+a nonexistent runtime README as an optional support surface. Runtime-support
+prose stays in core docs, contracts, agent pack files, and executable helpers
+until a real long-lived runtime-support document exists.
+
 ## Directory Responsibilities
 
 | Path | Role | Boundary |
@@ -36,6 +41,11 @@ Markdown under `docs/evidence/**` can be package payload: inputs, manuscripts,
 stage outputs, visual inspection notes, or verifier instructions. Package
 payloads do not need the same front-matter discipline as long-lived governance
 docs, but their claim boundary must be indexed by `docs/evidence/README.md`.
+If `opl-doc-doctor` reports missing lifecycle headers for package payload
+leaves, treat that as an index-boundary signal unless the payload is promoted
+into a governed document with a new semantic owner. Do not mutate manuscript,
+input, stage-output, or quality payload bodies just to satisfy the lifecycle
+header shape.
 
 Current gaps and next work stay in
 `docs/active/bookforge-ideal-state-gap-plan.md`; current status stays in

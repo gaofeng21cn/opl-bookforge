@@ -32,6 +32,14 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 - Process and historical provenance: `docs/history/README.md` and
   `docs/history/process/README.md`.
 
+## Optional Support Directories
+
+This docs tree intentionally has no `docs/runtime/` support directory today.
+Use the executable helper paths under `runtime/native_helpers/` and the current
+core docs above; do not link to a nonexistent runtime README. Create a runtime
+docs README only when Book Forge has durable runtime-support prose with its own
+owner, purpose, state, and machine boundary.
+
 ## Claim Boundary
 
 Current evidence supports OPL-standard scaffold validity, generated interface descriptors, OMA Agent Lab takeover evidence, external-suite self-evolution evidence, and a real short-book pilot with DOCX/HTML/PDF exports and render checks.
