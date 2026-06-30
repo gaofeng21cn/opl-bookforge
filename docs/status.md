@@ -7,7 +7,7 @@ Machine boundary: Human-readable status summary. Machine truth remains in contra
 
 Current state: OPL standard structural baseline plus one historical real short-book pilot evidence pack with owner-gated production-readiness blocker.
 
-Live Evidence deferred / functional structure first is the current Book Forge development rule. Functional and structural lanes may close first: OPL standard scaffold/interface shape, golden-path routing, stage pack refs, generated/hosted surface consumption, PDF/proof helper plumbing, revision-entrypoint routing, workspace artifact-lifecycle handoff refs, default-caller structural gates, and no-second-truth guards. Owner acceptance, real long-book project runs, final export acceptance, publication-proof visual acceptance, direct `opl-bookforge` runtime CLI / hosted artifact-handoff parity, physical delete authorization, and production-ready claims remain later evidence lanes. They must not block independent structural cleanup, and structural validation, OMA evidence, pilot exports, rendered pages, docs, or helper proof plumbing cannot replace them.
+Book Forge follows the family rule that functional / structural cleanup can land before later evidence lanes. The canonical policy lives in [the active gap plan](./active/bookforge-ideal-state-gap-plan.md) and [invariants](./invariants.md): structural validation, OMA evidence, pilot exports, rendered pages, docs, or helper proof plumbing cannot replace owner acceptance, final export acceptance, publication-proof visual acceptance, runtime / hosted parity, physical delete authorization, real long-book evidence, or production-ready evidence.
 
 ## Current Validated Surfaces
 
