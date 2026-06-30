@@ -25,38 +25,13 @@ Live Evidence deferred / functional structure first is the current Book Forge de
 
 ## Evidence Packages
 
-OMA / Agent Lab evidence:
+Evidence package navigation is owned by [docs/evidence/README.md](./evidence/README.md). Status only keeps the current claim boundary:
 
-- Takeover suite: `docs/evidence/oma-agent-lab/agent-lab-takeover-suite.json`.
-- Takeover receipt: `docs/evidence/oma-agent-lab/takeover-receipt.json`, status `testing_takeover_recorded`.
-- Takeover learning candidate: `docs/evidence/oma-agent-lab/takeover-online-learning-candidate.json`, status `candidate_recorded_requires_explicit_gate`.
-- Takeover mechanism patch proposal: `docs/evidence/oma-agent-lab/takeover-mechanism-patch-proposal.json`, status `proposal_recorded_requires_explicit_gate`.
-- AI reviewer evaluation: `docs/evidence/oma-agent-lab/bookforge-ai-reviewer-evaluation.json`, verdict `baseline_ready_with_agent_lab_takeover_and_owner_gate`.
-- External-suite improvement receipt: `docs/evidence/oma-agent-lab/external-suite-improvement/meta-agent-improvement-receipt.json`, status `external_suite_passed_no_mechanism_patch_required`.
-- Target capability candidate: `docs/evidence/oma-agent-lab/external-suite-improvement/target-capability-improvement-candidate.json`, status `candidate_recorded_requires_target_owner_gate`.
-- Developer patch work order: `docs/evidence/oma-agent-lab/external-suite-improvement/developer-patch-work-order.json`, status `no_patch_required`.
-
-Real book pilot production-readiness evidence:
-
-- Evidence root: `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
-- Boundary: this pilot remains historical short-book evidence; it is not the current implementation pattern for book-length manuscript source management.
-- Source corpus and owner brief: `inputs/`.
-- Stage 1 outputs: `artifacts/stage_outputs/storyline-architecture/`, including storyline map, chapter thesis chain, style contract, stage manifest, and owner handoff.
-- Stage 2 outputs: `artifacts/stage_outputs/book-materialization/`, including chapter draft bundle, illustration plan, table plan, style consistency report, AI-flavor revision report, layout QC report, stage manifest, and owner handoff.
-- Manuscript and assets: `artifacts/manuscript/book.md`, `artifacts/figures/figure-01-storyline-arc.png`, and `artifacts/figures/figure-02-two-stage-route.png`.
-- Exports: `exports/bookforge-pilot-book.html`, `exports/bookforge-pilot-book.docx`, `exports/bookforge-pilot-book.pdf`, and rendered page PNGs under `exports/rendered-pages/`.
-- Local verification receipt: `quality/local-verification-receipt.json`, status `passed_with_owner_gate_blocker`; all required files present and nonempty, DOCX schema validation passed, DOCX has two media files, PDF rendered to five nonblank pages, AI-flavor scan is clean, style terms are present, and production-ready claim remains fail-closed.
-- Visual inspection note: `quality/visual-render-inspection.md`.
-- Owner blockers: `receipts/storyline-owner-blocker.json` and `receipts/book-owner-blocker.json`, both status `blocked_owner_acceptance_missing`.
-- After-pilot OMA takeover receipt: `oma-takeover-after-pilot/takeover-receipt.json`, status `testing_takeover_recorded`.
-- After-pilot OMA external-suite improvement receipt: `oma-external-suite-after-pilot/meta-agent-improvement-receipt.json`, status `external_suite_passed_no_mechanism_patch_required`.
-- After-pilot developer patch work order: `oma-external-suite-after-pilot/developer-patch-work-order.json`, status `no_patch_required`.
-
-External-learning and handoff provenance:
-
-- Revision-routing learning record: `docs/history/external-learning/revision-routing-2026-06-20.md`.
-- Kami-inspired publication-proof learning record: `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
-- OPL base revision-routing transport reference: `docs/references/opl-base-revision-routing-handoff.md`.
+| Package | Current read | Claim boundary |
+| --- | --- | --- |
+| `docs/evidence/oma-agent-lab/` | OMA Agent Lab takeover, AI reviewer, external-suite improvement, candidate, mechanism proposal and no-patch receipts exist as baseline / takeover support evidence. | Supports new-agent baseline evidence only; it does not prove book quality, production readiness, publication readiness, final export readiness, or owner acceptance. |
+| `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical short-book pilot package contains inputs, stage outputs, manuscript/assets, exports, rendered pages, local verification, visual inspection, owner blockers, and after-pilot OMA receipts. | Historical pilot evidence with `blocked_owner_acceptance_missing`; it is not the current long-book materialization pattern and does not prove final production readiness, publication approval, final export acceptance, or owner acceptance. |
+| `docs/history/external-learning/*.md` and `docs/references/opl-base-revision-routing-handoff.md` | External-learning and handoff provenance for revision routing, publication proof, and OPL base transport. | Support/provenance only; durable rules must fold back to active plan, core docs, contracts, agent pack files, validators, or owner receipts. |
 
 ## Claim Boundary
 
