@@ -27,7 +27,8 @@ machine boundary.
 | `docs/active/` | Current gap plan, next baton, and completion boundary | Not a proof ledger and not owner acceptance |
 | `docs/references/` | Current support references such as OPL base handoff | Support only; current state folds back to core docs and contracts |
 | `docs/evidence/` | Historical and support evidence packages | Evidence payloads only; not active truth, publication approval, production readiness, or owner acceptance |
-| `docs/history/` | External learning and historical provenance | Historical only; durable conclusions must fold back to current owners |
+| `docs/history/` | External learning, process provenance, and historical context | Historical only; durable conclusions must fold back to current owners |
+| `docs/history/process/` | Compressed process-history index | Topic-level provenance only; not an active plan, proof ledger, verifier transcript index, or ready-claim surface |
 
 ## Evidence Package Rule
 
@@ -39,3 +40,8 @@ docs, but their claim boundary must be indexed by `docs/evidence/README.md`.
 Current gaps and next work stay in
 `docs/active/bookforge-ideal-state-gap-plan.md`; current status stays in
 `docs/status.md`.
+
+Process-history and external-learning provenance stay under
+`docs/history/README.md` and `docs/history/process/README.md`. Do not append
+dated tranche logs, package file lists, verifier transcripts, rendered-page
+paths, worktree closeouts, or pilot proof ledgers to active docs.

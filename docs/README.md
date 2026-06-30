@@ -18,6 +18,8 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 7. [Docs portfolio governance](./docs_portfolio_consolidation.md)
 8. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
 9. [Evidence package index](./evidence/README.md)
+10. [History index](./history/README.md)
+11. [Process history index](./history/process/README.md)
 
 ## Evidence Surfaces
 
@@ -27,6 +29,8 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
 - Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/history/external-learning/revision-routing-2026-06-20.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
 - Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/book-materialization-quality-gate.md`, and `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
+- Process and historical provenance: `docs/history/README.md` and
+  `docs/history/process/README.md`.
 
 ## Claim Boundary
 
