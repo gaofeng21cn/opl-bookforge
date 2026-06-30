@@ -27,6 +27,25 @@ FALSE_COMPLETION_ACCOUNTS = {
     "stage_run_status_ready",
 }
 
+FUNCTIONAL_CLOSURE_GATES = {
+    "standard_scaffold_interface",
+    "golden_path_default_route",
+    "revision_entrypoint_route",
+    "pdf_proof_helper_plumbing",
+    "artifact_lifecycle_handoff",
+    "default_caller_structural_gate",
+    "evidence_package_navigation",
+}
+
+FUNCTIONAL_CLOSURE_LATER_EVIDENCE_LANES = {
+    "real_long_book_run_evidence",
+    "publication_proof_visual_acceptance",
+    "final_export_owner_acceptance",
+    "direct_runtime_cli_or_hosted_artifact_handoff_parity",
+    "workspace_artifact_lifecycle_apply_receipt",
+    "physical_delete_authorization",
+}
+
 BOOKFORGE_EXPOSED_DOMAIN_SURFACES = {
     "book_domain_action_contract_ref",
     "chapter_task_card_ref",
@@ -130,6 +149,43 @@ def assert_false_completion_account(account: dict[str, Any], label: str) -> None
 def assert_surface_export_boundary(payload: dict[str, Any], label: str) -> None:
     assert set(payload["bookforge_exposed_domain_surfaces"]) == BOOKFORGE_EXPOSED_DOMAIN_SURFACES, label
     assert set(payload["forbidden_runtime_surface_exports"]) == FORBIDDEN_RUNTIME_SURFACE_EXPORTS, label
+
+
+def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
+    assert payload["gate_id"] == "bookforge_non_live_functional_closure_gate"
+    assert payload["gate_role"] == "non_live_structural_closure_for_standard_default_path"
+    assert payload["state"] == "functional_structure_gate_landed_not_publication_or_owner_acceptance"
+    gate_refs = payload["required_non_live_gate_refs"]
+    assert {entry["gate"] for entry in gate_refs} == FUNCTIONAL_CLOSURE_GATES
+    refs_by_gate = {entry["gate"]: entry for entry in gate_refs}
+    assert refs_by_gate["standard_scaffold_interface"]["contract_ref"] == "contracts/domain_descriptor.json"
+    assert_ref_fields(
+        refs_by_gate["standard_scaffold_interface"]["validator_refs"],
+        {
+            "opl agents scaffold --validate <repo-dir> --json",
+            "opl agents interfaces --repo-dir <repo-dir> --json",
+        },
+        "standard scaffold/interface validator refs",
+    )
+    assert refs_by_gate["golden_path_default_route"]["contract_ref"] == "contracts/golden_path_profile.json"
+    assert refs_by_gate["revision_entrypoint_route"]["contract_ref"] == "agent/skills/revision-entrypoint-router.md"
+    assert refs_by_gate["revision_entrypoint_route"]["support_ref"] == "docs/references/opl-base-revision-routing-handoff.md"
+    assert refs_by_gate["pdf_proof_helper_plumbing"]["contract_ref"] == "runtime/native_helpers/bookforge_pdf_export.py"
+    assert refs_by_gate["artifact_lifecycle_handoff"]["contract_ref"] == "contracts/artifact_lifecycle_handoff.json"
+    assert refs_by_gate["default_caller_structural_gate"]["contract_ref"] == "contracts/functional_privatization_audit.json"
+    assert refs_by_gate["evidence_package_navigation"]["contract_ref"] == "docs/evidence/README.md"
+    assert refs_by_gate["evidence_package_navigation"]["claim_boundary"] == "historical_evidence_index_only_not_active_truth"
+
+    assertions = payload["default_path_assertions"]
+    assert assertions["default_cli_app_skill_path_must_route_via_opl_generated_or_hosted_surfaces"] is True
+    assert assertions["stage_run_and_generated_surface_status_are_transport_or_projection_only"] is True
+    assert assertions["bookforge_owner_answer_shape_required_for_domain_completion"] is True
+    assert_closeout_refs(assertions["owner_answer_shapes"], "functional closure owner answer shapes")
+    assert assertions["no_private_runtime_wrapper_or_default_caller_second_truth"] is True
+
+    assert set(payload["later_evidence_lanes"]) == FUNCTIONAL_CLOSURE_LATER_EVIDENCE_LANES
+    for field, value in payload["forbidden_claims"].items():
+        assert value is False, f"functional_closure_gate.forbidden_claims.{field} expected false"
 
 
 def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
@@ -333,6 +389,7 @@ def main() -> int:
     assert_true(policy, "projection_policy.projection_must_not_wrap_temporal_or_stage_run")
     assert_closeout_refs(policy["completion_boundary"]["domain_completion_ref_fields"], "policy completion_boundary")
     assert_surface_export_boundary(policy, "policy surface export boundary")
+    assert_functional_closure_gate(policy["functional_closure_gate"])
 
     audit = policy["completion_audit"]
     assert audit["audit_role"] == "separate_opl_transport_generated_status_from_bookforge_domain_completion"
