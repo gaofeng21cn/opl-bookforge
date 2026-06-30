@@ -18,6 +18,13 @@ roles, and claim boundaries. It does not own current status, active gaps,
 production-readiness tasks, publication approval, final-export acceptance,
 hosted runtime parity, or owner acceptance.
 
+Package-level README files are package manifests and may carry lifecycle
+headers. Markdown leaves under package `inputs/`, `artifacts/`, `stage_outputs/`,
+`quality/`, `receipts/`, or verifier/export folders are evidence payloads, not
+active docs truth owners. Do not rewrite those payload bodies just to add
+lifecycle headers; promote a payload into a governed document only after a new
+semantic owner is chosen.
+
 Add or change rows here only when a tracked evidence package is introduced,
 retired, or reclassified. Do not copy package file lists, verifier transcripts,
 rendered-page paths, receipt ids, or pilot closeout logs into `docs/status.md`
@@ -31,7 +38,7 @@ the package directory or git history.
 | Package | Role | Claim boundary |
 | --- | --- | --- |
 | `oma-agent-lab/` | OMA Agent Lab takeover, AI reviewer, external-suite self-evolution, candidate, and no-patch receipts. | Supports baseline/takeover evidence only; it does not prove book quality, production readiness, publication readiness, or owner acceptance. |
-| `production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical short-book pilot with inputs, stage outputs, manuscript, figures, exports, rendered pages, quality receipts, owner blockers, and verifier tools. | Historical pilot evidence with owner blockers; it is not the current long-book materialization pattern and does not prove final production readiness, publication approval, or owner acceptance. |
+| `production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical short-book pilot package manifest plus evidence payloads: inputs, stage outputs, manuscript, figures, exports, rendered pages, quality receipts, owner blockers, and verifier tools. | Historical pilot evidence with owner blockers; the `production-readiness/` path is an archive classification, not a ready claim. It is not the current long-book materialization pattern and does not prove final production readiness, publication approval, final export acceptance, hosted runtime parity, or owner acceptance. |
 
 ## Reading Rule
 

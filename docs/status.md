@@ -5,7 +5,7 @@ Purpose: `current_status`
 State: `active_truth`
 Machine boundary: Human-readable status summary. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, evidence receipts, owner receipts, and typed blockers.
 
-Current state: OPL standard structural baseline plus one historical real short-book pilot evidence pack with owner-gated production-readiness blocker.
+Current state: OPL standard structural baseline plus one historical real short-book pilot evidence package with owner-gated blockers that prevent production-ready, owner-accepted, publication-approved, final-export-ready, or hosted-runtime-ready claims.
 
 Book Forge follows the family rule that functional / structural cleanup can land before later evidence lanes. The canonical policy lives in [the active gap plan](./active/bookforge-ideal-state-gap-plan.md) and [invariants](./invariants.md): structural validation, OMA evidence, pilot exports, rendered pages, docs, or helper proof plumbing cannot replace owner acceptance, final export acceptance, publication-proof visual acceptance, runtime / hosted parity, physical delete authorization, real long-book evidence, or production-ready evidence.
 
@@ -28,6 +28,7 @@ Book Forge follows the family rule that functional / structural cleanup can land
 Evidence package navigation is owned by [docs/evidence/README.md](./evidence/README.md). Status only records the current claim boundary:
 
 - Tracked evidence supports OMA Agent Lab baseline / takeover work and one historical short-book pilot with owner blockers.
+- Package READMEs are manifests and claim-boundary owners; artifact/input/quality Markdown leaves are evidence payloads, not active docs truth owners.
 - It does not prove book quality, production readiness, publication readiness, final export readiness, hosted runtime parity, direct runtime parity, physical delete readiness, or owner acceptance.
 - Do not add package file lists, verifier transcripts, rendered-page paths, receipt ids, or pilot closeout logs here; new package rows belong in the evidence index, and durable claim changes must fold back to the active plan, core docs, contracts, agent pack files, validators, runtime receipts, owner receipts, or typed blockers.
 
