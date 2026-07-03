@@ -1,0 +1,236 @@
+{
+  "surface_kind": "bookforge_opl_ledger_artifact_registration_contract",
+  "version": "bookforge-opl-ledger-artifact-registration.v1",
+  "contract_owner": "opl-bookforge",
+  "domain_id": "opl-bookforge",
+  "ledger_owner": "one-person-lab",
+  "ledger_surface": "OPL Ledger",
+  "contract_role": "refs_only_artifact_registration_for_long_term_book_deliverables",
+  "refs_only": true,
+  "structural_gate_only": true,
+  "registration_record_shape": {
+    "required_metadata_fields": [
+      "domain_id",
+      "project_id",
+      "artifact_class"
+    ],
+    "required_ref_fields": [
+      "artifact_ref",
+      "artifact_index_ref",
+      "review_ref"
+    ],
+    "required_hash_fields": [
+      "artifact_hash"
+    ],
+    "optional_ref_fields": [
+      "source_index_ref",
+      "quality_receipt_ref",
+      "export_receipt_ref",
+      "owner_receipt_ref",
+      "route_back_ref"
+    ],
+    "ledger_written_fields": [
+      "ledger_entry_ref",
+      "registration_status",
+      "registered_at"
+    ],
+    "forbidden_registration_fields": [
+      "manuscript_body",
+      "artifact_body",
+      "body_text",
+      "chapter_body",
+      "memory_body",
+      "owner_receipt_body",
+      "typed_blocker_body",
+      "runtime_queue_ref",
+      "provider_attempt_ref",
+      "publication_verdict",
+      "quality_verdict",
+      "owner_authority_verdict",
+      "final_export_authority_verdict"
+    ]
+  },
+  "hash_policy": {
+    "hash_algorithm": "sha256",
+    "hash_scope": "hash_referenced_artifact_or_index_payload_without_inlining_body",
+    "hash_required_for_every_registration": true,
+    "hash_can_replace_artifact_ref": false,
+    "hash_can_claim_artifact_ready": false
+  },
+  "artifact_classes": [
+    {
+      "artifact_class": "storyline_package",
+      "owner": "OPL Book Forge",
+      "registration_role": "long_term_storyline_deliverable_index",
+      "required_ref_fields": [
+        "storyline_map_ref",
+        "chapter_thesis_chain_ref",
+        "style_contract_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "quality_receipt_ref",
+        "owner_receipt_ref"
+      ]
+    },
+    {
+      "artifact_class": "chapter_task_card",
+      "owner": "OPL Book Forge",
+      "registration_role": "chapter_runtime_ref_index",
+      "required_ref_fields": [
+        "chapter_task_card_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "quality_receipt_ref",
+        "owner_receipt_ref"
+      ]
+    },
+    {
+      "artifact_class": "manuscript_package",
+      "owner": "OPL Book Forge",
+      "registration_role": "manuscript_authority_ref_index",
+      "required_ref_fields": [
+        "manuscript_authority_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "quality_receipt_ref",
+        "owner_receipt_ref"
+      ]
+    },
+    {
+      "artifact_class": "figure_table_asset_index",
+      "owner": "OPL Book Forge",
+      "registration_role": "figure_table_asset_manifest_ref_index",
+      "required_ref_fields": [
+        "artifact_ref",
+        "asset_manifest_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "quality_receipt_ref"
+      ]
+    },
+    {
+      "artifact_class": "review_pdf",
+      "owner": "OPL Book Forge",
+      "registration_role": "review_pdf_checkpoint_ref_index",
+      "required_ref_fields": [
+        "review_pdf_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "export_receipt_ref"
+      ]
+    },
+    {
+      "artifact_class": "publication_proof",
+      "owner": "OPL Book Forge",
+      "registration_role": "publication_proof_checkpoint_ref_index",
+      "required_ref_fields": [
+        "publication_proof_ref",
+        "publication_design_profile_ref",
+        "rendered_page_inspection_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "export_receipt_ref"
+      ]
+    },
+    {
+      "artifact_class": "final_export_handoff",
+      "owner": "OPL Book Forge",
+      "registration_role": "final_export_ref_index_without_acceptance_claim",
+      "required_ref_fields": [
+        "final_export_ref",
+        "artifact_index_ref",
+        "review_ref"
+      ],
+      "required_hash_fields": [
+        "artifact_hash"
+      ],
+      "receipt_ref_fields": [
+        "export_receipt_ref",
+        "owner_receipt_ref"
+      ]
+    }
+  ],
+  "opl_ledger_command_refs": [
+    {
+      "command_id": "opl-ledger.artifact-register",
+      "owner": "one-person-lab",
+      "command_ref": "opl ledger artifacts register --domain opl-bookforge --contract contracts/opl_ledger_artifact_registration.json --artifact-ref <ref> --artifact-hash <sha256> --index-ref <index-ref> --review-ref <review-ref> --json",
+      "role": "register_refs_hash_index_review_and_receipt_refs_only",
+      "bookforge_default_entry": false
+    },
+    {
+      "command_id": "opl-ledger.artifact-inspect",
+      "owner": "one-person-lab",
+      "command_ref": "opl ledger artifacts inspect --domain opl-bookforge --project-id <project-id> --json",
+      "role": "readback_refs_only_registration_projection",
+      "bookforge_default_entry": false
+    }
+  ],
+  "readback_surface": {
+    "owner": "one-person-lab",
+    "payload_root": "opl_ledger_artifact_registration",
+    "contract_ref": "contracts/opl_ledger_artifact_registration.json",
+    "readback_command_ref": "opl ledger artifacts inspect --domain opl-bookforge --project-id <project-id> --json",
+    "readback_counts_as_registration_visibility": true,
+    "readback_counts_as_book_delivery_ready": false,
+    "readback_counts_as_owner_acceptance": false,
+    "readback_counts_as_publication_or_final_export_verdict": false
+  },
+  "owner_boundary": {
+    "bookforge_owner": "OPL Book Forge",
+    "opl_ledger_owner": "one-person-lab",
+    "bookforge_supplies_artifact_refs_hashes_indexes_reviews_and_receipt_refs": true,
+    "bookforge_contract_can_write_ledger_entries": false,
+    "bookforge_contract_can_mutate_artifact_body": false,
+    "bookforge_contract_can_generate_owner_receipt": false,
+    "bookforge_contract_can_create_typed_blocker": false,
+    "bookforge_contract_can_write_runtime_queue": false,
+    "bookforge_contract_can_write_provider_attempt": false,
+    "opl_ledger_can_mutate_bookforge_artifact_body": false,
+    "opl_ledger_can_authorize_quality_publication_or_final_export": false,
+    "opl_ledger_can_sign_owner_receipt": false,
+    "opl_ledger_can_create_typed_blocker": false
+  },
+  "false_ready_guard": {
+    "contract_present_counts_as_registration_done": false,
+    "registration_visible_counts_as_book_delivery_ready": false,
+    "registration_visible_counts_as_publication_ready": false,
+    "registration_visible_counts_as_final_export_ready": false,
+    "registration_visible_counts_as_owner_acceptance": false,
+    "registration_visible_counts_as_production_ready": false,
+    "ledger_entry_counts_as_owner_receipt": false,
+    "ledger_entry_counts_as_typed_blocker": false,
+    "ledger_entry_counts_as_runtime_queue_or_provider_attempt": false
+  },
+  "marker": "bookforge_opl_ledger_artifact_registration_contract_v1"
+}

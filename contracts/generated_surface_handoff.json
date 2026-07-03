@@ -5,6 +5,32 @@
   "generated_surface_owner": "one-person-lab",
   "domain_repo_can_own_generated_surface": false,
   "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
+  "opl_ledger_artifact_registration_contract_ref": "contracts/opl_ledger_artifact_registration.json",
+  "opl_ledger_artifact_registration_projection": {
+    "owner": "one-person-lab",
+    "ledger_owner": "one-person-lab",
+    "domain_owner": "OPL Book Forge",
+    "domain_id": "opl-bookforge",
+    "projection_role": "OPL Ledger refs-only registration projection for Book Forge deliverable artifact refs",
+    "contract_ref": "contracts/opl_ledger_artifact_registration.json",
+    "payload_root": "opl_ledger_artifact_registration",
+    "readback_command_ref": "opl ledger artifacts inspect --domain opl-bookforge --project-id <project-id> --json",
+    "registration_command_ref": "opl ledger artifacts register --domain opl-bookforge --contract contracts/opl_ledger_artifact_registration.json --artifact-ref <ref> --artifact-hash <sha256> --index-ref <index-ref> --review-ref <review-ref> --json",
+    "registered_field_kinds": [
+      "ref",
+      "hash",
+      "index_ref",
+      "review_ref",
+      "receipt_ref"
+    ],
+    "refs_only": true,
+    "bookforge_can_write_ledger_entries": false,
+    "bookforge_can_mutate_artifact_body": false,
+    "ledger_entry_counts_as_domain_ready": false,
+    "ledger_entry_counts_as_owner_acceptance": false,
+    "ledger_entry_counts_as_publication_or_final_export_verdict": false,
+    "ledger_entry_counts_as_runtime_queue_or_provider_attempt": false
+  },
   "temporal_stage_run_projection": {
     "owner": "one-person-lab",
     "projection_role": "OPL-hosted Temporal StageRun and provider attempt refs only",
@@ -47,6 +73,13 @@
   },
   "source_contract_ref": "contracts/pack_compiler_input.json",
   "generated_surfaces": [
+    {
+      "surface_id": "opl_ledger_artifact_registration",
+      "owner": "one-person-lab",
+      "source_contract": "contracts/opl_ledger_artifact_registration.json",
+      "domain_policy": "opl_ledger_registers_bookforge_artifact_refs_hashes_indexes_reviews_and_receipt_refs_only",
+      "status": "descriptor_source_available"
+    },
     {
       "surface_id": "cli",
       "owner": "one-person-lab",
@@ -105,6 +138,14 @@
     }
   ],
   "handoff_surfaces": [
+    {
+      "surface_id": "opl_ledger_artifact_registration",
+      "current_paths": [
+        "contracts/opl_ledger_artifact_registration.json"
+      ],
+      "current_role": "domain_refs_only_registration_contract",
+      "target_role": "opl_ledger_artifact_registration_projection"
+    },
     {
       "surface_id": "cli",
       "current_paths": [

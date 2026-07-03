@@ -112,6 +112,7 @@ You can start with prompts like:
 - OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
 - Book Forge owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 - Current evidence supports structural baseline, generated interface descriptors, OMA Agent Lab evaluation, and a real short-book pilot with export/render checks.
+- Book Forge exposes a refs-only `OPL Ledger` artifact registration contract for long-term book deliverables: OPL Ledger may register refs, hashes, index refs, review refs, and receipt refs, while artifact bodies, verdicts, owner receipt bodies, typed blockers, queues, and provider attempts stay outside the registration surface.
 - Current evidence does not authorize a production-ready book-writing claim. The real pilot remains `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false` until human owner acceptance and live OPL StageRun or hosted artifact-handoff parity evidence exist.
 
 <details>
@@ -124,6 +125,7 @@ You can start with prompts like:
 - Pilot exports include DOCX, HTML, PDF, rendered pages, generated figures, quality receipts, and typed owner blockers. They are evidence artifacts, not owner publication acceptance.
 - Kami-inspired publication proof rules are absorbed as Book Forge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's visual language, WeasyPrint runtime, font installer, update checker, or a second proof truth source, and they do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
 - Scaffold validation, generated interface readiness, OMA takeover evidence, external-suite no-patch receipts, pilot exports, or rendered pages cannot become owner receipt, publication approval, production readiness, or hosted runtime parity by themselves.
+- `contracts/opl_ledger_artifact_registration.json` is a refs-only registration contract and `contracts/generated_surface_handoff.json` exposes its OPL Ledger projection/readback locator. Ledger visibility is not manuscript body storage, owner acceptance, publication/final-export verdict, runtime queue, or provider-attempt authority.
 
 </details>
 
