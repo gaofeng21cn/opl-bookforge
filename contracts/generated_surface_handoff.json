@@ -14,8 +14,8 @@
     "projection_role": "OPL Ledger refs-only registration projection for Book Forge deliverable artifact refs",
     "contract_ref": "contracts/opl_ledger_artifact_registration.json",
     "payload_root": "opl_ledger_artifact_registration",
-    "readback_command_ref": "opl ledger artifacts inspect --domain opl-bookforge --project-id <project-id> --json",
-    "registration_command_ref": "opl ledger artifacts register --domain opl-bookforge --contract contracts/opl_ledger_artifact_registration.json --artifact-ref <ref> --artifact-hash <sha256> --index-ref <index-ref> --review-ref <review-ref> --json",
+    "readback_command_ref": "opl ledger bundle inspect --artifact <artifact_ref> --json",
+    "registration_command_ref": "opl ledger bundle record --bundle <bundle.json> --domain opl-bookforge --artifact <artifact_ref> --json",
     "registered_field_kinds": [
       "ref",
       "hash",

@@ -517,11 +517,11 @@ def assert_opl_ledger_artifact_registration(payload: dict[str, Any]) -> None:
         assert any(field.endswith("_ref") for field in item["receipt_ref_fields"]), item["artifact_class"]
 
     command_refs = {item["command_id"]: item for item in payload["opl_ledger_command_refs"]}
-    assert set(command_refs) == {"opl-ledger.artifact-register", "opl-ledger.artifact-inspect"}
+    assert set(command_refs) == {"opl-ledger.bundle-record", "opl-ledger.bundle-inspect"}
     for item in command_refs.values():
         assert item["owner"] == "one-person-lab", item["command_id"]
         assert item["bookforge_default_entry"] is False, item["command_id"]
-        assert "opl ledger artifacts" in item["command_ref"], item["command_id"]
+        assert "opl ledger bundle" in item["command_ref"], item["command_id"]
 
     readback = payload["readback_surface"]
     assert readback["owner"] == "one-person-lab"
