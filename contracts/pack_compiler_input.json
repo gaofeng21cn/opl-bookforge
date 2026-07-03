@@ -50,7 +50,8 @@
     "owner_receipt_schema_source_ref": "contracts/owner_receipt_contract.json",
     "authority_functions_source_ref": "runtime/authority_functions/README.md",
     "functional_privatization_audit_source_ref": "contracts/functional_privatization_audit.json",
-    "generated_surface_handoff_source_ref": "contracts/generated_surface_handoff.json"
+    "generated_surface_handoff_source_ref": "contracts/generated_surface_handoff.json",
+    "capability_map_source_ref": "contracts/capability_map.json"
   },
   "standard_stage_pack_conformance": {
     "version": "standard-stage-pack.v2",
@@ -207,5 +208,6 @@
     "opl_can_write_memory_body": false,
     "opl_can_authorize_quality_or_export": false,
     "domain_can_claim_generated_surface_owner": false
-  }
+  },
+  "capability_map_ref": "contracts/capability_map.json"
 }
