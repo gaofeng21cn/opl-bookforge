@@ -201,6 +201,12 @@
         "claim_boundary": "structural_delete_gate_only_not_physical_delete_authorization"
       },
       {
+        "gate": "private_platform_retirement_matrix",
+        "contract_ref": "contracts/functional_privatization_audit.json#bookforge_private_platform_retirement_matrix",
+        "support_ref": "contracts/generated_surface_handoff.json#private_platform_retirement_projection",
+        "claim_boundary": "domain_tail_matrix_only_not_owner_acceptance_live_parity_or_physical_delete_authorization"
+      },
+      {
         "gate": "evidence_package_navigation",
         "contract_ref": "docs/evidence/README.md",
         "claim_boundary": "historical_evidence_index_only_not_active_truth"

@@ -34,6 +34,7 @@ FUNCTIONAL_CLOSURE_GATES = {
     "pdf_proof_helper_plumbing",
     "artifact_lifecycle_handoff",
     "default_caller_structural_gate",
+    "private_platform_retirement_matrix",
     "evidence_package_navigation",
 }
 
@@ -152,6 +153,27 @@ LEDGER_FORBIDDEN_REGISTRATION_FIELDS = {
     "final_export_authority_verdict",
 }
 
+PRIVATE_PLATFORM_RETIREMENT_SURFACES = {
+    "publication_and_export_helper",
+    "image_asset_helper",
+    "project_hygiene_helper",
+    "runtime_session_update_absence",
+}
+
+PRIVATE_PLATFORM_NATIVE_HELPER_MODULES = {
+    "opl-bookforge.publication-and-export-helper",
+    "opl-bookforge.image-asset-helper",
+    "opl-bookforge.project-hygiene-helper",
+}
+
+PRIVATE_PLATFORM_FORBIDDEN_READY_CLAIMS = {
+    "counts_as_owner_acceptance",
+    "counts_as_domain_ready",
+    "counts_as_publication_ready",
+    "counts_as_final_export_ready",
+    "authorizes_physical_delete",
+}
+
 
 def load_json(repo: Path, ref: str) -> dict[str, Any]:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
@@ -221,6 +243,14 @@ def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
     assert refs_by_gate["pdf_proof_helper_plumbing"]["contract_ref"] == "runtime/native_helpers/bookforge_pdf_export.py"
     assert refs_by_gate["artifact_lifecycle_handoff"]["contract_ref"] == "contracts/artifact_lifecycle_handoff.json"
     assert refs_by_gate["default_caller_structural_gate"]["contract_ref"] == "contracts/functional_privatization_audit.json"
+    assert (
+        refs_by_gate["private_platform_retirement_matrix"]["contract_ref"]
+        == "contracts/functional_privatization_audit.json#bookforge_private_platform_retirement_matrix"
+    )
+    assert (
+        refs_by_gate["private_platform_retirement_matrix"]["support_ref"]
+        == "contracts/generated_surface_handoff.json#private_platform_retirement_projection"
+    )
     assert refs_by_gate["evidence_package_navigation"]["contract_ref"] == "docs/evidence/README.md"
     assert refs_by_gate["evidence_package_navigation"]["claim_boundary"] == "historical_evidence_index_only_not_active_truth"
 
@@ -281,6 +311,63 @@ def assert_default_entry_routing(payload: dict[str, Any]) -> None:
     } <= set(payload["forbidden_default_entries"])
     for field, value in payload["forbidden_claims"].items():
         assert value is False, f"default_entry.forbidden_claims.{field} expected false"
+
+
+def assert_private_platform_retirement_matrix(
+    functional_audit: dict[str, Any],
+    generated_handoff: dict[str, Any],
+) -> None:
+    matrix = functional_audit["bookforge_private_platform_retirement_matrix"]
+    assert {entry["surface_id"] for entry in matrix} == PRIVATE_PLATFORM_RETIREMENT_SURFACES
+    by_surface = {entry["surface_id"]: entry for entry in matrix}
+
+    publication = by_surface["publication_and_export_helper"]
+    assert publication["replacement_opl_primitive"] == "opl_native_helper_generic_envelope_and_system_dependency_doctor"
+    assert publication["retirement_action"] == "retain_as_domain_specific_native_helper_only"
+    assert publication["physical_delete_authorized"] is False
+    assert "system_package_manager" in publication["forbidden_domain_repo_roles"]
+    assert "publication_ready_authority" in publication["forbidden_domain_repo_roles"]
+
+    image = by_surface["image_asset_helper"]
+    assert image["replacement_opl_primitive"] == "codex_native_image_generation_surface_plus_opl_generated_artifact_refs"
+    assert image["retirement_action"] == "retain_as_domain_specific_asset_materialization_helper_only"
+    assert image["physical_delete_authorized"] is False
+    assert "api_key_or_base_url_owner" in image["forbidden_domain_repo_roles"]
+    assert "runtime_queue_owner" in image["forbidden_domain_repo_roles"]
+
+    hygiene = by_surface["project_hygiene_helper"]
+    assert hygiene["replacement_opl_primitive"] == "opl_workspace_artifact_lifecycle_projection_and_source_byproduct_guard"
+    assert hygiene["retirement_action"] == "retain_as_deterministic_diagnostic_helper_only"
+    assert hygiene["physical_delete_authorized"] is False
+    assert "session_store" in hygiene["forbidden_domain_repo_roles"]
+    assert "status_workbench" in hygiene["forbidden_domain_repo_roles"]
+
+    absent = by_surface["runtime_session_update_absence"]
+    assert absent["current_paths"] == []
+    assert absent["retirement_action"] == "keep_absent_and_fail_closed_if_reintroduced"
+    assert absent["active_caller_boundary"] == "no_repo_local_runtime_session_update_or_workbench_default_caller"
+    assert "package_update_manager" in absent["forbidden_domain_repo_roles"]
+
+    modules = {module["module_id"]: module for module in functional_audit["modules"]}
+    assert PRIVATE_PLATFORM_NATIVE_HELPER_MODULES <= set(modules)
+    for module_id in PRIVATE_PLATFORM_NATIVE_HELPER_MODULES:
+        module = modules[module_id]
+        assert module["classification"] == "native_helper_implementation", module_id
+        assert module["semantic_equivalence_status"] == "cleared_by_boundary", module_id
+        assert module["audit_visibility"] == "hidden_by_default", module_id
+        assert module["no_forbidden_write_evidence_ref"], module_id
+
+    projection = generated_handoff["private_platform_retirement_projection"]
+    assert projection["owner"] == "one-person-lab"
+    assert projection["source_contract_ref"] == "contracts/functional_privatization_audit.json#bookforge_private_platform_retirement_matrix"
+    assert {entry["surface_id"] for entry in projection["surfaces"]} == PRIVATE_PLATFORM_RETIREMENT_SURFACES
+    for surface in projection["surfaces"]:
+        assert surface["generated_or_hosted_owner"] == "one-person-lab", surface["surface_id"]
+        assert surface["default_runtime_surface"] is False, surface["surface_id"]
+        assert surface["ready_claim_authorized"] is False, surface["surface_id"]
+    assert set(projection["forbidden_projection_claims"]) == PRIVATE_PLATFORM_FORBIDDEN_READY_CLAIMS
+    for field, value in projection["forbidden_projection_claims"].items():
+        assert value is False, f"private_platform_retirement_projection.{field} expected false"
 
 
 def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
@@ -598,6 +685,7 @@ def main() -> int:
     action_catalog = load_json(repo, "contracts/action_catalog.json")
     foundry_series = load_json(repo, "contracts/foundry_agent_series.json")
     generated_handoff = load_json(repo, "contracts/generated_surface_handoff.json")
+    functional_audit = load_json(repo, "contracts/functional_privatization_audit.json")
     agent_lab_handoff = load_json(repo, "contracts/agent_lab_handoff.json")
     stage_run_profile = load_json(repo, "contracts/stage_run_kernel_profile.json")
     live_stage_run_progress = load_json(repo, "contracts/live_stage_run_progress_evidence.json")
@@ -781,6 +869,7 @@ def main() -> int:
     assert_closeout_refs(projection["domain_completion_ref_fields"], "generated handoff projection")
     assert_surface_export_boundary(projection, "generated handoff projection")
     assert_generated_handoff_ledger_projection(generated_handoff)
+    assert_private_platform_retirement_matrix(functional_audit, generated_handoff)
 
     assert stage_run_profile["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     embedded_policy = stage_run_profile["temporal_stage_run_consumption_policy"]
@@ -812,6 +901,7 @@ def main() -> int:
         "contract": "contracts/temporal_stage_run_consumption_policy.json",
         "live_stage_run_progress_evidence_contract": "contracts/live_stage_run_progress_evidence.json",
         "production_acceptance_contract": "contracts/production_acceptance/bookforge-production-acceptance.json",
+        "private_platform_retirement_contract": "contracts/functional_privatization_audit.json",
         "opl_ledger_artifact_registration_contract": "contracts/opl_ledger_artifact_registration.json"
     }, ensure_ascii=False))
     return 0

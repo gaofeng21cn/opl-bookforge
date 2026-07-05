@@ -6,6 +6,49 @@
   "domain_repo_can_own_generated_surface": false,
   "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
   "opl_ledger_artifact_registration_contract_ref": "contracts/opl_ledger_artifact_registration.json",
+  "private_platform_retirement_projection": {
+    "owner": "one-person-lab",
+    "domain_owner": "OPL Book Forge",
+    "source_contract_ref": "contracts/functional_privatization_audit.json#bookforge_private_platform_retirement_matrix",
+    "projection_role": "OPL generated/hosted surface refs for Book Forge private platform tail retirement",
+    "surfaces": [
+      {
+        "surface_id": "publication_and_export_helper",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "domain_specific_native_helper",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      },
+      {
+        "surface_id": "image_asset_helper",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "project_local_asset_receipt_helper",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      },
+      {
+        "surface_id": "project_hygiene_helper",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "deterministic_diagnostic_helper",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      },
+      {
+        "surface_id": "runtime_session_update_absence",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "no_active_private_platform_surface",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      }
+    ],
+    "forbidden_projection_claims": {
+      "counts_as_owner_acceptance": false,
+      "counts_as_domain_ready": false,
+      "counts_as_publication_ready": false,
+      "counts_as_final_export_ready": false,
+      "authorizes_physical_delete": false
+    }
+  },
   "opl_ledger_artifact_registration_projection": {
     "owner": "one-person-lab",
     "ledger_owner": "one-person-lab",

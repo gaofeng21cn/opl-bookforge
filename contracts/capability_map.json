@@ -45,6 +45,36 @@
         "can_authorize_quality_or_export": false,
         "can_claim_domain_ready": false,
         "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-intake.stage_prompt",
+        "stage_prompt",
+        "stage_prompt"
+      ],
+      "canonical_target_paths": [
+        "agent/prompts/domain_intake.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
       }
     },
     {
@@ -75,6 +105,36 @@
         "can_authorize_quality_or_export": false,
         "can_claim_domain_ready": false,
         "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.story-architect.professional_skill",
+        "professional_skill",
+        "professional_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/professional_skills/bookforge-story-architect/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
       }
     },
     {
@@ -105,6 +165,36 @@
         "can_authorize_quality_or_export": false,
         "can_claim_domain_ready": false,
         "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-affordances.tool_connector",
+        "tool_connector",
+        "tool_connector"
+      ],
+      "canonical_target_paths": [
+        "agent/tools/domain_affordances.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
       }
     },
     {
@@ -135,6 +225,36 @@
         "can_authorize_quality_or_export": false,
         "can_claim_domain_ready": false,
         "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-boundary.knowledge_pack",
+        "knowledge_pack",
+        "reference_pack"
+      ],
+      "canonical_target_paths": [
+        "agent/knowledge/domain_boundary.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
       }
     },
     {
@@ -165,6 +285,36 @@
         "can_authorize_quality_or_export": false,
         "can_claim_domain_ready": false,
         "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-acceptance.quality_gate",
+        "quality_gate",
+        "reference_pack"
+      ],
+      "canonical_target_paths": [
+        "agent/quality_gates/domain_acceptance.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
       }
     },
     {
@@ -195,6 +345,36 @@
         "can_authorize_quality_or_export": false,
         "can_claim_domain_ready": false,
         "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.live-evidence.eval_suite",
+        "eval_suite",
+        "contract_module"
+      ],
+      "canonical_target_paths": [
+        "contracts/live_stage_run_progress_evidence.json"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
       }
     }
   ],
