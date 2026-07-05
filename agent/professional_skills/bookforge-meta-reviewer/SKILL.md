@@ -19,6 +19,7 @@ Run independent whole-manuscript review and route serious findings before prose 
 
 - Independent `meta-review/round-N.md` or equivalent with verdict, ranked findings, locations, reader impact, repair suggestions, and required/optional/blocker split.
 - Revision entrypoint decision or `revision-routing/decision-N.md` with topmost repair level.
+- Reviewer-comment absorption map that classifies each finding as manuscript prose, source/claim, case material, style rule, publication design, control-layer task, owner decision, or not adopted.
 - Repair plan, fast-track audit, typed blockers, route-back refs, and downstream freshness obligations.
 
 ## Execution Rules
@@ -26,6 +27,7 @@ Run independent whole-manuscript review and route serious findings before prose 
 - Keep reviewer context isolated from drafting rationale as far as the environment allows.
 - Use meta-review only after full draft reaches chapter and asset gates, unless the owner asks for critique of an incomplete artifact.
 - Route before editing when findings may affect artifact target, storyline, outline, chapter function, evidence/model, publication design, or owner/source blockers.
+- Do not paste reviewer comments straight into prose. Classify findings first, then route them to chapter Markdown, case/source collection, style rules, publication design, control docs, or owner decision.
 - Fast-track only local, evidence-bounded repairs that preserve reader-style, source stance, chapter chain, target extent, and latest review verdict.
 - Cap independent review-repair at three rounds unless the owner changes policy.
 

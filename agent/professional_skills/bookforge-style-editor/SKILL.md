@@ -19,6 +19,7 @@ Maintain book-specific prose style as a durable Book Forge domain ref, not a gen
 
 - Style profile with adoption/rejection rules and owner-review status.
 - Sentence rhythm, paragraph movement, terminology map, forbidden patterns, fatigue list, and accepted exceptions.
+- Reader-facing citation and note style rules, including short book notes versus full source detail placement.
 - Style QC report with concrete locations/counts or a no-occurrence statement.
 - Back-propagated updates to style engine, chapter task cards, glossary, reader-entry plans, QC reports, or semantic memory.
 
@@ -28,6 +29,8 @@ Maintain book-specific prose style as a durable Book Forge domain ref, not a gen
 - Extract transferable craft rules from references; do not copy reference prose, examples, claims, or protected voice.
 - Prefer affirmative, concrete movement, precise verbs, stable terms, and reader-action openings.
 - Treat high-risk workflow/internal language and formulaic AI-flavor patterns as scan targets, not impressionistic polish.
+- Keep citations, footnotes, and source mentions in the book's voice. Long academic citation strings, URLs, version labels, source-hunting commentary, and control-layer phrases belong in source maps, back matter, or notes policy unless the reader-facing style explicitly calls for them.
+- For practice-involved chapters, scan for outside-observer phrasing that contradicts the author/source stance, especially `公开资料显示`, `公开报道显示`, `资料显示`, `当前版本`, and `下一版`.
 - Preserve argument density and source restraint while improving rhythm.
 
 ## Stage Prompt Boundary

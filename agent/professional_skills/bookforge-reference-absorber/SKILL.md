@@ -19,6 +19,7 @@ Convert owner-supplied stronger references into reusable Book Forge production r
 
 - Reference absorption report with comparison scope, transferable strengths, non-transferable patterns, adopted rules, retained active-manuscript strengths, and remaining owner/source decisions.
 - Updates to reader-entry plans, chapter task cards, style engine, concept map, core model map, case evidence ladder, QC gates, or publication design refs.
+- Case-source absorption note when the stronger material is a real practice package, photo set, interview, or reviewer-supplied case bundle.
 - Post-absorption integrity check for merge artifacts, evidence drift, chapter budget, reader priority, and source stance.
 
 ## Execution Rules
@@ -26,6 +27,7 @@ Convert owner-supplied stronger references into reusable Book Forge production r
 - Run this skill before new visible chapter drafting or major rewrite when the owner says a reference version is stronger.
 - Extract craft patterns and workflow rules; do not copy reference prose, unique examples, claims, or protected voice unless independently authorized by Book Forge source refs.
 - For full-book comparisons, inspect reader-entry path, localized scope language, chapter decomposition, explanation density, practice methodization, conclusion path, PDF/TOC hierarchy, and active-manuscript strengths.
+- When the reference is a case package, extract reusable case motifs, public-boundary decisions, photos/visual candidates, and cross-chapter reuse targets before rewriting chapter prose.
 - If concise review and formal publication routes diverge, record `target_artifact_choice` before more local polish.
 - Treat reference/style lessons as advisory unless the current claim is reference absorption closure, copied-reference authority, primary-reader drift, publication proof, final export, or proof/export readiness.
 

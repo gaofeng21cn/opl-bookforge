@@ -19,6 +19,7 @@ Turn owner intent and source refs into the durable storyline package that `story
 
 - Premise, reader promise, argument path, chapter thesis chain, and chapter function contract.
 - Early concept map, whole-book core model map, and case evidence ladder.
+- Case priority map that separates must-have spine cases from optional enrichment cases, with reuse targets across chapters.
 - Author/source stance map for major cases, including practice-involved cases.
 - Storyline handoff with typed blockers, owner questions, or route-back refs.
 
@@ -28,6 +29,8 @@ Turn owner intent and source refs into the durable storyline package that `story
 - Give each chapter one primary job, one new argument movement, adjacent handoffs, and non-repeat claims.
 - Define or foreshadow recurring terms before readers must rely on them.
 - Select two or three core models and state where they are introduced, applied, and recovered.
+- For nonfiction built around practice material, prefer a small number of complete spine cases over one shallow example per chapter. A spine case should carry scene, roles, initial assumption, turning point, feedback, problem redefinition, AI/tool role when relevant, resulting artifact or process evidence, and public/authorization boundary.
+- Map each spine case to the chapters it can support before drafting. Do not collect new cases for every chapter when one strong practice case can legitimately support the argument arc.
 - Match case language to evidence class; do not turn typical scenes into outcome claims.
 - Preserve Book Forge domain truth. OPL may transport refs, but does not decide book semantics or quality.
 
@@ -42,5 +45,6 @@ Turn owner intent and source refs into the durable storyline package that `story
 - `reader_style_missing`: route to `bookforge-reader-style-designer`.
 - `source_map_missing` or `case_evidence_level_unknown`: route to `bookforge-source-claim-reviewer`.
 - `chapter_function_conflict`: repair chapter thesis chain and function contract before prose edits.
+- `spine_case_missing`: define the minimum case set or return an owner/source blocker before claiming the book's central argument is evidence-backed.
 - `artifact_target_ambiguous`: record owner decision need before publication-route claims.
 - `owner_authorization_needed`: return owner question or typed blocker instead of smoothing the claim.

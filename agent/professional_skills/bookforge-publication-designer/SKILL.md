@@ -19,6 +19,7 @@ Move a manuscript from readable review output toward publication proof without c
 
 - Publication design profile with page geometry, typography, captions, tables, case boxes/callouts, headers/footers, numbering, and inspection plan.
 - Design tokens, template/component inventory, font actual-load/readback, rendered-page QA checklist, front matter/TOC policy, material/asset coverage, and pre-ship proof review.
+- Footnote/endnote/back-matter display policy for the artifact role, including per-page numbering when the book design requires it.
 - PDF export receipt boundary and typed blockers for missing proof/final-export evidence.
 
 ## Execution Rules
@@ -29,6 +30,8 @@ Move a manuscript from readable review output toward publication proof without c
 - Final export additionally requires owner/export acceptance.
 - Missing proof tokens or font/rendered-page evidence blocks proof/export claims only; it does not block ordinary drafting or review-only PDFs.
 - Figure style must be chosen consistently before proof when figure style is questioned.
+- Treat real photos, generated figures, diagrams, tables, case boxes, and reviewer callouts as different artifact classes. Real photos need project-local asset refs, captions, rights/public-boundary notes, and manifest coverage; case boxes are not image assets.
+- Book notes should be designed for reader tracing, not academic bibliography display, unless the artifact target explicitly requests a scholarly style.
 
 ## Stage Prompt Boundary
 
@@ -41,6 +44,8 @@ Move a manuscript from readable review output toward publication proof without c
 - `publication_design_profile_missing`: create design profile before proof claim.
 - `font_readback_missing`: block proof/export claim until readback or accepted fallback inspection exists.
 - `figure_asset_missing`: keep review text possible, block full chapter/proof readiness.
+- `photo_asset_boundary_missing`: block proof/export claims until photo refs, captions, and public/rights boundary are recorded.
+- `book_note_design_mismatch`: repair note/back-matter policy before proof claim.
 - `rendered_page_qa_missing`: run inspection before proof handoff.
 - `front_matter_or_toc_polluted`: repair publication design/profile and source headings before proof claim.
 - `owner_export_acceptance_missing`: block final export claim.
