@@ -598,6 +598,7 @@ def main() -> int:
     action_catalog = load_json(repo, "contracts/action_catalog.json")
     foundry_series = load_json(repo, "contracts/foundry_agent_series.json")
     generated_handoff = load_json(repo, "contracts/generated_surface_handoff.json")
+    agent_lab_handoff = load_json(repo, "contracts/agent_lab_handoff.json")
     stage_run_profile = load_json(repo, "contracts/stage_run_kernel_profile.json")
     live_stage_run_progress = load_json(repo, "contracts/live_stage_run_progress_evidence.json")
     production_acceptance = load_json(repo, "contracts/production_acceptance/bookforge-production-acceptance.json")
@@ -628,6 +629,25 @@ def main() -> int:
     assert_surface_export_boundary(policy, "policy surface export boundary")
     assert_functional_closure_gate(policy["functional_closure_gate"])
     assert_default_entry_routing(policy["default_entry_routing"])
+    trigger_policy = foundry_series["standard_feedback_self_evolution_trigger_policy"]
+    assert trigger_policy["policy_id"] == "standard_agent_feedback_self_evolution_trigger.v1"
+    assert (
+        trigger_policy["feedbackops_event_kind"]
+        == "target_agent_feedback_external_suite"
+    )
+    assert trigger_policy["repo_fix_execution_requires_opl_developer_mode"] is True
+    trigger = agent_lab_handoff["feedback_self_evolution_trigger"]
+    assert trigger["surface_kind"] == "opl_foundry_agent_feedback_self_evolution_trigger"
+    assert (
+        trigger["policy_ref"]
+        == "contracts/foundry_agent_series.json#/standard_feedback_self_evolution_trigger_policy"
+    )
+    assert trigger["target_agent_id"] == "opl-bookforge"
+    assert trigger["external_suite_ref"] == "contracts/agent_lab_handoff.json"
+    assert trigger["developer_mode_execution_gate_refs"] == [
+        "opl-developer-mode:repo-fix-execution",
+        "opl-developer-mode:direct-fix-or-fork-pr-route",
+    ]
 
     audit = policy["completion_audit"]
     assert audit["audit_role"] == "separate_opl_transport_generated_status_from_bookforge_domain_completion"
