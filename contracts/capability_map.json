@@ -739,6 +739,78 @@
       }
     }
   ],
+  "legacy_professional_skill_redirects": [
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-story-architect",
+      "covered_by_capability_id": "opl-bookforge.story-style-architect.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-story-style-architect/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Story architecture is covered together with reader contract, chapter function, author stance, and style architecture."
+    },
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-reader-style-designer",
+      "covered_by_capability_id": "opl-bookforge.story-style-architect.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-story-style-architect/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Reader-facing style design is part of the combined story/style architecture method."
+    },
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-style-editor",
+      "covered_by_capability_id": "opl-bookforge.story-style-architect.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-story-style-architect/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Style editing remains coupled to reusable style architecture and reader contract decisions."
+    },
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-reference-absorber",
+      "covered_by_capability_id": "opl-bookforge.source-reference-reviewer.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Reference absorption is covered with source locators, claim ledgers, evidence classes, and anti-leakage review."
+    },
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-source-claim-reviewer",
+      "covered_by_capability_id": "opl-bookforge.source-reference-reviewer.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Source-claim integrity is reviewed with reference absorption and unsupported-gap triage."
+    },
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-book-memory-curator",
+      "covered_by_capability_id": "opl-bookforge.publication-memory-curator.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Book memory curation is covered with publication memory, proof, final export boundaries, and rendered-page QA."
+    },
+    {
+      "legacy_ref": "legacy-professional-skill:bookforge-publication-designer",
+      "covered_by_capability_id": "opl-bookforge.publication-memory-curator.professional_skill",
+      "covered_by_skill_ref": "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md",
+      "state": "legacy_redirect",
+      "capability_kind": "legacy_professional_skill_redirect",
+      "capability_preserved": true,
+      "default_codex_exposure": false,
+      "reason": "Publication design is covered with publication proof, figures/tables, export handoff, and rendered-page QA."
+    }
+  ],
   "resolver_index": {
     "primary_skill_refs": [
       "contracts/capability_map.json#/capabilities?surface_role=primary_skill"

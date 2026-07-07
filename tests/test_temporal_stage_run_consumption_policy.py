@@ -174,6 +174,30 @@ PRIVATE_PLATFORM_FORBIDDEN_READY_CLAIMS = {
     "authorizes_physical_delete",
 }
 
+LEGACY_PROFESSIONAL_SKILL_REDIRECTS = {
+    "legacy-professional-skill:bookforge-story-architect": (
+        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
+    ),
+    "legacy-professional-skill:bookforge-reader-style-designer": (
+        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
+    ),
+    "legacy-professional-skill:bookforge-style-editor": (
+        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
+    ),
+    "legacy-professional-skill:bookforge-reference-absorber": (
+        "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md"
+    ),
+    "legacy-professional-skill:bookforge-source-claim-reviewer": (
+        "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md"
+    ),
+    "legacy-professional-skill:bookforge-book-memory-curator": (
+        "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md"
+    ),
+    "legacy-professional-skill:bookforge-publication-designer": (
+        "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md"
+    ),
+}
+
 
 def load_json(repo: Path, ref: str) -> dict[str, Any]:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
@@ -679,8 +703,47 @@ def assert_generated_handoff_ledger_projection(generated_handoff: dict[str, Any]
     assert handoff_surface["target_role"] == "opl_ledger_artifact_registration_projection"
 
 
+def assert_legacy_professional_skill_redirects(repo: Path, capability_map: dict[str, Any]) -> None:
+    professional_capabilities = {
+        capability["capability_id"]: capability
+        for capability in capability_map["capabilities"]
+        if capability["surface_role"] == "professional_skill"
+    }
+    skill_paths = {
+        str(path.relative_to(repo))
+        for path in (repo / "agent/professional_skills").glob("*/SKILL.md")
+    }
+    redirects = capability_map["legacy_professional_skill_redirects"]
+
+    assert {
+        entry["legacy_ref"]: entry["covered_by_skill_ref"]
+        for entry in redirects
+    } == LEGACY_PROFESSIONAL_SKILL_REDIRECTS
+
+    for entry in redirects:
+        legacy_skill_id = entry["legacy_ref"].removeprefix("legacy-professional-skill:")
+        legacy_root = repo / "agent/professional_skills" / legacy_skill_id
+        tombstone = legacy_root / "TOMBSTONE.md"
+        assert entry["state"] == "legacy_redirect", entry["legacy_ref"]
+        assert entry["capability_kind"] == "legacy_professional_skill_redirect", entry["legacy_ref"]
+        assert entry["capability_preserved"] is True, entry["legacy_ref"]
+        assert entry["default_codex_exposure"] is False, entry["legacy_ref"]
+        assert entry["covered_by_skill_ref"] in skill_paths, entry["legacy_ref"]
+        assert entry["covered_by_capability_id"] in professional_capabilities, entry["legacy_ref"]
+        assert (
+            professional_capabilities[entry["covered_by_capability_id"]]["physical_source_ref"]["ref"]
+            == entry["covered_by_skill_ref"]
+        ), entry["legacy_ref"]
+        assert not (legacy_root / "SKILL.md").exists(), entry["legacy_ref"]
+        assert tombstone.exists(), entry["legacy_ref"]
+        tombstone_text = tombstone.read_text(encoding="utf-8")
+        assert entry["covered_by_skill_ref"] in tombstone_text, entry["legacy_ref"]
+        assert "contracts/capability_map.json#legacy_professional_skill_redirects" in tombstone_text
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
+    capability_map = load_json(repo, "contracts/capability_map.json")
     policy = load_json(repo, "contracts/temporal_stage_run_consumption_policy.json")
     action_catalog = load_json(repo, "contracts/action_catalog.json")
     foundry_series = load_json(repo, "contracts/foundry_agent_series.json")
@@ -870,6 +933,7 @@ def main() -> int:
     assert_surface_export_boundary(projection, "generated handoff projection")
     assert_generated_handoff_ledger_projection(generated_handoff)
     assert_private_platform_retirement_matrix(functional_audit, generated_handoff)
+    assert_legacy_professional_skill_redirects(repo, capability_map)
 
     assert stage_run_profile["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     embedded_policy = stage_run_profile["temporal_stage_run_consumption_policy"]
@@ -902,7 +966,8 @@ def main() -> int:
         "live_stage_run_progress_evidence_contract": "contracts/live_stage_run_progress_evidence.json",
         "production_acceptance_contract": "contracts/production_acceptance/bookforge-production-acceptance.json",
         "private_platform_retirement_contract": "contracts/functional_privatization_audit.json",
-        "opl_ledger_artifact_registration_contract": "contracts/opl_ledger_artifact_registration.json"
+        "opl_ledger_artifact_registration_contract": "contracts/opl_ledger_artifact_registration.json",
+        "capability_map_contract": "contracts/capability_map.json"
     }, ensure_ascii=False))
     return 0
 

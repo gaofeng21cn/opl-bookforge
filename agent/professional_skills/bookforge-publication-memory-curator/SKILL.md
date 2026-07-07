@@ -50,6 +50,10 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - Use after text/source/style gates when the task claims proof/export quality, or earlier to define proof expectations or refresh continuity refs.
 - This skill cannot create owner acceptance, publication approval, final-export readiness, domain readiness, production readiness, or memory acceptance. It may only cite existing owner/export/memory authority refs and return blockers when they are missing.
 
+## Legacy Coverage
+
+This workflow-level skill covers the retired `bookforge-book-memory-curator` and `bookforge-publication-designer` entries. Keep book memory, publication design, rendered-page QA, proof/export handoff, and owner/export boundary review together.
+
 ## Blockers And Repair Targets
 
 - `working_memory_missing`: create or locate active chapter memory before chapter drafting or repair.
