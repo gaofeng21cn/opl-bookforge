@@ -20,7 +20,7 @@
     {
       "capability_id": "opl-bookforge.primary_skill",
       "surface_role": "primary_skill",
-      "capability_kind": "codex_primary_skill",
+      "capability_kind": "primary_skill",
       "canonical_owner": "opl-bookforge",
       "physical_source_ref": {
         "ref_kind": "repo_path",

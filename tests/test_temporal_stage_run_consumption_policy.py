@@ -174,6 +174,17 @@ PRIVATE_PLATFORM_FORBIDDEN_READY_CLAIMS = {
     "authorizes_physical_delete",
 }
 
+STANDARD_CAPABILITY_KINDS = {
+    "stage_prompt",
+    "stage_projection",
+    "runtime_projection",
+    "primary_skill",
+    "professional_skill",
+    "tool_connector",
+    "reference_pack",
+    "contract_module",
+}
+
 LEGACY_PROFESSIONAL_SKILL_REDIRECTS = {
     "legacy-professional-skill:bookforge-story-architect": (
         "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
@@ -703,6 +714,16 @@ def assert_generated_handoff_ledger_projection(generated_handoff: dict[str, Any]
     assert handoff_surface["target_role"] == "opl_ledger_artifact_registration_projection"
 
 
+def assert_capability_map_standard_kinds(capability_map: dict[str, Any]) -> None:
+    capabilities = capability_map["capabilities"]
+    for capability in capabilities:
+        assert capability["capability_kind"] in STANDARD_CAPABILITY_KINDS, capability["capability_id"]
+
+    primary = next(capability for capability in capabilities if capability["surface_role"] == "primary_skill")
+    assert primary["capability_kind"] == "primary_skill"
+    assert primary["physical_source_ref"]["ref"] == "agent/primary_skill/SKILL.md"
+
+
 def assert_legacy_professional_skill_redirects(repo: Path, capability_map: dict[str, Any]) -> None:
     professional_capabilities = {
         capability["capability_id"]: capability
@@ -723,7 +744,6 @@ def assert_legacy_professional_skill_redirects(repo: Path, capability_map: dict[
     for entry in redirects:
         legacy_skill_id = entry["legacy_ref"].removeprefix("legacy-professional-skill:")
         legacy_root = repo / "agent/professional_skills" / legacy_skill_id
-        tombstone = legacy_root / "TOMBSTONE.md"
         assert entry["state"] == "legacy_redirect", entry["legacy_ref"]
         assert entry["capability_kind"] == "legacy_professional_skill_redirect", entry["legacy_ref"]
         assert entry["capability_preserved"] is True, entry["legacy_ref"]
@@ -735,10 +755,9 @@ def assert_legacy_professional_skill_redirects(repo: Path, capability_map: dict[
             == entry["covered_by_skill_ref"]
         ), entry["legacy_ref"]
         assert not (legacy_root / "SKILL.md").exists(), entry["legacy_ref"]
-        assert tombstone.exists(), entry["legacy_ref"]
-        tombstone_text = tombstone.read_text(encoding="utf-8")
-        assert entry["covered_by_skill_ref"] in tombstone_text, entry["legacy_ref"]
-        assert "contracts/capability_map.json#legacy_professional_skill_redirects" in tombstone_text
+        assert not (legacy_root / "TOMBSTONE.md").exists(), entry["legacy_ref"]
+        if legacy_root.exists():
+            assert not any(legacy_root.iterdir()), entry["legacy_ref"]
 
 
 def main() -> int:
@@ -933,6 +952,7 @@ def main() -> int:
     assert_surface_export_boundary(projection, "generated handoff projection")
     assert_generated_handoff_ledger_projection(generated_handoff)
     assert_private_platform_retirement_matrix(functional_audit, generated_handoff)
+    assert_capability_map_standard_kinds(capability_map)
     assert_legacy_professional_skill_redirects(repo, capability_map)
 
     assert stage_run_profile["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
