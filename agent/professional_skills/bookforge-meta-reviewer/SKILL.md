@@ -22,6 +22,12 @@ Run independent whole-manuscript review and route serious findings before prose 
 - Reviewer-comment absorption map that classifies each finding as manuscript prose, source/claim, case material, style rule, publication design, control-layer task, owner decision, or not adopted.
 - Repair plan, fast-track audit, typed blockers, route-back refs, and downstream freshness obligations.
 
+## AI-First / Contract-Light Boundary
+
+- This skill owns the flexible professional judgment: independent quality review, severity ranking, topmost repair-level selection, reviewer-comment absorption, freshness obligations, route-back choice, and owner handoff framing.
+- Contracts, capability maps, metrics, hygiene refs, and stage refs only locate artifacts, declare boundaries, and preserve traceable return shapes. They must not become a second manuscript-quality verdict, publication readiness gate, owner acceptance surface, or revision decision engine.
+- Route serious findings by professional diagnosis before editing. If the highest owning layer is source, memory, publication design, artifact target, or owner decision, return that route instead of polishing local prose.
+
 ## Execution Rules
 
 - Keep reviewer context isolated from drafting rationale as far as the environment allows.

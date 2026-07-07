@@ -23,6 +23,12 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 - Updated production queue state: `not_started`, `outline_only`, `seed_in_progress`, `draft_in_progress`, `chapter_text_ready`, `chapter_draft_ready`, or `blocked`.
 - Review-PDF eligibility note for contiguous ready/text-ready sequence.
 
+## AI-First / Contract-Light Boundary
+
+- This skill owns the flexible professional judgment: context sufficiency, material-gap recognition, chapter repair shape, prose quality, continuity risk, review-PDF eligibility, route-back target, and owner-facing handoff.
+- Contracts, capability maps, queue refs, memory refs, and artifact refs only locate inputs, declare boundaries, and preserve traceable return shapes. They must not become a second manuscript body, memory body, quality verdict, or publication/export readiness authority.
+- Use AI review to decide whether a defect belongs to local prose, source/claim integrity, storyline/style architecture, memory continuity, asset readiness, or owner decision. Route upward instead of masking the defect with a local rewrite.
+
 ## Execution Rules
 
 - Start with the earliest unfinished required unit unless the owner explicitly approves a non-contiguous exploration pass.

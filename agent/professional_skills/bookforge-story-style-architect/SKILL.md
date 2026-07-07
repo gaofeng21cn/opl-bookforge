@@ -22,6 +22,12 @@ Define the book's durable storyline and style architecture before chapter work. 
 - Style profile with adoption/rejection rules, terminology map, fatigue scan targets, accepted exceptions, and reusable prose rules.
 - Storyline/style handoff with owner questions, typed blockers, or route-back refs.
 
+## AI-First / Contract-Light Boundary
+
+- This skill owns the flexible professional judgment: storyline strategy, reader priority, chapter-function diagnosis, style adoption/rejection, source-stance interpretation, route-back choice, and owner handoff questions.
+- Contracts, capability maps, stage refs, and quality refs only locate inputs, declare boundaries, and preserve traceable return shapes. They must not encode a second book truth, manuscript-quality truth, memory truth, or publication-readiness decision tree.
+- When architecture is underdetermined, return the smallest owner decision or route-back needed to continue. Do not turn missing reader, source, stance, memory, or artifact-route evidence into schema defaults.
+
 ## Execution Rules
 
 - Establish primary readers, reader priority, author/source stance, and artifact route before visible body drafting.

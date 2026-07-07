@@ -22,6 +22,12 @@ Protect nonfiction truth while converting stronger references into reusable prod
 - Reference absorption report with comparison scope, transferable strengths, non-transferable patterns, adopted rules, retained active-manuscript strengths, and remaining owner/source decisions.
 - Updates to reader-entry plans, chapter task cards, style engine, concept map, core model map, case evidence ladder, QC gates, source maps, or publication design refs.
 
+## AI-First / Contract-Light Boundary
+
+- This skill owns the flexible professional judgment: claim/source interpretation, evidence-class assignment, reference absorption, protected-material risk, source/memory gap diagnosis, route-back choice, and owner/source handoff.
+- Contracts, capability maps, locators, ledgers, and stage refs only identify sources, boundaries, and return shapes. They must not become a second source truth, copied-reference authority, memory truth, publication proof, or owner authorization surface.
+- When evidence is insufficient, downgrade, bracket, remove, or route back with the exact owner/source question. Do not solve unsupported claims through contract defaults, citation-looking placeholders, or style-only repair.
+
 ## Execution Rules
 
 - Match language to evidence class: constructed scene, typical scenario, documented process material, authorized material/interview, owner-supplied source, outcome/impact evidence, or unsupported gap.

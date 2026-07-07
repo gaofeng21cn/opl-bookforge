@@ -23,6 +23,12 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - Design tokens, template/component inventory, font actual-load/readback, rendered-page QA checklist, front matter/TOC policy, material/asset coverage, note display policy, and pre-ship proof review.
 - PDF export receipt boundary and typed blockers for missing memory, proof, final-export, owner, asset, or lifecycle evidence.
 
+## AI-First / Contract-Light Boundary
+
+- This skill owns the flexible professional judgment: memory sufficiency, continuity risk, proof/design readiness, asset/material gap diagnosis, source-memory-publication route-back, and owner/export handoff questions.
+- Contracts, capability maps, memory refs, lifecycle refs, and export receipts only locate artifacts, declare boundaries, and preserve traceable return shapes. They must not become memory bodies, publication design authority, final-export authority, owner acceptance, or production-readiness truth.
+- Keep readiness elastic at the skill layer: decide whether the next legal output is refreshed memory, proof repair, asset/source request, lifecycle handoff, owner/export decision, typed blocker ref, or route-back ref. Do not infer readiness from file existence, generated exports, rendered pages, or contract completeness alone.
+
 ## Execution Rules
 
 - Keep book memory as Book Forge or book-workspace artifact refs. OPL may project memory refs and lifecycle state, but it must not contain, accept, reject, or replace memory bodies.
