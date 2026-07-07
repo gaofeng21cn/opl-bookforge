@@ -103,6 +103,7 @@ Book Forge 可以产出证据、草稿、导出文件和结构化阻塞。出版
 ## 当前边界
 
 - `OPL Book Forge` 是用于书籍写作的 OPL 标准领域智能体包。
+- 在 OPL family 中，Book Forge 是书籍写作 domain agent package：Book Forge 保留书籍领域 authority，OPL 持有通用 runtime、package carrier、generated wrapper 和 hosted surface。
 - OPL 负责生成接口、框架运行时投影、Agent Lab、工单执行、注册/发现和晋级门。
 - Book Forge 负责书籍领域真相、书稿质量规则、风格政策、图表规划、导出/出版裁决边界、产物权威、记忆正文和负责人签收记录。
 - 当前证据支持标准结构基线、生成接口描述符、OMA Agent Lab 评估，以及带导出/渲染检查的真实短书试运行。

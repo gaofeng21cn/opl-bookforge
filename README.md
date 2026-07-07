@@ -109,6 +109,7 @@ You can start with prompts like:
 ## Current Boundary
 
 - `OPL Book Forge` is an OPL-standard Foundry Agent domain pack for book authoring.
+- In the OPL family, Book Forge is the book-authoring domain agent package: Book Forge keeps book authority, while OPL owns generic runtime, package carrier, generated wrapper, and hosted surfaces.
 - OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
 - Book Forge owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 - Current evidence supports structural baseline, generated interface descriptors, OMA Agent Lab evaluation, and a real short-book pilot with export/render checks.
