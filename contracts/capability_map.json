@@ -135,7 +135,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.chapter-author.professional_skill",
@@ -195,7 +202,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.meta-reviewer.professional_skill",
@@ -255,7 +269,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.publication-designer.professional_skill",
@@ -315,7 +336,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.reader-style-designer.professional_skill",
@@ -375,7 +403,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.reference-absorber.professional_skill",
@@ -435,7 +470,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.source-claim-reviewer.professional_skill",
@@ -495,7 +537,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.story-architect.professional_skill",
@@ -555,7 +604,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.style-editor.professional_skill",
@@ -615,7 +671,14 @@
         ],
         "can_write_owner_receipt_body": false,
         "can_create_typed_blocker": false
-      }
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
     },
     {
       "capability_id": "opl-bookforge.domain-affordances.tool_connector",
