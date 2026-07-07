@@ -6,6 +6,7 @@
   "canonical_semantic_pack_root": "agent/",
   "canonical_semantic_pack_role": "repo_source_declarative_domain_pack",
   "required_domain_pack_paths": [
+    "agent/primary_skill/SKILL.md",
     "agent/prompts/domain_intake.md",
     "agent/prompts/storyline-architecture.md",
     "agent/prompts/book-materialization.md",
@@ -45,6 +46,7 @@
     "agent/quality_gates/book-materialization-quality-gate.md"
   ],
   "source_refs": {
+    "primary_skill_source_ref": "agent/primary_skill/SKILL.md",
     "stage_graph_source_ref": "contracts/stage_control_plane.json",
     "quality_gate_source_ref": "agent/quality_gates/storyline-architecture-quality-gate.md",
     "executor_policy_source_ref": "contracts/stage_control_plane.json#/stages/0/selected_executor",

@@ -18,6 +18,79 @@
   },
   "capabilities": [
     {
+      "capability_id": "opl-bookforge.primary_skill",
+      "surface_role": "primary_skill",
+      "capability_kind": "codex_primary_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/primary_skill/SKILL.md",
+        "role": "repo_owned_primary_codex_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "contract_ref",
+          "ref": "contracts/pack_compiler_input.json",
+          "role": "opl_materializer_primary_skill_input"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only_opl_materializes_codex_carrier",
+      "externalization_reason": "repo-owned rich primary skill source for the default Codex entry; OPL materializes the generated Codex carrier without taking Book Forge domain truth or readiness authority",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.primary_skill",
+        "primary_skill",
+        "codex_default_entry",
+        "rich_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/primary_skill/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents scaffold --validate <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "default_codex_entry",
+      "codex_default_exposure": true,
+      "allowed_exposure_scopes": [
+        "codex_primary_skill",
+        "opl_generated_codex_carrier"
+      ],
+      "professional_skill_policy": {
+        "professional_skills_remain_repo_internal": true,
+        "professional_skills_codex_default_exposure": false,
+        "professional_skills_exposure": "on_demand_from_primary_skill_or_stage_runtime"
+      },
+      "exposure_owner": "opl-bookforge"
+    },
+    {
       "capability_id": "opl-bookforge.domain-intake.stage_prompt",
       "surface_role": "stage_prompt",
       "capability_kind": "stage_prompt",
@@ -922,6 +995,9 @@
     }
   ],
   "resolver_index": {
+    "primary_skill_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=primary_skill"
+    ],
     "stage_prompt_refs": [
       "contracts/capability_map.json#/capabilities?surface_role=stage_prompt"
     ],
