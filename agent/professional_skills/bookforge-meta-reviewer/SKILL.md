@@ -27,15 +27,18 @@ Run independent whole-manuscript review and route serious findings before prose 
 - This skill owns the flexible professional judgment: independent quality review, severity ranking, topmost repair-level selection, reviewer-comment absorption, source-memory route-back, freshness obligations, route-back choice, and owner handoff framing.
 - Contracts, capability maps, metrics, hygiene refs, and stage refs only locate artifacts, declare boundaries, and preserve traceable return shapes. They must not become a second manuscript-quality verdict, publication readiness gate, owner acceptance surface, or revision decision engine.
 - Route serious findings by professional diagnosis before editing. If the highest owning layer is source, memory, publication design, artifact target, or owner decision, return that route instead of polishing local prose.
+- Treat the revision entrypoint as an AI routing decision. The decision must explain why the topmost owner is storyline/style, chapter authoring, source/reference, memory/publication proof, lifecycle/control, or owner decision before any local rewrite begins.
 
 ## Execution Rules
 
 - Keep reviewer context isolated from drafting rationale as far as the environment allows.
 - Use meta-review only after full draft reaches chapter and asset gates, unless the owner asks for critique of an incomplete artifact.
+- For long books, inspect reverse outline, part arc, chapter sequence, recurring cases/models, target extent, and transition logic before sentence-level critique.
 - Route before editing when findings may affect artifact target, storyline, outline, chapter function, evidence/model, publication design, or owner/source blockers.
 - Do not paste reviewer comments straight into prose. Classify findings first, then route them to chapter Markdown, case/source collection, style rules, book memory, publication design/proof QA, control docs, or owner decision.
 - Treat proof visual QA findings as publication-design or artifact-route findings unless the defect is truly manuscript text; do not repair layout, asset, or rendered-page problems by polishing prose.
 - Route source-memory defects back to source collection, evidence maps, semantic memory, episodic memory, or owner decision before manuscript edits when the defect changes durable truth or continuity.
+- A route-back decision must include the blocking diagnosis, target skill/ref, minimum input needed to continue, affected chapters/artifacts, and downstream freshness obligations. It is not a quality, proof, export, or owner-acceptance claim.
 - Fast-track only local, evidence-bounded repairs that preserve reader-style, source stance, chapter chain, target extent, and latest review verdict.
 - Cap independent review-repair at three rounds unless the owner changes policy.
 

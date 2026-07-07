@@ -28,16 +28,19 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 - This skill owns the flexible professional judgment: context sufficiency, material-gap recognition, chapter repair shape, prose quality, continuity risk, review-PDF eligibility, route-back target, and owner-facing handoff.
 - Contracts, capability maps, queue refs, memory refs, and artifact refs only locate inputs, declare boundaries, and preserve traceable return shapes. They must not become a second manuscript body, memory body, quality verdict, or publication/export readiness authority.
 - Use AI review to decide whether a defect belongs to local prose, source/claim integrity, storyline/style architecture, memory continuity, asset readiness, or owner decision. Route upward instead of masking the defect with a local rewrite.
+- Obey accepted revision-entrypoint routing. Draft or repair chapter Markdown only when the topmost defect is local chapter prose; route back when the defect is structural, source/reference, memory, proof/artifact, or owner-decision level.
 
 ## Execution Rules
 
 - Start with the earliest unfinished required unit unless the owner explicitly approves a non-contiguous exploration pass.
 - Compile context before drafting or repair; protect reader promise, owner decisions, source canon, evidence boundaries, target extent, author/source stance, and chapter function.
+- For long-book work, operate on the chapter-sharded package: chapter task card, context pack, chapter Markdown, QC note, repair log, memory trace, and production queue state. Do not treat merged `book.md` or a compact preview as the repair source of truth.
 - Visible manuscript prose must read like book prose on the first pass. Keep task fields, budgets, blockers, source refs, QC status, and reader-entry plans out of the manuscript body.
 - When replacing generic examples with practice cases, first bind the case to the chapter's job: which misconception it corrects, which turn or feedback changed the problem, and what evidence is allowed in reader-facing prose. Do not leave material-collection notes, public-source caveats, version labels, or author TODOs in the manuscript.
 - Reuse a spine case across chapters only by changing the reader function of the scene, not by repeating the same summary. Record the reuse in the chapter task card or case map.
 - Keep case boxes, figures, photos, and reviewer notes separate: a case box is prose evidence, a figure/photo is a visual asset with its own manifest entry, and reviewer notes stay outside publication prose.
 - Meet chapter budget with substantive argument, examples, cases, transitions, and figure/table interpretation. Do not pad or relabel short seed text as done.
+- After accepted local repair, report which source ledger, memory refs, assembly metrics, review PDF, or publication-proof refs need refresh. Do not claim proof/export/owner progress from chapter prose alone.
 - After chapter changes, refresh QC, memory, assembly/metrics/hygiene/review refs in freshness order when those claims are made.
 
 ## Stage Prompt Boundary

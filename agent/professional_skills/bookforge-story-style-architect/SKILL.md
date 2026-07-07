@@ -27,16 +27,19 @@ Define the book's durable storyline and style architecture before chapter work. 
 - This skill owns the flexible professional judgment: storyline strategy, reader priority, chapter-function diagnosis, style adoption/rejection, source-stance interpretation, route-back choice, and owner handoff questions.
 - Contracts, capability maps, stage refs, and quality refs only locate inputs, declare boundaries, and preserve traceable return shapes. They must not encode a second book truth, manuscript-quality truth, memory truth, or publication-readiness decision tree.
 - When architecture is underdetermined, return the smallest owner decision or route-back needed to continue. Do not turn missing reader, source, stance, memory, or artifact-route evidence into schema defaults.
+- For broad revision, version comparison, or owner/reviewer critique, keep the topmost repair route as an AI judgment: storyline spine, reader-style contract, chapter function chain, source stance, memory continuity, publication artifact route, or owner decision.
 
 ## Execution Rules
 
 - Establish primary readers, reader priority, author/source stance, and artifact route before visible body drafting.
 - Give each chapter one primary job, one new argument movement, adjacent handoffs, and non-repeat claims.
+- For long books, repair part arc, chapter sequence, target extent, recurring models, case ladder, and inter-chapter handoffs before asking the chapter author to rewrite local prose.
 - Define or foreshadow recurring terms before readers must rely on them.
 - Select two or three core models and state where they are introduced, applied, and recovered.
 - Prefer a small number of complete spine cases over shallow one-off examples when nonfiction practice material supports the book.
 - Extract transferable craft rules from samples and references; do not copy protected prose, claims, examples, or voice.
 - Treat workflow/internal language, formulaic AI-flavor patterns, and outside-observer phrasing as scan targets tied to the reader/source stance.
+- A route-back handoff must name the target skill/ref, the durable rule or structure that changed, affected chapters, and downstream freshness obligations. It is not a publication, export, owner-acceptance, or readiness claim.
 - Preserve Book Forge domain truth. OPL may transport refs, but does not decide book semantics, prose quality, publication readiness, or owner acceptance.
 
 ## Stage Prompt Boundary

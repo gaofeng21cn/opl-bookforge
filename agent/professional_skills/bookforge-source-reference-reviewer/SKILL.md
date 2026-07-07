@@ -27,6 +27,7 @@ Protect nonfiction truth while converting stronger references into reusable prod
 - This skill owns the flexible professional judgment: claim/source interpretation, evidence-class assignment, reference absorption, protected-material risk, source/memory gap diagnosis, route-back choice, and owner/source handoff.
 - Contracts, capability maps, locators, ledgers, and stage refs only identify sources, boundaries, and return shapes. They must not become a second source truth, copied-reference authority, memory truth, publication proof, or owner authorization surface.
 - When evidence is insufficient, downgrade, bracket, remove, or route back with the exact owner/source question. Do not solve unsupported claims through contract defaults, citation-looking placeholders, or style-only repair.
+- Source/reference risk is an AI judgment, not a schema lookup. Grade missing locators, unsupported claims, stale sources, protected-material copying risk, stance mismatch, caption/callout risk, and public/rights boundary before revision or proof handoff.
 
 ## Execution Rules
 
@@ -36,6 +37,8 @@ Protect nonfiction truth while converting stronger references into reusable prod
 - For practice-involved cases, use the approved participant/designer voice and block outside-observer phrasing such as `公开资料显示` when it contradicts the stance.
 - Remove, bracket, or downgrade unsupported non-central claims; return typed blockers for central unsupported claims.
 - Extract craft patterns from references; do not copy protected prose, examples, claims, photos, or voice unless independently authorized.
+- When a stronger reference or prior version is supplied, compare its reader function, evidence shape, structure, and style moves against the active manuscript. Adopt transferable rules, preserve active-manuscript strengths, and route non-local lessons to storyline/style, chapter task cards, memory, or publication design refs.
+- Before publication-proof or final-export handoff, clear or explicitly route back source/reference risks that affect claims, captions, tables, figures, notes, photos, rights, or durable memory. Rendered pages cannot close source risk.
 - If concise review and formal publication routes diverge, record `target_artifact_choice` before more local polish.
 - Reference/style lessons are advisory unless the current claim is reference absorption closure, copied-reference authority, primary-reader drift, publication proof, final export, or proof/export readiness.
 
