@@ -11,7 +11,7 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 
 ## Inputs
 
-- Approved storyline map, reader-style contract, chapter function contract, concept map, core model map, and case evidence ladder.
+- Approved storyline/style architecture refs, reader-style contract, chapter function contract, concept map, core model map, and case evidence ladder.
 - Chapter task card, chapter context pack, source refs, memory refs, style refs, target extent, figure/table obligations, and current chapter state.
 - Case priority map, reusable case motifs, public/authorization boundary, and chapter-specific case role when the chapter uses practice material.
 - Owner/reviewer critique or accepted revision-entrypoint decision when the task is a repair.
@@ -44,8 +44,8 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 
 - `chapter_task_card_missing`: create or repair chapter task card before drafting.
 - `target_extent_missing`: repair production budget before body drafting.
-- `reader_style_missing`: route to `bookforge-reader-style-designer`.
-- `source_locator_missing` or `practice_stance_overclaim`: route to `bookforge-source-claim-reviewer`.
-- `chapter_function_conflict`: route to `bookforge-story-architect` or revision entrypoint.
+- `reader_style_missing`: route to `bookforge-story-style-architect`.
+- `source_locator_missing` or `practice_stance_overclaim`: route to `bookforge-source-reference-reviewer`.
+- `chapter_function_conflict`: route to `bookforge-story-style-architect` or revision entrypoint.
 - `case_role_ambiguous`: repair the case map or chapter task card before inserting the example.
 - `review_continuity_blocker`: finish earlier required unit before later review PDF claim.

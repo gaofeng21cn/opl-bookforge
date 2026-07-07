@@ -135,15 +135,11 @@ Machine-baseline rendered-page inspection can prove nonblank pages and asset plu
 
 Invoke repo-internal professional skills when the focused method is needed:
 
-- `bookforge-story-architect`: premise, reader promise, argument arc, chapter function, concept map, core models, case evidence ladder.
-- `bookforge-reader-style-designer`: primary readers, natural expression, voice, and author/source stance.
-- `bookforge-chapter-author`: chapter context pack, task card, reader-entry plan, chapter Markdown drafting/repair, QC, memory, and review-PDF eligibility.
-- `bookforge-book-memory-curator`: working, episodic, semantic, and memory-QC refs for long-form continuity.
-- `bookforge-style-editor`: style calibration, style engine, terminology, anti-AI-flavor scans, and reusable prose rules.
-- `bookforge-source-claim-reviewer`: claim ledger, source locator, evidence class, unsupported gaps, citation/source display, and anti-leakage.
+- `bookforge-story-style-architect`: storyline, reader contract, chapter function, author/source stance, and reusable prose style.
+- `bookforge-chapter-author`: chapter context pack, task card, reader-entry plan, chapter Markdown drafting/repair, QC, and review-PDF eligibility.
+- `bookforge-source-reference-reviewer`: claim ledger, source locator, evidence class, unsupported gaps, anti-leakage, and stronger reference absorption.
 - `bookforge-meta-reviewer`: independent meta-review, revision entrypoint routing, reviewer-comment absorption, and fast-track eligibility.
-- `bookforge-publication-designer`: review PDF, publication proof, final export, design tokens, figures/tables, and rendered-page QA.
-- `bookforge-reference-absorber`: stronger reference/version comparison and reusable adoption rules.
+- `bookforge-publication-memory-curator`: book memory, review PDF, publication proof, final export, design tokens, figures/tables, and rendered-page QA.
 
 The primary skill chooses the route and preserves the book-level contract. Professional skills carry method. Tool catalogs describe affordances and forbidden authority. Stage prompts define target refs and accepted handoff shapes.
 

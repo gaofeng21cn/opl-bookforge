@@ -12,13 +12,10 @@ Repo-local Codex professional skills live under `agent/professional_skills/*/SKI
 
 Routing:
 
-- `bookforge-story-architect`: premise, reader promise, argument arc, chapter function, concept map, core models, case evidence ladder.
-- `bookforge-reader-style-designer`: primary readers, natural expression, author/source stance, practice-involved voice.
-- `bookforge-chapter-author`: chapter context pack, task card, reader-entry plan, chapter Markdown drafting/repair, QC, memory, review-PDF eligibility.
-- `bookforge-style-editor`: style calibration, style engine, terminology, anti-AI-flavor scans, reusable prose rules.
-- `bookforge-source-claim-reviewer`: claim ledger, source locator, evidence boundary, unsupported gaps, anti-leakage.
+- `bookforge-story-style-architect`: storyline, reader contract, chapter function, author/source stance, and reusable prose style.
+- `bookforge-chapter-author`: chapter context pack, task card, reader-entry plan, chapter Markdown drafting/repair, QC, review-PDF eligibility.
+- `bookforge-source-reference-reviewer`: claim ledger, source locator, evidence boundary, unsupported gaps, anti-leakage, and stronger reference absorption.
 - `bookforge-meta-reviewer`: independent meta-review, revision entrypoint routing, fast-track eligibility, review-repair caps.
-- `bookforge-publication-designer`: review PDF / publication proof / final export separation, design tokens, figure/table layout, rendered-page QA.
-- `bookforge-reference-absorber`: stronger reference/version comparison and reusable adoption rules.
+- `bookforge-publication-memory-curator`: book memory, review PDF / publication proof / final export separation, design tokens, figure/table layout, rendered-page QA.
 
 Stage prompts define target refs and accepted handoff shapes. Professional skills carry method. Tool catalogs describe affordances and forbidden authority. None of these skills authorize production readiness, publication readiness, final export, owner acceptance, or OPL runtime ownership.

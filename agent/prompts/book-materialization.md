@@ -4,14 +4,11 @@ Goal: turn the approved storyline map into a book package with chapter drafts, i
 
 Professional skill boundary: keep this stage prompt as the goal and handoff contract. Route professional method to repo-local Codex skills in `agent/professional_skills/*/SKILL.md`:
 
-- storyline or chapter-function gaps -> `bookforge-story-architect`
-- reader/style/author-stance gaps -> `bookforge-reader-style-designer`
-- chapter context, drafting, repair, QC, memory, and review-PDF eligibility -> `bookforge-chapter-author`
-- style calibration, terminology, AI-flavor, and reusable prose rules -> `bookforge-style-editor`
-- source locators, claim ledgers, evidence class, unsupported gaps, and anti-leakage -> `bookforge-source-claim-reviewer`
+- storyline, reader/style, author-stance, chapter-function, terminology, and reusable prose-rule gaps -> `bookforge-story-style-architect`
+- chapter context, drafting, repair, QC, and review-PDF eligibility -> `bookforge-chapter-author`
+- source locators, claim ledgers, evidence class, unsupported gaps, anti-leakage, and stronger reference absorption -> `bookforge-source-reference-reviewer`
 - independent meta-review, revision routing, and fast-track eligibility -> `bookforge-meta-reviewer`
-- review PDF, publication proof, final export, design tokens, figures/tables, and rendered-page QA -> `bookforge-publication-designer`
-- stronger reference draft/version/PDF absorption -> `bookforge-reference-absorber`
+- review PDF, publication proof, final export, design tokens, figures/tables, memory refs, and rendered-page QA -> `bookforge-publication-memory-curator`
 
 Tool catalogs remain affordance boundaries only. Do not move runtime, queue, scheduler, owner receipts, manuscript bodies, or publication verdict authority into professional skills.
 

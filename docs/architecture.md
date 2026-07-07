@@ -30,7 +30,7 @@ The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is
 
 Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture` and `book-materialization`.
 
-Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md` carry the professional book-writing methods: storyline architecture, reader style, chapter authoring, book-memory curation, style editing, source/claim review, meta-review, publication design, and reference absorption. They absorb and route the existing `agent/skills/*.md` policy refs without creating a private runtime, memory-body authority, owner acceptance, or readiness verdict.
+Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md` carry workflow-level book-writing methods: storyline/style architecture, chapter authoring, source/reference review, meta-review, and publication/memory curation. They absorb and route the existing `agent/skills/*.md` policy refs without creating a private runtime, memory-body authority, owner acceptance, or readiness verdict. Legacy fine-grained skill entries remain only as tombstone redirects for older callers.
 
 Tool catalogs under `agent/tools/` describe affordances, write scope, side effects, credentials, and forbidden authority. Tools do not prescribe executor strategy, own manuscript truth, or grant readiness verdicts.
 
