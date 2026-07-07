@@ -12,15 +12,16 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 ## Inputs
 
 - Artifact target: `review_pdf`, `publication_proof`, or `final_export`.
-- Manuscript refs, chapter task cards, chapter context packs, repair logs, QC reports, owner comments, style refs, claim/evidence refs, figure/table manifests, and publication design refs.
+- Manuscript refs, chapter task cards, chapter context packs, repair logs, QC reports, owner comments, reviewer-absorption maps, style refs, claim/evidence refs, figure/table manifests, and publication design refs.
 - Working, episodic, semantic, and memory-QC refs such as `book-memory/working.md`, `book-memory/episodic.md`, `book-memory/semantic.md`, and `book-memory/memory-qc.md`.
-- PDF/export receipt, rendered pages, font/readback evidence, resource paths, owner/export receipts, and OPL workspace artifact-lifecycle readback when the project is OPL-indexed.
+- PDF/export receipt, rendered pages, proof visual QA refs, font/readback evidence, resource paths, owner/export receipts, source-memory route-back refs, and OPL workspace artifact-lifecycle readback when the project is OPL-indexed.
 
 ## Outputs
 
 - Refreshed working, episodic, and semantic memory refs plus memory-QC report and selected-memory trace.
 - Publication design profile with page geometry, typography, captions, tables, case boxes/callouts, headers/footers, numbering, and inspection plan.
-- Design tokens, template/component inventory, font actual-load/readback, rendered-page QA checklist, front matter/TOC policy, material/asset coverage, note display policy, and pre-ship proof review.
+- Design tokens, template/component inventory, font actual-load/readback, rendered-page QA checklist, visual QA route-back, front matter/TOC policy, material/asset coverage, note display policy, and pre-ship proof review.
+- Source-memory-publication route-back packet mapping defects to memory refresh, source/evidence repair, asset request, proof design change, owner/export decision, or typed blocker.
 - PDF export receipt boundary and typed blockers for missing memory, proof, final-export, owner, asset, or lifecycle evidence.
 
 ## AI-First / Contract-Light Boundary
@@ -37,6 +38,8 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - Feed chapter context packs through selected refs and traces; do not dump the whole memory body into every chapter prompt.
 - Keep `review_pdf`, `publication_proof`, and `final_export` separate.
 - Use real typesetting backends such as Pandoc/XeLaTeX, Quarto, Typst, or Paged.js through Book Forge-owned adapters. Do not hand-roll book PDFs with raster text drawing.
+- For proof visual QA, inspect representative rendered pages by page class: front matter, TOC, chapter opening, dense body, figure/table, callout/case box, notes, and closing pages when present.
+- Route source, memory, reviewer-absorption, and proof defects to the highest owning ref before claiming proof or export progress; refreshed rendered pages alone cannot close source-memory or owner-decision gaps.
 - Missing proof tokens or font/rendered-page evidence blocks proof/export claims only; it does not block ordinary drafting or review-only PDFs.
 - Final export additionally requires owner/export acceptance.
 - Treat real photos, generated figures, diagrams, tables, case boxes, and reviewer callouts as different artifact classes.
@@ -60,4 +63,6 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - `figure_asset_missing`: keep review text possible, block full chapter/proof readiness.
 - `photo_asset_boundary_missing`: block proof/export claims until photo refs, captions, and public/rights boundary are recorded.
 - `rendered_page_qa_missing`: run inspection before proof handoff.
+- `proof_visual_qa_scope_incomplete`: inspect the required page classes or block proof/export claims.
+- `source_memory_route_back_missing`: return a route-back packet before proof/export closure when durable source or memory refs are stale, unsupported, or conflicted.
 - `owner_export_acceptance_missing`: block final export claim.
