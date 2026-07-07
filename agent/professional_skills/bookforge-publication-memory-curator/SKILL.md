@@ -12,9 +12,9 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 ## Inputs
 
 - Artifact target: `review_pdf`, `publication_proof`, or `final_export`.
-- Manuscript refs, chapter task cards, chapter context packs, repair logs, QC reports, owner comments, reviewer-absorption maps, style refs, claim/evidence refs, figure/table manifests, and publication design refs.
+- Manuscript refs, chapter task cards, chapter context packs, repair logs, QC reports, owner comments, owner-critique absorption maps, reviewer-absorption maps, complete-version comparison refs, style refs, claim/evidence refs, figure/table manifests, and publication design refs.
 - Working, episodic, semantic, and memory-QC refs such as `book-memory/working.md`, `book-memory/episodic.md`, `book-memory/semantic.md`, and `book-memory/memory-qc.md`.
-- PDF/export receipt, rendered pages, proof visual QA refs, font/readback evidence, resource paths, owner/export receipts, source-memory route-back refs, and OPL workspace artifact-lifecycle readback when the project is OPL-indexed.
+- PDF/export receipt, rendered pages, proof visual QA refs, proof/design memory refs, font/readback evidence, resource paths, asset/right/source freshness refs, owner/export receipts, source-memory route-back refs, and OPL workspace artifact-lifecycle readback when the project is OPL-indexed.
 
 ## Outputs
 
@@ -22,8 +22,9 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - Memory delta triage: accept into working, accept into episodic, accept into semantic, reject as unsupported, or quarantine pending source/owner decision, with locator and scope.
 - Publication design profile with page geometry, typography, captions, tables, case boxes/callouts, headers/footers, numbering, and inspection plan.
 - Design tokens, template/component inventory, font actual-load/readback, rendered-page QA checklist, visual QA route-back, front matter/TOC policy, material/asset coverage, note display policy, and pre-ship proof review.
+- Proof/design memory reuse report with accepted design rules, rejected stale rules, affected artifact classes, and freshness triggers.
 - Publication-proof handoff packet with artifact target, proof profile, asset/material coverage, representative rendered-page classes, unresolved source/memory risks, owner/export next action, and freshness obligations.
-- Source-memory-publication route-back packet mapping defects to memory refresh, source/evidence repair, asset request, proof design change, owner/export decision, or typed blocker.
+- Source-memory-publication route-back packet mapping defects to memory refresh, source/evidence repair, asset/right/source freshness, asset request, proof design change, owner/export decision, or typed blocker.
 - PDF export receipt boundary and typed blockers for missing memory, proof, final-export, owner, asset, or lifecycle evidence.
 
 ## AI-First / Contract-Light Boundary
@@ -37,6 +38,7 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 
 - Keep book memory as Book Forge or book-workspace artifact refs. OPL may project memory refs and lifecycle state, but it must not contain, accept, reject, or replace memory bodies.
 - Refresh memory after chapter readiness, owner review, figure/table updates, major style/source repair, publication-proof pass, or any repair that changes durable reader, source, style, claim, or continuity rules.
+- Absorb owner critique and complete-version comparison only after routing each item to memory, source/reference, proof/design, asset/rights, chapter repair, owner decision, or not adopted.
 - Before accepting a memory delta, require source/decision locator, memory layer, scope, affected chapters, and freshness trigger. If any part is missing, route back to source/reference review, meta review, or owner decision.
 - Keep memory concise and cited. Do not promote unsupported conclusions into semantic memory.
 - Feed chapter context packs through selected refs and traces; do not dump the whole memory body into every chapter prompt.
@@ -45,6 +47,7 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - For proof visual QA, inspect representative rendered pages by page class: front matter, TOC, chapter opening, dense body, figure/table, callout/case box, notes, and closing pages when present.
 - Before publication-proof handoff, check unresolved source/reference, reviewer-absorption, memory, asset, rights, and owner-decision route-backs. If any one changes durable truth or artifact scope, return the route-back packet instead of proof closure.
 - Route source, memory, reviewer-absorption, and proof defects to the highest owning ref before claiming proof or export progress; refreshed rendered pages alone cannot close source-memory or owner-decision gaps.
+- Reuse proof/design memory only with a current artifact target, source/asset/rights freshness check, and rendered-page class obligation; stale design memory becomes a route-back, not proof evidence.
 - Missing proof tokens or font/rendered-page evidence blocks proof/export claims only; it does not block ordinary drafting or review-only PDFs.
 - Final export additionally requires owner/export acceptance.
 - Treat real photos, generated figures, diagrams, tables, case boxes, and reviewer callouts as different artifact classes.
@@ -57,7 +60,7 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 
 ## Legacy Coverage
 
-This workflow-level skill covers the retired `bookforge-book-memory-curator` and `bookforge-publication-designer` entries. Keep book memory, publication design, rendered-page QA, proof/export handoff, and owner/export boundary review together.
+This workflow-level skill covers the retired `bookforge-book-memory-curator` and `bookforge-publication-designer` entries. Keep book memory, proof/design memory reuse, publication design, rendered-page QA, proof/export handoff, and owner/export boundary review together; do not restore the retired fine-grained skill directories.
 
 ## Blockers And Repair Targets
 
@@ -66,12 +69,15 @@ This workflow-level skill covers the retired `bookforge-book-memory-curator` and
 - `semantic_memory_missing`: create or locate durable premise, reader-style, terminology, source-map, style-rule, and evidence-rule refs before broad rewrite or style claims.
 - `memory_qc_missing`: run memory QC before continuity-sensitive handoff.
 - `memory_source_unsupported`: demote or block unsupported memory items.
+- `owner_critique_absorption_missing`: classify owner critique by memory, source, proof/design, asset/right, chapter, owner decision, or not-adopted route before publication handoff.
 - `private_memory_leakage`: remove public/projection leakage and update memory-QC and anti-leakage refs.
 - `publication_design_profile_missing`: create design profile before proof claim.
 - `font_readback_missing`: block proof/export claim until readback or accepted fallback inspection exists.
 - `figure_asset_missing`: keep review text possible, block full chapter/proof readiness.
 - `photo_asset_boundary_missing`: block proof/export claims until photo refs, captions, and public/rights boundary are recorded.
+- `asset_rights_freshness_missing`: refresh or route asset/source/right refs before proof/export handoff.
 - `rendered_page_qa_missing`: run inspection before proof handoff.
 - `proof_visual_qa_scope_incomplete`: inspect the required page classes or block proof/export claims.
+- `proof_design_memory_stale`: refresh or route design memory before proof/export closure.
 - `source_memory_route_back_missing`: return a route-back packet before proof/export closure when durable source or memory refs are stale, unsupported, or conflicted.
 - `owner_export_acceptance_missing`: block final export claim.
