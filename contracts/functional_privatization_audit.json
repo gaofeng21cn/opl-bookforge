@@ -712,6 +712,7 @@
       "current_surface_refs": [
         "project_hygiene_helper"
       ],
+      "active_caller_allowed": false,
       "active_callers": [
         "scripts/verify.sh source-byproduct guard",
         "explicit Book Forge workspace hygiene readback"

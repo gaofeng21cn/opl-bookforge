@@ -117,13 +117,6 @@
   "source_contract_ref": "contracts/pack_compiler_input.json",
   "generated_surfaces": [
     {
-      "surface_id": "opl_ledger_artifact_registration",
-      "owner": "one-person-lab",
-      "source_contract": "contracts/opl_ledger_artifact_registration.json",
-      "domain_policy": "opl_ledger_registers_bookforge_artifact_refs_hashes_indexes_reviews_and_receipt_refs_only",
-      "status": "descriptor_source_available"
-    },
-    {
       "surface_id": "cli",
       "owner": "one-person-lab",
       "source_contract": "contracts/pack_compiler_input.json",
@@ -181,14 +174,6 @@
     }
   ],
   "handoff_surfaces": [
-    {
-      "surface_id": "opl_ledger_artifact_registration",
-      "current_paths": [
-        "contracts/opl_ledger_artifact_registration.json"
-      ],
-      "current_role": "domain_refs_only_registration_contract",
-      "target_role": "opl_ledger_artifact_registration_projection"
-    },
     {
       "surface_id": "cli",
       "current_paths": [

@@ -699,19 +699,10 @@ def assert_generated_handoff_ledger_projection(generated_handoff: dict[str, Any]
     ):
         assert projection[field] is False, f"ledger projection.{field} expected false"
 
-    generated_surface = {
-        item["surface_id"]: item for item in generated_handoff["generated_surfaces"]
-    }["opl_ledger_artifact_registration"]
-    assert generated_surface["owner"] == "one-person-lab"
-    assert generated_surface["source_contract"] == "contracts/opl_ledger_artifact_registration.json"
-    assert generated_surface["status"] == "descriptor_source_available"
-
-    handoff_surface = {
-        item["surface_id"]: item for item in generated_handoff["handoff_surfaces"]
-    }["opl_ledger_artifact_registration"]
-    assert handoff_surface["current_paths"] == ["contracts/opl_ledger_artifact_registration.json"]
-    assert handoff_surface["current_role"] == "domain_refs_only_registration_contract"
-    assert handoff_surface["target_role"] == "opl_ledger_artifact_registration_projection"
+    generated_surface_ids = {item["surface_id"] for item in generated_handoff["generated_surfaces"]}
+    handoff_surface_ids = {item["surface_id"] for item in generated_handoff["handoff_surfaces"]}
+    assert "opl_ledger_artifact_registration" not in generated_surface_ids
+    assert "opl_ledger_artifact_registration" not in handoff_surface_ids
 
 
 def assert_capability_map_standard_kinds(capability_map: dict[str, Any]) -> None:
