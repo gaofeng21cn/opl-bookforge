@@ -120,7 +120,8 @@ You can start with prompts like:
   <summary><strong>Technical OPL / operator boundary</strong></summary>
 
 - The package exposes action contracts for `shape-storyline` and `materialize-book`; current generated MCP/OpenAI/AI SDK descriptors are descriptors only unless a runtime surface proves execution.
-- `scripts/verify.sh` validates the OPL standard scaffold and generated interface descriptors through the local OPL CLI.
+- `scripts/verify.sh` validates the OPL standard scaffold, generated interface descriptors, policy tests, helper doctor/self-test checks, and source hygiene through the local OPL CLI without compiling PDFs.
+- `scripts/verify.sh pdf-smoke` runs the proof-backend PDF compile/render smoke and requires `pandoc` plus `xelatex`.
 - OMA evidence lives under `docs/evidence/oma-agent-lab/`.
 - The real pilot evidence lives under `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot exports include DOCX, HTML, PDF, rendered pages, generated figures, quality receipts, and typed owner blockers. They are evidence artifacts, not owner publication acceptance.
@@ -153,11 +154,12 @@ You can start with prompts like:
 
 ```bash
 scripts/verify.sh
+scripts/verify.sh pdf-smoke
 python3 runtime/native_helpers/bookforge_pdf_export.py --doctor
 python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
 ```
 
-`scripts/verify.sh` runs OPL scaffold and generated-interface validation. The pilot verifier checks the existing pilot evidence pack, exports, rendered pages, style scan, figures, and owner-gate blockers.
+`scripts/verify.sh` is the default local structural verifier. `scripts/verify.sh pdf-smoke` is the explicit proof-backend lane for PDF compile/render behavior; it does not prove publication approval, final-export readiness, or owner acceptance. The pilot verifier checks the existing pilot evidence pack, exports, rendered pages, style scan, figures, and owner-gate blockers.
 
 ## Further Reading
 

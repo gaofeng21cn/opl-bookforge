@@ -4,6 +4,21 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 opl_bin="${OPL_BIN:-/Users/gaofeng/workspace/one-person-lab/bin/opl}"
 hygiene_helper="${repo_dir}/runtime/native_helpers/bookforge_project_hygiene.py"
+lane="${1:-default}"
+run_pdf_smoke=0
+
+case "${lane}" in
+  default|fast|structural)
+    ;;
+  pdf-smoke|full)
+    run_pdf_smoke=1
+    ;;
+  *)
+    echo "Unknown lane: ${lane}" >&2
+    echo "Usage: scripts/verify.sh [default|fast|structural|pdf-smoke|full]" >&2
+    exit 1
+    ;;
+esac
 
 export PYTHONDONTWRITEBYTECODE=1
 
@@ -108,7 +123,11 @@ assert (root / item["project_local_path"]).exists(), item
 PY
 rm -rf "${image_tmp_dir}"
 
-if command -v pandoc >/dev/null 2>&1 && command -v xelatex >/dev/null 2>&1; then
+if [ "${run_pdf_smoke}" -eq 1 ]; then
+  if ! command -v pandoc >/dev/null 2>&1 || ! command -v xelatex >/dev/null 2>&1; then
+    echo "BookForge pdf-smoke requires pandoc and xelatex" >&2
+    exit 1
+  fi
   tmp_dir="$(mktemp -d)"
   cleanup_paths+=("${tmp_dir}")
   cat >"${tmp_dir}/sample.md" <<'EOF'

@@ -4,6 +4,7 @@
   "private": true,
   "description": "OPL-standard Foundry Agent domain pack for book authoring.",
   "scripts": {
-    "verify": "scripts/verify.sh"
+    "verify": "scripts/verify.sh",
+    "verify:pdf-smoke": "scripts/verify.sh pdf-smoke"
   }
 }
