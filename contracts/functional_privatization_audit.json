@@ -714,6 +714,7 @@
         "project_hygiene_helper"
       ],
       "active_default_caller_allowed": false,
+      "active_caller_allowed": false,
       "active_callers": [
         "scripts/verify.sh source-byproduct guard",
         "explicit Book Forge workspace hygiene readback"

@@ -391,6 +391,9 @@ def assert_private_platform_retirement_matrix(
         assert module["semantic_equivalence_status"] == "cleared_by_boundary", module_id
         assert module["audit_visibility"] == "hidden_by_default", module_id
         assert module["no_forbidden_write_evidence_ref"], module_id
+    hygiene_module = modules["opl-bookforge.project-hygiene-helper"]
+    assert hygiene_module["active_caller_allowed"] is False
+    assert hygiene_module["active_default_caller_allowed"] is False
 
     projection = generated_handoff["private_platform_retirement_projection"]
     assert projection["owner"] == "one-person-lab"
