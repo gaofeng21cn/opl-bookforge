@@ -1,8 +1,8 @@
-# Book Materialization Stage
+# Book Materialization Handoff Stage
 
 Stage id: `book-materialization`
 Action ref: `materialize-book`
 
-This stage owns the second half of the workflow. It turns the storyline into book deliverable refs: chapter briefs, reference-draft absorption when owner examples exist, reader-facing per-chapter Markdown drafts, a merged manuscript, illustration plan, tables, style pass, wording pass, layout checks, and handoff.
+This stage is the explicit follow-on locator after `storyline-architecture`. It validates that the storyline package has the typed refs needed for materialization and hands off to the focused production stages. It does not draft chapters, run source/style review, run meta-review, produce proof/export artifacts, or collapse all book production into one closeout.
 
-Quality control covers Markdown-first chapter sharding, target extent, reference-derived book-prose rules, contiguous review-package readiness, reader-facing first-draft shape, content consistency, writing style consistency, terminology, source grounding, illustration/table fit, typography, pacing, and owner decisions. Independent meta-review and serious critique must pass through a revision entrypoint decision before edits, so Book Forge can route repairs to artifact target, storyline, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blockers. The stage returns typed blockers when manuscript body refs, target extent evidence, data refs, project-local image assets, image rights, layout target, reference absorption evidence, revision route evidence, or owner gate evidence is missing.
+The stage returns one of: a materialization handoff to `chapter-production-planning`, a route-back to `storyline-architecture`, a typed blocker, or a human gate.

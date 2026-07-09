@@ -28,7 +28,7 @@ Machine boundary: 人读公开入口。机器真相继续归 `contracts/`、`age
 - 用直接、肯定、具体的人工编辑口吻打磨文字。
 - 让 DOCX/PDF 导出、插图计划、表格计划、风格报告和签收门保持可追踪。
 
-Book Forge 以两阶段推进写书：第一阶段梳理故事线，第二阶段生成书稿包，并把质量检查和交接证据绑定在同一个书籍项目上。
+Book Forge 以 stage-led 路线推进写书：先梳理故事线，再通过聚焦的 materialization stages 进入章节规划、章节写作、来源/风格审查和 proof/export 交接，并把质量检查和交接证据绑定在同一个书籍项目上。
 
 <table>
   <tr>
@@ -56,8 +56,8 @@ Book Forge 以两阶段推进写书：第一阶段梳理故事线，第二阶段
 **故事线优先**<br/>
 Book Forge 先建立前提、读者承诺、材料地图、论证弧线、章节论点链和风格契约，再进入章节写作。
 
-**书稿生成作为完整阶段**<br/>
-第二阶段产出章节草稿、正文、插图计划、表格计划、风格报告、AI 味措辞检查、排版质检和导出交接引用。
+**Materialization 拆成聚焦阶段**<br/>
+`book-materialization` 现在是故事线通过后的显式 handoff locator。章节规划、章节写作、来源/风格审查、proof/export 交接分别由顶层 stage 承担，避免一个 stage 同时吞下多个独立判断。
 
 **声音和风格可检查**<br/>
 风格契约随书籍项目推进。检查重点包括术语一致、表达具体、肯定式编辑口吻，以及容易让文字显得模板化的重复模式。
@@ -96,7 +96,11 @@ Book Forge 可以产出证据、草稿、导出文件和结构化阻塞。出版
 ## 当前交付重点
 
 - `storyline-architecture`：前提、读者承诺、论证弧线、材料地图、章节论点链、风格契约和负责人交接。
-- `book-materialization`：章节草稿包、正文、插图计划、表格计划、风格一致性报告、AI 味修订报告、返修入口决策、排版质检、导出文件和负责人交接。
+- `book-materialization`：已确认故事线后的 materialization handoff locator；判断是否可以进入章节生产规划，或是否必须 route back。
+- `chapter-production-planning`：目标篇幅、章节预算、生产队列、章节任务卡、context plan 和书籍记忆 refs。
+- `chapter-materialization`：章节 context pack、reader-entry plan、逐章 Markdown 草稿 refs、章节 QC 和可复用返修回写。
+- `source-style-integrity-review`：claim/source integrity、风格一致性、AI 味扫描、独立 meta-review 路由和返修入口 refs。
+- `publication-proof-handoff`：review/proof/export 交接 refs、图表 readiness、需要时的渲染页 QA refs、负责人决策、阻塞和 artifact-role 边界。
 - `OMA Agent Lab`：基线接管测试套件、AI 评审、机制提案引用、外部套件自进化和无补丁工单回执。
 - `真实短书试运行`：已经产出故事线材料、正文、两张 PNG 插图、表格计划、DOCX/HTML/PDF 导出、PDF 渲染页、质量回执和结构化负责人阻塞。
 

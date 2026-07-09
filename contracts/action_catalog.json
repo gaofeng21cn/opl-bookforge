@@ -64,7 +64,7 @@
       "action_id": "shape-storyline",
       "title": "Shape Storyline",
       "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
-      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then uses book-materialization as an explicit handoff locator into focused materialization stages: chapter production planning, chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
@@ -144,8 +144,8 @@
     {
       "action_id": "materialize-book",
       "title": "Materialize Book",
-      "summary": "Materialize the book into chapter drafts, illustration and table specs, style pass, layout checks, and owner-gated handoff refs.",
-      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+      "summary": "Enter the materialization handoff and focused chapter planning, drafting, source/style review, and proof/export handoff sequence with owner-gated refs.",
+      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then uses book-materialization as an explicit handoff locator into focused materialization stages: chapter production planning, chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {

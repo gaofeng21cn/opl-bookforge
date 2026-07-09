@@ -10,21 +10,29 @@
       "storyline-architecture"
     ],
     "follow_on_stage_refs": [
-      "book-materialization"
+      "book-materialization",
+      "chapter-production-planning",
+      "chapter-materialization",
+      "source-style-integrity-review",
+      "publication-proof-handoff"
     ],
-    "follow_on_policy": "book_materialization_is_reached_from_storyline_handoff_or_explicit_stage_selection_not_a_second_default_route"
+    "follow_on_policy": "materialization_is_reached_from_storyline_handoff_or_explicit_stage_selection; book-materialization is the handoff locator and the focused materialization sequence is chapter-production-planning -> chapter-materialization -> source-style-integrity-review -> publication-proof-handoff, not independent default entries."
   },
   "explicit_variants": [
     {
       "variant_id": "book-materialization-follow-on",
       "lane_kind": "route_variant",
       "stage_refs": [
-        "book-materialization"
+        "book-materialization",
+        "chapter-production-planning",
+        "chapter-materialization",
+        "source-style-integrity-review",
+        "publication-proof-handoff"
       ],
       "explicit_selection_required": true,
       "hidden_by_default": true,
       "can_be_default_without_explicit_selection": false,
-      "entry_policy": "requires_storyline_architecture_handoff_owner_receipt_typed_blocker_or_explicit_operator_stage_selection"
+      "entry_policy": "requires_storyline_architecture_handoff_owner_receipt_typed_blocker_or_explicit_operator_stage_selection; focused materialization stages follow in sequence and cannot claim book quality, proof readiness, final export, or owner acceptance by provider completion alone."
     }
   ],
   "default_surface_policy": {

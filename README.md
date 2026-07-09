@@ -28,7 +28,7 @@ Writing a book is long-form delivery work. The hard part is keeping the reader p
 - Can the prose read like human editorial writing, with direct affirmative phrasing and concrete language?
 - Can exported DOCX/PDF files, figure plans, table plans, style reports, and owner gates stay traceable?
 
-It organizes a two-stage route from storyline architecture to book materialization, then keeps quality checks and handoff evidence attached to the same book project.
+It organizes a stage-led route from storyline architecture into focused materialization stages, then keeps quality checks and handoff evidence attached to the same book project.
 
 <table>
   <tr>
@@ -56,8 +56,8 @@ It organizes a two-stage route from storyline architecture to book materializati
 **Storyline First**<br/>
 Book Forge starts with the book's premise, reader promise, source map, argument arc, chapter thesis chain, and style contract before materializing chapters.
 
-**Book Materialization As A Stage**<br/>
-The second stage produces chapter drafts, manuscript body, illustration plans, table plans, style reports, AI-flavor revision checks, layout QC, and export handoff refs.
+**Materialization Split Into Focused Stages**<br/>
+`book-materialization` is now the explicit follow-on handoff after storyline approval. Chapter planning, chapter drafting, source/style review, and proof/export handoff each have their own top-level stage so one stage does not hide several independent judgments.
 
 **Voice And Style Stay Inspectable**<br/>
 The style contract travels with the book project. Checks look for consistent terminology, concrete phrasing, affirmative editorial language, and repeated patterns that make prose feel generated.
@@ -102,7 +102,11 @@ You can start with prompts like:
 ## Current Delivery Focus
 
 - `storyline-architecture`: premise, reader promise, argument arc, source map, chapter thesis chain, style contract, and owner handoff.
-- `book-materialization`: chapter draft bundle, manuscript body, figure plan, table plan, style consistency report, AI-flavor revision report, revision entrypoint decision, layout QC, exports, and owner handoff.
+- `book-materialization`: follow-on handoff locator after an approved storyline; it decides whether materialization can enter chapter production planning or must route back.
+- `chapter-production-planning`: target extent, chapter budgets, production queue, chapter task cards, context plan, and book-memory refs.
+- `chapter-materialization`: chapter context packs, reader-entry plans, per-chapter Markdown draft refs, chapter QC, and chapter repair back-propagation.
+- `source-style-integrity-review`: claim/source integrity, style consistency, AI-flavor scan, independent meta-review routing, and repair entrypoint refs.
+- `publication-proof-handoff`: review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundary.
 - `OMA Agent Lab`: baseline takeover suite, AI reviewer evaluation, mechanism proposal refs, external-suite self-evolution, and no-patch work-order receipt.
 - `real book pilot`: a short-book pilot produced storyline artifacts, manuscript body, two PNG figures, table plan, DOCX/HTML/PDF exports, rendered PDF pages, quality receipts, and typed owner blockers.
 

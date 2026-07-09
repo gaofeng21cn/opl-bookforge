@@ -7,10 +7,14 @@ Machine boundary: Human-readable project overview. Machine truth belongs in cont
 
 ## Project Role
 
-`OPL Book Forge` is the OPL-standard Foundry Agent domain pack for book authoring. It turns source material into a coherent book route through two primary stages:
+`OPL Book Forge` is the OPL-standard Foundry Agent domain pack for book authoring. It turns source material into a coherent book route through a storyline default stage plus focused materialization stages:
 
 - `storyline-architecture`: shape the premise, reader promise, argument arc, source map, chapter thesis chain, and writing style contract.
-- `book-materialization`: create chapter drafts, manuscript body, illustration plans, table plans, style reports, AI-flavor revision checks, layout QC, exports, and owner handoff refs.
+- `book-materialization`: accept the approved storyline closeout and route the work into materialization stages or back to missing storyline/source/owner refs.
+- `chapter-production-planning`: allocate target extent, chapter budgets, production queue, task cards, context plan, and memory refs.
+- `chapter-materialization`: produce chapter context packs, reader-entry plans, per-chapter Markdown draft refs, chapter QC, and repair back-propagation refs.
+- `source-style-integrity-review`: review source/claim integrity, style consistency, AI-flavor/internal-language residue, meta-review routing, and repair entrypoint refs.
+- `publication-proof-handoff`: package review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundaries.
 
 After full-manuscript meta-review or serious critique, Book Forge routes repairs by level before editing: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. This keeps top-level book design defects from being hidden by sentence-level polish.
 
@@ -18,7 +22,7 @@ The product name is `OPL Book Forge`. The repo slug, `domain_id`, and `foundry_a
 
 ## Current Evidence
 
-The repo has OPL scaffold/interface validation, OMA Agent Lab takeover and external-suite self-evolution evidence, and a real short-book pilot evidence pack. The pilot produced storyline artifacts, book materialization artifacts, manuscript body, two generated figures, table plans, DOCX/HTML/PDF exports, rendered PDF pages, quality receipts, and owner-gated typed blockers.
+The repo has OPL scaffold/interface validation, OMA Agent Lab takeover and external-suite self-evolution evidence, and a historical real short-book pilot evidence pack. The pilot produced storyline artifacts, book materialization artifacts, manuscript body, two generated figures, table plans, DOCX/HTML/PDF exports, rendered PDF pages, quality receipts, and owner-gated typed blockers under the older materialization model; current materialization is split into the focused stage graph above.
 
 ## Current Boundary
 
