@@ -18,5 +18,27 @@
     "domain_owns_truth_quality_artifact_memory_and_receipts": true
   },
   "delivery_domain": "book_authoring",
-  "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions."
+  "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow has two core parts: first shape the storyline, then materialize the book as chapters, illustrations, tables, layout, and quality-controlled handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table plans, typography checks, and owner-gated publication decisions.",
+  "dependency_profiles": [
+    {
+      "profile_id": "bookforge-publication-proof",
+      "profile_kind": "domain_dependency_profile",
+      "profile_owner": "opl-bookforge",
+      "domain_id": "opl-bookforge",
+      "domain_truth_owner": "opl-bookforge",
+      "source": {
+        "source_kind": "domain_profile_ref",
+        "profile_ref": "bookforge-zh-publication-proof",
+        "helper_ref": "runtime/native_helpers/bookforge_pdf_export.py"
+      },
+      "opl_role": "dependency_environment_check",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_artifact_body": false,
+        "can_authorize_publication_readiness": false,
+        "can_authorize_final_export": false,
+        "can_issue_owner_receipt": false
+      }
+    }
+  ]
 }
