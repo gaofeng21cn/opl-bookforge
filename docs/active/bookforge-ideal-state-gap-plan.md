@@ -5,7 +5,7 @@ Purpose: `active_truth_plan`
 State: `active_gap_owner`
 Machine boundary: Human-readable active plan. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, pilot evidence, owner receipts, and typed blockers.
 
-This document is the active development baton for OPL Book Forge. It tracks current completion progress, the gap from the ideal Book Forge domain pack, and the next executable agent prompt. It does not make runtime, publication, export, owner-acceptance, or production-readiness claims.
+This document is the active development baton for OPL Book Forge. It tracks the current structural baseline, the functional / structural gaps from the ideal Book Forge domain pack, and the next executable agent prompt. It does not make runtime, publication, export, owner-acceptance, or production-readiness claims.
 
 Current SSOT reading: this plan keeps Book Forge functional / structural gaps only: standard scaffold/interface shape, golden-path routing, stage pack refs, generated/hosted surface consumption, PDF/proof helper plumbing, revision-entrypoint routing, workspace artifact-lifecycle handoff refs, default-caller structural gates, no-active-caller/tombstone/provenance cleanup, and no-second-truth guards. Real long-book runs, owner acceptance, publication-proof visual acceptance, final export acceptance, live OPL StageRun / hosted artifact-handoff parity, physical delete authorization, and production-ready claims are later evidence lanes. They must not be mixed into this active gap list, and scaffold/interface validation, pilot exports, rendered pages, docs foldback, OMA evidence, or helper plumbing cannot replace them.
 
@@ -22,7 +22,7 @@ Book Forge should be an OPL-standard Foundry Agent domain pack for long-form boo
 
 Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim rules, quality/export verdict boundaries, artifact authority, and owner receipts. OPL owns generated surfaces, framework runtime/projection, workspace artifact lifecycle, dependency doctor routes, and hosted transport.
 
-## Current Completion Progress
+## Current Structural Baseline
 
 | Area | Current status | Evidence owner | Boundary |
 | --- | --- | --- | --- |
