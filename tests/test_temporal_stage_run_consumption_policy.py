@@ -594,6 +594,37 @@ def assert_no_forbidden_keys(payload: Any, forbidden: set[str], label: str) -> N
             assert_no_forbidden_keys(value, forbidden, label)
 
 
+def assert_no_key_prefix(payload: Any, prefix: str, label: str) -> None:
+    if isinstance(payload, dict):
+        present = {key for key in payload if key.startswith(prefix)}
+        assert not present, f"{label} includes stale {prefix!r} keys: {present}"
+        for value in payload.values():
+            assert_no_key_prefix(value, prefix, label)
+    elif isinstance(payload, list):
+        for value in payload:
+            assert_no_key_prefix(value, prefix, label)
+
+
+def assert_handoff_current_paths_exist(repo: Path, generated_handoff: dict[str, Any]) -> None:
+    for surface in generated_handoff["handoff_surfaces"]:
+        for current_path in surface.get("current_paths", []):
+            assert (repo / current_path).exists(), f"{surface['surface_id']} points at missing {current_path}"
+
+
+def assert_stage_native_artifact_contract_is_domain_neutral(repo: Path) -> None:
+    assert_no_key_prefix(
+        load_json(repo, "contracts/stage_native_artifact_contract.json"),
+        "oma_",
+        "stage_native_artifact_contract",
+    )
+    for artifact_contract in (repo / "contracts/stage_native_artifacts").rglob("*.json"):
+        assert_no_key_prefix(
+            json.loads(artifact_contract.read_text(encoding="utf-8")),
+            "oma_",
+            artifact_contract.relative_to(repo).as_posix(),
+        )
+
+
 def assert_opl_ledger_artifact_registration(payload: dict[str, Any]) -> None:
     assert payload["surface_kind"] == "bookforge_opl_ledger_artifact_registration_contract"
     assert payload["version"] == "bookforge-opl-ledger-artifact-registration.v1"
@@ -806,6 +837,8 @@ def main() -> int:
         == "target_agent_feedback_external_suite"
     )
     assert trigger_policy["repo_fix_execution_requires_opl_developer_mode"] is True
+    assert_handoff_current_paths_exist(repo, generated_handoff)
+    assert_stage_native_artifact_contract_is_domain_neutral(repo)
     trigger = agent_lab_handoff["feedback_self_evolution_trigger"]
     assert trigger["surface_kind"] == "opl_foundry_agent_feedback_self_evolution_trigger"
     assert (

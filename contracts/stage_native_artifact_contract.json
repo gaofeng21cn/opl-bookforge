@@ -212,7 +212,7 @@
         "body_owner": "one-person-lab",
         "materialized_by": "opl-meta-agent",
         "runtime_state_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "required_fields": [
           "stage_id",
           "stage_attempt_id",
@@ -266,14 +266,14 @@
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
         "owner_receipt_body_owner": "OPL Book Forge",
-        "oma_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
       "current_pointer_contract": {
         "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/storyline-architecture",
         "current_file_name": "current.json",
         "pointer_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
       },
       "canonical_artifact_contract": {
@@ -287,7 +287,7 @@
         "export_ref_template": "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
         "export_file_name": "export.json",
         "export_owner": "OPL Book Forge",
-        "oma_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
       "lineage_contract": {
@@ -309,7 +309,7 @@
         "retention_file_name": "retention.json",
         "retention_owner": "one-person-lab",
         "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
-        "oma_can_delete_stage_attempt_history": false
+        "domain_agent_can_delete_stage_attempt_history": false
       },
       "physical_kernel_locator_contract": {
         "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture",
@@ -329,8 +329,8 @@
         "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
         "derived_index_role": "rebuildable_projection_not_primary_truth",
         "status_source_of_truth": "physical_stage_folder",
-        "oma_materializes_ref_template_only": true,
-        "oma_can_create_runtime_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_create_runtime_state": false
       },
       "conformance_contract": {
         "surface_kind": "opl_stage_artifact_runtime_conformance",
@@ -360,8 +360,8 @@
           "attempt_orphan"
         ],
         "domain_readiness_claim": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_claim_conformance_pass": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_claim_conformance_pass": false
       },
       "workbench_consumption_contract": {
         "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
@@ -385,8 +385,8 @@
         ],
         "artifact_body_access": false,
         "domain_verdict_authority": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_write_workbench_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_write_workbench_state": false
       },
       "output_roles": [
         {
@@ -464,25 +464,25 @@
       ],
       "authority_boundary": {
         "opl_framework_owns_stage_folder_lifecycle": true,
-        "oma_role": "contract_compiler_and_refs_materializer",
-        "oma_can_own_agent_lab_runner": false,
-        "oma_can_own_queue": false,
-        "oma_can_own_attempt_ledger": false,
-        "oma_can_own_worktree_lifecycle": false,
-        "oma_can_own_promotion_gate": false,
-        "oma_can_own_app_shell": false,
-        "oma_can_write_target_owner_closeout": false,
-        "oma_can_create_stage_folder_runtime_state": false,
-        "oma_can_write_stage_folder_runtime_state": false,
-        "oma_can_generate_target_domain_owner_receipt": false,
-        "oma_can_write_target_owner_receipt_body": false,
-        "oma_can_write_target_domain_truth": false,
-        "oma_can_write_target_domain_memory_body": false,
-        "oma_can_mutate_target_domain_artifact_body": false,
-        "oma_can_authorize_target_quality_or_export": false,
-        "oma_can_owner_promote_target_agent": false,
-        "oma_can_promote_default_agent_without_gate": false,
-        "oma_can_manage_target_worktree_lifecycle": false
+        "domain_agent_role": "contract_compiler_and_refs_materializer",
+        "domain_agent_can_own_agent_lab_runner": false,
+        "domain_agent_can_own_queue": false,
+        "domain_agent_can_own_attempt_ledger": false,
+        "domain_agent_can_own_worktree_lifecycle": false,
+        "domain_agent_can_own_promotion_gate": false,
+        "domain_agent_can_own_app_shell": false,
+        "domain_agent_can_write_target_owner_closeout": false,
+        "domain_agent_can_create_stage_folder_runtime_state": false,
+        "domain_agent_can_write_stage_folder_runtime_state": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_write_target_owner_receipt_body": false,
+        "domain_agent_can_write_target_domain_truth": false,
+        "domain_agent_can_write_target_domain_memory_body": false,
+        "domain_agent_can_mutate_target_domain_artifact_body": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_owner_promote_target_agent": false,
+        "domain_agent_can_promote_default_agent_without_gate": false,
+        "domain_agent_can_manage_target_worktree_lifecycle": false
       }
     },
     {
@@ -578,7 +578,7 @@
         "body_owner": "one-person-lab",
         "materialized_by": "opl-meta-agent",
         "runtime_state_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "required_fields": [
           "stage_id",
           "stage_attempt_id",
@@ -632,14 +632,14 @@
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
         "owner_receipt_body_owner": "OPL Book Forge",
-        "oma_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
       "current_pointer_contract": {
         "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/book-materialization",
         "current_file_name": "current.json",
         "pointer_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
       },
       "canonical_artifact_contract": {
@@ -653,7 +653,7 @@
         "export_ref_template": "stage-export-ref:opl-bookforge/book-materialization/{stage_attempt_id}",
         "export_file_name": "export.json",
         "export_owner": "OPL Book Forge",
-        "oma_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
       "lineage_contract": {
@@ -675,7 +675,7 @@
         "retention_file_name": "retention.json",
         "retention_owner": "one-person-lab",
         "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
-        "oma_can_delete_stage_attempt_history": false
+        "domain_agent_can_delete_stage_attempt_history": false
       },
       "physical_kernel_locator_contract": {
         "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/book-materialization",
@@ -695,8 +695,8 @@
         "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
         "derived_index_role": "rebuildable_projection_not_primary_truth",
         "status_source_of_truth": "physical_stage_folder",
-        "oma_materializes_ref_template_only": true,
-        "oma_can_create_runtime_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_create_runtime_state": false
       },
       "conformance_contract": {
         "surface_kind": "opl_stage_artifact_runtime_conformance",
@@ -726,8 +726,8 @@
           "attempt_orphan"
         ],
         "domain_readiness_claim": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_claim_conformance_pass": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_claim_conformance_pass": false
       },
       "workbench_consumption_contract": {
         "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
@@ -751,8 +751,8 @@
         ],
         "artifact_body_access": false,
         "domain_verdict_authority": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_write_workbench_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_write_workbench_state": false
       },
       "output_roles": [
         {
@@ -830,25 +830,25 @@
       ],
       "authority_boundary": {
         "opl_framework_owns_stage_folder_lifecycle": true,
-        "oma_role": "contract_compiler_and_refs_materializer",
-        "oma_can_own_agent_lab_runner": false,
-        "oma_can_own_queue": false,
-        "oma_can_own_attempt_ledger": false,
-        "oma_can_own_worktree_lifecycle": false,
-        "oma_can_own_promotion_gate": false,
-        "oma_can_own_app_shell": false,
-        "oma_can_write_target_owner_closeout": false,
-        "oma_can_create_stage_folder_runtime_state": false,
-        "oma_can_write_stage_folder_runtime_state": false,
-        "oma_can_generate_target_domain_owner_receipt": false,
-        "oma_can_write_target_owner_receipt_body": false,
-        "oma_can_write_target_domain_truth": false,
-        "oma_can_write_target_domain_memory_body": false,
-        "oma_can_mutate_target_domain_artifact_body": false,
-        "oma_can_authorize_target_quality_or_export": false,
-        "oma_can_owner_promote_target_agent": false,
-        "oma_can_promote_default_agent_without_gate": false,
-        "oma_can_manage_target_worktree_lifecycle": false
+        "domain_agent_role": "contract_compiler_and_refs_materializer",
+        "domain_agent_can_own_agent_lab_runner": false,
+        "domain_agent_can_own_queue": false,
+        "domain_agent_can_own_attempt_ledger": false,
+        "domain_agent_can_own_worktree_lifecycle": false,
+        "domain_agent_can_own_promotion_gate": false,
+        "domain_agent_can_own_app_shell": false,
+        "domain_agent_can_write_target_owner_closeout": false,
+        "domain_agent_can_create_stage_folder_runtime_state": false,
+        "domain_agent_can_write_stage_folder_runtime_state": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_write_target_owner_receipt_body": false,
+        "domain_agent_can_write_target_domain_truth": false,
+        "domain_agent_can_write_target_domain_memory_body": false,
+        "domain_agent_can_mutate_target_domain_artifact_body": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_owner_promote_target_agent": false,
+        "domain_agent_can_promote_default_agent_without_gate": false,
+        "domain_agent_can_manage_target_worktree_lifecycle": false
       }
     },
     {
@@ -944,7 +944,7 @@
         "body_owner": "one-person-lab",
         "materialized_by": "opl-meta-agent",
         "runtime_state_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "required_fields": [
           "stage_id",
           "stage_attempt_id",
@@ -998,14 +998,14 @@
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
         "owner_receipt_body_owner": "OPL Book Forge",
-        "oma_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
       "current_pointer_contract": {
         "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/chapter-production-planning",
         "current_file_name": "current.json",
         "pointer_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
       },
       "canonical_artifact_contract": {
@@ -1019,7 +1019,7 @@
         "export_ref_template": "stage-export-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
         "export_file_name": "export.json",
         "export_owner": "OPL Book Forge",
-        "oma_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
       "lineage_contract": {
@@ -1041,7 +1041,7 @@
         "retention_file_name": "retention.json",
         "retention_owner": "one-person-lab",
         "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
-        "oma_can_delete_stage_attempt_history": false
+        "domain_agent_can_delete_stage_attempt_history": false
       },
       "physical_kernel_locator_contract": {
         "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/chapter-production-planning",
@@ -1061,8 +1061,8 @@
         "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
         "derived_index_role": "rebuildable_projection_not_primary_truth",
         "status_source_of_truth": "physical_stage_folder",
-        "oma_materializes_ref_template_only": true,
-        "oma_can_create_runtime_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_create_runtime_state": false
       },
       "conformance_contract": {
         "surface_kind": "opl_stage_artifact_runtime_conformance",
@@ -1092,8 +1092,8 @@
           "attempt_orphan"
         ],
         "domain_readiness_claim": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_claim_conformance_pass": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_claim_conformance_pass": false
       },
       "workbench_consumption_contract": {
         "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
@@ -1117,8 +1117,8 @@
         ],
         "artifact_body_access": false,
         "domain_verdict_authority": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_write_workbench_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_write_workbench_state": false
       },
       "output_roles": [
         {
@@ -1196,25 +1196,25 @@
       ],
       "authority_boundary": {
         "opl_framework_owns_stage_folder_lifecycle": true,
-        "oma_role": "contract_compiler_and_refs_materializer",
-        "oma_can_own_agent_lab_runner": false,
-        "oma_can_own_queue": false,
-        "oma_can_own_attempt_ledger": false,
-        "oma_can_own_worktree_lifecycle": false,
-        "oma_can_own_promotion_gate": false,
-        "oma_can_own_app_shell": false,
-        "oma_can_write_target_owner_closeout": false,
-        "oma_can_create_stage_folder_runtime_state": false,
-        "oma_can_write_stage_folder_runtime_state": false,
-        "oma_can_generate_target_domain_owner_receipt": false,
-        "oma_can_write_target_owner_receipt_body": false,
-        "oma_can_write_target_domain_truth": false,
-        "oma_can_write_target_domain_memory_body": false,
-        "oma_can_mutate_target_domain_artifact_body": false,
-        "oma_can_authorize_target_quality_or_export": false,
-        "oma_can_owner_promote_target_agent": false,
-        "oma_can_promote_default_agent_without_gate": false,
-        "oma_can_manage_target_worktree_lifecycle": false
+        "domain_agent_role": "contract_compiler_and_refs_materializer",
+        "domain_agent_can_own_agent_lab_runner": false,
+        "domain_agent_can_own_queue": false,
+        "domain_agent_can_own_attempt_ledger": false,
+        "domain_agent_can_own_worktree_lifecycle": false,
+        "domain_agent_can_own_promotion_gate": false,
+        "domain_agent_can_own_app_shell": false,
+        "domain_agent_can_write_target_owner_closeout": false,
+        "domain_agent_can_create_stage_folder_runtime_state": false,
+        "domain_agent_can_write_stage_folder_runtime_state": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_write_target_owner_receipt_body": false,
+        "domain_agent_can_write_target_domain_truth": false,
+        "domain_agent_can_write_target_domain_memory_body": false,
+        "domain_agent_can_mutate_target_domain_artifact_body": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_owner_promote_target_agent": false,
+        "domain_agent_can_promote_default_agent_without_gate": false,
+        "domain_agent_can_manage_target_worktree_lifecycle": false
       }
     },
     {
@@ -1310,7 +1310,7 @@
         "body_owner": "one-person-lab",
         "materialized_by": "opl-meta-agent",
         "runtime_state_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "required_fields": [
           "stage_id",
           "stage_attempt_id",
@@ -1364,14 +1364,14 @@
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
         "owner_receipt_body_owner": "OPL Book Forge",
-        "oma_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
       "current_pointer_contract": {
         "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/chapter-materialization",
         "current_file_name": "current.json",
         "pointer_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
       },
       "canonical_artifact_contract": {
@@ -1385,7 +1385,7 @@
         "export_ref_template": "stage-export-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
         "export_file_name": "export.json",
         "export_owner": "OPL Book Forge",
-        "oma_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
       "lineage_contract": {
@@ -1407,7 +1407,7 @@
         "retention_file_name": "retention.json",
         "retention_owner": "one-person-lab",
         "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
-        "oma_can_delete_stage_attempt_history": false
+        "domain_agent_can_delete_stage_attempt_history": false
       },
       "physical_kernel_locator_contract": {
         "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/chapter-materialization",
@@ -1427,8 +1427,8 @@
         "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
         "derived_index_role": "rebuildable_projection_not_primary_truth",
         "status_source_of_truth": "physical_stage_folder",
-        "oma_materializes_ref_template_only": true,
-        "oma_can_create_runtime_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_create_runtime_state": false
       },
       "conformance_contract": {
         "surface_kind": "opl_stage_artifact_runtime_conformance",
@@ -1458,8 +1458,8 @@
           "attempt_orphan"
         ],
         "domain_readiness_claim": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_claim_conformance_pass": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_claim_conformance_pass": false
       },
       "workbench_consumption_contract": {
         "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
@@ -1483,8 +1483,8 @@
         ],
         "artifact_body_access": false,
         "domain_verdict_authority": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_write_workbench_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_write_workbench_state": false
       },
       "output_roles": [
         {
@@ -1562,25 +1562,25 @@
       ],
       "authority_boundary": {
         "opl_framework_owns_stage_folder_lifecycle": true,
-        "oma_role": "contract_compiler_and_refs_materializer",
-        "oma_can_own_agent_lab_runner": false,
-        "oma_can_own_queue": false,
-        "oma_can_own_attempt_ledger": false,
-        "oma_can_own_worktree_lifecycle": false,
-        "oma_can_own_promotion_gate": false,
-        "oma_can_own_app_shell": false,
-        "oma_can_write_target_owner_closeout": false,
-        "oma_can_create_stage_folder_runtime_state": false,
-        "oma_can_write_stage_folder_runtime_state": false,
-        "oma_can_generate_target_domain_owner_receipt": false,
-        "oma_can_write_target_owner_receipt_body": false,
-        "oma_can_write_target_domain_truth": false,
-        "oma_can_write_target_domain_memory_body": false,
-        "oma_can_mutate_target_domain_artifact_body": false,
-        "oma_can_authorize_target_quality_or_export": false,
-        "oma_can_owner_promote_target_agent": false,
-        "oma_can_promote_default_agent_without_gate": false,
-        "oma_can_manage_target_worktree_lifecycle": false
+        "domain_agent_role": "contract_compiler_and_refs_materializer",
+        "domain_agent_can_own_agent_lab_runner": false,
+        "domain_agent_can_own_queue": false,
+        "domain_agent_can_own_attempt_ledger": false,
+        "domain_agent_can_own_worktree_lifecycle": false,
+        "domain_agent_can_own_promotion_gate": false,
+        "domain_agent_can_own_app_shell": false,
+        "domain_agent_can_write_target_owner_closeout": false,
+        "domain_agent_can_create_stage_folder_runtime_state": false,
+        "domain_agent_can_write_stage_folder_runtime_state": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_write_target_owner_receipt_body": false,
+        "domain_agent_can_write_target_domain_truth": false,
+        "domain_agent_can_write_target_domain_memory_body": false,
+        "domain_agent_can_mutate_target_domain_artifact_body": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_owner_promote_target_agent": false,
+        "domain_agent_can_promote_default_agent_without_gate": false,
+        "domain_agent_can_manage_target_worktree_lifecycle": false
       }
     },
     {
@@ -1676,7 +1676,7 @@
         "body_owner": "one-person-lab",
         "materialized_by": "opl-meta-agent",
         "runtime_state_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "required_fields": [
           "stage_id",
           "stage_attempt_id",
@@ -1730,14 +1730,14 @@
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
         "owner_receipt_body_owner": "OPL Book Forge",
-        "oma_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
       "current_pointer_contract": {
         "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/source-style-integrity-review",
         "current_file_name": "current.json",
         "pointer_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
       },
       "canonical_artifact_contract": {
@@ -1751,7 +1751,7 @@
         "export_ref_template": "stage-export-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
         "export_file_name": "export.json",
         "export_owner": "OPL Book Forge",
-        "oma_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
       "lineage_contract": {
@@ -1773,7 +1773,7 @@
         "retention_file_name": "retention.json",
         "retention_owner": "one-person-lab",
         "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
-        "oma_can_delete_stage_attempt_history": false
+        "domain_agent_can_delete_stage_attempt_history": false
       },
       "physical_kernel_locator_contract": {
         "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/source-style-integrity-review",
@@ -1793,8 +1793,8 @@
         "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
         "derived_index_role": "rebuildable_projection_not_primary_truth",
         "status_source_of_truth": "physical_stage_folder",
-        "oma_materializes_ref_template_only": true,
-        "oma_can_create_runtime_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_create_runtime_state": false
       },
       "conformance_contract": {
         "surface_kind": "opl_stage_artifact_runtime_conformance",
@@ -1824,8 +1824,8 @@
           "attempt_orphan"
         ],
         "domain_readiness_claim": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_claim_conformance_pass": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_claim_conformance_pass": false
       },
       "workbench_consumption_contract": {
         "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
@@ -1849,8 +1849,8 @@
         ],
         "artifact_body_access": false,
         "domain_verdict_authority": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_write_workbench_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_write_workbench_state": false
       },
       "output_roles": [
         {
@@ -1928,25 +1928,25 @@
       ],
       "authority_boundary": {
         "opl_framework_owns_stage_folder_lifecycle": true,
-        "oma_role": "contract_compiler_and_refs_materializer",
-        "oma_can_own_agent_lab_runner": false,
-        "oma_can_own_queue": false,
-        "oma_can_own_attempt_ledger": false,
-        "oma_can_own_worktree_lifecycle": false,
-        "oma_can_own_promotion_gate": false,
-        "oma_can_own_app_shell": false,
-        "oma_can_write_target_owner_closeout": false,
-        "oma_can_create_stage_folder_runtime_state": false,
-        "oma_can_write_stage_folder_runtime_state": false,
-        "oma_can_generate_target_domain_owner_receipt": false,
-        "oma_can_write_target_owner_receipt_body": false,
-        "oma_can_write_target_domain_truth": false,
-        "oma_can_write_target_domain_memory_body": false,
-        "oma_can_mutate_target_domain_artifact_body": false,
-        "oma_can_authorize_target_quality_or_export": false,
-        "oma_can_owner_promote_target_agent": false,
-        "oma_can_promote_default_agent_without_gate": false,
-        "oma_can_manage_target_worktree_lifecycle": false
+        "domain_agent_role": "contract_compiler_and_refs_materializer",
+        "domain_agent_can_own_agent_lab_runner": false,
+        "domain_agent_can_own_queue": false,
+        "domain_agent_can_own_attempt_ledger": false,
+        "domain_agent_can_own_worktree_lifecycle": false,
+        "domain_agent_can_own_promotion_gate": false,
+        "domain_agent_can_own_app_shell": false,
+        "domain_agent_can_write_target_owner_closeout": false,
+        "domain_agent_can_create_stage_folder_runtime_state": false,
+        "domain_agent_can_write_stage_folder_runtime_state": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_write_target_owner_receipt_body": false,
+        "domain_agent_can_write_target_domain_truth": false,
+        "domain_agent_can_write_target_domain_memory_body": false,
+        "domain_agent_can_mutate_target_domain_artifact_body": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_owner_promote_target_agent": false,
+        "domain_agent_can_promote_default_agent_without_gate": false,
+        "domain_agent_can_manage_target_worktree_lifecycle": false
       }
     },
     {
@@ -2042,7 +2042,7 @@
         "body_owner": "one-person-lab",
         "materialized_by": "opl-meta-agent",
         "runtime_state_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "required_fields": [
           "stage_id",
           "stage_attempt_id",
@@ -2096,14 +2096,14 @@
         "receipt_file_name": "receipt.json",
         "receipt_owner": "one-person-lab",
         "owner_receipt_body_owner": "OPL Book Forge",
-        "oma_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
         "required_return_shape": "stage_attempt_receipt_or_typed_blocker_ref"
       },
       "current_pointer_contract": {
         "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/publication-proof-handoff",
         "current_file_name": "current.json",
         "pointer_owner": "one-person-lab",
-        "oma_materializes_ref_template_only": true,
+        "domain_agent_materializes_ref_template_only": true,
         "old_attempts_not_pointed_by_current_are_historical_evidence_only": true
       },
       "canonical_artifact_contract": {
@@ -2117,7 +2117,7 @@
         "export_ref_template": "stage-export-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
         "export_file_name": "export.json",
         "export_owner": "OPL Book Forge",
-        "oma_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
         "export_requires_target_owner_gate": true
       },
       "lineage_contract": {
@@ -2139,7 +2139,7 @@
         "retention_file_name": "retention.json",
         "retention_owner": "one-person-lab",
         "retention_policy": "attempt_refs_retained_as_evidence_until_opl_retention_gate",
-        "oma_can_delete_stage_attempt_history": false
+        "domain_agent_can_delete_stage_attempt_history": false
       },
       "physical_kernel_locator_contract": {
         "physical_kernel_locator_ref": "opl-physical-kernel-locator-ref:opl-bookforge/publication-proof-handoff",
@@ -2159,8 +2159,8 @@
         "current_pointer_role": "refs_only_current_or_canonical_artifact_pointer",
         "derived_index_role": "rebuildable_projection_not_primary_truth",
         "status_source_of_truth": "physical_stage_folder",
-        "oma_materializes_ref_template_only": true,
-        "oma_can_create_runtime_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_create_runtime_state": false
       },
       "conformance_contract": {
         "surface_kind": "opl_stage_artifact_runtime_conformance",
@@ -2190,8 +2190,8 @@
           "attempt_orphan"
         ],
         "domain_readiness_claim": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_claim_conformance_pass": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_claim_conformance_pass": false
       },
       "workbench_consumption_contract": {
         "surface_kind": "opl_stage_artifact_runtime_workbench_consumption",
@@ -2215,8 +2215,8 @@
         ],
         "artifact_body_access": false,
         "domain_verdict_authority": false,
-        "oma_materializes_ref_template_only": true,
-        "oma_can_write_workbench_state": false
+        "domain_agent_materializes_ref_template_only": true,
+        "domain_agent_can_write_workbench_state": false
       },
       "output_roles": [
         {
@@ -2294,48 +2294,48 @@
       ],
       "authority_boundary": {
         "opl_framework_owns_stage_folder_lifecycle": true,
-        "oma_role": "contract_compiler_and_refs_materializer",
-        "oma_can_own_agent_lab_runner": false,
-        "oma_can_own_queue": false,
-        "oma_can_own_attempt_ledger": false,
-        "oma_can_own_worktree_lifecycle": false,
-        "oma_can_own_promotion_gate": false,
-        "oma_can_own_app_shell": false,
-        "oma_can_write_target_owner_closeout": false,
-        "oma_can_create_stage_folder_runtime_state": false,
-        "oma_can_write_stage_folder_runtime_state": false,
-        "oma_can_generate_target_domain_owner_receipt": false,
-        "oma_can_write_target_owner_receipt_body": false,
-        "oma_can_write_target_domain_truth": false,
-        "oma_can_write_target_domain_memory_body": false,
-        "oma_can_mutate_target_domain_artifact_body": false,
-        "oma_can_authorize_target_quality_or_export": false,
-        "oma_can_owner_promote_target_agent": false,
-        "oma_can_promote_default_agent_without_gate": false,
-        "oma_can_manage_target_worktree_lifecycle": false
+        "domain_agent_role": "contract_compiler_and_refs_materializer",
+        "domain_agent_can_own_agent_lab_runner": false,
+        "domain_agent_can_own_queue": false,
+        "domain_agent_can_own_attempt_ledger": false,
+        "domain_agent_can_own_worktree_lifecycle": false,
+        "domain_agent_can_own_promotion_gate": false,
+        "domain_agent_can_own_app_shell": false,
+        "domain_agent_can_write_target_owner_closeout": false,
+        "domain_agent_can_create_stage_folder_runtime_state": false,
+        "domain_agent_can_write_stage_folder_runtime_state": false,
+        "domain_agent_can_generate_target_domain_owner_receipt": false,
+        "domain_agent_can_write_target_owner_receipt_body": false,
+        "domain_agent_can_write_target_domain_truth": false,
+        "domain_agent_can_write_target_domain_memory_body": false,
+        "domain_agent_can_mutate_target_domain_artifact_body": false,
+        "domain_agent_can_authorize_target_quality_or_export": false,
+        "domain_agent_can_owner_promote_target_agent": false,
+        "domain_agent_can_promote_default_agent_without_gate": false,
+        "domain_agent_can_manage_target_worktree_lifecycle": false
       }
     }
   ],
   "authority_boundary": {
     "opl_framework_owns_stage_folder_lifecycle": true,
-    "oma_role": "contract_compiler_and_refs_materializer",
-    "oma_can_own_agent_lab_runner": false,
-    "oma_can_own_queue": false,
-    "oma_can_own_attempt_ledger": false,
-    "oma_can_own_worktree_lifecycle": false,
-    "oma_can_own_promotion_gate": false,
-    "oma_can_own_app_shell": false,
-    "oma_can_write_target_owner_closeout": false,
-    "oma_can_create_stage_folder_runtime_state": false,
-    "oma_can_write_stage_folder_runtime_state": false,
-    "oma_can_generate_target_domain_owner_receipt": false,
-    "oma_can_write_target_owner_receipt_body": false,
-    "oma_can_write_target_domain_truth": false,
-    "oma_can_write_target_domain_memory_body": false,
-    "oma_can_mutate_target_domain_artifact_body": false,
-    "oma_can_authorize_target_quality_or_export": false,
-    "oma_can_owner_promote_target_agent": false,
-    "oma_can_promote_default_agent_without_gate": false,
-    "oma_can_manage_target_worktree_lifecycle": false
+    "domain_agent_role": "contract_compiler_and_refs_materializer",
+    "domain_agent_can_own_agent_lab_runner": false,
+    "domain_agent_can_own_queue": false,
+    "domain_agent_can_own_attempt_ledger": false,
+    "domain_agent_can_own_worktree_lifecycle": false,
+    "domain_agent_can_own_promotion_gate": false,
+    "domain_agent_can_own_app_shell": false,
+    "domain_agent_can_write_target_owner_closeout": false,
+    "domain_agent_can_create_stage_folder_runtime_state": false,
+    "domain_agent_can_write_stage_folder_runtime_state": false,
+    "domain_agent_can_generate_target_domain_owner_receipt": false,
+    "domain_agent_can_write_target_owner_receipt_body": false,
+    "domain_agent_can_write_target_domain_truth": false,
+    "domain_agent_can_write_target_domain_memory_body": false,
+    "domain_agent_can_mutate_target_domain_artifact_body": false,
+    "domain_agent_can_authorize_target_quality_or_export": false,
+    "domain_agent_can_owner_promote_target_agent": false,
+    "domain_agent_can_promote_default_agent_without_gate": false,
+    "domain_agent_can_manage_target_worktree_lifecycle": false
   }
 }

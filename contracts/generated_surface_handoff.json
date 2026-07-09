@@ -176,18 +176,16 @@
   "handoff_surfaces": [
     {
       "surface_id": "cli",
-      "current_paths": [
-        "agent/cli.ts"
-      ],
-      "current_role": "domain_handler_target",
+      "current_paths": [],
+      "current_role": "generated_descriptor_only_no_repo_local_handler",
+      "generated_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces/cli",
       "target_role": "opl_generated_command_surface"
     },
     {
       "surface_id": "mcp",
-      "current_paths": [
-        "agent/mcp.ts"
-      ],
-      "current_role": "domain_handler_target",
+      "current_paths": [],
+      "current_role": "generated_descriptor_only_no_repo_local_handler",
+      "generated_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces/mcp",
       "target_role": "opl_generated_mcp_descriptor_surface"
     },
     {
@@ -200,10 +198,9 @@
     },
     {
       "surface_id": "product_entry_manifest",
-      "current_paths": [
-        "agent/product-entry.ts"
-      ],
-      "current_role": "domain_handler_target",
+      "current_paths": [],
+      "current_role": "generated_descriptor_only_no_repo_local_handler",
+      "generated_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces/product_entry_manifest",
       "target_role": "opl_generated_product_entry_surface"
     },
     {

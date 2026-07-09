@@ -450,10 +450,11 @@
       "module_id": "opl-bookforge.generated-wrapper-handler-targets",
       "classification": "domain_handler_target",
       "migration_class": "domain_handler_target",
-      "code_paths": [
-        "agent/cli.ts",
-        "agent/mcp.ts",
-        "agent/product-entry.ts"
+      "code_paths": [],
+      "generated_surface_refs": [
+        "contracts/generated_surface_handoff.json#/generated_surfaces/cli",
+        "contracts/generated_surface_handoff.json#/generated_surfaces/mcp",
+        "contracts/generated_surface_handoff.json#/generated_surfaces/product_entry_manifest"
       ],
       "current_surface_refs": [
         "cli",
@@ -712,7 +713,7 @@
       "current_surface_refs": [
         "project_hygiene_helper"
       ],
-      "active_caller_allowed": false,
+      "active_default_caller_allowed": false,
       "active_callers": [
         "scripts/verify.sh source-byproduct guard",
         "explicit Book Forge workspace hygiene readback"
