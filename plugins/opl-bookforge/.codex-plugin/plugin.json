@@ -1,0 +1,38 @@
+{
+  "name": "opl-bookforge",
+  "version": "0.1.0",
+  "description": "Codex plugin carrier for the OPL Book Forge domain app.",
+  "author": {
+    "name": "Gao Feng",
+    "url": "https://github.com/gaofeng21cn"
+  },
+  "homepage": "https://github.com/gaofeng21cn/opl-bookforge",
+  "repository": "https://github.com/gaofeng21cn/opl-bookforge",
+  "license": "UNLICENSED",
+  "keywords": [
+    "opl",
+    "bookforge",
+    "codex",
+    "book-authoring"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "OPL Book Forge",
+    "shortDescription": "Book-authoring domain app for Codex.",
+    "longDescription": "Adds a Codex plugin carrier for OPL Book Forge while preserving manuscript truth, quality/export verdicts, and owner-gated publication authority in the domain repo.",
+    "developerName": "Gao Feng",
+    "category": "Writing",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/gaofeng21cn/opl-bookforge",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg",
+    "defaultPrompt": [
+      "Use OPL Book Forge to shape a book storyline, chapter package, manuscript, proof, or export handoff.",
+      "Use OPL Book Forge to inspect owner-gated book delivery evidence."
+    ],
+    "brandColor": "#6B5A3A"
+  }
+}

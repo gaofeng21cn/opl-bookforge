@@ -32,19 +32,32 @@
           "ref_kind": "contract_ref",
           "ref": "contracts/pack_compiler_input.json",
           "role": "opl_materializer_primary_skill_input"
+        },
+        {
+          "ref_kind": "repo_path",
+          "ref": "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md",
+          "role": "codex_plugin_carrier_compat_mirror"
+        },
+        {
+          "ref_kind": "contract_ref",
+          "ref": "plugins/opl-bookforge/.codex-plugin/plugin.json",
+          "role": "plugin_carrier_boundary"
         }
       ],
-      "projection_contract": {
+      "carrier_projection_contract": {
         "canonical_source": "agent/primary_skill/SKILL.md",
-        "carrier_materialization": "opl_generated_full_skill_copy",
-        "materializer": "opl_standard_codex_plugin_materializer",
+        "carrier_skill_ref": "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md",
+        "carrier_materialization": "materialized_full_skill_copy",
         "codex_install_requires_real_skill_md": true,
-        "plugin_transport_is_membership_axis": false,
-        "plugin_transport_is_status_axis": false,
-        "generated_surface_can_claim_domain_ready": false
+        "plugin_skill_must_remain_real_file": true,
+        "carrier_role": "transport_install_detail_not_agent_membership_or_status",
+        "authority": false,
+        "carrier_can_override_canonical_source": false,
+        "carrier_can_claim_agent_membership_or_status": false,
+        "carrier_is_domain_truth_source": false
       },
-      "sync_policy": "domain_agent_builtin_refs_only_opl_materializes_codex_carrier",
-      "externalization_reason": "repo-owned rich primary skill source for the default Codex entry; OPL materializes the generated Codex carrier without taking Book Forge domain truth or readiness authority",
+      "sync_policy": "repo_local_standard_primary_skill_with_plugin_carrier_compat",
+      "externalization_reason": "repo-owned rich primary skill source for the default Codex entry; the repo-local plugin skill is a materialized full-copy Codex carrier without taking Book Forge domain truth or readiness authority",
       "authority_boundary": {
         "can_write_domain_truth": false,
         "can_write_memory_body": false,

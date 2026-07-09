@@ -26,7 +26,7 @@ The stage split is intentionally coarse. Each stage should produce a reviewable 
 
 ## Prompt / Professional Skill / Tool Split
 
-The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is the standard default Codex entry for OPL Book Forge: it carries the book-level operating contract, routes to stage prompts and professional skills, and keeps the authority boundary visible to Codex users. OPL materializes this source into the generated Codex carrier/plugin surface; the generated carrier is transport, not the Book Forge truth owner.
+The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is the standard default Codex entry for OPL Book Forge: it carries the book-level operating contract, routes to stage prompts and professional skills, and keeps the authority boundary visible to Codex users. `plugins/opl-bookforge/skills/opl-bookforge/SKILL.md` is the materialized Codex plugin carrier full copy; the carrier is transport, not the Book Forge truth owner.
 
 Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture` and `book-materialization`.
 

@@ -705,7 +705,7 @@ def assert_generated_handoff_ledger_projection(generated_handoff: dict[str, Any]
     assert "opl_ledger_artifact_registration" not in handoff_surface_ids
 
 
-def assert_capability_map_standard_kinds(capability_map: dict[str, Any]) -> None:
+def assert_capability_map_standard_kinds(repo: Path, capability_map: dict[str, Any]) -> None:
     capabilities = capability_map["capabilities"]
     for capability in capabilities:
         assert capability["capability_kind"] in STANDARD_CAPABILITY_KINDS, capability["capability_id"]
@@ -713,6 +713,15 @@ def assert_capability_map_standard_kinds(capability_map: dict[str, Any]) -> None
     primary = next(capability for capability in capabilities if capability["surface_role"] == "primary_skill")
     assert primary["capability_kind"] == "primary_skill"
     assert primary["physical_source_ref"]["ref"] == "agent/primary_skill/SKILL.md"
+    assert primary["carrier_projection_contract"]["carrier_skill_ref"] == "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md"
+    assert primary["carrier_projection_contract"]["carrier_materialization"] == "materialized_full_skill_copy"
+    plugin_manifest = json.loads((repo / "plugins/opl-bookforge/.codex-plugin/plugin.json").read_text())
+    assert plugin_manifest["name"] == "opl-bookforge"
+    assert plugin_manifest["skills"] == "./skills/"
+    assert (
+        (repo / "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md").read_text()
+        == (repo / "agent/primary_skill/SKILL.md").read_text()
+    )
 
 
 def assert_legacy_professional_skill_redirects(repo: Path, capability_map: dict[str, Any]) -> None:
@@ -943,7 +952,7 @@ def main() -> int:
     assert_surface_export_boundary(projection, "generated handoff projection")
     assert_generated_handoff_ledger_projection(generated_handoff)
     assert_private_platform_retirement_matrix(functional_audit, generated_handoff)
-    assert_capability_map_standard_kinds(capability_map)
+    assert_capability_map_standard_kinds(repo, capability_map)
     assert_legacy_professional_skill_redirects(repo, capability_map)
 
     assert stage_run_profile["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
