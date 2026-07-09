@@ -1,0 +1,194 @@
+{
+  "surface_kind": "foundry_agent_os_domain_kernel_manifest",
+  "version": "foundry-agent-os-domain-kernel-manifest.v1",
+  "domain_id": "opl-bookforge",
+  "domain_agent_id": "obf",
+  "owner": "OPL Book Forge",
+  "state": "active_contract",
+  "role": "w4_domain_kernel_manifest",
+  "source_of_truth_refs": [
+    "contracts/domain_descriptor.json",
+    "contracts/foundry_agent_series.json",
+    "contracts/pack_compiler_input.json",
+    "contracts/generated_surface_handoff.json",
+    "contracts/private_functional_surface_policy.json",
+    "contracts/temporal_stage_run_consumption_policy.json",
+    "contracts/opl_ledger_artifact_registration.json",
+    "contracts/artifact_locator_contract.json",
+    "contracts/memory_descriptor.json",
+    "contracts/owner_receipt_contract.json"
+  ],
+  "default_read_root": {
+    "surface": "current_owner_delta",
+    "ordinary_operator_root": true,
+    "raw_worklist_role": "drilldown_only",
+    "provider_completion_role": "transport_evidence_only",
+    "workspace_locator_role": "locator_only",
+    "ledger_registration_role": "refs_only_visibility_not_owner_answer",
+    "workbench_status_session_transport_role": "transport_projection_only",
+    "projection_can_be_owner_answer": false
+  },
+  "domain_authority_kernel": {
+    "retained_surfaces": [
+      "book_truth",
+      "manuscript_truth",
+      "source_reference_judgment",
+      "storyline_structure_truth",
+      "chapter_task_card_authority",
+      "style_policy_and_memory_accept_reject_or_blocker",
+      "manuscript_quality_verdict",
+      "publication_proof_verdict",
+      "final_export_authority",
+      "artifact_mutation_authorization",
+      "artifact_locator_ownership",
+      "owner_receipt_signer",
+      "typed_blocker_materializer",
+      "bookforge_native_helper_authority"
+    ],
+    "retained_surface_owner": "opl-bookforge",
+    "owner_receipt_signer": "opl-bookforge_authority_kernel",
+    "typed_blocker_signer": "opl-bookforge_authority_kernel",
+    "quality_export_publication_review_verdict_signers": [
+      "source_reference_judgment",
+      "manuscript_quality_verdict",
+      "publication_proof_verdict",
+      "final_export_authority",
+      "artifact_mutation_authorization"
+    ],
+    "accepted_answer_shapes": [
+      "obf_owner_receipt_ref",
+      "obf_typed_blocker_ref",
+      "manuscript_quality_verdict_ref",
+      "source_reference_verdict_ref",
+      "review_pdf_receipt_ref",
+      "publication_proof_ref",
+      "publication_gate_ref",
+      "export_verdict_ref",
+      "final_export_handoff_ref",
+      "memory_writeback_receipt_ref",
+      "artifact_lifecycle_receipt_ref",
+      "human_gate_ref",
+      "route_back_ref",
+      "no_regression_evidence_ref"
+    ]
+  },
+  "opl_upcollect_surfaces": [
+    "generic_runtime",
+    "stage_run_kernel",
+    "queue_and_attempt_ledger",
+    "retry_dead_letter_resume",
+    "human_gate_transport",
+    "pack_compiler",
+    "workspace_locator_shell",
+    "workspace_source_intake_shell",
+    "opl_ledger_artifact_registration_shell",
+    "artifact_lifecycle_shell",
+    "memory_locator_shell",
+    "generated_cli_mcp_skill_product_workbench_surfaces",
+    "generated_status_read_model",
+    "session_transport",
+    "workbench_status_session_transport",
+    "console_current_owner_delta_projection",
+    "refs_only_vault_lineage",
+    "capability_registry_abi"
+  ],
+  "forbidden_authority_flags": {
+    "opl": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "vault": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "console": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "runway": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "pack": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "capability_registry": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "stage_run_kernel": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "workspace_locator": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "ledger": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "workbench": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    },
+    "status_read_model": {
+      "can_write_domain_truth": false,
+      "can_sign_owner_receipt": false,
+      "can_create_domain_typed_blocker": false,
+      "can_authorize_quality_export_publication_or_review_verdict": false
+    }
+  },
+  "non_claims": {
+    "domain_ready": false,
+    "runtime_ready": false,
+    "book_ready": false,
+    "manuscript_ready": false,
+    "review_pdf_ready": false,
+    "publication_ready": false,
+    "publication_proof_ready": false,
+    "final_export_ready": false,
+    "owner_acceptance": false,
+    "production_ready": false,
+    "app_release_ready": false,
+    "physical_delete_authorized": false
+  },
+  "verification": {
+    "focused_tests": [
+      "tests/test_foundry_agent_os_domain_kernel_manifest_contract.py"
+    ],
+    "validator_refs": [
+      "python3 -m json.tool contracts/foundry-agent-os-domain-kernel-manifest.json",
+      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents scaffold --validate <repo-dir> --json",
+      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents interfaces --repo-dir <repo-dir> --json"
+    ],
+    "source_contract_refs": [
+      "contracts/domain_descriptor.json",
+      "contracts/generated_surface_handoff.json",
+      "contracts/private_functional_surface_policy.json",
+      "contracts/temporal_stage_run_consumption_policy.json",
+      "contracts/opl_ledger_artifact_registration.json"
+    ]
+  }
+}

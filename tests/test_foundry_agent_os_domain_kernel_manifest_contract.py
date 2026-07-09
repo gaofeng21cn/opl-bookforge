@@ -1,0 +1,138 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+FORBIDDEN_AUTHORITY_FLAGS = {
+    "can_write_domain_truth": False,
+    "can_sign_owner_receipt": False,
+    "can_create_domain_typed_blocker": False,
+    "can_authorize_quality_export_publication_or_review_verdict": False,
+}
+
+
+def load_json(ref: str) -> dict[str, Any]:
+    return json.loads((REPO_ROOT / ref).read_text(encoding="utf-8"))
+
+
+def assert_has(actual: list[str], expected: set[str], label: str) -> None:
+    missing = expected - set(actual)
+    assert not missing, f"{label} missing: {sorted(missing)}"
+
+
+def main() -> int:
+    manifest = load_json("contracts/foundry-agent-os-domain-kernel-manifest.json")
+    descriptor = load_json("contracts/domain_descriptor.json")
+    temporal_policy = load_json("contracts/temporal_stage_run_consumption_policy.json")
+    generated_handoff = load_json("contracts/generated_surface_handoff.json")
+    ledger_contract = load_json("contracts/opl_ledger_artifact_registration.json")
+
+    assert manifest["surface_kind"] == "foundry_agent_os_domain_kernel_manifest"
+    assert manifest["version"] == "foundry-agent-os-domain-kernel-manifest.v1"
+    assert manifest["domain_id"] == "opl-bookforge"
+    assert manifest["domain_agent_id"] == "obf"
+    assert manifest["owner"] == "OPL Book Forge"
+    assert manifest["role"] == "w4_domain_kernel_manifest"
+
+    assert descriptor["authority_boundary"]["domain_owns_truth_quality_artifact_memory_and_receipts"] is True
+    assert temporal_policy["stage_run_owner"] == "one-person-lab"
+    assert generated_handoff["temporal_stage_run_projection"]["owner"] == "one-person-lab"
+    assert ledger_contract["refs_only"] is True
+
+    default_read_root = manifest["default_read_root"]
+    assert default_read_root["surface"] == "current_owner_delta"
+    assert default_read_root["ordinary_operator_root"] is True
+    assert default_read_root["provider_completion_role"] == "transport_evidence_only"
+    assert default_read_root["ledger_registration_role"] == "refs_only_visibility_not_owner_answer"
+    assert default_read_root["projection_can_be_owner_answer"] is False
+
+    kernel = manifest["domain_authority_kernel"]
+    assert_has(
+        kernel["retained_surfaces"],
+        {
+            "book_truth",
+            "manuscript_truth",
+            "source_reference_judgment",
+            "style_policy_and_memory_accept_reject_or_blocker",
+            "publication_proof_verdict",
+            "final_export_authority",
+            "owner_receipt_signer",
+            "typed_blocker_materializer",
+        },
+        "retained_surfaces",
+    )
+    assert kernel["retained_surface_owner"] == "opl-bookforge"
+    assert kernel["owner_receipt_signer"] == "opl-bookforge_authority_kernel"
+    assert kernel["typed_blocker_signer"] == "opl-bookforge_authority_kernel"
+    assert_has(
+        kernel["quality_export_publication_review_verdict_signers"],
+        {
+            "source_reference_judgment",
+            "manuscript_quality_verdict",
+            "publication_proof_verdict",
+            "final_export_authority",
+        },
+        "quality/export verdict signers",
+    )
+    assert_has(
+        kernel["accepted_answer_shapes"],
+        {
+            "obf_owner_receipt_ref",
+            "obf_typed_blocker_ref",
+            "source_reference_verdict_ref",
+            "publication_proof_ref",
+            "final_export_handoff_ref",
+            "human_gate_ref",
+            "route_back_ref",
+        },
+        "accepted_answer_shapes",
+    )
+
+    assert_has(
+        manifest["opl_upcollect_surfaces"],
+        {
+            "stage_run_kernel",
+            "pack_compiler",
+            "workspace_locator_shell",
+            "opl_ledger_artifact_registration_shell",
+            "generated_cli_mcp_skill_product_workbench_surfaces",
+            "session_transport",
+            "workbench_status_session_transport",
+            "console_current_owner_delta_projection",
+        },
+        "opl_upcollect_surfaces",
+    )
+
+    for surface, flags in manifest["forbidden_authority_flags"].items():
+        assert flags == FORBIDDEN_AUTHORITY_FLAGS, surface
+
+    assert manifest["non_claims"] == {
+        "domain_ready": False,
+        "runtime_ready": False,
+        "book_ready": False,
+        "manuscript_ready": False,
+        "review_pdf_ready": False,
+        "publication_ready": False,
+        "publication_proof_ready": False,
+        "final_export_ready": False,
+        "owner_acceptance": False,
+        "production_ready": False,
+        "app_release_ready": False,
+        "physical_delete_authorized": False,
+    }
+
+    print(json.dumps({
+        "status": "passed",
+        "test": "foundry_agent_os_domain_kernel_manifest_contract",
+        "contract": "contracts/foundry-agent-os-domain-kernel-manifest.json",
+    }, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
