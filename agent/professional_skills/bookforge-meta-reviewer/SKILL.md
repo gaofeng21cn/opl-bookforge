@@ -49,7 +49,7 @@ Run independent whole-manuscript review and route serious findings before prose 
 ## Stage Prompt Boundary
 
 - Stage prompts can require meta-review refs and stop/pass/blocker decisions; this skill owns the review and routing method.
-- `book-materialization` must not self-approve a full manuscript by summarizing its own draft quality.
+- `source-style-integrity-review` must not self-approve a full manuscript by summarizing the drafting stage's own quality claims.
 - This skill does not replace owner review, source-material completion, publication-proof inspection, or final-export acceptance.
 
 ## Legacy Coverage

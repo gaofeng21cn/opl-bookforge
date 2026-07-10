@@ -109,6 +109,9 @@
     "owner_release_contract_ref": "contracts/family-release/shared-owner-release.json",
     "owner_commit_pin_required": true,
     "domain_dependency_pin_required": true,
+    "owner_managed_latest_stable_channel_required": true,
+    "lockfile_resolved_commit_receipt_required": true,
+    "consumer_exact_commit_equality_gate": false,
     "supported_pin_sources": [
       "pyproject.toml",
       "uv.lock",
@@ -131,7 +134,8 @@
   "domain_label": "OPL Book Forge",
   "domain_aliases": [],
   "authority_owner": "OPL Book Forge",
-  "stage_control_plane_ref": "contracts/stage_control_plane.json",
+  "stage_control_plane_ref": "/product_entry_manifest/family_stage_control_plane",
+  "stage_manifest_ref": "agent/stages/manifest.json",
   "stage_control_plane_target_domain_id": "opl-bookforge",
   "app_projection_ref": "contracts/generated_surface_handoff.json#/product_entry",
   "required_identity_fields": [
@@ -140,7 +144,8 @@
     "product_layer",
     "domain_label",
     "authority_owner",
-    "stage_control_plane_ref"
+    "stage_control_plane_ref",
+    "stage_manifest_ref"
   ],
   "required_stage_packets": [
     "stage_completion_policy",

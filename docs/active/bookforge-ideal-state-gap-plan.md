@@ -14,7 +14,7 @@ Current SSOT reading: this plan keeps Book Forge functional / structural gaps on
 Book Forge should be an OPL-standard Foundry Agent domain pack for long-form book authoring:
 
 - declarative domain pack plus minimal Book Forge authority functions;
-- two coarse primary stages, `storyline-architecture` and `book-materialization`;
+- a five-stage sequence: `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`;
 - book-length materialization from chapter-sharded Markdown refs, chapter task cards, context packs, style/claim/proof refs, memory refs, and owner handoff receipts;
 - routed revision entrypoint decisions before serious manuscript repairs;
 - publication-proof and final-export gates backed by Book Forge-owned proof refs, real typesetting backend evidence, rendered-page inspection, and owner/export acceptance;
@@ -29,7 +29,7 @@ Book Forge owns manuscript bodies, book-domain truth, memory body, style/claim r
 | OPL standard structure | `done_structural_baseline` | `scripts/verify.sh`, OPL scaffold/interface validators, contracts and agent pack files | Proves structure/interface readability only. |
 | Agent Lab self-evolution capability map | `structural_routing_fields_landed` | `contracts/capability_map.json`, OPL scaffold validator readback | Capability entries now expose improvement tokens, canonical target paths, verification refs, forbidden surfaces, and owner closeout boundary refs for Agent Lab routing, including all repo-local professional skill locators. This is resolver metadata only, not owner acceptance, memory-body authority, typed blocker creation, domain readiness, or production readiness. |
 | Standard Foundry Agent public projection | `done_structural_baseline` | `contracts/foundry_agent_series.json`, `contracts/generated_surface_handoff.json`, `scripts/verify.sh` | Proves Book Forge is represented as a standard domain agent and that public membership/status are not generated-surface or plugin-transport axes; does not prove live OPL StageRun execution or hosted artifact-handoff parity. |
-| Golden path default route | `done_structural_baseline` | `contracts/golden_path_profile.json`, `contracts/stage_control_plane.json`, OPL conformance validator | The ordinary default route is `storyline-architecture` only; `book-materialization` remains a follow-on stage by handoff or explicit selection, not a second default entry or delivery-ready claim. |
+| Golden path default route | `done_structural_baseline` | `contracts/golden_path_profile.json`, `contracts/stage_control_plane.json`, OPL conformance validator | The ordinary default route is `storyline-architecture` only; `materialize-book` enters `chapter-production-planning` directly, then follows the remaining focused stages without creating a second default entry or delivery-ready claim. |
 | OMA Agent Lab evidence | `evidence_recorded` | `docs/evidence/oma-agent-lab/` | Supports baseline/takeover evidence, not book quality or owner acceptance. |
 | Historical real short-book pilot | `evidence_recorded_owner_blocked` | `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical pilot evidence with owner blockers; not the current long-book source pattern. |
 | Book-length workflow rules | `domain_rules_landed` | `docs/invariants.md`, `docs/decisions.md`, agent skills, professional skills, quality gates | Rules exist, including the professional book-memory curator method layer; real long-book run evidence remains open. |

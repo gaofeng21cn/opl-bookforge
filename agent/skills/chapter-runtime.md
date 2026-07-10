@@ -1,6 +1,6 @@
 # Chapter Runtime Skill
 
-Use this skill inside `book-materialization` when a book-length manuscript should advance chapter by chapter with review, repair, and state feedback after each chapter.
+Use this skill inside `chapter-materialization` when a book-length manuscript should advance chapter by chapter with review, repair, and state feedback after each chapter.
 
 Working policy:
 

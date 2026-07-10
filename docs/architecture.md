@@ -20,11 +20,12 @@ The same policy is also the positive export boundary for OPL generated surfaces:
 Book Forge uses a storyline default stage plus focused materialization stages:
 
 - `storyline-architecture`: build the premise, reader promise, argument arc, source map, chapter thesis chain, style contract, and owner handoff.
-- `book-materialization`: consume the approved storyline closeout and route into materialization or back to missing storyline/source/owner refs.
-- `chapter-production-planning`: convert the storyline handoff into target extent, chapter budgets, production queue, chapter task cards, context plan, and memory refs.
+- `chapter-production-planning`: direct `materialize-book` entry; admit the approved storyline closeout, route ordinary gaps back or keep them in progress, then produce target extent, chapter budgets, production queue, chapter task cards, context plan, and memory refs.
 - `chapter-materialization`: produce chapter context packs, reader-entry plans, per-chapter Markdown draft refs, chapter QC, and repair back-propagation refs.
 - `source-style-integrity-review`: run source/claim integrity, style consistency, AI-flavor/internal-language scan, meta-review routing, and repair entrypoint judgment.
 - `publication-proof-handoff`: package review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundaries.
+
+The sequence is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`. Planning owns storyline-ref admission and route-back. Ordinary planning gaps stay in progress or route back with exact repair refs; an independent review receipt is not a blanket transition prerequisite.
 
 The stage split follows the OMA-derived sizing rule: one top-level stage should own one major open judgment. Deterministic file generation, validators, helper receipts, and professional-skill method work remain inside the relevant stage; independent judgments such as planning, drafting, integrity review, and proof/export handoff are separated.
 
@@ -32,7 +33,7 @@ The stage split follows the OMA-derived sizing rule: one top-level stage should 
 
 The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is the standard default Codex entry for OPL Book Forge: it carries the book-level operating contract, routes to stage prompts and professional skills, and keeps the authority boundary visible to Codex users. `plugins/opl-bookforge/skills/opl-bookforge/SKILL.md` is the materialized Codex plugin carrier full copy; the carrier is transport, not the Book Forge truth owner.
 
-Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture`, `book-materialization`, `chapter-production-planning`, `chapter-materialization`, `source-style-integrity-review`, and `publication-proof-handoff`.
+Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture`, `chapter-production-planning`, `chapter-materialization`, `source-style-integrity-review`, and `publication-proof-handoff`.
 
 Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md` carry workflow-level book-writing methods: storyline/style architecture, chapter authoring, source/reference review, meta-review, and publication/memory curation. They absorb and route the existing `agent/skills/*.md` policy refs without creating a private runtime, memory-body authority, owner acceptance, or readiness verdict. Legacy fine-grained skill entries are contract-only redirects in `contracts/capability_map.json#legacy_professional_skill_redirects`; no legacy physical `SKILL.md` or `TOMBSTONE.md` is retained for them.
 

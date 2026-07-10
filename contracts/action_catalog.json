@@ -64,7 +64,7 @@
       "action_id": "shape-storyline",
       "title": "Shape Storyline",
       "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
-      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then uses book-materialization as an explicit handoff locator into focused materialization stages: chapter production planning, chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
@@ -83,6 +83,17 @@
       "human_gate_ids": [
         "storyline_owner_review"
       ],
+      "stage_route": {
+        "entry_stage_ref": "storyline-architecture",
+        "required_stage_refs": [
+          "storyline-architecture"
+        ],
+        "optional_stage_refs": [],
+        "terminal_stage_refs": [
+          "storyline-architecture"
+        ],
+        "route_policy": "ordered_stage_attempts_no_skip"
+      },
       "supported_surfaces": {
         "cli": {
           "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
@@ -148,12 +159,12 @@
     {
       "action_id": "materialize-book",
       "title": "Materialize Book",
-      "summary": "Enter the materialization handoff and focused chapter planning, drafting, source/style review, and proof/export handoff sequence with owner-gated refs.",
-      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then uses book-materialization as an explicit handoff locator into focused materialization stages: chapter production planning, chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "summary": "Enter chapter production planning directly, then continue through drafting, source/style review, and proof/export handoff with owner-gated refs.",
+      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
-        "command": "opl family-runtime attempt create --domain opl-bookforge --stage book-materialization --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+        "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
         "surface_kind": "opl_stage_run_attempt_request"
       },
       "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
@@ -166,11 +177,25 @@
         "workspace_root"
       ],
       "human_gate_ids": [
-        "book_handoff_owner_review"
+        "chapter_planning_owner_review"
       ],
+      "stage_route": {
+        "entry_stage_ref": "chapter-production-planning",
+        "required_stage_refs": [
+          "chapter-production-planning",
+          "chapter-materialization",
+          "source-style-integrity-review",
+          "publication-proof-handoff"
+        ],
+        "optional_stage_refs": [],
+        "terminal_stage_refs": [
+          "publication-proof-handoff"
+        ],
+        "route_policy": "ordered_stage_attempts_no_skip"
+      },
       "supported_surfaces": {
         "cli": {
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage book-materialization --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+          "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
           "surface_kind": "opl_stage_run_attempt_request"
         },
         "mcp": {
@@ -185,7 +210,7 @@
         },
         "product_entry": {
           "action_key": "materialize-book",
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage book-materialization --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
+          "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
           "surface_kind": "opl_stage_run_attempt_request"
         },
         "openai": {

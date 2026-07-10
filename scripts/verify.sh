@@ -31,6 +31,7 @@ cleanup() {
 trap cleanup EXIT
 
 python3 "${hygiene_helper}" --root "${repo_dir}" --source-root "${repo_dir}" --source-byproduct-check
+python3 "${repo_dir}/tests/test_stage_topology.py"
 python3 "${repo_dir}/tests/test_temporal_stage_run_consumption_policy.py"
 
 "${opl_bin}" agents scaffold --validate "${repo_dir}" --json
@@ -91,7 +92,7 @@ manifest = {
         }
     ],
 }
-path = root / "artifacts/stage_outputs/book-materialization/figure-asset-manifest.json"
+path = root / "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json"
 path.parent.mkdir(parents=True, exist_ok=True)
 path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 PY
@@ -103,18 +104,18 @@ python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" \
   --prompt "mock manifest sync smoke" \
   --output-file artifacts/figures/verify-figure.png \
   --manifest artifacts/figures/verify-figure.receipt.json \
-  --asset-manifest artifacts/stage_outputs/book-materialization/figure-asset-manifest.json
+  --asset-manifest artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" \
   --update-asset-manifest \
   --root "${image_tmp_dir}" \
   --receipt-file artifacts/figures/verify-figure.receipt.json \
-  --asset-manifest artifacts/stage_outputs/book-materialization/figure-asset-manifest.json
+  --asset-manifest artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json
 python3 - "${image_tmp_dir}" <<'PY'
 import json
 import sys
 from pathlib import Path
 root = Path(sys.argv[1])
-payload = json.loads((root / "artifacts/stage_outputs/book-materialization/figure-asset-manifest.json").read_text(encoding="utf-8"))
+payload = json.loads((root / "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json").read_text(encoding="utf-8"))
 item = payload["figures"][0]
 assert item["asset_status"] == "asset_ready", item
 assert item["receipt_ref"] == "artifacts/figures/verify-figure.receipt.json", item

@@ -1,6 +1,6 @@
 # Fast-Track Revision Skill
 
-Use this skill inside `book-materialization` when the owner or reviewer supplies small, well-bounded revision suggestions after a manuscript, chapter package, or review PDF already exists.
+Use this skill after `source-style-integrity-review` routes a bounded repair back to `chapter-materialization` and the owner or reviewer supplies small revision suggestions after a manuscript, chapter package, or review PDF already exists.
 
 Fast-track revision is a controlled editing lane. It lets Codex CLI repair local prose, model naming, chapter boundary notes, small action lists, wording rhythm, or evidence-label clarity without starting a full independent meta-review cycle.
 

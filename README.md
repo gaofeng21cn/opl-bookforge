@@ -57,7 +57,7 @@ It organizes a stage-led route from storyline architecture into focused material
 Book Forge starts with the book's premise, reader promise, source map, argument arc, chapter thesis chain, and style contract before materializing chapters.
 
 **Materialization Split Into Focused Stages**<br/>
-`book-materialization` is now the explicit follow-on handoff after storyline approval. Chapter planning, chapter drafting, source/style review, and proof/export handoff each have their own top-level stage so one stage does not hide several independent judgments.
+After storyline approval, `materialize-book` enters `chapter-production-planning` directly. That stage admits storyline refs and plans production; chapter drafting, source/style review, and proof/export handoff remain separate top-level stages.
 
 **Voice And Style Stay Inspectable**<br/>
 The style contract travels with the book project. Checks look for consistent terminology, concrete phrasing, affirmative editorial language, and repeated patterns that make prose feel generated.
@@ -102,8 +102,7 @@ You can start with prompts like:
 ## Current Delivery Focus
 
 - `storyline-architecture`: premise, reader promise, argument arc, source map, chapter thesis chain, style contract, and owner handoff.
-- `book-materialization`: follow-on handoff locator after an approved storyline; it decides whether materialization can enter chapter production planning or must route back.
-- `chapter-production-planning`: target extent, chapter budgets, production queue, chapter task cards, context plan, and book-memory refs.
+- `chapter-production-planning`: direct `materialize-book` entry, storyline-ref admission, route-back, target extent, chapter budgets, production queue, chapter task cards, context plan, and book-memory refs.
 - `chapter-materialization`: chapter context packs, reader-entry plans, per-chapter Markdown draft refs, chapter QC, and chapter repair back-propagation.
 - `source-style-integrity-review`: claim/source integrity, style consistency, AI-flavor scan, independent meta-review routing, and repair entrypoint refs.
 - `publication-proof-handoff`: review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundary.

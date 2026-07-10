@@ -1,6 +1,6 @@
 # Revision Entrypoint Router Skill
 
-Use this skill inside `book-materialization` after independent meta-review, serious owner/reviewer critique, complete-version comparison, or any finding that may require more than local prose edits.
+Use this skill inside `source-style-integrity-review` after independent meta-review, serious owner/reviewer critique, complete-version comparison, or any finding that may require more than local prose edits.
 
 Purpose:
 

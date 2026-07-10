@@ -1,6 +1,6 @@
 # Chapter Context Compiler Skill
 
-Use this skill inside `book-materialization` before drafting, repairing, or
+Use this skill in `chapter-production-planning` and `chapter-materialization` before drafting, repairing, or
 resuming a production chapter. It compiles the smallest owner-inspectable
 chapter context pack needed to keep the chapter moving without turning context
 management into a private runtime.
@@ -19,8 +19,8 @@ External learning map:
 
 Working policy:
 
-- Treat the compiled pack as a Book Forge domain ref inside
-  `book-materialization`, linked from the chapter task card, chapter QC, repair
+- Treat the compiled pack as a Book Forge domain ref inside the focused chapter stages,
+  linked from the chapter task card, chapter QC, repair
   log, or handoff packet.
 - Do not create a Book Forge-private scheduler, queue, session store, attempt
   ledger, generic runtime, or hidden context database. OPL owns hosted runtime
