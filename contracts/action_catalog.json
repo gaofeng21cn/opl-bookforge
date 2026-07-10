@@ -73,6 +73,10 @@
       },
       "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
       "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
+      "required_fields": [
+        "workspace_root"
+      ],
+      "optional_fields": [],
       "workspace_locator_fields": [
         "workspace_root"
       ],
@@ -154,6 +158,10 @@
       },
       "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
       "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
+      "required_fields": [
+        "workspace_root"
+      ],
+      "optional_fields": [],
       "workspace_locator_fields": [
         "workspace_root"
       ],

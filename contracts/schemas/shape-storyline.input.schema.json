@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opl.onepersonlab/contracts/opl-bookforge/shape-storyline.input.schema.json",
+  "title": "OPL Book Forge storyline input",
+  "type": "object",
+  "required": [
+    "workspace_root"
+  ],
+  "properties": {
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}
