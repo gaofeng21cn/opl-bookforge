@@ -2,6 +2,7 @@
   "surface_kind": "opl_domain_pack_compiler_input",
   "schema_version": 1,
   "domain_id": "opl-bookforge",
+  "canonical_agent_id": "obf",
   "domain_pack_owner": "opl-bookforge",
   "canonical_semantic_pack_root": "agent/",
   "canonical_semantic_pack_role": "repo_source_declarative_domain_pack",
