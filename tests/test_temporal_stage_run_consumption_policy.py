@@ -182,7 +182,7 @@ NATIVE_HELPER_PROBE_DESCRIPTORS = {
     "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json": {
         "helper_id": "opl-bookforge.imagegen-asset",
         "entrypoint_ref": "bookforge_imagegen_asset.py",
-        "required_commands": ["codex-canonical"],
+        "required_commands": ["opl"],
     },
 }
 
@@ -391,7 +391,7 @@ def assert_private_platform_retirement_matrix(
     assert "publication_ready_authority" in publication["forbidden_domain_repo_roles"]
 
     image = by_surface["image_asset_helper"]
-    assert image["replacement_opl_primitive"] == "codex_native_image_generation_surface_plus_opl_generated_artifact_refs"
+    assert image["replacement_opl_primitive"] == "opl_executor_required_capability_image_generation"
     assert image["retirement_action"] == "retain_as_domain_specific_asset_materialization_helper_only"
     assert image["physical_delete_authorized"] is False
     assert "api_key_or_base_url_owner" in image["forbidden_domain_repo_roles"]
