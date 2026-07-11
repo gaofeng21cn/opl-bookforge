@@ -28,7 +28,7 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 - Evidence package index: `docs/evidence/README.md`.
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
 - Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/history/external-learning/revision-routing-2026-06-20.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
-- Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/book-materialization-quality-gate.md`, and `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
+- Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/publication-proof-handoff-quality-gate.md`, and `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
 - Process and historical provenance: `docs/history/README.md` and
   `docs/history/process/README.md`.
 

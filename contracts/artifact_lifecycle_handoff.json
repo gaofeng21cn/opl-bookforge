@@ -33,9 +33,9 @@
   ],
   "required_bookforge_refs": [
     "handoff/review-repair-transport.json",
-    "artifacts/stage_outputs/book-materialization/owner-handoff.md",
-    "artifacts/stage_outputs/book-materialization/style-consistency-report.md",
-    "artifacts/stage_outputs/book-materialization/figure-asset-manifest.json",
+    "artifacts/stage_outputs/publication-proof-handoff/owner-handoff.md",
+    "artifacts/stage_outputs/source-style-integrity-review/style-consistency-report.md",
+    "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json",
     "quality/plan-completion-audit.md",
     "receipts/"
   ],

@@ -948,7 +948,7 @@ def main() -> int:
     assert public_projection["active_public_projection_allows_compatibility_aliases"] is False
     assert public_projection["active_public_projection_allows_legacy_json_aliases"] is False
     for action in action_catalog["actions"]:
-        stage_name = "storyline-architecture" if action["action_id"] == "shape-storyline" else "book-materialization"
+        stage_name = "storyline-architecture" if action["action_id"] == "shape-storyline" else "chapter-production-planning"
         expected_command_prefix = (
             f"opl family-runtime attempt create --domain opl-bookforge --stage {stage_name} --provider temporal "
         )

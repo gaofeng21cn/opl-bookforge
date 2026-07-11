@@ -13,7 +13,7 @@ def rel(path: Path, root: Path) -> str:
 
 
 def chapter_statuses(root: Path) -> dict[str, Any]:
-    metrics_path = root / "artifacts/stage_outputs/book-materialization/manuscript-metrics.json"
+    metrics_path = root / "artifacts/stage_outputs/chapter-materialization/manuscript-metrics.json"
     if not metrics_path.exists():
         return {"status": "missing_metrics", "path": rel(metrics_path, root)}
     try:
@@ -51,7 +51,7 @@ def review_pdf_export_summary(root: Path) -> dict[str, Any]:
 
 
 def figure_asset_summary(root: Path) -> dict[str, Any]:
-    manifest_path = root / "artifacts/stage_outputs/book-materialization/figure-asset-manifest.json"
+    manifest_path = root / "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json"
     if not manifest_path.exists():
         return {}
     try:

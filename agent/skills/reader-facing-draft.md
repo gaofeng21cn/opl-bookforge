@@ -1,6 +1,6 @@
 # Reader-Facing Draft Skill
 
-Use this skill inside `book-materialization` when drafting or expanding chapter Markdown. It turns chapter packages into reader-facing prose on the first drafting pass instead of producing a planning memo that later needs translation into book prose.
+Use this skill inside `chapter-materialization` when drafting or expanding chapter Markdown. It turns chapter packages into reader-facing prose on the first drafting pass instead of producing a planning memo that later needs translation into book prose.
 
 Working policy:
 

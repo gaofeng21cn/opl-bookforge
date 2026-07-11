@@ -1,6 +1,6 @@
 # Reference Draft Absorption Skill
 
-Use this skill inside `book-materialization` when the owner supplies a stronger comparable draft, prior version, sample chapter, edited chapter, or reference book passage that should improve first-draft quality.
+Use this skill from `chapter-production-planning` or `chapter-materialization` when the owner supplies a stronger comparable draft, prior version, sample chapter, edited chapter, or reference book passage that should improve first-draft quality.
 
 Working policy:
 

@@ -35,12 +35,12 @@ DEFAULT_VOICE_PATHS = (
     "inputs",
     "artifacts/manuscript",
     "artifacts/review",
-    "artifacts/stage_outputs/book-materialization/owner-handoff.md",
-    "artifacts/stage_outputs/book-materialization/style-consistency-report.md",
+    "artifacts/stage_outputs/publication-proof-handoff/owner-handoff.md",
+    "artifacts/stage_outputs/source-style-integrity-review/style-consistency-report.md",
 )
 DEFAULT_STATUS_PATHS = (
     "README.md",
-    "artifacts/stage_outputs/book-materialization",
+    "artifacts/stage_outputs",
     "quality",
     "receipts",
 )
@@ -379,7 +379,7 @@ def high_quality_ref_scan(root: Path, metrics: dict[str, Any]) -> list[dict[str,
         return []
     search_roots = [
         root / "artifacts/stage_outputs/storyline-architecture",
-        root / "artifacts/stage_outputs/book-materialization",
+        root / "artifacts/stage_outputs",
         root / "quality",
     ]
     existing = {path.name for path in iter_text_files(search_roots)}
@@ -584,7 +584,7 @@ def run_self_test() -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        stage = root / "artifacts/stage_outputs/book-materialization"
+        stage = root / "artifacts/stage_outputs/chapter-materialization"
         stage.mkdir(parents=True)
         (stage / "manuscript-metrics.json").write_text(json.dumps({
             "assembly_status": "final_book_assembly_ready",
@@ -617,7 +617,7 @@ def run_self_test() -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        stage = root / "artifacts/stage_outputs/book-materialization"
+        stage = root / "artifacts/stage_outputs/chapter-materialization"
         quality = root / "quality"
         story = root / "artifacts/stage_outputs/storyline-architecture"
         stage.mkdir(parents=True)
@@ -676,7 +676,7 @@ def run_self_test() -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        stage = root / "artifacts/stage_outputs/book-materialization"
+        stage = root / "artifacts/stage_outputs/chapter-materialization"
         review = root / "artifacts/review"
         quality = root / "quality"
         stage.mkdir(parents=True)
@@ -718,7 +718,7 @@ def run_self_test() -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        stage = root / "artifacts/stage_outputs/book-materialization"
+        stage = root / "artifacts/stage_outputs/chapter-materialization"
         review = root / "artifacts/review"
         quality = root / "quality"
         figures = root / "artifacts/figures"

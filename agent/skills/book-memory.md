@@ -1,6 +1,6 @@
 # Book Memory Skill
 
-Use this skill inside `book-materialization` for long-form nonfiction projects that need continuity across chapters, cases, figures, tables, and source claims.
+Use this skill across `chapter-production-planning` and `chapter-materialization` for long-form nonfiction projects that need continuity across chapters, cases, figures, tables, and source claims.
 
 Working policy:
 

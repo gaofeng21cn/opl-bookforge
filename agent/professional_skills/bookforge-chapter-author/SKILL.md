@@ -50,7 +50,7 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 
 ## Stage Prompt Boundary
 
-- `book-materialization` states target refs and accepted output shape; this skill carries the chapter writing method.
+- `chapter-production-planning` states admitted target refs and task-card shape; `chapter-materialization` carries the authorized drafting route, and this skill provides the chapter writing method.
 - This skill writes or repairs chapter Markdown only inside an authorized book workspace, not in this repo's professional skill pack.
 - This skill cannot claim book readiness, publication proof, final export, or owner acceptance by itself.
 

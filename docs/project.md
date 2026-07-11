@@ -10,8 +10,7 @@ Machine boundary: Human-readable project overview. Machine truth belongs in cont
 `OPL Book Forge` is the OPL-standard Foundry Agent domain pack for book authoring. It turns source material into a coherent book route through a storyline default stage plus focused materialization stages:
 
 - `storyline-architecture`: shape the premise, reader promise, argument arc, source map, chapter thesis chain, and writing style contract.
-- `book-materialization`: accept the approved storyline closeout and route the work into materialization stages or back to missing storyline/source/owner refs.
-- `chapter-production-planning`: allocate target extent, chapter budgets, production queue, task cards, context plan, and memory refs.
+- `chapter-production-planning`: direct `materialize-book` entry; admit the approved storyline closeout, route ordinary gaps back or keep them in progress, then allocate target extent, chapter budgets, production queue, task cards, context plan, and memory refs.
 - `chapter-materialization`: produce chapter context packs, reader-entry plans, per-chapter Markdown draft refs, chapter QC, and repair back-propagation refs.
 - `source-style-integrity-review`: review source/claim integrity, style consistency, AI-flavor/internal-language residue, meta-review routing, and repair entrypoint refs.
 - `publication-proof-handoff`: package review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundaries.

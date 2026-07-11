@@ -1,6 +1,6 @@
 # Meta-Review Loop Skill
 
-Use this skill inside `book-materialization` after a full manuscript draft reaches its declared chapter and asset gates, and before owner handoff, publication proof, or final export claims.
+Use this skill inside `source-style-integrity-review` after a full manuscript draft reaches its declared chapter and asset gates, and before owner handoff, publication proof, or final export claims.
 
 Working policy:
 

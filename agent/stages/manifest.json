@@ -1,0 +1,392 @@
+{
+  "surface_kind": "opl_standard_agent_declarative_stage_manifest",
+  "version": "opl-standard-agent-declarative-stage-manifest.v1",
+  "target_domain_id": "opl-bookforge",
+  "owner": "opl-bookforge",
+  "stages": [
+    {
+      "stage_id": "storyline-architecture",
+      "stage_kind": "planning",
+      "title": "Storyline Architecture",
+      "summary": "Shape the premise, reader promise, argument arc, evidence map, chapter thesis chain, and prose style contract before drafting.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "policy_ref": "agent/stages/storyline-architecture.md",
+      "prompt_ref": "agent/prompts/storyline-architecture.md",
+      "knowledge_refs": [
+        "agent/knowledge/book-authority-boundary.md"
+      ],
+      "quality_gate_refs": [
+        "agent/quality_gates/storyline-architecture-quality-gate.md"
+      ],
+      "allowed_action_refs": [
+        "shape-storyline"
+      ],
+      "requires": [
+        "stage:storyline-architecture",
+        "artifact-native-contract-ref:opl-bookforge/storyline-architecture",
+        "prompt-ref:agent/prompts/storyline-architecture.md",
+        "skill-ref:agent/skills/storyline-architecture.md",
+        "skill-ref:agent/skills/reader-style-contract.md",
+        "knowledge-ref:agent/knowledge/book-authority-boundary.md",
+        "quality-gate-ref:agent/quality_gates/storyline-architecture-quality-gate.md",
+        "action-ref:shape-storyline",
+        "workspace-scope-ref:storyline-architecture",
+        "source-scope-ref:storyline-architecture",
+        "runtime-ref:stage-progress-log-user-stage-log",
+        "source-ref:book/source-corpus",
+        "reader-style-ref:book/reader-style-contract",
+        "style-ref:book/voice-and-audience",
+        "skill-ref:agent/skills/style-engine.md",
+        "style-engine-ref:book/style-engine"
+      ],
+      "ensures": [
+        "stage-attempt-receipt-ref:storyline-architecture",
+        "executor-receipt-ref:storyline-architecture/codex-cli",
+        "boundary-receipt-ref:storyline-architecture/refs-only",
+        "independent-gate-receipt-ref:storyline-architecture",
+        "owner-handoff-ref:storyline-architecture",
+        "stage-user-log-ref:storyline-architecture",
+        "stage-folder-contract-ref:opl-bookforge/storyline-architecture",
+        "stage-json-ref:opl-bookforge/storyline-architecture",
+        "stage-attempt-json-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+        "stage-manifest-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+        "stage-attempt-receipt-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+        "stage-current-pointer-ref:opl-bookforge/storyline-architecture",
+        "canonical-artifact-ref:opl-bookforge/storyline-architecture",
+        "stage-export-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+        "stage-lineage-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+        "stage-retention-ref:opl-bookforge/storyline-architecture/{stage_attempt_id}",
+        "opl-physical-kernel-locator-ref:opl-bookforge/storyline-architecture",
+        "stage-artifact-conformance-ref:opl-bookforge/storyline-architecture",
+        "stage-artifact-workbench-consumption-ref:opl-bookforge/storyline-architecture",
+        "storyline-map-ref:storyline-architecture",
+        "chapter-plan-ref:storyline-architecture",
+        "reader-style-contract-ref:storyline-architecture",
+        "style-contract-ref:storyline-architecture",
+        "style-engine-ref:storyline-architecture",
+        "anti-ai-flavor-rule-ref:storyline-architecture"
+      ],
+      "next_stage_refs": [
+        "chapter-production-planning"
+      ],
+      "trust_lane": "domain_agent"
+    },
+    {
+      "stage_id": "chapter-production-planning",
+      "stage_kind": "planning",
+      "title": "Chapter Production Planning",
+      "summary": "Admit approved storyline refs and convert them into chapter budgets, task cards, context-pack plans, memory refs, and an active production queue before prose drafting.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "policy_ref": "agent/stages/chapter-production-planning.md",
+      "prompt_ref": "agent/prompts/chapter-production-planning.md",
+      "knowledge_refs": [
+        "agent/knowledge/book-production-boundary.md"
+      ],
+      "quality_gate_refs": [
+        "agent/quality_gates/chapter-production-planning-quality-gate.md"
+      ],
+      "allowed_action_refs": [
+        "materialize-book"
+      ],
+      "requires": [
+        "stage:chapter-production-planning",
+        "artifact-native-contract-ref:opl-bookforge/chapter-production-planning",
+        "prompt-ref:agent/prompts/chapter-production-planning.md",
+        "skill-ref:agent/skills/book-production.md",
+        "skill-ref:agent/skills/chapter-runtime.md",
+        "skill-ref:agent/skills/chapter-context-compiler.md",
+        "skill-ref:agent/skills/book-memory.md",
+        "skill-ref:agent/skills/reader-facing-draft.md",
+        "skill-ref:agent/skills/style-engine.md",
+        "knowledge-ref:agent/knowledge/book-production-boundary.md",
+        "quality-gate-ref:agent/quality_gates/chapter-production-planning-quality-gate.md",
+        "action-ref:materialize-book",
+        "workspace-scope-ref:chapter-production-planning",
+        "source-scope-ref:chapter-production-planning",
+        "runtime-ref:stage-progress-log-user-stage-log",
+        "storyline-map-ref:storyline-architecture",
+        "chapter-plan-ref:storyline-architecture",
+        "reader-style-contract-ref:storyline-architecture",
+        "style-contract-ref:storyline-architecture",
+        "target-extent-ref:book/target-extent-or-owner-gap",
+        "source-ref:book/source-corpus",
+        "owner-handoff-ref:storyline-architecture"
+      ],
+      "ensures": [
+        "stage-attempt-receipt-ref:chapter-production-planning",
+        "executor-receipt-ref:chapter-production-planning/codex-cli",
+        "boundary-receipt-ref:chapter-production-planning/refs-only",
+        "owner-handoff-ref:chapter-production-planning",
+        "stage-user-log-ref:chapter-production-planning",
+        "stage-folder-contract-ref:opl-bookforge/chapter-production-planning",
+        "stage-json-ref:opl-bookforge/chapter-production-planning",
+        "stage-attempt-json-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
+        "stage-manifest-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
+        "stage-attempt-receipt-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
+        "stage-current-pointer-ref:opl-bookforge/chapter-production-planning",
+        "canonical-artifact-ref:opl-bookforge/chapter-production-planning",
+        "stage-export-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
+        "stage-lineage-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
+        "stage-retention-ref:opl-bookforge/chapter-production-planning/{stage_attempt_id}",
+        "opl-physical-kernel-locator-ref:opl-bookforge/chapter-production-planning",
+        "stage-artifact-conformance-ref:opl-bookforge/chapter-production-planning",
+        "stage-artifact-workbench-consumption-ref:opl-bookforge/chapter-production-planning",
+        "target-extent-contract-ref:chapter-production-planning",
+        "chapter-production-budget-ref:chapter-production-planning",
+        "active-production-queue-ref:chapter-production-planning",
+        "chapter-task-card-bundle-ref:chapter-production-planning",
+        "chapter-context-plan-ref:chapter-production-planning",
+        "book-memory-contract-ref:chapter-production-planning",
+        "storyline-admission-ref:chapter-production-planning",
+        "planning-progress-ref:chapter-production-planning"
+      ],
+      "next_stage_refs": [
+        "chapter-materialization"
+      ],
+      "trust_lane": "domain_agent",
+      "stage_contract": {
+        "progress_first_policy": {
+          "ordinary_gap_outcome": "in_progress_or_route_back",
+          "ordinary_gap_can_emit_generic_typed_blocker": false,
+          "next_forced_delta_required_for_in_progress": true,
+          "route_back_target": "storyline-architecture",
+          "independent_review_required_for_ordinary_transition": false,
+          "typed_blocker_reserved_for": [
+            "missing_protected_source_or_owner_authority",
+            "unsafe_inference",
+            "condition_cannot_be_repaired_or_routed_back"
+          ]
+        },
+        "transition_policy": {
+          "ordinary_transition_requires_independent_review": false
+        }
+      }
+    },
+    {
+      "stage_id": "chapter-materialization",
+      "stage_kind": "creation",
+      "title": "Chapter Materialization",
+      "summary": "Write or repair reader-facing chapter Markdown packages from approved task cards and context packs while preserving honest in-progress states.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "policy_ref": "agent/stages/chapter-materialization.md",
+      "prompt_ref": "agent/prompts/chapter-materialization.md",
+      "knowledge_refs": [
+        "agent/knowledge/book-production-boundary.md"
+      ],
+      "quality_gate_refs": [
+        "agent/quality_gates/chapter-materialization-quality-gate.md"
+      ],
+      "allowed_action_refs": [
+        "materialize-book"
+      ],
+      "requires": [
+        "stage:chapter-materialization",
+        "artifact-native-contract-ref:opl-bookforge/chapter-materialization",
+        "prompt-ref:agent/prompts/chapter-materialization.md",
+        "skill-ref:agent/skills/reader-facing-draft.md",
+        "skill-ref:agent/skills/chapter-context-compiler.md",
+        "skill-ref:agent/skills/reference-draft-absorption.md",
+        "skill-ref:agent/skills/fast-track-revision.md",
+        "skill-ref:agent/skills/chapter-runtime.md",
+        "skill-ref:agent/skills/book-memory.md",
+        "skill-ref:agent/skills/style-engine.md",
+        "knowledge-ref:agent/knowledge/book-production-boundary.md",
+        "quality-gate-ref:agent/quality_gates/chapter-materialization-quality-gate.md",
+        "action-ref:materialize-book",
+        "workspace-scope-ref:chapter-materialization",
+        "source-scope-ref:chapter-materialization",
+        "runtime-ref:stage-progress-log-user-stage-log",
+        "active-production-queue-ref:chapter-production-planning",
+        "chapter-task-card-bundle-ref:chapter-production-planning",
+        "chapter-context-plan-ref:chapter-production-planning",
+        "book-memory-contract-ref:chapter-production-planning",
+        "reader-style-contract-ref:storyline-architecture",
+        "style-contract-ref:storyline-architecture",
+        "source-ref:book/source-corpus"
+      ],
+      "ensures": [
+        "stage-attempt-receipt-ref:chapter-materialization",
+        "executor-receipt-ref:chapter-materialization/codex-cli",
+        "boundary-receipt-ref:chapter-materialization/refs-only",
+        "independent-gate-receipt-ref:chapter-materialization",
+        "owner-handoff-ref:chapter-materialization",
+        "stage-user-log-ref:chapter-materialization",
+        "stage-folder-contract-ref:opl-bookforge/chapter-materialization",
+        "stage-json-ref:opl-bookforge/chapter-materialization",
+        "stage-attempt-json-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
+        "stage-manifest-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
+        "stage-attempt-receipt-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
+        "stage-current-pointer-ref:opl-bookforge/chapter-materialization",
+        "canonical-artifact-ref:opl-bookforge/chapter-materialization",
+        "stage-export-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
+        "stage-lineage-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
+        "stage-retention-ref:opl-bookforge/chapter-materialization/{stage_attempt_id}",
+        "opl-physical-kernel-locator-ref:opl-bookforge/chapter-materialization",
+        "stage-artifact-conformance-ref:opl-bookforge/chapter-materialization",
+        "stage-artifact-workbench-consumption-ref:opl-bookforge/chapter-materialization",
+        "chapter-draft-bundle-ref:chapter-materialization",
+        "chapter-markdown-ref:chapter-materialization/{chapter_id}",
+        "chapter-context-pack-ref:chapter-materialization/{chapter_id}",
+        "chapter-context-trace-ref:chapter-materialization/{chapter_id}",
+        "reader-entry-plan-ref:chapter-materialization/{chapter_id}",
+        "chapter-qc-ref:chapter-materialization/{chapter_id}",
+        "chapter-repair-log-ref:chapter-materialization/{chapter_id}",
+        "review-pdf-eligibility-ref:chapter-materialization"
+      ],
+      "next_stage_refs": [
+        "source-style-integrity-review"
+      ],
+      "trust_lane": "domain_agent"
+    },
+    {
+      "stage_id": "source-style-integrity-review",
+      "stage_kind": "review",
+      "title": "Source And Style Integrity Review",
+      "summary": "Review chapter packages for claim/source safety, style consistency, internal-language leakage, sentence integrity, and meta-review route obligations.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "policy_ref": "agent/stages/source-style-integrity-review.md",
+      "prompt_ref": "agent/prompts/source-style-integrity-review.md",
+      "knowledge_refs": [
+        "agent/knowledge/book-production-boundary.md"
+      ],
+      "quality_gate_refs": [
+        "agent/quality_gates/source-style-integrity-review-quality-gate.md"
+      ],
+      "allowed_action_refs": [
+        "materialize-book"
+      ],
+      "requires": [
+        "stage:source-style-integrity-review",
+        "artifact-native-contract-ref:opl-bookforge/source-style-integrity-review",
+        "prompt-ref:agent/prompts/source-style-integrity-review.md",
+        "skill-ref:agent/skills/source-claim-integrity.md",
+        "skill-ref:agent/skills/style-calibration.md",
+        "skill-ref:agent/skills/meta-review-loop.md",
+        "skill-ref:agent/skills/revision-entrypoint-router.md",
+        "skill-ref:agent/skills/fast-track-revision.md",
+        "skill-ref:agent/skills/style-engine.md",
+        "knowledge-ref:agent/knowledge/book-production-boundary.md",
+        "quality-gate-ref:agent/quality_gates/source-style-integrity-review-quality-gate.md",
+        "action-ref:materialize-book",
+        "workspace-scope-ref:source-style-integrity-review",
+        "source-scope-ref:source-style-integrity-review",
+        "runtime-ref:stage-progress-log-user-stage-log",
+        "chapter-draft-bundle-ref:chapter-materialization",
+        "chapter-qc-ref:chapter-materialization/{chapter_id}",
+        "reader-style-contract-ref:storyline-architecture",
+        "style-contract-ref:storyline-architecture",
+        "source-ref:book/source-corpus",
+        "claim-boundary-ref:book/source-claim-integrity"
+      ],
+      "ensures": [
+        "stage-attempt-receipt-ref:source-style-integrity-review",
+        "executor-receipt-ref:source-style-integrity-review/codex-cli",
+        "boundary-receipt-ref:source-style-integrity-review/refs-only",
+        "independent-gate-receipt-ref:source-style-integrity-review",
+        "owner-handoff-ref:source-style-integrity-review",
+        "stage-user-log-ref:source-style-integrity-review",
+        "stage-folder-contract-ref:opl-bookforge/source-style-integrity-review",
+        "stage-json-ref:opl-bookforge/source-style-integrity-review",
+        "stage-attempt-json-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
+        "stage-manifest-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
+        "stage-attempt-receipt-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
+        "stage-current-pointer-ref:opl-bookforge/source-style-integrity-review",
+        "canonical-artifact-ref:opl-bookforge/source-style-integrity-review",
+        "stage-export-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
+        "stage-lineage-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
+        "stage-retention-ref:opl-bookforge/source-style-integrity-review/{stage_attempt_id}",
+        "opl-physical-kernel-locator-ref:opl-bookforge/source-style-integrity-review",
+        "stage-artifact-conformance-ref:opl-bookforge/source-style-integrity-review",
+        "stage-artifact-workbench-consumption-ref:opl-bookforge/source-style-integrity-review",
+        "source-claim-integrity-ref:source-style-integrity-review",
+        "claim-ledger-ref:source-style-integrity-review/{chapter_id}",
+        "source-locator-ref:source-style-integrity-review/{chapter_id}",
+        "truth-delta-ref:source-style-integrity-review/{chapter_id}",
+        "style-calibration-ref:source-style-integrity-review",
+        "style-consistency-report-ref:source-style-integrity-review",
+        "ai-flavor-scan-ref:source-style-integrity-review",
+        "sentence-integrity-scan-ref:source-style-integrity-review",
+        "meta-review-round-ref:source-style-integrity-review/{round_id}",
+        "revision-entrypoint-decision-ref:source-style-integrity-review/{decision_id}",
+        "integrity-handoff-ref:source-style-integrity-review"
+      ],
+      "next_stage_refs": [
+        "publication-proof-handoff"
+      ],
+      "trust_lane": "domain_agent"
+    },
+    {
+      "stage_id": "publication-proof-handoff",
+      "stage_kind": "packaging",
+      "title": "Publication Proof Handoff",
+      "summary": "Classify and package review PDF, publication proof, or final export handoff refs without turning compile success into owner/export authority.",
+      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "policy_ref": "agent/stages/publication-proof-handoff.md",
+      "prompt_ref": "agent/prompts/publication-proof-handoff.md",
+      "knowledge_refs": [
+        "agent/knowledge/book-production-boundary.md"
+      ],
+      "quality_gate_refs": [
+        "agent/quality_gates/publication-proof-handoff-quality-gate.md"
+      ],
+      "allowed_action_refs": [
+        "materialize-book"
+      ],
+      "requires": [
+        "stage:publication-proof-handoff",
+        "artifact-native-contract-ref:opl-bookforge/publication-proof-handoff",
+        "prompt-ref:agent/prompts/publication-proof-handoff.md",
+        "skill-ref:agent/skills/publication-design.md",
+        "skill-ref:agent/skills/book-production.md",
+        "skill-ref:agent/skills/book-memory.md",
+        "knowledge-ref:agent/knowledge/book-production-boundary.md",
+        "quality-gate-ref:agent/quality_gates/publication-proof-handoff-quality-gate.md",
+        "action-ref:materialize-book",
+        "workspace-scope-ref:publication-proof-handoff",
+        "source-scope-ref:publication-proof-handoff",
+        "runtime-ref:stage-progress-log-user-stage-log",
+        "integrity-handoff-ref:source-style-integrity-review",
+        "chapter-draft-bundle-ref:chapter-materialization",
+        "review-pdf-eligibility-ref:chapter-materialization",
+        "figure-asset-manifest-ref:book/figure-asset-manifest-or-blocker",
+        "table-plan-ref:book/table-plan-or-blocker"
+      ],
+      "ensures": [
+        "stage-attempt-receipt-ref:publication-proof-handoff",
+        "executor-receipt-ref:publication-proof-handoff/codex-cli",
+        "boundary-receipt-ref:publication-proof-handoff/refs-only",
+        "independent-gate-receipt-ref:publication-proof-handoff",
+        "owner-handoff-ref:publication-proof-handoff",
+        "stage-user-log-ref:publication-proof-handoff",
+        "stage-folder-contract-ref:opl-bookforge/publication-proof-handoff",
+        "stage-json-ref:opl-bookforge/publication-proof-handoff",
+        "stage-attempt-json-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
+        "stage-manifest-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
+        "stage-attempt-receipt-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
+        "stage-current-pointer-ref:opl-bookforge/publication-proof-handoff",
+        "canonical-artifact-ref:opl-bookforge/publication-proof-handoff",
+        "stage-export-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
+        "stage-lineage-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
+        "stage-retention-ref:opl-bookforge/publication-proof-handoff/{stage_attempt_id}",
+        "opl-physical-kernel-locator-ref:opl-bookforge/publication-proof-handoff",
+        "stage-artifact-conformance-ref:opl-bookforge/publication-proof-handoff",
+        "stage-artifact-workbench-consumption-ref:opl-bookforge/publication-proof-handoff",
+        "pdf-export-receipt-ref:publication-proof-handoff",
+        "artifact-role-ref:publication-proof-handoff/review_pdf_or_publication_proof_or_final_export",
+        "review-pdf-ref:publication-proof-handoff",
+        "publication-design-profile-ref:publication-proof-handoff",
+        "publication-proof-ref:publication-proof-handoff",
+        "rendered-page-qa-ref:publication-proof-handoff",
+        "pre-ship-proof-review-ref:publication-proof-handoff",
+        "final-export-handoff-ref:publication-proof-handoff"
+      ],
+      "next_stage_refs": [],
+      "trust_lane": "domain_agent"
+    }
+  ],
+  "authority_boundary": {
+    "domain_truth_owner": "opl-bookforge",
+    "opl_can_write_domain_truth": false,
+    "opl_can_authorize_quality_or_export": false
+  }
+}
