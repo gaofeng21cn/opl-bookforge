@@ -23,6 +23,7 @@
         "surface_id": "image_asset_helper",
         "generated_or_hosted_owner": "one-person-lab",
         "domain_retained_role": "project_local_asset_receipt_helper",
+        "executor_handoff_contract_ref": "contracts/image_generation_executor_handoff.json",
         "default_runtime_surface": false,
         "ready_claim_authorized": false
       },

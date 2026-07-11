@@ -39,6 +39,8 @@ Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md
 
 Tool catalogs under `agent/tools/` describe affordances, write scope, side effects, credentials, and forbidden authority. Tools do not prescribe executor strategy, own manuscript truth, or grant readiness verdicts.
 
+Image generation follows the same framework/domain split. Book Forge builds the figure prompt and declares the project-local output ref, then calls `opl executor run` with `required_capabilities: ["image_generation"]`. OPL Runway owns Codex discovery, capability activation, process transport, and the executor receipt. Book Forge only accepts the result after validating the declared bitmap bytes, then writes the figure receipt and asset-manifest projection; publication, final-export, and owner-acceptance authority remain in Book Forge.
+
 ## Revision Architecture
 
 Book Forge treats serious critique and independent meta-review as a routed repair system, not a local prose queue. After a full-manuscript meta-review, complete-version comparison, or serious owner/reviewer critique, the domain pack first records a revision entrypoint decision.

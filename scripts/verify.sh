@@ -67,6 +67,7 @@ assert blocker is None, blocker
 assert "--number-sections" not in unnumbered_command, unnumbered_command
 PY
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
+python3 "${repo_dir}/tests/test_imagegen_opl_executor_adapter.py"
 
 image_tmp_dir="$(mktemp -d)"
 cleanup_paths+=("${image_tmp_dir}")

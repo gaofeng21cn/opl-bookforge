@@ -6,18 +6,15 @@ import hashlib
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
-import time
 import zlib
 from pathlib import Path
 from typing import Any
 
 
-VERSION = "bookforge-imagegen-asset.v1"
-IMAGE_EXTENSIONS = (".png", ".webp", ".jpg", ".jpeg")
+VERSION = "bookforge-imagegen-asset.v2"
 
 
 def safe_text(value: Any, default: str = "") -> str:
@@ -123,134 +120,6 @@ def image_info(path: Path) -> dict[str, Any]:
     raise ValueError(f"not a supported bitmap image: {path}")
 
 
-def parse_codex_command(raw: str | None) -> list[str]:
-    value = safe_text(raw)
-    if value:
-        if value.startswith("["):
-            parsed = json.loads(value)
-            if not isinstance(parsed, list):
-                raise ValueError("Codex command JSON must be an array")
-            command = [safe_text(item) for item in parsed if safe_text(item)]
-            if not command:
-                raise ValueError("Codex command JSON array is empty")
-            return command
-        return [value]
-
-    canonical = Path.home() / "bin" / "codex-canonical"
-    if canonical.is_file() and os.access(canonical, os.X_OK):
-        return [str(canonical)]
-    return ["codex"]
-
-
-def codex_home() -> Path:
-    return Path(os.environ.get("CODEX_HOME") or Path.home() / ".codex").expanduser()
-
-
-def generated_images_dir() -> Path:
-    return codex_home() / "generated_images"
-
-
-def parse_jsonl(stdout: str) -> list[dict[str, Any]]:
-    events: list[dict[str, Any]] = []
-    for line in stdout.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            parsed = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(parsed, dict):
-            events.append(parsed)
-    return events
-
-
-def collect_strings(value: Any, out: list[str], limit: int = 200) -> None:
-    if len(out) >= limit:
-        return
-    if isinstance(value, str):
-        if value.strip():
-            out.append(value)
-        return
-    if isinstance(value, dict):
-        for item in value.values():
-            collect_strings(item, out, limit)
-        return
-    if isinstance(value, list):
-        for item in value:
-            collect_strings(item, out, limit)
-
-
-def event_strings(events: list[dict[str, Any]]) -> list[str]:
-    strings: list[str] = []
-    for event in events:
-        collect_strings(event, strings)
-    return strings
-
-
-def used_native_imagegen(events: list[dict[str, Any]], output_file: Path) -> bool:
-    strings = event_strings(events)
-    for text in strings:
-        lowered = text.lower()
-        if any(token in lowered for token in ("image_gen", "image_generation", "image_generation_call")):
-            return True
-    joined = "\n".join(strings)
-    if ".codex/generated_images/" in joined and str(output_file) in joined:
-        return True
-    return ".codex/generated_images/" in joined and re.search(r"\b(cp|mv|rsync|install)\b", joined) is not None
-
-
-def generated_paths_from_events(events: list[dict[str, Any]]) -> list[Path]:
-    paths: list[Path] = []
-    seen: set[str] = set()
-    pattern = re.compile(r"(/[^\s\"']*\.codex/generated_images/[^\s\"']+\.(?:png|webp|jpe?g))", re.IGNORECASE)
-    for text in event_strings(events):
-        for match in pattern.findall(text):
-            path = Path(match)
-            key = str(path)
-            if key not in seen:
-                seen.add(key)
-                paths.append(path)
-    return paths
-
-
-def recent_generated_images(since: float) -> list[Path]:
-    root = generated_images_dir()
-    if not root.is_dir():
-        return []
-    candidates: list[Path] = []
-    for path in root.glob("*/*"):
-        if not path.is_file() or path.suffix.lower() not in IMAGE_EXTENSIONS:
-            continue
-        try:
-            if path.stat().st_mtime >= since:
-                candidates.append(path)
-        except OSError:
-            continue
-    return sorted(candidates, key=lambda item: item.stat().st_mtime, reverse=True)
-
-
-def parse_last_message(path: Path) -> dict[str, Any] | None:
-    if not path.exists():
-        return None
-    raw = path.read_text(encoding="utf-8").strip()
-    if not raw:
-        return None
-    try:
-        parsed = json.loads(raw)
-        return parsed if isinstance(parsed, dict) else None
-    except json.JSONDecodeError:
-        pass
-    match = re.search(r"\{.*\}", raw, re.DOTALL)
-    if not match:
-        return None
-    try:
-        parsed = json.loads(match.group(0))
-        return parsed if isinstance(parsed, dict) else None
-    except json.JSONDecodeError:
-        return None
-
-
 def build_task_prompt(args: argparse.Namespace, output_file: Path, prompt: str) -> str:
     tool_options = {
         "type": "image_generation",
@@ -262,8 +131,7 @@ def build_task_prompt(args: argparse.Namespace, output_file: Path, prompt: str) 
     return "\n".join([
         "你是 OPL Book Forge 的 Codex executor，负责执行书稿插图资产生成任务。",
         "必须显式使用 $imagegen 或 Codex 原生 image_generation 能力生成 raster bitmap。不要使用脚本绘图、SVG、HTML 截图、占位图、外部 curl/fetch、显式 Base URL、显式 API key 或 OPENAI_API_KEY。",
-        "使用内置 imagegen 默认路径生成后，把最终图片复制或移动到指定 output_file。不要把 book/project-bound asset 只留在 $CODEX_HOME/generated_images。",
-        "如果可以看到内置 imagegen 的原始生成路径，请在 generated_image_file 字段返回它。",
+        "最终 bitmap 必须由本次 OPL executor task 直接物化到指定 output_file；其他位置的预览或临时图片不计为书稿资产。",
         "如果无法生成或无法落盘，返回 JSON blocker，不要伪造图片。",
         f"bookforge_helper_version: {VERSION}",
         f"figure_id: {args.figure_id}",
@@ -280,37 +148,46 @@ def build_task_prompt(args: argparse.Namespace, output_file: Path, prompt: str) 
             "ok": True,
             "mode": "codex_native_imagegen",
             "image_file": str(output_file),
-            "generated_image_file": "",
         }, ensure_ascii=False),
     ])
 
 
-def build_codex_args(args: argparse.Namespace, root: Path, last_message_file: Path) -> tuple[list[str], list[str]]:
-    command = parse_codex_command(args.codex_command or os.environ.get("OBF_CODEX_COMMAND"))
-    exec_args = [
-        "exec",
-        "--json",
-        "--ephemeral",
-        "--cd",
-        str(root),
-        "--skip-git-repo-check",
-        "-s",
-        args.sandbox,
-        "-c",
-        'approval_policy="never"',
-    ]
+def build_opl_executor_request(
+    args: argparse.Namespace,
+    root: Path,
+    output_file: Path,
+    prompt: str,
+) -> dict[str, Any]:
+    request: dict[str, Any] = {
+        "executor_kind": "codex_cli",
+        "mode": "bookforge_project_image_asset",
+        "prompt": build_task_prompt(args, output_file, prompt),
+        "cwd": str(root),
+        "timeout_ms": args.timeout * 1000,
+        "json": True,
+        "required_capabilities": ["image_generation"],
+        "domain_payload": {
+            "domain_id": "opl-bookforge",
+            "artifact_role": args.artifact_role,
+            "figure_id": args.figure_id,
+            "output_ref": rel(output_file, root),
+        },
+    }
     if args.model:
-        exec_args.extend(["--model", args.model])
+        request["model"] = args.model
     if args.reasoning_effort:
-        exec_args.extend(["-c", f'model_reasoning_effort="{args.reasoning_effort}"'])
-    exec_args.extend([
-        "--enable",
-        "image_generation",
-        "--output-last-message",
-        str(last_message_file),
-        "-",
-    ])
-    return command, exec_args
+        request["reasoning_effort"] = args.reasoning_effort
+    return request
+
+
+def read_opl_executor_receipt(stdout: str) -> dict[str, Any]:
+    response = json.loads(stdout)
+    if not isinstance(response, dict):
+        raise ValueError("OPL executor response must be a JSON object")
+    receipt = response.get("agent_execution_receipt")
+    if not isinstance(receipt, dict):
+        raise ValueError("OPL executor response has no agent_execution_receipt")
+    return receipt
 
 
 def base_payload(args: argparse.Namespace, root: Path, output_file: Path, prompt: str) -> dict[str, Any]:
@@ -388,8 +265,10 @@ def update_asset_manifest(asset_manifest: Path | None, receipt_path: Path | None
                 "provider",
                 "task_surface",
                 "imagegen_mode",
-                "codex_generated_image_file",
-                "materialized_from_codex_generated_images",
+                "session_id",
+                "requested_capabilities",
+                "activated_capabilities",
+                "materialized_by",
                 "provider_token_source",
             )
             if key in runtime
@@ -433,59 +312,53 @@ def parse_size(value: str) -> tuple[int, int]:
 def generate_live(args: argparse.Namespace, root: Path, output_file: Path, prompt: str) -> dict[str, Any]:
     payload = base_payload(args, root, output_file, prompt)
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    since = time.time() - 5
-    with tempfile.TemporaryDirectory(prefix="bookforge-imagegen-") as tmp:
-        last_message_file = Path(tmp) / "last-message.json"
-        command, exec_args = build_codex_args(args, root, last_message_file)
-        task_prompt = build_task_prompt(args, output_file, prompt)
-        result = subprocess.run(
-            [command[0], *command[1:], *exec_args],
-            input=task_prompt,
-            cwd=root,
-            text=True,
-            capture_output=True,
-            timeout=args.timeout,
-            check=False,
-        )
-        events = parse_jsonl(result.stdout)
-        last_message = parse_last_message(last_message_file) or {}
+    with tempfile.TemporaryDirectory(prefix="bookforge-opl-executor-") as tmp:
+        request_file = Path(tmp) / "agent-execution-request.json"
+        write_json(request_file, build_opl_executor_request(args, root, output_file, prompt))
+        try:
+            result = subprocess.run(
+                [args.opl_bin, "executor", "run", "--request", str(request_file), "--json"],
+                cwd=root,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+        except OSError as exc:
+            payload["status"] = "blocked_opl_executor_unavailable"
+            payload["blocker_kind"] = "opl_executor_command_unavailable"
+            payload["error"] = str(exc)
+            return payload
         if result.returncode != 0:
-            payload["status"] = "blocked_codex_exec_failed"
-            payload["blocker_kind"] = "codex_native_imagegen_exec_failed"
-            payload["error"] = (result.stderr or result.stdout or "Codex native imagegen task failed").strip()[-4000:]
+            payload["status"] = "blocked_opl_executor_failed"
+            payload["blocker_kind"] = "opl_executor_image_generation_failed"
+            payload["error"] = (result.stderr or result.stdout or "OPL image-generation executor task failed").strip()[-4000:]
             return payload
 
-        generated_from_result = safe_text(last_message.get("generated_image_file"))
-        candidates = []
-        if generated_from_result:
-            candidates.append(Path(generated_from_result).expanduser())
-        candidates.extend(generated_paths_from_events(events))
-        candidates.extend(recent_generated_images(since))
+        try:
+            receipt = read_opl_executor_receipt(result.stdout)
+        except (json.JSONDecodeError, ValueError) as exc:
+            payload["status"] = "blocked_invalid_opl_executor_receipt"
+            payload["blocker_kind"] = "opl_executor_receipt_invalid"
+            payload["error"] = str(exc)
+            return payload
+        requested = receipt.get("requested_capabilities")
+        activated = receipt.get("activated_capabilities")
+        if requested != ["image_generation"] or activated != ["image_generation"]:
+            payload["status"] = "blocked_opl_capability_not_activated"
+            payload["blocker_kind"] = "opl_executor_image_generation_capability_not_activated"
+            payload["error"] = "OPL executor receipt did not prove activation of the requested image_generation capability."
+            return payload
 
-        if not output_file.exists():
-            copied = False
-            for candidate in candidates:
-                if candidate.resolve() == output_file.resolve():
-                    continue
-                if not candidate.is_file():
-                    continue
-                try:
-                    image_info(candidate)
-                except ValueError:
-                    continue
-                shutil.copyfile(candidate, output_file)
-                copied = True
-                break
-            if not copied:
-                payload["status"] = "blocked_missing_project_bitmap"
-                payload["blocker_kind"] = "codex_native_imagegen_did_not_materialize_project_asset"
-                payload["error"] = f"output file was not created: {output_file}"
-                return payload
+        if receipt.get("exit_code") != 0:
+            payload["status"] = "blocked_opl_executor_failed"
+            payload["blocker_kind"] = "opl_executor_image_generation_failed"
+            payload["error"] = safe_text(receipt.get("stderr_preview"), "OPL executor returned a non-zero exit code.")[-4000:]
+            return payload
 
-        if not used_native_imagegen(events, output_file):
-            payload["status"] = "blocked_missing_native_imagegen_provenance"
-            payload["blocker_kind"] = "no_codex_native_imagegen_event_or_generated_images_ref"
-            payload["error"] = "Codex task completed, but JSONL events did not prove imagegen/generated_images use."
+        if not output_file.is_file():
+            payload["status"] = "blocked_missing_project_bitmap"
+            payload["blocker_kind"] = "opl_executor_did_not_materialize_project_asset"
+            payload["error"] = f"OPL executor completed without creating output_file: {output_file}"
             return payload
 
         info = image_info(output_file)
@@ -495,14 +368,14 @@ def generate_live(args: argparse.Namespace, root: Path, output_file: Path, promp
             **info,
         }
         payload["generation_runtime"] = {
-            "provider": "codex_native_imagegen",
-            "task_surface": "codex_native_imagegen_skill",
-            "imagegen_mode": "built_in_tool",
-            "run_id": next((safe_text(event.get("run_id")) for event in reversed(events) if safe_text(event.get("run_id"))), ""),
-            "codex_generated_image_file": rel(candidates[0], root) if candidates else None,
-            "materialized_from_codex_generated_images": bool(candidates),
+            "provider": safe_text(receipt.get("executor_kind"), "codex_cli"),
+            "task_surface": safe_text(receipt.get("surface_kind"), "opl_agent_execution_receipt"),
+            "imagegen_mode": "opl_executor_required_capability",
+            "session_id": receipt.get("session_id"),
+            "requested_capabilities": requested,
+            "activated_capabilities": activated,
+            "materialized_by": "opl_executor_task_to_domain_owned_output_ref",
             "model_selection": args.model or "inherit_local_codex_default",
-            "sandbox": args.sandbox,
             "tool_options": {
                 "type": "image_generation",
                 "size": args.size,
@@ -560,11 +433,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--size", default="1536x1024", help="Requested image size, e.g. 1536x1024.")
     parser.add_argument("--quality", default="high", help="Requested image quality.")
     parser.add_argument("--artifact-role", default="book_manuscript_figure", help="Artifact role recorded in the manifest.")
-    parser.add_argument("--codex-command", default="", help="Codex command or JSON array. Defaults to ~/bin/codex-canonical when available, then codex.")
-    parser.add_argument("--sandbox", default=os.environ.get("OBF_CODEX_SANDBOX", "workspace-write"), help="Child Codex sandbox.")
-    parser.add_argument("--model", default=os.environ.get("OBF_CODEX_MODEL", ""), help="Optional child Codex model override.")
-    parser.add_argument("--reasoning-effort", default=os.environ.get("OBF_CODEX_REASONING_EFFORT", ""), help="Optional child Codex reasoning override.")
-    parser.add_argument("--timeout", type=int, default=900, help="Child Codex timeout in seconds.")
+    parser.add_argument("--opl-bin", default=os.environ.get("OPL_BIN", "opl"), help="Canonical OPL CLI used for executor transport.")
+    parser.add_argument("--model", default=os.environ.get("OBF_CODEX_MODEL", ""), help="Optional model override passed through OPL executor request.")
+    parser.add_argument("--reasoning-effort", default=os.environ.get("OBF_CODEX_REASONING_EFFORT", ""), help="Optional reasoning override passed through OPL executor request.")
+    parser.add_argument("--timeout", type=int, default=900, help="OPL executor request timeout in seconds.")
     return parser.parse_args(argv)
 
 

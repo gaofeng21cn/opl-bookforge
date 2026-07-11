@@ -72,20 +72,21 @@ python3 runtime/native_helpers/bookforge_pdf_export.py \
 
 ## Imagegen Asset Helper
 
-`bookforge_imagegen_asset.py` is the Book Forge-owned project-local bitmap materialization helper for final manuscript figures.
+`bookforge_imagegen_asset.py` is the Book Forge-owned domain adapter for final manuscript figures. It declares the book-specific prompt and project-local output target, then validates the bitmap and writes the figure receipt.
 
 Default backend:
 
-- `codex-native-imagegen`: launches a child Codex executor with `--enable image_generation`, requires the child executor to use the built-in `imagegen` / `image_generation` capability, and copies the final bitmap into the book project path.
+- `opl executor run`: receives an `AgentExecutionRequest` with `required_capabilities: ["image_generation"]`. OPL Runway owns Codex discovery, capability activation, process transport, and the executor receipt; Book Forge has no local Codex fallback.
+- The OPL executor task must materialize the bitmap directly at the Book Forge-declared project path. Book Forge does not parse Codex JSONL, inspect `$CODEX_HOME`, search generated-image directories, or copy an unbound candidate into the project.
 - The helper records a JSON receipt with prompt hash, output path, image hash/dimensions, runtime surface, and token boundary.
 - Project-relative `--prompt-file`, `--output-file`, `--manifest`, `--receipt-file`, and `--asset-manifest` paths are resolved against `--root`, not the caller's current directory.
 - Pass `--asset-manifest` during generation to update the figure asset manifest by `figure_id` after receipt creation. Pass `--update-asset-manifest --receipt-file <receipt>` to backfill a manifest from an existing helper receipt without generating a new image.
-- The helper does not read OpenAI Base URL, `OPENAI_API_KEY`, Codex provider tokens, or project secrets. Provider credentials remain owned by the Codex executor/native imagegen surface.
+- The helper does not discover Codex, build `codex exec` arguments, read OpenAI Base URL, `OPENAI_API_KEY`, Codex provider tokens, or project secrets. Executor and provider transport remain owned by OPL Runway.
 
 Boundary:
 
 - Project-bound book figures must end as project-local PNG/WebP/JPEG assets and be tracked by the figure asset manifest.
-- Chat previews and default `$CODEX_HOME/generated_images` files are not final book assets until copied into the book project and recorded.
+- Chat previews and images outside the declared project-local output path are not final book assets. Only the OPL executor receipt plus Book Forge bitmap validation and figure receipt can produce `asset_ready`.
 - The `--mock` / `--self-test` paths only verify helper structure. Mock images must not be counted as final manuscript illustrations.
 - API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen, not the default Book Forge route.
 

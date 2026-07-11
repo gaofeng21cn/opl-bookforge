@@ -349,7 +349,7 @@
         "runtime/native_helpers/bookforge_imagegen_asset.py",
         "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json"
       ],
-      "replacement_opl_primitive": "codex_native_image_generation_surface_plus_opl_generated_artifact_refs",
+      "replacement_opl_primitive": "opl_executor_required_capability_image_generation",
       "retained_domain_authority": [
         "project_local_figure_asset_receipt_refs",
         "figure_asset_manifest_refs"
@@ -694,9 +694,9 @@
         "Book Forge explicit figure asset materialization operation"
       ],
       "active_caller_status": "domain_specific_asset_helper_not_provider_manager_or_runtime_queue",
-      "migration_action": "delegate executable readback to opl_pack_native_helper_probe, image generation to Codex native imagegen, and keep only project-local asset receipt materialization",
-      "cannot_absorb_reason": "Book Forge owns project-local figure asset refs and receipt shape; provider credentials and model execution stay with Codex native imagegen.",
-      "receipt_schema_ref": "runtime/native_helpers/README.md#Imagegen Asset Helper",
+      "migration_action": "delegate executable readback to opl_pack_native_helper_probe and all executor discovery, image_generation activation, process transport, and executor receipt parsing to opl_executor_run; keep only the domain prompt, project-local bitmap validation, and figure receipt materialization",
+      "cannot_absorb_reason": "Book Forge owns the domain prompt, project-local figure asset refs, bitmap validation, and receipt shape; OPL Runway owns executor discovery, capability activation, process transport, and executor receipt semantics.",
+      "receipt_schema_ref": "contracts/image_generation_executor_handoff.json",
       "no_forbidden_write_evidence_ref": "contracts/private_functional_surface_policy.json#/taxonomy_layers/authority_function_inventory/abi/forbidden_outputs",
       "retained_domain_authority": [
         "project_local_figure_asset_receipt_refs",
