@@ -123,7 +123,7 @@ You can start with prompts like:
   <summary><strong>Technical OPL / operator boundary</strong></summary>
 
 - The package exposes action contracts for `shape-storyline` and `materialize-book`; current generated MCP/OpenAI/AI SDK descriptors are descriptors only unless a runtime surface proves execution.
-- `scripts/verify.sh` validates the OPL standard scaffold, generated interface descriptors, policy tests, helper doctor/self-test checks, and source hygiene through the local OPL CLI without compiling PDFs.
+- `scripts/verify.sh` validates the OPL standard scaffold, generated interface descriptors, policy tests, OPL source-hygiene and native-helper probe readbacks, plus Book Forge helper self-tests without compiling PDFs.
 - `scripts/verify.sh pdf-smoke` runs the proof-backend PDF compile/render smoke and requires `pandoc` plus `xelatex`.
 - OMA evidence lives under `docs/evidence/oma-agent-lab/`.
 - The real pilot evidence lives under `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
@@ -158,7 +158,7 @@ You can start with prompts like:
 ```bash
 scripts/verify.sh
 scripts/verify.sh pdf-smoke
-python3 runtime/native_helpers/bookforge_pdf_export.py --doctor
+opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json
 python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
 ```
 

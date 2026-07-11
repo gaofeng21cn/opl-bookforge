@@ -321,9 +321,10 @@
       "current_paths": [
         "runtime/native_helpers/bookforge_pdf_export.py",
         "runtime/native_helpers/bookforge_pdf_export_parts/",
-        "runtime/native_helpers/pdf_profiles/"
+        "runtime/native_helpers/pdf_profiles/",
+        "runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json"
       ],
-      "replacement_opl_primitive": "opl_native_helper_generic_envelope_and_system_dependency_doctor",
+      "replacement_opl_primitive": "opl_pack_native_helper_probe",
       "retained_domain_authority": [
         "review_pdf_publication_proof_final_export_artifact_gate_refs",
         "publication_design_profile_refs",
@@ -345,7 +346,8 @@
       "surface_id": "image_asset_helper",
       "private_tail_class": "publication_asset_helper",
       "current_paths": [
-        "runtime/native_helpers/bookforge_imagegen_asset.py"
+        "runtime/native_helpers/bookforge_imagegen_asset.py",
+        "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json"
       ],
       "replacement_opl_primitive": "codex_native_image_generation_surface_plus_opl_generated_artifact_refs",
       "retained_domain_authority": [
@@ -370,13 +372,12 @@
         "runtime/native_helpers/bookforge_project_hygiene.py",
         "runtime/native_helpers/bookforge_project_hygiene_parts/"
       ],
-      "replacement_opl_primitive": "opl_workspace_artifact_lifecycle_projection_and_source_byproduct_guard",
+      "replacement_opl_primitive": "opl_workspace_source_hygiene_and_artifact_lifecycle_projection",
       "retained_domain_authority": [
-        "book_specific_hygiene_findings",
-        "repo_source_byproduct_guard_refs"
+        "book_specific_hygiene_findings"
       ],
       "retirement_action": "retain_as_deterministic_diagnostic_helper_only",
-      "active_caller_boundary": "scripts_verify_and_explicit_workspace_hygiene_readback_not_session_store_or_workbench",
+      "active_caller_boundary": "explicit_bookforge_project_hygiene_readback_not_session_store_or_workbench",
       "forbidden_domain_repo_roles": [
         "workspace_lifecycle_shell",
         "session_store",
@@ -654,7 +655,8 @@
       "code_paths": [
         "runtime/native_helpers/bookforge_pdf_export.py",
         "runtime/native_helpers/bookforge_pdf_export_parts/",
-        "runtime/native_helpers/pdf_profiles/"
+        "runtime/native_helpers/pdf_profiles/",
+        "runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json"
       ],
       "current_surface_refs": [
         "publication_and_export_helper"
@@ -664,8 +666,8 @@
         "OPL generated surface invoking an explicit Book Forge artifact operation"
       ],
       "active_caller_status": "domain_specific_native_helper_not_generic_runtime_or_publication_ready_authority",
-      "migration_action": "keep_helper_as_domain_specific_artifact_operation_and_route_dependency_install_diagnosis_to_opl_system_dependency_doctor",
-      "cannot_absorb_reason": "OPL can own the generic helper envelope and dependency doctor, but Book Forge owns publication proof artifact refs and export gate semantics.",
+      "migration_action": "keep helper as a domain-specific artifact operation and route entrypoint and dependency readback to opl_pack_native_helper_probe",
+      "cannot_absorb_reason": "OPL owns the no-authority helper probe, but Book Forge owns publication proof artifact refs and export gate semantics.",
       "receipt_schema_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit.bookforge_completion_accounts",
       "no_forbidden_write_evidence_ref": "contracts/temporal_stage_run_consumption_policy.json#write_boundary",
       "retained_domain_authority": [
@@ -682,7 +684,8 @@
       "classification": "native_helper_implementation",
       "migration_class": "native_helper_implementation",
       "code_paths": [
-        "runtime/native_helpers/bookforge_imagegen_asset.py"
+        "runtime/native_helpers/bookforge_imagegen_asset.py",
+        "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json"
       ],
       "current_surface_refs": [
         "image_asset_helper"
@@ -691,7 +694,7 @@
         "Book Forge explicit figure asset materialization operation"
       ],
       "active_caller_status": "domain_specific_asset_helper_not_provider_manager_or_runtime_queue",
-      "migration_action": "delegate image generation capability to Codex native imagegen and keep only project-local asset receipt materialization",
+      "migration_action": "delegate executable readback to opl_pack_native_helper_probe, image generation to Codex native imagegen, and keep only project-local asset receipt materialization",
       "cannot_absorb_reason": "Book Forge owns project-local figure asset refs and receipt shape; provider credentials and model execution stay with Codex native imagegen.",
       "receipt_schema_ref": "runtime/native_helpers/README.md#Imagegen Asset Helper",
       "no_forbidden_write_evidence_ref": "contracts/private_functional_surface_policy.json#/taxonomy_layers/authority_function_inventory/abi/forbidden_outputs",
@@ -716,17 +719,15 @@
       "active_default_caller_allowed": false,
       "active_caller_allowed": false,
       "active_callers": [
-        "scripts/verify.sh source-byproduct guard",
         "explicit Book Forge workspace hygiene readback"
       ],
-      "active_caller_status": "explicit_diagnostic_helper_not_session_store_status_workbench_or_workspace_lifecycle_shell",
-      "migration_action": "keep deterministic Book Forge hygiene checks local and keep lifecycle/currentness truth in OPL workspace artifact-lifecycle",
-      "cannot_absorb_reason": "The checks encode concrete Book Forge manuscript/source regressions; OPL owns lifecycle projection, not book-specific hygiene semantics.",
+      "active_caller_status": "explicit_domain_hygiene_helper_not_session_store_status_workbench_or_workspace_lifecycle_shell",
+      "migration_action": "delegate repo source byproduct guarding to opl_workspace_source_hygiene and retain only concrete Book Forge workspace hygiene checks",
+      "cannot_absorb_reason": "The retained checks encode concrete Book Forge manuscript/source regressions; OPL owns source-byproduct guarding and lifecycle projection.",
       "receipt_schema_ref": "contracts/artifact_lifecycle_handoff.json",
       "no_forbidden_write_evidence_ref": "contracts/workspace_lifecycle_policy.json#byproduct_policy.repo_source_byproduct_guard",
       "retained_domain_authority": [
-        "book_specific_hygiene_findings",
-        "repo_source_byproduct_guard_refs"
+        "book_specific_hygiene_findings"
       ],
       "semantic_equivalence_status": "cleared_by_boundary",
       "audit_visibility": "hidden_by_default"

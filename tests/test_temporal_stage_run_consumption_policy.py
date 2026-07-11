@@ -174,6 +174,30 @@ PRIVATE_PLATFORM_FORBIDDEN_READY_CLAIMS = {
     "authorizes_physical_delete",
 }
 
+NATIVE_HELPER_PROBE_DESCRIPTORS = {
+    "runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json": {
+        "helper_id": "opl-bookforge.pdf-export",
+        "entrypoint_ref": "bookforge_pdf_export.py",
+        "required_commands": ["pandoc", "xelatex", "pdftoppm", "pdffonts"],
+    },
+    "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json": {
+        "helper_id": "opl-bookforge.imagegen-asset",
+        "entrypoint_ref": "bookforge_imagegen_asset.py",
+        "required_commands": ["codex-canonical"],
+    },
+}
+
+NATIVE_HELPER_PROBE_AUTHORITY_FIELDS = {
+    "can_write_domain_truth",
+    "can_mutate_artifact_body",
+    "can_sign_owner_receipt",
+    "can_create_typed_blocker",
+    "can_authorize_quality_verdict",
+    "can_authorize_export_readiness",
+    "can_claim_domain_ready",
+    "can_claim_production_ready",
+}
+
 STANDARD_CAPABILITY_KINDS = {
     "stage_prompt",
     "stage_projection",
@@ -276,6 +300,10 @@ def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
     assert refs_by_gate["revision_entrypoint_route"]["contract_ref"] == "agent/skills/revision-entrypoint-router.md"
     assert refs_by_gate["revision_entrypoint_route"]["support_ref"] == "docs/references/opl-base-revision-routing-handoff.md"
     assert refs_by_gate["pdf_proof_helper_plumbing"]["contract_ref"] == "runtime/native_helpers/bookforge_pdf_export.py"
+    assert (
+        "opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json"
+        in refs_by_gate["pdf_proof_helper_plumbing"]["validator_refs"]
+    )
     assert refs_by_gate["artifact_lifecycle_handoff"]["contract_ref"] == "contracts/artifact_lifecycle_handoff.json"
     assert refs_by_gate["default_caller_structural_gate"]["contract_ref"] == "contracts/functional_privatization_audit.json"
     assert (
@@ -357,7 +385,7 @@ def assert_private_platform_retirement_matrix(
     by_surface = {entry["surface_id"]: entry for entry in matrix}
 
     publication = by_surface["publication_and_export_helper"]
-    assert publication["replacement_opl_primitive"] == "opl_native_helper_generic_envelope_and_system_dependency_doctor"
+    assert publication["replacement_opl_primitive"] == "opl_pack_native_helper_probe"
     assert publication["retirement_action"] == "retain_as_domain_specific_native_helper_only"
     assert publication["physical_delete_authorized"] is False
     assert "system_package_manager" in publication["forbidden_domain_repo_roles"]
@@ -371,11 +399,12 @@ def assert_private_platform_retirement_matrix(
     assert "runtime_queue_owner" in image["forbidden_domain_repo_roles"]
 
     hygiene = by_surface["project_hygiene_helper"]
-    assert hygiene["replacement_opl_primitive"] == "opl_workspace_artifact_lifecycle_projection_and_source_byproduct_guard"
+    assert hygiene["replacement_opl_primitive"] == "opl_workspace_source_hygiene_and_artifact_lifecycle_projection"
     assert hygiene["retirement_action"] == "retain_as_deterministic_diagnostic_helper_only"
     assert hygiene["physical_delete_authorized"] is False
     assert "session_store" in hygiene["forbidden_domain_repo_roles"]
     assert "status_workbench" in hygiene["forbidden_domain_repo_roles"]
+    assert hygiene["active_caller_boundary"] == "explicit_bookforge_project_hygiene_readback_not_session_store_or_workbench"
 
     absent = by_surface["runtime_session_update_absence"]
     assert absent["current_paths"] == []
@@ -406,6 +435,41 @@ def assert_private_platform_retirement_matrix(
     assert set(projection["forbidden_projection_claims"]) == PRIVATE_PLATFORM_FORBIDDEN_READY_CLAIMS
     for field, value in projection["forbidden_projection_claims"].items():
         assert value is False, f"private_platform_retirement_projection.{field} expected false"
+
+
+def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
+    workspace_policy = load_json(repo, "contracts/workspace_lifecycle_policy.json")
+    guard = workspace_policy["byproduct_policy"]["repo_source_byproduct_guard"]
+    assert guard["guard_surface"] == "opl_repo_source_byproduct_guard"
+    assert guard["guard_owner"] == "one-person-lab"
+    assert guard["guard_command"] == "opl workspace source-hygiene --source-root <repo> --json"
+
+    verify_script = (repo / "scripts/verify.sh").read_text(encoding="utf-8")
+    assert verify_script.count('workspace source-hygiene --source-root "${repo_dir}" --json') == 2
+    assert "bookforge_project_hygiene.py" not in verify_script
+    assert "--doctor" not in verify_script
+    for helper_ref in (
+        "runtime/native_helpers/bookforge_pdf_export.py",
+        "runtime/native_helpers/bookforge_imagegen_asset.py",
+    ):
+        assert "--doctor" not in (repo / helper_ref).read_text(encoding="utf-8"), helper_ref
+
+    for descriptor_ref, expected in NATIVE_HELPER_PROBE_DESCRIPTORS.items():
+        descriptor = load_json(repo, descriptor_ref)
+        assert descriptor["surface_kind"] == "opl_pack_native_helper_probe_descriptor", descriptor_ref
+        assert descriptor["schema_version"] == 1, descriptor_ref
+        assert descriptor["helper_id"] == expected["helper_id"], descriptor_ref
+        assert descriptor["owner"] == "opl-bookforge", descriptor_ref
+        assert descriptor["entrypoint_ref"] == expected["entrypoint_ref"], descriptor_ref
+        assert descriptor["runtime_command"] == "python3", descriptor_ref
+        assert descriptor["required_commands"] == expected["required_commands"], descriptor_ref
+        assert set(descriptor["authority_boundary"]) == NATIVE_HELPER_PROBE_AUTHORITY_FIELDS, descriptor_ref
+        assert all(value is False for value in descriptor["authority_boundary"].values()), descriptor_ref
+        assert (repo / descriptor_ref).parent.joinpath(descriptor["entrypoint_ref"]).is_file(), descriptor_ref
+        command = f'pack native-helper probe --descriptor "${{repo_dir}}/{descriptor_ref}" --json'
+        assert command in verify_script, descriptor_ref
+
+    assert not (repo / "runtime/native_helpers/bookforge_project_hygiene_parts/byproducts.py").exists()
 
 
 def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
@@ -833,6 +897,7 @@ def main() -> int:
     assert_surface_export_boundary(policy, "policy surface export boundary")
     assert_functional_closure_gate(policy["functional_closure_gate"])
     assert_default_entry_routing(policy["default_entry_routing"])
+    assert_opl_default_hygiene_and_probe_consumption(repo)
     trigger_policy = foundry_series["standard_feedback_self_evolution_trigger_policy"]
     assert trigger_policy["policy_id"] == "standard_agent_feedback_self_evolution_trigger.v1"
     assert (

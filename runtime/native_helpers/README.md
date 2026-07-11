@@ -1,6 +1,6 @@
 # OPL Book Forge Native Helpers
 
-Place domain-specific helper implementations here only when they cannot be represented as declarative pack inputs. OPL owns the generic helper envelope and execution contract.
+Place domain-specific helper implementations here only when they cannot be represented as declarative pack inputs. OPL owns no-authority helper entrypoint and executable probes; Book Forge retains only domain execution and receipt behavior.
 
 ## PDF Export Helper
 
@@ -98,7 +98,7 @@ Current checks:
 - Active manuscript/workflow refs must not contain known Red Bird outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, `观察它如何强调`, or equivalent phrases that contradict a practice-involved author stance.
 - Active status files must not keep stale early-run metrics such as obsolete chapter blockers or old review-PDF page counts after later chapters have advanced.
 - Retired archive dirs should be tombstone refs, not full readable obsolete drafts that can pollute search results or be mistaken for current manuscript source.
-- Repo source checkouts must not contain ignored Python/cache/install residue. Use `--source-byproduct-check` to fail on `.venv`, `__pycache__`, `.pytest_cache`, `*.pyc`, `*.pyo`, `*.egg-info`, `dist`, `coverage`, or `node_modules`; `scripts/verify.sh` runs this guard before and after helper verification while setting `PYTHONDONTWRITEBYTECODE=1`.
+- Repo source checkouts use OPL `workspace source-hygiene --source-root <repo> --json` for ignored Python/cache/install residue. `scripts/verify.sh` runs that guard before and after helper verification while setting `PYTHONDONTWRITEBYTECODE=1`. This helper retains only Book Forge-specific workspace hygiene checks.
 
 Boundary:
 

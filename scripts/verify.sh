@@ -3,7 +3,6 @@ set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 opl_bin="${OPL_BIN:-/Users/gaofeng/workspace/one-person-lab/bin/opl}"
-hygiene_helper="${repo_dir}/runtime/native_helpers/bookforge_project_hygiene.py"
 lane="${1:-default}"
 run_pdf_smoke=0
 
@@ -30,14 +29,15 @@ cleanup() {
 }
 trap cleanup EXIT
 
-python3 "${hygiene_helper}" --root "${repo_dir}" --source-root "${repo_dir}" --source-byproduct-check
+"${opl_bin}" workspace source-hygiene --source-root "${repo_dir}" --json
 python3 "${repo_dir}/tests/test_stage_topology.py"
 python3 "${repo_dir}/tests/test_temporal_stage_run_consumption_policy.py"
 
 "${opl_bin}" agents scaffold --validate "${repo_dir}" --json
 "${opl_bin}" agents interfaces --repo-dir "${repo_dir}" --json
 
-python3 "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.py" --doctor
+"${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
+"${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
 python3 - "${repo_dir}" <<'PY'
 import importlib.util
 import sys
@@ -66,9 +66,7 @@ unnumbered_command, blocker = module.pandoc_xelatex_command(*base_args, number_s
 assert blocker is None, blocker
 assert "--number-sections" not in unnumbered_command, unnumbered_command
 PY
-python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --doctor
 python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
-python3 "${hygiene_helper}" --self-test
 
 image_tmp_dir="$(mktemp -d)"
 cleanup_paths+=("${image_tmp_dir}")
@@ -125,10 +123,6 @@ PY
 rm -rf "${image_tmp_dir}"
 
 if [ "${run_pdf_smoke}" -eq 1 ]; then
-  if ! command -v pandoc >/dev/null 2>&1 || ! command -v xelatex >/dev/null 2>&1; then
-    echo "BookForge pdf-smoke requires pandoc and xelatex" >&2
-    exit 1
-  fi
   tmp_dir="$(mktemp -d)"
   cleanup_paths+=("${tmp_dir}")
   cat >"${tmp_dir}/sample.md" <<'EOF'
@@ -384,4 +378,4 @@ assert {"front_matter", "table_of_contents", "chapter_opening", "dense_body", "f
 assert {"embedded_fonts", "rendered_page_size", "trailing_whitespace"} <= set(expectations["checklist_refs"]), expectations
 PY
 
-python3 "${hygiene_helper}" --root "${repo_dir}" --source-root "${repo_dir}" --source-byproduct-check
+"${opl_bin}" workspace source-hygiene --source-root "${repo_dir}" --json

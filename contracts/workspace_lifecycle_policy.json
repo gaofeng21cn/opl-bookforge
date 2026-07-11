@@ -52,10 +52,10 @@
       "node_modules/"
     ],
     "repo_source_byproduct_guard": {
-      "guard_surface": "bookforge_repo_source_byproduct_hygiene",
-      "helper_ref": "runtime/native_helpers/bookforge_project_hygiene.py",
+      "guard_surface": "opl_repo_source_byproduct_guard",
+      "guard_owner": "one-person-lab",
       "verify_entrypoint_ref": "scripts/verify.sh",
-      "guard_command": "python3 runtime/native_helpers/bookforge_project_hygiene.py --root <repo> --source-root <repo> --source-byproduct-check",
+      "guard_command": "opl workspace source-hygiene --source-root <repo> --json",
       "must_fail_on_ignored_residue": true,
       "must_run_before_and_after_repo_verification": true,
       "claim_boundary": {

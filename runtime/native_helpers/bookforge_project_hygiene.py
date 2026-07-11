@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import shutil
 import sys
 from pathlib import Path
 from typing import Any
@@ -13,7 +12,6 @@ HELPER_DIR = Path(__file__).resolve().parent
 if str(HELPER_DIR) not in sys.path:
     sys.path.insert(0, str(HELPER_DIR))
 
-from bookforge_project_hygiene_parts.byproducts import repo_source_byproduct_summary, run_source_byproduct_check
 from bookforge_project_hygiene_parts.opl_lifecycle import (
     ARTIFACT_LIFECYCLE_HANDOFF_CONTRACT_REF,
     OPL_ARTIFACT_LIFECYCLE_HEALTH_REF,
@@ -483,8 +481,6 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         required=bool(source_root_arg) or source_root_looks_like_bookforge_repo,
     )
     issues.extend(handoff_contract_summary["issues"])
-    source_byproduct_summary = repo_source_byproduct_summary(args)
-    issues.extend(source_byproduct_summary["issues"])
     payload = {
         "surface_kind": "bookforge_project_hygiene",
         "version": VERSION,
@@ -494,7 +490,6 @@ def run_check(args: argparse.Namespace) -> dict[str, Any]:
         "metrics_summary": metrics,
         "opl_artifact_lifecycle": lifecycle_summary,
         "artifact_lifecycle_handoff_contract": handoff_contract_summary,
-        "repo_source_byproducts": source_byproduct_summary,
     }
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
@@ -897,40 +892,6 @@ def run_self_test() -> None:
         ]
         assert false_ready_issues, payload
 
-    with tempfile.TemporaryDirectory() as tmp:
-        source_root = Path(tmp) / "repo"
-        source_root.mkdir()
-        write_valid_handoff_contract(source_root)
-        (source_root / "runtime/native_helpers/__pycache__").mkdir(parents=True)
-        (source_root / "runtime/native_helpers/__pycache__/helper.cpython-314.pyc").write_bytes(b"pyc")
-        (source_root / "dist").mkdir()
-        (source_root / ".worktrees/lane/runtime/native_helpers/__pycache__").mkdir(parents=True)
-        payload = run_source_byproduct_check(argparse.Namespace(
-            root=source_root,
-            source_root=source_root,
-            require_source_byproduct_clean=True,
-            report=None,
-        ), version=VERSION)
-        issue_paths = {
-            issue["path"]
-            for issue in payload["issues"]
-            if issue["kind"] == "repo_source_generated_byproduct"
-        }
-        assert "runtime/native_helpers/__pycache__" in issue_paths, payload
-        assert "dist" in issue_paths, payload
-        assert not any(path.startswith(".worktrees/") for path in issue_paths), payload
-
-        shutil.rmtree(source_root / "runtime/native_helpers/__pycache__")
-        shutil.rmtree(source_root / "dist")
-        payload = run_source_byproduct_check(argparse.Namespace(
-            root=source_root,
-            source_root=source_root,
-            require_source_byproduct_clean=True,
-            report=None,
-        ), version=VERSION)
-        assert payload["status"] == "passed", payload
-
-
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Check Book Forge project hygiene for active manuscript and retired draft archives.")
     parser.add_argument("--root", type=Path, default=Path.cwd(), help="Book project root.")
@@ -941,9 +902,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--report", type=Path, help="Optional JSON report path.")
     parser.add_argument("--require-opl-lifecycle", action="store_true", help="Require passed OPL workspace artifact-lifecycle refs and dry-run readback.")
     parser.add_argument("--opl-bin", help="Path to the OPL CLI used for artifact-lifecycle dry-run readback.")
-    parser.add_argument("--require-source-byproduct-clean", action="store_true", help="Fail when repo-local Python/cache/install byproducts are present under the source root.")
-    parser.add_argument("--source-root", type=Path, help="Source checkout root for repo-local byproduct scanning. Defaults to --root.")
-    parser.add_argument("--source-byproduct-check", action="store_true", help="Run only the repo source byproduct hygiene check.")
+    parser.add_argument("--source-root", type=Path, help="Optional Book Forge source root used to validate the artifact-lifecycle handoff contract.")
     parser.add_argument("--self-test", action="store_true", help="Run helper self-test.")
     args = parser.parse_args(argv)
     if args.active_path:
@@ -961,11 +920,7 @@ def main(argv: list[str] | None = None) -> int:
         run_self_test()
         print(json.dumps({"status": "passed", "self_test": True, "version": VERSION}, ensure_ascii=False))
         return 0
-    if args.source_byproduct_check:
-        args.require_source_byproduct_clean = True
-        payload = run_source_byproduct_check(args, version=VERSION)
-    else:
-        payload = run_check(args)
+    payload = run_check(args)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0 if payload["status"] == "passed" else 1
 

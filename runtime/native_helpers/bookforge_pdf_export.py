@@ -779,44 +779,10 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     return payload
 
 
-def doctor() -> dict[str, Any]:
-    return {
-        "surface_kind": "bookforge_pdf_export_doctor",
-        "version": VERSION,
-        "available_backends": {
-            "pandoc-xelatex": command_exists("pandoc") and command_exists("xelatex"),
-        },
-        "artifact_roles": list(ARTIFACT_ROLES),
-        "default_publication_profile": DEFAULT_PUBLICATION_PROFILE,
-        "bundled_profile_dir": str(BUNDLED_PROFILE_DIR),
-        "capabilities": {
-            "markdown_image_ref_scan": True,
-            "markdown_image_ref_scan_backend": "pandoc_ast_when_available",
-            "figure_asset_manifest_readiness": True,
-            "helper_generated_rendered_page_inspection": True,
-            "embedded_font_inspection": True,
-            "rendered_page_density_scan": True,
-            "rendered_page_trailing_whitespace_scan": True,
-            "publication_proof_fail_closes_unchecked_machine_proof_qa": True,
-            "publication_proof_fail_closes_missing_assets": True,
-            "configurable_section_numbering": True,
-        },
-        "tools": {
-            "pandoc": shutil.which("pandoc"),
-            "xelatex": shutil.which("xelatex"),
-            "pdftoppm": shutil.which("pdftoppm"),
-            "pdffonts": shutil.which("pdffonts"),
-            "quarto": shutil.which("quarto"),
-            "typst": shutil.which("typst"),
-        },
-    }
-
-
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="OPL Book Forge publication/typesetting PDF export helper.",
     )
-    parser.add_argument("--doctor", action="store_true", help="Print backend availability JSON and exit.")
     parser.add_argument("--root", type=Path, default=Path.cwd(), help="Project root for relative refs.")
     parser.add_argument("--source-md", type=Path, help="Markdown source to compile.")
     parser.add_argument("--output-pdf", type=Path, help="PDF output path.")
@@ -878,10 +844,6 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    if args.doctor:
-        print(json.dumps(doctor(), ensure_ascii=False, indent=2))
-        return 0
-
     missing = [name for name in ("source_md", "output_pdf") if getattr(args, name) is None]
     if missing:
         print(f"missing required arguments: {', '.join('--' + name.replace('_', '-') for name in missing)}", file=sys.stderr)

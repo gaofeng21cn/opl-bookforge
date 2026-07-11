@@ -516,49 +516,6 @@ def generate_live(args: argparse.Namespace, root: Path, output_file: Path, promp
         return payload
 
 
-def doctor(args: argparse.Namespace) -> dict[str, Any]:
-    command = parse_codex_command(args.codex_command or os.environ.get("OBF_CODEX_COMMAND"))
-    help_has_image_generation = False
-    help_error = None
-    try:
-        result = subprocess.run(
-            [command[0], *command[1:], "exec", "--help"],
-            text=True,
-            capture_output=True,
-            timeout=10,
-            check=False,
-        )
-        help_has_image_generation = "--enable" in result.stdout and "FEATURE" in result.stdout
-        if result.returncode != 0:
-            help_error = (result.stderr or result.stdout).strip()[-1000:]
-    except Exception as exc:  # pragma: no cover - diagnostic path
-        help_error = str(exc)
-    root = generated_images_dir()
-    newest = None
-    if root.is_dir():
-        files = sorted((path for path in root.glob("*/*") if path.is_file()), key=lambda item: item.stat().st_mtime, reverse=True)
-        if files:
-            newest = str(files[0])
-    return {
-        "surface_kind": "bookforge_imagegen_asset_doctor",
-        "version": VERSION,
-        "codex_command": command,
-        "codex_exec_help_has_enable_feature": help_has_image_generation,
-        "codex_exec_help_error": help_error,
-        "codex_home": str(codex_home()),
-        "generated_images_dir": str(root),
-        "generated_images_dir_exists": root.is_dir(),
-        "newest_generated_image": newest,
-        "default_route": "codex_native_imagegen_child_executor",
-        "api_fallback_boundary": "explicit owner/operator choice for large batches or unavailable built-in imagegen; not the default Book Forge route",
-        "token_policy": {
-            "helper_reads_openai_api_key": False,
-            "helper_reads_base_url": False,
-            "provider_token_source": "codex_executor_native_tool",
-        },
-    }
-
-
 def run_self_test(args: argparse.Namespace) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="bookforge-imagegen-selftest-") as tmp:
         root = Path(tmp)
@@ -587,7 +544,6 @@ def run_self_test(args: argparse.Namespace) -> dict[str, Any]:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate OPL Book Forge project-local bitmap figure assets through Codex native imagegen.")
-    parser.add_argument("--doctor", action="store_true", help="Print local capability diagnostics without generating an image.")
     parser.add_argument("--self-test", action="store_true", help="Run a mock helper self-test without provider calls.")
     parser.add_argument("--update-asset-manifest", action="store_true", help="Update --asset-manifest from an existing --receipt-file without generating.")
     parser.add_argument("--mock", action="store_true", help="Write a deterministic mock PNG. For verification only; not a final book figure.")
@@ -614,9 +570,6 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    if args.doctor:
-        print(json.dumps(doctor(args), ensure_ascii=False, indent=2))
-        return 0
     if args.self_test:
         payload = run_self_test(args)
         print(json.dumps(payload, ensure_ascii=False, indent=2))
