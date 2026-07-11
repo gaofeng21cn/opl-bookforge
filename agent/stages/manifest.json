@@ -318,6 +318,7 @@
     {
       "stage_id": "publication-proof-handoff",
       "stage_kind": "packaging",
+      "lane_kind": "variant",
       "title": "Publication Proof Handoff",
       "summary": "Classify and package review PDF, publication proof, or final export handoff refs without turning compile success into owner/export authority.",
       "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",

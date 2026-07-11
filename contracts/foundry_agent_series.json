@@ -150,7 +150,6 @@
   "required_stage_packets": [
     "stage_completion_policy",
     "user_stage_log_contract",
-    "stage_native_artifact_contract",
     "progress_delta_policy",
     "typed_blocker_lineage_policy",
     "effective_current_context",

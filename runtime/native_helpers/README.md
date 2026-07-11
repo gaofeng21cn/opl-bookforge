@@ -89,16 +89,16 @@ Boundary:
 - The `--mock` / `--self-test` paths only verify helper structure. Mock images must not be counted as final manuscript illustrations.
 - API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen, not the default Book Forge route.
 
-## Project Hygiene Helper
+## Retained Project Hygiene Diagnostic
 
-`bookforge_project_hygiene.py` scans a Book Forge book workspace for workflow hygiene regressions that should not rely on human memory.
+`bookforge_project_hygiene.py` is a retained, non-default diagnostic for historical Book Forge content-quality regression inspection. It has no generated or default caller; checkout hygiene and lifecycle projection are handled by OPL.
 
 Current checks:
 
 - Active manuscript/workflow refs must not contain known Red Bird outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, `观察它如何强调`, or equivalent phrases that contradict a practice-involved author stance.
 - Active status files must not keep stale early-run metrics such as obsolete chapter blockers or old review-PDF page counts after later chapters have advanced.
 - Retired archive dirs should be tombstone refs, not full readable obsolete drafts that can pollute search results or be mistaken for current manuscript source.
-- Repo source checkouts use OPL `workspace source-hygiene --source-root <repo> --json` for ignored Python/cache/install residue. `scripts/verify.sh` runs that guard before and after helper verification while setting `PYTHONDONTWRITEBYTECODE=1`. This helper retains only Book Forge-specific workspace hygiene checks.
+- Repo source checkouts use OPL `workspace source-hygiene --source-root <repo> --json` for ignored Python/cache/install residue. `scripts/verify.sh` uses that guard directly; this retained diagnostic is not part of the verification path.
 
 Boundary:
 

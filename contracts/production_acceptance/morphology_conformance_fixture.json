@@ -16,7 +16,7 @@
     "contracts/domain_descriptor.json",
     "contracts/foundry_agent_series.json",
     "contracts/action_catalog.json",
-    "contracts/stage_control_plane.json",
+    "agent/stages/manifest.json",
     "agent/prompts/README.md",
     "agent/stages/README.md",
     "agent/skills/README.md",

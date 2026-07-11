@@ -377,7 +377,7 @@
         "book_specific_hygiene_findings"
       ],
       "retirement_action": "retain_as_deterministic_diagnostic_helper_only",
-      "active_caller_boundary": "explicit_bookforge_project_hygiene_readback_not_session_store_or_workbench",
+      "active_caller_boundary": "no_default_or_generated_caller_for_retained_domain_diagnostic",
       "forbidden_domain_repo_roles": [
         "workspace_lifecycle_shell",
         "session_store",
@@ -718,11 +718,9 @@
       ],
       "active_default_caller_allowed": false,
       "active_caller_allowed": false,
-      "active_callers": [
-        "explicit Book Forge workspace hygiene readback"
-      ],
-      "active_caller_status": "explicit_domain_hygiene_helper_not_session_store_status_workbench_or_workspace_lifecycle_shell",
-      "migration_action": "delegate repo source byproduct guarding to opl_workspace_source_hygiene and retain only concrete Book Forge workspace hygiene checks",
+      "active_callers": [],
+      "active_caller_status": "no_active_caller_retained_domain_diagnostic",
+      "migration_action": "retire every default and generated caller; OPL owns repo source hygiene and lifecycle projection while this retained diagnostic has no operational entrypoint",
       "cannot_absorb_reason": "The retained checks encode concrete Book Forge manuscript/source regressions; OPL owns source-byproduct guarding and lifecycle projection.",
       "receipt_schema_ref": "contracts/artifact_lifecycle_handoff.json",
       "no_forbidden_write_evidence_ref": "contracts/workspace_lifecycle_policy.json#byproduct_policy.repo_source_byproduct_guard",

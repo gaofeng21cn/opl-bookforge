@@ -33,7 +33,8 @@
   },
   "domain_pack_binding": {
     "accepted_source_refs": [
-      "contracts/stage_control_plane.json",
+      "agent/stages/manifest.json",
+      "/product_entry_manifest/family_stage_control_plane",
       "contracts/foundry_agent_series.json"
     ],
     "domain_output_roles_are_interface": true,

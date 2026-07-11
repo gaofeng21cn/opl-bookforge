@@ -65,7 +65,7 @@ Working policy:
 - Do not make direct OpenAI Base URL/API-key provider calls the default figure route. API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen.
 - Run a wording pass that favors direct claims, precise verbs, concrete nouns, and affirmative editorial movement.
 - After assembling manuscript, review PDF, metrics, hygiene report, or handoff refs, refresh downstream receipts in order and compare their timestamps or source digests. Do not claim readiness from reports produced before the latest chapter, figure manifest, or PDF source changes.
-- Run Book Forge project hygiene with OPL lifecycle required for book-length OPL workspaces, for example `bookforge_project_hygiene.py --require-opl-lifecycle`, after the OPL artifact-lifecycle projection has been refreshed.
+- Run `opl workspace source-hygiene --source-root <repo> --json` for checkout hygiene and consume the OPL artifact-lifecycle projection before book-length workspace operations.
 - Run layout and typography checks before handoff.
 - Return typed blockers for missing manuscript, source, reader-style, image, table, layout, or owner gate refs.
 - Preserve progress priority. Missing publication-proof tokens, component inventory, font readback, rendered-page QA, human proof review, or owner/export acceptance blocks only `publication_proof` and `final_export` claims. It must not stop honest chapter drafting, claim integrity work, style calibration, chapter QC, or ordinary `review_pdf` refreshes when those narrower actions have their own evidence.

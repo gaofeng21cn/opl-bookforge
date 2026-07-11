@@ -31,7 +31,7 @@
   "domain_mapping": {
     "domain_intake": {
       "principle_id": "domain_intake_mapping",
-      "domain_stage_ref": "contracts/stage_control_plane.json#/stages/0",
+      "domain_stage_ref": "agent/stages/manifest.json#/stages/0",
       "stage_id": "domain_intake",
       "prompt_ref": "agent/prompts/domain_intake.md",
       "is_standalone_skill": false,
@@ -53,7 +53,7 @@
       "domain_source_refs": [
         "contracts/domain_descriptor.json",
         "contracts/pack_compiler_input.json",
-        "contracts/stage_control_plane.json",
+        "agent/stages/manifest.json",
         "contracts/action_catalog.json",
         "contracts/artifact_locator_contract.json",
         "contracts/memory_descriptor.json"

@@ -404,7 +404,7 @@ def assert_private_platform_retirement_matrix(
     assert hygiene["physical_delete_authorized"] is False
     assert "session_store" in hygiene["forbidden_domain_repo_roles"]
     assert "status_workbench" in hygiene["forbidden_domain_repo_roles"]
-    assert hygiene["active_caller_boundary"] == "explicit_bookforge_project_hygiene_readback_not_session_store_or_workbench"
+    assert hygiene["active_caller_boundary"] == "no_default_or_generated_caller_for_retained_domain_diagnostic"
 
     absent = by_surface["runtime_session_update_absence"]
     assert absent["current_paths"] == []
@@ -423,6 +423,8 @@ def assert_private_platform_retirement_matrix(
     hygiene_module = modules["opl-bookforge.project-hygiene-helper"]
     assert hygiene_module["active_caller_allowed"] is False
     assert hygiene_module["active_default_caller_allowed"] is False
+    assert hygiene_module["active_callers"] == []
+    assert hygiene_module["active_caller_status"] == "no_active_caller_retained_domain_diagnostic"
 
     projection = generated_handoff["private_platform_retirement_projection"]
     assert projection["owner"] == "one-person-lab"
@@ -470,6 +472,15 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
         assert command in verify_script, descriptor_ref
 
     assert not (repo / "runtime/native_helpers/bookforge_project_hygiene_parts/byproducts.py").exists()
+    hygiene_helper = (repo / "runtime/native_helpers/bookforge_project_hygiene.py").read_text(encoding="utf-8")
+    assert "bookforge_project_hygiene_parts.opl_lifecycle" not in hygiene_helper
+    assert "--require-opl-lifecycle" not in hygiene_helper
+    assert "--source-root" not in hygiene_helper
+    assert "workspace artifact-lifecycle" not in hygiene_helper
+    assert not (repo / "runtime/native_helpers/bookforge_project_hygiene_parts/opl_lifecycle.py").exists()
+    assert "bookforge_project_hygiene.py" not in (
+        repo / "agent/skills/book-production.md"
+    ).read_text(encoding="utf-8")
 
 
 def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
@@ -661,35 +672,10 @@ def assert_no_forbidden_keys(payload: Any, forbidden: set[str], label: str) -> N
             assert_no_forbidden_keys(value, forbidden, label)
 
 
-def assert_no_key_prefix(payload: Any, prefix: str, label: str) -> None:
-    if isinstance(payload, dict):
-        present = {key for key in payload if key.startswith(prefix)}
-        assert not present, f"{label} includes stale {prefix!r} keys: {present}"
-        for value in payload.values():
-            assert_no_key_prefix(value, prefix, label)
-    elif isinstance(payload, list):
-        for value in payload:
-            assert_no_key_prefix(value, prefix, label)
-
-
 def assert_handoff_current_paths_exist(repo: Path, generated_handoff: dict[str, Any]) -> None:
     for surface in generated_handoff["handoff_surfaces"]:
         for current_path in surface.get("current_paths", []):
             assert (repo / current_path).exists(), f"{surface['surface_id']} points at missing {current_path}"
-
-
-def assert_stage_native_artifact_contract_is_domain_neutral(repo: Path) -> None:
-    assert_no_key_prefix(
-        load_json(repo, "contracts/stage_native_artifact_contract.json"),
-        "oma_",
-        "stage_native_artifact_contract",
-    )
-    for artifact_contract in (repo / "contracts/stage_native_artifacts").rglob("*.json"):
-        assert_no_key_prefix(
-            json.loads(artifact_contract.read_text(encoding="utf-8")),
-            "oma_",
-            artifact_contract.relative_to(repo).as_posix(),
-        )
 
 
 def assert_opl_ledger_artifact_registration(payload: dict[str, Any]) -> None:
@@ -906,7 +892,6 @@ def main() -> int:
     )
     assert trigger_policy["repo_fix_execution_requires_opl_developer_mode"] is True
     assert_handoff_current_paths_exist(repo, generated_handoff)
-    assert_stage_native_artifact_contract_is_domain_neutral(repo)
     trigger = agent_lab_handoff["feedback_self_evolution_trigger"]
     assert trigger["surface_kind"] == "opl_foundry_agent_feedback_self_evolution_trigger"
     assert (
