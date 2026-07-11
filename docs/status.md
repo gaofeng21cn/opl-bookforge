@@ -5,6 +5,8 @@ Purpose: `current_status`
 State: `active_truth`
 Machine boundary: Human-readable status summary. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, evidence receipts, owner receipts, and typed blockers.
 
+`contracts/standard_agent_conformance_profile.json` 由 Book Forge 自己声明五阶段 golden path 与物理 surface 分类；OPL conformance engine 只执行该 profile，不再内置书籍领域 stage、surface 或 residue 常量。该结构校验不构成书稿质量、出版通过或 production-ready 证据。
+
 Current state: OPL standard structural baseline plus one historical real short-book pilot evidence package with owner-gated blockers that prevent production-ready, owner-accepted, publication-approved, final-export-ready, or hosted-runtime-ready claims.
 
 Book Forge follows the family rule that functional / structural cleanup can land before later evidence lanes. The canonical policy lives in [the active gap plan](./active/bookforge-ideal-state-gap-plan.md) and [invariants](./invariants.md): structural validation, OMA evidence, pilot exports, rendered pages, docs, or helper proof plumbing cannot replace owner acceptance, final export acceptance, publication-proof visual acceptance, runtime / hosted parity, physical delete authorization, real long-book evidence, or production-ready evidence.

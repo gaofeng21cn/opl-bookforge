@@ -1,0 +1,72 @@
+{
+  "surface_kind": "opl_standard_agent_conformance_profile",
+  "version": "opl.standard-agent-conformance-profile.v1",
+  "profile_id": "opl-bookforge.standard-agent-conformance.v1",
+  "target_domain_id": "opl-bookforge",
+  "golden_path": {
+    "required_stage_ids": [
+      "storyline-architecture",
+      "chapter-production-planning",
+      "chapter-materialization",
+      "source-style-integrity-review",
+      "publication-proof-handoff"
+    ],
+    "allowed_stage_ids": [
+      "storyline-architecture",
+      "chapter-production-planning",
+      "chapter-materialization",
+      "source-style-integrity-review",
+      "publication-proof-handoff"
+    ],
+    "default_stage_id": "storyline-architecture",
+    "forbidden_owner_tokens": []
+  },
+  "physical_morphology": {
+    "scan_roots": ["agent/", "contracts/", "runtime/authority_functions/", "runtime/fixtures/"],
+    "allowed_residue_prefixes": ["contracts/", "docs/history/", "runtime/fixtures/", "tests/"],
+    "required_surface_ids": [
+      "agent_semantic_pack",
+      "domain_handler_targets",
+      "refs_only_adapters",
+      "minimal_authority_functions",
+      "fixture_or_provenance_refs"
+    ],
+    "surface_classifications": [
+      {
+        "surface_id": "agent_semantic_pack",
+        "classification": "declarative_domain_pack",
+        "source_refs": ["agent/"]
+      },
+      {
+        "surface_id": "domain_handler_targets",
+        "classification": "domain_handler_target",
+        "source_refs": ["contracts/action_catalog.json", "agent/skills/domain_execution.md"]
+      },
+      {
+        "surface_id": "refs_only_adapters",
+        "classification": "refs_only_adapter",
+        "source_refs": [
+          "contracts/memory_descriptor.json",
+          "contracts/artifact_locator_contract.json",
+          "contracts/owner_receipt_contract.json"
+        ]
+      },
+      {
+        "surface_id": "minimal_authority_functions",
+        "classification": "minimal_authority_function",
+        "source_refs": ["runtime/authority_functions/README.md"]
+      },
+      {
+        "surface_id": "fixture_or_provenance_refs",
+        "classification": "provenance_or_fixture",
+        "source_refs": ["runtime/fixtures/README.md", "docs/history/"]
+      }
+    ],
+    "forbidden_name_tokens": [],
+    "required_parity_gates": [
+      "opl_generated_surface_default_caller",
+      "opl_executor_client_image_generation",
+      "book_authority_no_forbidden_write"
+    ]
+  }
+}
