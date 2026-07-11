@@ -41,7 +41,7 @@ the package directory or git history.
 
 | Package | Role | Claim boundary |
 | --- | --- | --- |
-| `oma-agent-lab/` | OMA Agent Lab takeover, AI reviewer, external-suite self-evolution, candidate, and no-patch receipts. | Supports baseline/takeover evidence only; it does not prove book quality, production readiness, publication readiness, or owner acceptance. |
+| `oma-agent-lab/` | OMA Agent Lab takeover, AI reviewer, external-suite self-evolution, candidate, no-patch receipts, and immutable superseded-topology receipts under `provenance/`. | Supports baseline/takeover and historical topology provenance only; it does not define active Stage topology or prove book quality, production readiness, publication readiness, or owner acceptance. |
 | `production-readiness/bookforge-real-book-pilot-2026-06-18/` | Historical short-book pilot package manifest plus evidence payloads: inputs, stage outputs, manuscript, figures, exports, rendered pages, quality receipts, owner blockers, and verifier tools. | Historical pilot evidence with owner blockers; the `production-readiness/` path is an archive classification, not a ready claim. It is not the current long-book materialization pattern and does not prove final production readiness, publication approval, final export acceptance, hosted runtime parity, or owner acceptance. |
 
 ## Reading Rule

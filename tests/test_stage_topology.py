@@ -26,11 +26,7 @@ STAGE_PROJECTION_CAPABILITIES = {
     "opl-bookforge.publication-memory-curator.professional_skill": "family_stage_control_plane_skill_refs",
     "opl-bookforge.domain-boundary.knowledge_pack": "family_stage_control_plane_knowledge_refs",
 }
-HISTORICAL_RECEIPTS = {
-    "contracts/baseline_delivery_receipt.json",
-    "contracts/live_stage_run_progress_evidence.json",
-    "contracts/stage_decomposition_attempt_receipt.json",
-}
+IMMUTABLE_PROVENANCE_ROOTS = ("docs/evidence/", "docs/history/")
 TEXT_SUFFIXES = {".json", ".md", ".py", ".sh"}
 FOUNDRY_SERIES_CONSUMER_REFS = {
     "canonical_policy_export": "opl-framework/foundry-agent-series-policy",
@@ -75,10 +71,10 @@ def assert_no_retired_stage_refs(repo: Path) -> None:
             if not path.is_file() or path.suffix not in TEXT_SUFFIXES:
                 continue
             rel = str(path.relative_to(repo))
-            if rel in HISTORICAL_RECEIPTS or rel.startswith(("docs/evidence/", "docs/history/")):
+            if rel.startswith(IMMUTABLE_PROVENANCE_ROOTS):
                 continue
             for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-                if retired_stage in line and "docs/evidence/" not in line:
+                if retired_stage in line:
                     stale_refs.append(f"{rel}:{line_number}")
     assert not stale_refs, stale_refs
 
@@ -154,7 +150,16 @@ def main() -> int:
     assert "independent-gate-receipt-ref:chapter-production-planning" not in planning_refs
     assert "owner-handoff-ref:storyline-architecture" in planning["requires"]
     assert "storyline-admission-ref:chapter-production-planning" in planning["ensures"]
+    assert "planning-progress-ref:chapter-production-planning" in planning["ensures"]
+    assert "active-production-queue-ref:chapter-production-planning" in planning["ensures"]
+    assert "chapter-task-card-bundle-ref:chapter-production-planning" in planning["ensures"]
     assert "independent-gate-receipt-ref:chapter-production-planning" not in planning["ensures"]
+
+    materialization = manifest_stages[2]
+    assert "chapter-task-card-bundle-ref:chapter-production-planning" in materialization["requires"]
+    assert "chapter-draft-bundle-ref:chapter-materialization" in materialization["ensures"]
+    assert "chapter-markdown-ref:chapter-materialization/{chapter_id}" in materialization["ensures"]
+    assert "review-pdf-eligibility-ref:chapter-materialization" in materialization["ensures"]
 
     actions = {action["action_id"]: action for action in action_catalog["actions"]}
     assert set(actions) == set(ACTION_STAGE_ROUTES)

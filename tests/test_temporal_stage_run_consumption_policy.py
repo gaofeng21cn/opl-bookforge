@@ -71,14 +71,13 @@ FORBIDDEN_RUNTIME_SURFACE_EXPORTS = {
 }
 
 LIVE_STAGE_RUN_PROGRESS_ACCEPTED_STATUSES = {
-    "owner_evidence_recorded_not_ready_claim",
-    "owner_typed_blocker_recorded_not_ready_claim",
-    "owner_evidence_required",
+    "topology_superseded_live_evidence_deferred_not_ready_claim",
 }
 
 LIVE_STAGE_RUN_PROGRESS_REF_FIELDS = {
     "typed_blocker_refs",
     "quality_or_export_receipt_refs",
+    "superseded_topology_provenance_refs",
     "no_regression_refs",
     "doc_refs",
     "next_verification_command_refs",
@@ -488,26 +487,29 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
     assert payload["domain_id"] == "opl-bookforge"
     assert payload["owner"] == "OPL Book Forge"
     assert payload["status"] in LIVE_STAGE_RUN_PROGRESS_ACCEPTED_STATUSES
-    assert payload["status"] == "owner_typed_blocker_recorded_not_ready_claim"
-    assert payload["typed_blocker_kind"] == "owner_acceptance_final_export_and_live_stage_run_evidence_tail_open"
+    assert payload["status"] == "topology_superseded_live_evidence_deferred_not_ready_claim"
+    assert payload["topology_state"] == "historical_two_stage_evidence_superseded_by_current_five_stage_topology"
+    assert payload["active_stage_sequence"] == [
+        "storyline-architecture",
+        "chapter-production-planning",
+        "chapter-materialization",
+        "source-style-integrity-review",
+        "publication-proof-handoff",
+    ]
+    assert payload["typed_blocker_kind"] == "none_current_topology_live_evidence_deferred"
 
     refs = payload["refs"]
     assert LIVE_STAGE_RUN_PROGRESS_REF_FIELDS <= set(refs), "live StageRun progress evidence missing ref groups"
+    assert refs["typed_blocker_refs"] == []
+    assert refs["quality_or_export_receipt_refs"] == []
     assert_ref_fields(
-        refs["typed_blocker_refs"],
+        refs["superseded_topology_provenance_refs"],
         {
-            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
-            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json",
+            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/README.md",
+            "docs/evidence/oma-agent-lab/provenance/baseline_delivery_receipt.json",
+            "docs/evidence/oma-agent-lab/provenance/stage_decomposition_attempt_receipt.json",
         },
-        "live StageRun typed blockers",
-    )
-    assert_ref_fields(
-        refs["quality_or_export_receipt_refs"],
-        {
-            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-independent-gate-receipt.json",
-            "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-materialization-independent-gate-receipt.json",
-        },
-        "live StageRun quality/export refs",
+        "superseded topology provenance refs",
     )
     assert_ref_fields(
         refs["no_regression_refs"],
@@ -519,14 +521,21 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
     )
     assert_ref_fields(
         refs["next_verification_command_refs"],
-        {"python3 tests/test_temporal_stage_run_consumption_policy.py", "./scripts/verify.sh"},
+        {
+            "python3 tests/test_stage_topology.py",
+            "python3 tests/test_temporal_stage_run_consumption_policy.py",
+            "./scripts/verify.sh",
+        },
         "live StageRun verification refs",
     )
 
     evidence_items = payload["evidence_items"]
-    assert len(evidence_items) == 2, evidence_items
-    assert {item["result_shape"] for item in evidence_items} == {"typed_blocker_ref"}
-    assert {item["status"] for item in evidence_items} == {"blocked_owner_acceptance_missing"}
+    assert len(evidence_items) == 5, evidence_items
+    assert [item["stage_id"] for item in evidence_items] == payload["active_stage_sequence"]
+    assert {item["result_shape"] for item in evidence_items} == {"live_evidence_deferred"}
+    assert {item["status"] for item in evidence_items} == {
+        "deferred_topology_superseded_no_current_live_evidence"
+    }
 
     open_tail = payload["open_tail"]
     for field in (

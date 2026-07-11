@@ -2,19 +2,27 @@
   "surface_kind": "domain_live_stage_run_progress_evidence",
   "domain_id": "opl-bookforge",
   "owner": "OPL Book Forge",
-  "status": "owner_typed_blocker_recorded_not_ready_claim",
+  "status": "topology_superseded_live_evidence_deferred_not_ready_claim",
   "evidence_contract_status": "active_refs_only_false_authority_contract",
-  "summary": "Book Forge records domain-owned typed blockers for the current live StageRun progress evidence tail. This contract is refs-only and prevents OPL structural conformance from treating missing domain progress evidence as open, while preserving not-ready and false-authority boundaries.",
+  "topology_state": "historical_two_stage_evidence_superseded_by_current_five_stage_topology",
+  "summary": "The retained pilot evidence predates the current five-stage topology and is provenance only. Current-topology Live StageRun evidence is deferred; this contract records no ready claim, owner acceptance, final export acceptance, or synthesized current-stage evidence.",
+  "active_stage_sequence": [
+    "storyline-architecture",
+    "chapter-production-planning",
+    "chapter-materialization",
+    "source-style-integrity-review",
+    "publication-proof-handoff"
+  ],
   "refs": {
-    "typed_blocker_refs": [
-      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
-      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json"
-    ],
-    "quality_or_export_receipt_refs": [
-      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-independent-gate-receipt.json",
-      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-materialization-independent-gate-receipt.json"
+    "typed_blocker_refs": [],
+    "quality_or_export_receipt_refs": [],
+    "superseded_topology_provenance_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/README.md",
+      "docs/evidence/oma-agent-lab/provenance/baseline_delivery_receipt.json",
+      "docs/evidence/oma-agent-lab/provenance/stage_decomposition_attempt_receipt.json"
     ],
     "no_regression_refs": [
+      "agent/stages/manifest.json",
       "contracts/temporal_stage_run_consumption_policy.json#completion_boundary",
       "contracts/temporal_stage_run_consumption_policy.json#completion_audit.acceptance_tail"
     ],
@@ -23,6 +31,7 @@
       "docs/active/bookforge-ideal-state-gap-plan.md#current-completion-progress"
     ],
     "next_verification_command_refs": [
+      "python3 tests/test_stage_topology.py",
       "python3 tests/test_temporal_stage_run_consumption_policy.py",
       "./scripts/verify.sh"
     ]
@@ -30,20 +39,36 @@
   "evidence_items": [
     {
       "stage_id": "storyline-architecture",
-      "result_shape": "typed_blocker_ref",
-      "ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/storyline-owner-blocker.json",
-      "status": "blocked_owner_acceptance_missing",
-      "claim_boundary": "domain typed blocker only; not owner acceptance, live StageRun completion, final export acceptance, or production readiness"
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "No current-topology Live StageRun evidence or ready claim is recorded."
     },
     {
-      "stage_id": "book-materialization",
-      "result_shape": "typed_blocker_ref",
-      "ref": "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/receipts/book-owner-blocker.json",
-      "status": "blocked_owner_acceptance_missing",
-      "claim_boundary": "domain typed blocker only; not owner acceptance, live StageRun completion, final export acceptance, or production readiness"
+      "stage_id": "chapter-production-planning",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "Historical planning evidence is provenance only and is not remapped into current evidence."
+    },
+    {
+      "stage_id": "chapter-materialization",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "Historical draft output is provenance only and is not remapped into current evidence."
+    },
+    {
+      "stage_id": "source-style-integrity-review",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "No current-topology integrity review evidence or ready claim is recorded."
+    },
+    {
+      "stage_id": "publication-proof-handoff",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "No current-topology publication proof, final export, or owner acceptance evidence is recorded."
     }
   ],
-  "typed_blocker_kind": "owner_acceptance_final_export_and_live_stage_run_evidence_tail_open",
+  "typed_blocker_kind": "none_current_topology_live_evidence_deferred",
   "open_tail": {
     "owner_acceptance_open": true,
     "final_export_acceptance_open": true,
