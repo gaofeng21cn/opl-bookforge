@@ -33,7 +33,7 @@ HISTORICAL_RECEIPTS = {
 }
 TEXT_SUFFIXES = {".json", ".md", ".py", ".sh"}
 FOUNDRY_SERIES_CONSUMER_REFS = {
-    "canonical_policy_export": "opl-framework-shared/foundry-agent-series-policy",
+    "canonical_policy_export": "opl-framework/foundry-agent-series-policy",
     "canonical_series_contract_ref": "contracts/opl-framework/foundry-agent-series-contract.json",
     "canonical_skeleton_contract_ref": "contracts/opl-framework/standard-domain-agent-skeleton-contract.json",
 }
@@ -46,7 +46,6 @@ LEGACY_FOUNDRY_POLICY_BODY_FIELDS = {
     "required_stage_packets",
     "series_design_profile",
     "shared_progress_projection_fields",
-    "shared_release_pin_strategy",
     "standard_feedback_self_evolution_trigger_policy",
     "standard_public_projection_policy",
     "workspace_topology_profile",

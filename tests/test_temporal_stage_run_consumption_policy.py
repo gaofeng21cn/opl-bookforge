@@ -885,7 +885,7 @@ def main() -> int:
     assert_default_entry_routing(policy["default_entry_routing"])
     assert_opl_default_hygiene_and_probe_consumption(repo)
     assert foundry_series["surface_kind"] == "opl_foundry_agent_series_consumer"
-    assert foundry_series["canonical_policy_export"] == "opl-framework-shared/foundry-agent-series-policy"
+    assert foundry_series["canonical_policy_export"] == "opl-framework/foundry-agent-series-policy"
     assert (
         foundry_series["canonical_series_contract_ref"]
         == "contracts/opl-framework/foundry-agent-series-contract.json"
