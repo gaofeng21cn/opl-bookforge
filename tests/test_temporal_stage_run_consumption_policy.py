@@ -884,19 +884,19 @@ def main() -> int:
     assert_functional_closure_gate(policy["functional_closure_gate"])
     assert_default_entry_routing(policy["default_entry_routing"])
     assert_opl_default_hygiene_and_probe_consumption(repo)
-    trigger_policy = foundry_series["standard_feedback_self_evolution_trigger_policy"]
-    assert trigger_policy["policy_id"] == "standard_agent_feedback_self_evolution_trigger.v1"
+    assert foundry_series["surface_kind"] == "opl_foundry_agent_series_consumer"
+    assert foundry_series["canonical_policy_export"] == "opl-framework-shared/foundry-agent-series-policy"
     assert (
-        trigger_policy["feedbackops_event_kind"]
-        == "target_agent_feedback_external_suite"
+        foundry_series["canonical_series_contract_ref"]
+        == "contracts/opl-framework/foundry-agent-series-contract.json"
     )
-    assert trigger_policy["repo_fix_execution_requires_opl_developer_mode"] is True
+    assert "standard_feedback_self_evolution_trigger_policy" not in foundry_series
     assert_handoff_current_paths_exist(repo, generated_handoff)
     trigger = agent_lab_handoff["feedback_self_evolution_trigger"]
     assert trigger["surface_kind"] == "opl_foundry_agent_feedback_self_evolution_trigger"
     assert (
         trigger["policy_ref"]
-        == "contracts/foundry_agent_series.json#/standard_feedback_self_evolution_trigger_policy"
+        == "contracts/opl-framework/foundry-agent-series-contract.json#/standard_feedback_self_evolution_trigger_policy"
     )
     assert trigger["target_agent_id"] == "opl-bookforge"
     assert trigger["external_suite_ref"] == "contracts/agent_lab_handoff.json"
@@ -990,13 +990,8 @@ def main() -> int:
     assert action_catalog["authority_boundary"]["temporal_attempt_ledger_owner"] == "one-person-lab"
     assert_surface_export_boundary(action_catalog, "action catalog surface export boundary")
 
-    public_projection = foundry_series["standard_public_projection_policy"]
-    assert public_projection["standard_public_foundry_surface"] == "opl_generated_hosted_series"
-    assert public_projection["active_public_projection_allows_non_opl_foundry_cli"] is False
-    assert public_projection["active_public_projection_allows_domain_owned_cli_as_standard_surface"] is False
-    assert public_projection["active_public_projection_allows_forbidden_surface_roles"] is False
-    assert public_projection["active_public_projection_allows_compatibility_aliases"] is False
-    assert public_projection["active_public_projection_allows_legacy_json_aliases"] is False
+    assert "standard_public_projection_policy" not in foundry_series
+    assert all(value is False for value in foundry_series["authority_boundary"].values())
     for action in action_catalog["actions"]:
         stage_name = "storyline-architecture" if action["action_id"] == "shape-storyline" else "chapter-production-planning"
         expected_command_prefix = (

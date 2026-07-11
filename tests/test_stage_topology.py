@@ -32,6 +32,25 @@ HISTORICAL_RECEIPTS = {
     "contracts/stage_decomposition_attempt_receipt.json",
 }
 TEXT_SUFFIXES = {".json", ".md", ".py", ".sh"}
+FOUNDRY_SERIES_CONSUMER_REFS = {
+    "canonical_policy_export": "opl-framework-shared/foundry-agent-series-policy",
+    "canonical_series_contract_ref": "contracts/opl-framework/foundry-agent-series-contract.json",
+    "canonical_skeleton_contract_ref": "contracts/opl-framework/standard-domain-agent-skeleton-contract.json",
+}
+LEGACY_FOUNDRY_POLICY_BODY_FIELDS = {
+    "agent_membership_projection_policy",
+    "app_projection_policy",
+    "contract_version_policy",
+    "domain_adapter_policy",
+    "required_identity_fields",
+    "required_stage_packets",
+    "series_design_profile",
+    "shared_progress_projection_fields",
+    "shared_release_pin_strategy",
+    "standard_feedback_self_evolution_trigger_policy",
+    "standard_public_projection_policy",
+    "workspace_topology_profile",
+}
 
 
 def load_json(repo: Path, ref: str) -> dict:
@@ -102,7 +121,16 @@ def main() -> int:
     assert "agent/stages/manifest.json" in closeout["closeout_refs"]
     assert "opl-generated:family_stage_control_plane" in closeout["closeout_refs"]
     assert "stage_native_artifact_contract" not in json.dumps(closeout)
-    assert "stage_native_artifact_contract" not in foundry_series["required_stage_packets"]
+    assert foundry_series["surface_kind"] == "opl_foundry_agent_series_consumer"
+    assert foundry_series["version"] == "foundry-agent-series-consumer.v1"
+    for field, expected in FOUNDRY_SERIES_CONSUMER_REFS.items():
+        assert foundry_series[field] == expected
+    assert foundry_series["foundry_agent_id"] == "opl-bookforge"
+    assert foundry_series["stage_manifest_ref"] == "agent/stages/manifest.json"
+    assert foundry_series["stage_control_plane_ref"] == "opl-generated:family_stage_control_plane"
+    assert not (LEGACY_FOUNDRY_POLICY_BODY_FIELDS & foundry_series.keys())
+    assert foundry_series["authority_boundary"]
+    assert all(value is False for value in foundry_series["authority_boundary"].values())
     assert "stage_native_artifact_contract" not in json.dumps(foundry_series)
     assert "-".join(("book", "materialization")) not in json.dumps(closeout)
     assert principles["source_refs"]["stage_manifest_ref"] == "agent/stages/manifest.json"
