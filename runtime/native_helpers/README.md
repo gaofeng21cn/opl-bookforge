@@ -28,7 +28,7 @@ Artifact roles:
 - `publication_proof`: publication-layout candidate. It requires a publication design profile JSON, rendered page refs, and rendered-page inspection JSON in addition to PDF compilation.
 - `final_export`: owner-gated export. It requires publication-proof evidence plus an owner/export acceptance receipt.
 
-The helper records `artifact_gate.status` and blocker details separately from PDF compile status. A PDF can compile successfully and still return `generated_with_artifact_gate_blocker` when proof or final-export evidence is missing.
+The helper records `artifact_gate.status` and quality-debt details separately from PDF compile status. A readable PDF returns `generated_with_quality_debt` when proof or final-export evidence is missing; that debt blocks publication/final-export/readiness claims but does not block stage transition.
 
 Publication-proof quality:
 

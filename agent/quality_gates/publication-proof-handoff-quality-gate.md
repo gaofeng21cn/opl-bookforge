@@ -6,7 +6,7 @@ Pass conditions:
 - Review PDF output is labeled as owner/editor review artifact only.
 - Publication proof evidence includes publication design profile, concrete design tokens, template/component inventory, resource-path-backed figure resolution, Markdown image-ref checks, figure asset manifest readiness, rendered-page refs, rendered-page inspection, and pre-ship proof review.
 - Final export handoff requires publication-proof evidence plus owner/export acceptance receipt refs.
-- Missing proof backend, design profile, asset paths, rendered-page inspection, or owner/export acceptance returns a typed blocker, human gate, or route-back instead of a ready claim.
+- Missing proof backend, design profile, asset paths, rendered-page inspection, or owner/export acceptance returns `generated_with_quality_debt`, a human gate, or route-back instead of a ready claim when a readable review artifact exists. It does not block the stage transition; it does block publication-proof/final-export/readiness claims.
 
 Fail-closed conditions:
 

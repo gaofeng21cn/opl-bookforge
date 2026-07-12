@@ -263,7 +263,12 @@ def test_pdf_smoke() -> None:
         assert payload["artifact_gate"]["claim_boundary"]["review_pdf_counts_as_publication_proof"] is False, payload["artifact_gate"]
 
         missing_design = pdf_export(root, "sample-proof-missing-evidence.pdf", "proof-missing-evidence.json", role="publication_proof")
-        assert missing_design.returncode != 0, missing_design.stdout
+        assert missing_design.returncode == 0, missing_design.stderr or missing_design.stdout
+        payload = json.loads((root / "proof-missing-evidence.json").read_text(encoding="utf-8"))
+        assert payload["status"] == "generated_with_quality_debt", payload
+        assert payload["artifact_gate"]["status"] == "quality_debt", payload["artifact_gate"]
+        assert payload["artifact_gate"]["quality_debt"]["blocks_stage_transition"] is False
+        assert payload["artifact_gate"]["quality_debt"]["blocks_quality_export_or_ready_claims"] is True
 
         (root / "remote-image.md").write_text(
             """---
@@ -301,8 +306,9 @@ lang: zh-CN
             rendered_page_inspection=str(root / "rendered-page-inspection-incomplete.json"),
             figure_asset_manifest=str(root / "figure-asset-manifest.json"),
         )
-        assert incomplete.returncode != 0, incomplete.stdout
+        assert incomplete.returncode == 0, incomplete.stderr or incomplete.stdout
         payload = json.loads((root / "proof-incomplete-inspection.json").read_text(encoding="utf-8"))
+        assert payload["status"] == "generated_with_quality_debt", payload
         blocker_types = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
         assert "rendered_page_inspection_incomplete" in blocker_types, payload["artifact_gate"]
 
@@ -331,8 +337,9 @@ lang: zh-CN
             publication_design_profile=str(root / "publication-design.json"),
             rendered_page_inspection=str(root / "rendered-page-inspection.json"),
         )
-        assert remote.returncode != 0, remote.stdout
+        assert remote.returncode == 0, remote.stderr or remote.stdout
         payload = json.loads((root / "remote-image-proof-manifest.json").read_text(encoding="utf-8"))
+        assert payload["status"] == "generated_with_quality_debt", payload
         blocker_types = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
         assert "markdown_image_ref_not_project_local" in blocker_types, payload["artifact_gate"]
 

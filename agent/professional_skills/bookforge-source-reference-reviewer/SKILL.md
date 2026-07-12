@@ -37,7 +37,7 @@ Protect nonfiction truth while converting stronger references into reusable prod
 - Tables, figures, captions, callouts, case boxes, footnotes, and book notes are claims too.
 - Keep source truth separate from reader-facing source display. Short book notes are allowed only when full locator detail remains in back matter, source maps, or control refs.
 - For practice-involved cases, use the approved participant/designer voice and block outside-observer phrasing such as `公开资料显示` when it contradicts the stance.
-- Remove, bracket, or downgrade unsupported non-central claims; return typed blockers for central unsupported claims.
+- Remove, bracket, or downgrade unsupported non-central claims. Carry central unsupported claims as `completed_with_quality_debt` when a readable manuscript exists; typed blockers remain for zero artifact, protected-source/owner authority, corrupt evidence, or identity/currentness failures.
 - Extract craft patterns from references; do not copy protected prose, examples, claims, photos, or voice unless independently authorized.
 - When a stronger reference or prior version is supplied, compare its reader function, evidence shape, structure, and style moves against the active manuscript. Adopt transferable rules, preserve active-manuscript strengths, and route non-local lessons to storyline/style, chapter task cards, memory, or publication design refs.
 - Treat owner critique as source-review input only after classifying whether each point changes evidence, source stance, rights/public boundary, memory, artifact target, or prose style.

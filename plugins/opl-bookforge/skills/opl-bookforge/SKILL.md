@@ -111,7 +111,7 @@ Match language to evidence class:
 - outcome or impact evidence;
 - unsupported gap.
 
-Remove, bracket, or downgrade unsupported non-central claims. Return a typed blocker when a central claim, protected material, authorization, outcome evidence, or locator is missing.
+Remove, bracket, or downgrade unsupported non-central claims. When a readable manuscript exists but a central claim or outcome locator remains unsupported, mark `completed_with_quality_debt`, advance, and keep publication/export/readiness claims closed. Return a typed blocker only when no consumable manuscript can be produced, protected material or authorization is missing, identity/currentness is invalid, or an explicit human decision is required.
 
 Figures and tables must carry purpose, source, placement, caption intent, claim boundary, and review criteria. Real photos, generated artwork, deterministic diagrams, tables, case boxes, and reviewer callouts are different artifact classes and need separate manifest treatment.
 

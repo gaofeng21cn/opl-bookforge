@@ -551,8 +551,13 @@ def assess_artifact_gate(
                 })
 
     payload["artifact_gate"] = {
-        "status": "passed" if not blockers else "blocked",
+        "status": "passed" if not blockers else "quality_debt",
         "blockers": blockers,
+        "quality_debt": {
+            "status": "none" if not blockers else "open",
+            "blocks_stage_transition": False,
+            "blocks_quality_export_or_ready_claims": bool(blockers),
+        },
         "warnings": warnings,
         "claim_boundary": {
             "review_pdf_counts_as_publication_proof": False,
@@ -670,31 +675,6 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         return payload
 
     payload["markdown_image_refs"] = markdown_image_refs(source_md, resource_paths, root)
-    image_ref_blockers: list[str] = []
-    if payload["artifact_role"] in {"publication_proof", "final_export"}:
-        for item in as_list(as_mapping(payload["markdown_image_refs"]).get("refs")):
-            if isinstance(item, dict) and item.get("status") == "missing":
-                image_ref_blockers.append(f"Markdown image ref is missing from resource paths: {item.get('ref')}")
-            if isinstance(item, dict) and item.get("status") == "external_or_data":
-                image_ref_blockers.append(
-                    f"publication proof requires project-local bitmap refs, not external/data image refs: {item.get('ref')}"
-                )
-    if image_ref_blockers:
-        payload["status"] = "blocked_image_asset_refs"
-        payload["error"] = "; ".join(image_ref_blockers)
-        assess_artifact_gate(
-            payload,
-            args,
-            root,
-            publication_design,
-            design_error,
-            rendered_inspection,
-            inspection_error,
-            owner_acceptance,
-            owner_error,
-        )
-        return payload
-
     if args.backend != "pandoc-xelatex":
         payload["status"] = "blocked_unsupported_backend"
         payload["error"] = f"unsupported backend: {args.backend}"
@@ -773,8 +753,8 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         owner_acceptance,
         owner_error,
     )
-    if payload["artifact_gate"]["status"] == "blocked":
-        payload["status"] = "generated_with_artifact_gate_blocker"
+    if payload["artifact_gate"]["status"] == "quality_debt":
+        payload["status"] = "generated_with_quality_debt"
 
     return payload
 
@@ -852,7 +832,7 @@ def main(argv: list[str]) -> int:
     payload = compile_pdf(args)
     write_manifest(args.manifest, payload)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    return 0 if payload["status"] == "generated" else 1
+    return 0 if payload["status"] in {"generated", "generated_with_quality_debt"} else 1
 
 
 if __name__ == "__main__":

@@ -56,7 +56,10 @@ Outputs:
 Workflow:
 
 1. Confirm the reader-style contract and source stance map exist. If they
-   conflict or are missing, stop with a typed blocker before calibrating style.
+   conflict or are missing but a readable draft exists, preserve a provisional
+   style assumption, record `completed_with_quality_debt`, and continue. Stop
+   with a typed blocker only when no consumable artifact can be produced or the
+   conflict requires protected-source, owner-authority, or human resolution.
 2. Classify each input as owner voice, reference draft, comparable work, house
    style, prior chapter, critique, or QC finding.
 3. Extract style signals: sentence length, cadence, paragraph entry and exit,

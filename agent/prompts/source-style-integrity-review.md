@@ -17,7 +17,7 @@ Produce these refs:
 - AI-flavor/internal-language scan with counts, locations, accepted exceptions, and concrete repair refs.
 - sentence-integrity scan after assembly or reference absorption.
 - independent meta-review round refs and revision entrypoint decision refs when a full draft reaches chapter and asset gates.
-- repair plan refs, route-back refs, or typed blockers for storyline, chapter function, evidence/model, publication design, local prose, owner/source gaps, or iteration-limit stop.
-- integrity handoff to `publication-proof-handoff` only when required source/style/meta-review obligations for the selected artifact route are closed or explicitly blocked.
+- repair plan refs, route-back refs, quality-debt refs, or typed blockers for storyline, chapter function, evidence/model, publication design, local prose, owner/source gaps, or hard-stop conditions.
+- integrity handoff to `publication-proof-handoff` when obligations are closed, explicitly hard-blocked, or carried as `completed_with_quality_debt` on a readable manuscript. Debt blocks proof/export/readiness claims, not transition.
 
 Do not generate review PDFs, publication proofs, final exports, owner receipts, typed blocker bodies, or publication/export verdicts.

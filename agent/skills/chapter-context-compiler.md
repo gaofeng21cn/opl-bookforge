@@ -68,10 +68,11 @@ The compiled chapter context pack should include:
 
 Blocking and progress rules:
 
-- Return a typed blocker before body drafting when the reader-style contract is
-  missing or unresolved, source refs are missing for chapter claims, target
-  extent is missing for a book-length target, or the author/source stance is
-  unknown for a major practice-involved case.
+- When the reader-style contract, source refs, target extent, or author/source
+  stance is incomplete but a readable context pack or draft exists, record
+  `completed_with_quality_debt`, continue to the next stage, and keep affected
+  quality/source/publication claims closed. Return a typed blocker only when no
+  consumable pack can be produced or protected-source/owner authority is required.
 - Return a typed blocker when the compiler cannot identify the active chapter
   task card or cannot distinguish protected context from compressible context.
 - Return a typed blocker when selected refs are stale relative to newer chapter,

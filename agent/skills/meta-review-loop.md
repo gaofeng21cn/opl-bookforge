@@ -46,7 +46,7 @@ Required fail-closed conditions:
 - Required meta-review findings lead directly to manuscript edits without a durable revision entrypoint decision.
 - A `revise_major` verdict is handled as local prose repair without a route-back or blocker analysis.
 - Repairs are made but assembly metrics, hygiene scans, and owner-review PDF are not refreshed before the next review or handoff.
-- Book Forge performs more than three review-repair rounds without returning a typed blocker or owner decision request.
+- After three review-repair rounds, a readable draft must advance as `completed_with_quality_debt`; the open findings continue to block quality/publication/export claims. Return a typed blocker only when there is no consumable draft or a hard authority/identity/human gate remains.
 - A `pass` is claimed while the latest review verdict is `revise_minor` or `revise_major` and the required findings remain unresolved.
 
 This skill improves draft quality and iteration discipline. It does not replace owner review, source-material completion, publication proof inspection, or final export acceptance.

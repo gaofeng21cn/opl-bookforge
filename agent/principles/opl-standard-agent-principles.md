@@ -16,6 +16,7 @@ This projection does not create a second truth source. OPL owns the shared princ
 | `domain_intake_mapping` | Domain intake mapping | `domain_intake` is an owner-handoff pattern mapped to BookForge `domain_intake`, not an independent Skill. |
 | `workspace_source_intake_shell` | Workspace/source shell | OPL owns generic locator and refs-only source intake transport; BookForge owns book source semantics, storyline acceptance, and owner route decisions. |
 | `owner_delta_progress` | Owner-delta progress | Progress is measured by manuscript/storyline deltas, owner receipts, route-back refs, typed blockers, human gates, or handoff packets. |
+| `quality_budget_progress_first` | Quality-budget progress first | A readable book artifact advances with `completed_with_quality_debt`; unresolved review/proof debt blocks quality/publication/export claims, not stage transition. |
 | `parallel_executor_autonomy` | Bounded executor autonomy | Executors may choose order, tools, substitutions, and safe parallelism inside declared authority and permission boundaries. |
 | `module_organization` | Module organization | OPL brand modules hold framework primitives; BookForge is a declarative domain pack plus minimal authority functions. |
 
