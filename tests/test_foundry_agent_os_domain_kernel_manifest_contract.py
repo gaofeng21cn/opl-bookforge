@@ -85,6 +85,19 @@ def main() -> int:
         assert helper["source_roots"] == ["runtime/native_helpers/"]
         assert all((REPO_ROOT / ref).is_dir() for ref in helper["source_roots"])
     assert descriptor["authority_boundary"]["domain_owns_truth_quality_artifact_memory_and_receipts"] is True
+    standard_interface = descriptor["standard_agent_interface"]
+    assert standard_interface["version"] == "opl_standard_agent_interface.v1"
+    assert standard_interface["workspace_binding"] == {
+        "locator_surface_kind": "opl_bookforge_workspace",
+        "required_locator_fields": ["workspace_root"],
+        "optional_locator_fields": [],
+        "entry_command_template": None,
+        "manifest_command_template": None,
+    }
+    assert standard_interface["runtime"]["dispatch_command"] is None
+    assert standard_interface["progress"]["deliverable_delta_aliases"] == [
+        "book_manuscript_progress_delta"
+    ]
     assert temporal_policy["stage_run_owner"] == "one-person-lab"
     assert generated_handoff["temporal_stage_run_projection"]["owner"] == "one-person-lab"
     assert ledger_contract["refs_only"] is True
