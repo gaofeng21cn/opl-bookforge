@@ -89,6 +89,12 @@ def main() -> int:
     assert standard_interface["version"] == "opl_standard_agent_interface.v1"
     assert standard_interface["workspace_binding"] == {
         "locator_surface_kind": "opl_bookforge_workspace",
+        "default_profile_id": "one_off",
+        "workspace_kind": "book_authoring_workspace",
+        "project_kind": "book_project",
+        "project_collection_label": "books",
+        "default_workspace_id": "bookforge-workspace",
+        "default_project_id": "book-001",
         "required_locator_fields": ["workspace_root"],
         "optional_locator_fields": [],
         "entry_command_template": None,
