@@ -10,7 +10,7 @@
 - OPL 拥有生成接口、runtime 投影和通用框架；OPL Book Forge 拥有领域真相、书稿质量、导出/出版裁决、记忆正文和 owner receipts。
 - 不在本仓实现通用 OPL runtime、queue、attempt ledger、generic scheduler、app shell 或手写默认入口。
 - `agent/primary_skill/SKILL.md` 是标准 OPL Agent 的 canonical rich primary skill；`plugins/<agent>/skills/<agent>/SKILL.md` 是 Codex plugin 安装要求的 materialized full-skill carrier mirror。该关系以 `contracts/capability_map.json` 中的 `carrier_projection_contract` 为机器权威；两者字节相同表示同步健康，不表示应删除重复，mirror 漂移才是问题。
-- OPL canonical id 固定为 `obf`；`opl-bookforge`、包名和 plugin slug 只作为 repo/package/carrier locator，不改变 domain canonical id。
+- OPL canonical agent/package id 固定为 `obf`；`opl-bookforge` 只作为 repo slug、`domain_id`、`foundry_agent_id`、npm package name 和 Codex plugin/现有 distribution carrier locator，不得通过 alias 维持第二个 package identity。
 
 验证入口：
 - `scripts/verify.sh`

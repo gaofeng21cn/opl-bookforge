@@ -6,6 +6,7 @@ State: `active_truth`
 Machine boundary: Human-readable decision log. Machine truth remains in contracts, agent pack files, OPL validator output, OMA evidence, pilot evidence, runtime receipts, owner receipts, and typed blockers.
 
 - Adopt `OPL Book Forge` as the product name and `opl-bookforge` as the repo slug, `domain_id`, and `foundry_agent_id`.
+- Use `obf` as both the canonical Agent id and OPL Package id. `contracts/pack_compiler_input.json.canonical_agent_id` and the package manifest `agent_id/package_id` must agree; repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators may remain `opl-bookforge` but must not create an alias or second package identity.
 - Follow the OPL series repo naming style used by `opl-meta-agent`, `opl-flow`, `opl-hermes-shell`, `opl-aion-shell`, and `opl-doc`.
 - Adopt OPL standard domain-agent scaffold v1 and standard stage pack v2.
 - Keep this repo as a declarative domain pack plus minimal authority functions.
