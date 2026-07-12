@@ -7,7 +7,7 @@ description: Use when OPL Book Forge must shape storyline, reader contract, chap
 
 ## Purpose
 
-Define the book's durable storyline and style architecture before chapter work. This workflow-level skill replaces the separate story architect, reader-style designer, and style editor entries.
+Define the book's durable storyline and style architecture before formal chapter-ready claims. Exploratory prose can inform this architecture. This workflow-level skill replaces the separate story architect, reader-style designer, and style editor entries.
 
 ## Inputs
 
@@ -37,7 +37,7 @@ Define the book's durable storyline and style architecture before chapter work. 
 - Give each chapter one primary job, one new argument movement, adjacent handoffs, and non-repeat claims.
 - For long books, repair part arc, chapter sequence, target extent, recurring models, case ladder, and inter-chapter handoffs before asking the chapter author to rewrite local prose.
 - Define or foreshadow recurring terms before readers must rely on them.
-- Select two or three core models and state where they are introduced, applied, and recovered.
+- Select the core models the argument can genuinely reuse, and state where they are introduced, applied, and recovered; do not impose a fixed count.
 - Prefer a small number of complete spine cases over shallow one-off examples when nonfiction practice material supports the book.
 - Extract transferable craft rules from samples and references; do not copy protected prose, claims, examples, or voice.
 - Absorb owner critique by classifying each point as storyline spine, reader-style contract, chapter function, source stance, proof/design memory, owner decision, or not adopted; do not treat critique as direct manuscript authority.

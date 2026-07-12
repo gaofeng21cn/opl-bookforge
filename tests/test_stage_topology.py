@@ -18,13 +18,20 @@ ACTION_STAGE_ROUTES = {
 }
 GENERATED_STAGE_PLANE_REF = "opl_generated:product_entry_manifest#/family_stage_control_plane/stages"
 STAGE_PROJECTION_CAPABILITIES = {
-    "opl-bookforge.domain-intake.stage_prompt": "family_stage_control_plane_prompt_refs",
+    "opl-bookforge.storyline-architecture.stage_prompt": "family_stage_control_plane_prompt_refs",
     "opl-bookforge.story-style-architect.professional_skill": "family_stage_control_plane_skill_refs",
     "opl-bookforge.chapter-author.professional_skill": "family_stage_control_plane_skill_refs",
     "opl-bookforge.source-reference-reviewer.professional_skill": "family_stage_control_plane_skill_refs",
     "opl-bookforge.meta-reviewer.professional_skill": "family_stage_control_plane_skill_refs",
     "opl-bookforge.publication-memory-curator.professional_skill": "family_stage_control_plane_skill_refs",
     "opl-bookforge.domain-boundary.knowledge_pack": "family_stage_control_plane_knowledge_refs",
+}
+STAGE_PROMPT_SEMANTICS = {
+    "storyline-architecture": ["reader", "author/source stance", "chapter function", "owner handoff"],
+    "chapter-production-planning": ["approved storyline", "task cards", "incremental", "route-back"],
+    "chapter-materialization": ["chapter Markdown", "target extent", "integrity verdict", "route-back"],
+    "source-style-integrity-review": ["materialized manuscript", "evidence classes", "repair route", "integrity handoff"],
+    "publication-proof-handoff": ["review_pdf", "publication_proof", "final_export", "owner/export acceptance"],
 }
 IMMUTABLE_PROVENANCE_ROOTS = ("docs/evidence/", "docs/history/")
 TEXT_SUFFIXES = {".json", ".md", ".py", ".sh"}
@@ -93,6 +100,12 @@ def main() -> int:
 
     manifest_stages = stage_manifest["stages"]
     assert [stage["stage_id"] for stage in manifest_stages] == STAGE_SEQUENCE
+    assert len({stage["goal"] for stage in manifest_stages}) == len(STAGE_SEQUENCE)
+    for stage in manifest_stages:
+        prompt = (repo / stage["prompt_ref"]).read_text(encoding="utf-8")
+        for semantic in STAGE_PROMPT_SEMANTICS[stage["stage_id"]]:
+            assert semantic.lower() in prompt.lower(), (stage["stage_id"], semantic)
+        assert "two or three" not in prompt.lower()
     assert not (repo / "contracts/stage_control_plane.json").exists()
     assert not (repo / "contracts/stage_native_artifact_contract.json").exists()
     assert not (repo / "contracts/stage_native_artifacts").exists()
@@ -129,9 +142,15 @@ def main() -> int:
     assert "stage_native_artifact_contract" not in json.dumps(foundry_series)
     assert "-".join(("book", "materialization")) not in json.dumps(closeout)
     assert principles["source_refs"]["stage_manifest_ref"] == "agent/stages/manifest.json"
-    assert principles["domain_mapping"]["domain_intake"]["domain_stage_ref"] == (
+    assert principles["domain_mapping"]["storyline_intake"]["domain_stage_ref"] == (
         "agent/stages/manifest.json#/stages/0"
     )
+    assert principles["domain_mapping"]["storyline_intake"]["stage_id"] == "storyline-architecture"
+    assert principles["domain_mapping"]["storyline_intake"]["prompt_ref"] == (
+        "agent/prompts/storyline-architecture.md"
+    )
+    assert not (repo / "agent/prompts/domain_intake.md").exists()
+    assert not (repo / "agent/stages/domain_intake.md").exists()
     publication_proof = next(
         stage for stage in manifest_stages if stage["stage_id"] == "publication-proof-handoff"
     )
@@ -185,6 +204,9 @@ def main() -> int:
         }
 
     materialize = actions["materialize-book"]
+    assert actions["shape-storyline"]["natural_language_intent"] != materialize["natural_language_intent"]
+    assert "without drafting or exporting" in actions["shape-storyline"]["natural_language_intent"]
+    assert "incremental chapter planning" in materialize["natural_language_intent"]
     expected_command = "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal "
     assert materialize["source_command"]["command"].startswith(expected_command)
     assert materialize["supported_surfaces"]["cli"]["command"] == materialize["source_command"]["command"]
@@ -203,6 +225,13 @@ def main() -> int:
     ):
         assert not (repo / ref).exists(), ref
     assert_no_retired_stage_refs(repo)
+
+    primary_skill = (repo / "agent/primary_skill/SKILL.md").read_text(encoding="utf-8")
+    carrier_skill = (repo / "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md").read_text(
+        encoding="utf-8"
+    )
+    assert primary_skill == carrier_skill
+    assert "two or three whole-book core models" not in primary_skill.lower()
 
     print(json.dumps({"status": "passed", "stage_sequence": STAGE_SEQUENCE}))
     return 0

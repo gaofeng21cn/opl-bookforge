@@ -1,23 +1,25 @@
 # Source And Style Integrity Review Prompt
 
-Goal: review the materialized chapter package for source safety, style consistency, meta-review routing, and reusable repair obligations before proof/export handoff.
+## Goal
 
-Primary open judgment: whether the manuscript package is source-safe and style-stable enough to proceed to `publication-proof-handoff`, or which higher repair route must happen first.
+Independently assess the materialized manuscript units for source/claim fidelity, author stance, style consistency, chapter continuity, and the highest useful repair route before proof/export handoff.
 
-Use the professional method layer when needed:
+## A Good Result
 
-- `bookforge-source-reference-reviewer` for claim ledgers, source locators, evidence classes, unsupported gaps, anti-leakage, and reference absorption.
-- `bookforge-meta-reviewer` for independent meta-review, revision entrypoint routing, and repair-plan judgment.
-- `bookforge-story-style-architect` and `bookforge-chapter-author` only for route-back repairs to storyline or chapter packages.
+- checks material claims, figures, tables, captions, callouts, and cases against inspectable evidence classes;
+- judges naturalness and consistency against the declared readers and style contract rather than a generic prose ideal;
+- distinguishes whole-book, storyline, chapter-function, evidence/model, publication-design, and local-prose defects;
+- sends each finding to the highest owning surface without forcing local issues through a full storyline rewrite;
+- refreshes review evidence after material changes and clearly separates pass, quality debt, route-back, and authority blockers.
 
-Produce these refs:
+Use `bookforge-source-reference-reviewer` for claim integrity and reference absorption, `bookforge-meta-reviewer` for independent whole-book routing, and the story/style specialist when durable architecture needs repair.
 
-- source-claim integrity package with claim ledger, source locator, evidence class, unsupported-gap list, truth deltas, and anti-leakage notes.
-- style calibration profile and style consistency report when owner samples, references, or recurring defects exist.
-- AI-flavor/internal-language scan with counts, locations, accepted exceptions, and concrete repair refs.
-- sentence-integrity scan after assembly or reference absorption.
-- independent meta-review round refs and revision entrypoint decision refs when a full draft reaches chapter and asset gates.
-- repair plan refs, route-back refs, quality-debt refs, or typed blockers for storyline, chapter function, evidence/model, publication design, local prose, owner/source gaps, or hard-stop conditions.
-- integrity handoff to `publication-proof-handoff` when obligations are closed, explicitly hard-blocked, or carried as `completed_with_quality_debt` on a readable manuscript. Debt blocks proof/export/readiness claims, not transition.
+## Professional Dependencies And Boundaries
 
-Do not generate review PDFs, publication proofs, final exports, owner receipts, typed blocker bodies, or publication/export verdicts.
+This review depends on actual materialized manuscript refs. Major repairs require review of the changed bytes before an integrity handoff can be reused. A consumable manuscript may advance with explicit non-central quality debt, but publication/export/readiness claims remain closed while central evidence or systemic integrity gaps remain.
+
+Do not rewrite source evidence, invent owner authorization, generate proof/export artifacts, or sign owner acceptance.
+
+## Closeout
+
+Return the integrity review, claim/evidence and style findings, accepted quality debt, repair or route-back refs, freshness obligations, and an integrity handoff for proof/export work when eligible. Otherwise return the specific typed blocker or human gate.

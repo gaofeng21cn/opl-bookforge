@@ -7,7 +7,7 @@ Machine boundary: human-readable domain specialization. Machine-readable adoptio
 
 BookForge adopts the OPL principles as a book-authoring Foundry Agent:
 
-- Intake is the `domain_intake` stage and its prompt, not a standalone Skill. It turns book/project material into scoped source refs, storyline architecture refs, owner questions, typed blockers, route-back refs, or handoff packets.
+- The active `storyline-architecture` stage owns intake as part of storyline judgment; there is no separate intake stage or prompt. It turns book/project material into scoped source refs, storyline architecture refs, owner questions, typed blockers, route-back refs, or handoff packets.
 - BookForge owns book truth, storyline quality, source-claim integrity, manuscript/export artifact authority, book memory bodies, owner receipts, and typed blockers.
 - OPL may host the stage runtime, generated surfaces, refs-only workspace/source locator, and conformance readbacks. It does not write book truth, mutate book artifact bodies, sign owner receipts, create BookForge typed blockers, or authorize publication readiness.
 - Book architecture and manuscript materialization remain AI-first expert work. Scripts and contracts materialize refs, compare structure, and enforce authority gates; book quality and publication closeout remain BookForge-owner gated.

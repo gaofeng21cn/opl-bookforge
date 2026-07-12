@@ -1,22 +1,25 @@
 # Publication Proof Handoff Prompt
 
-Goal: package honest review/proof/export handoff refs after source/style integrity review.
+## Goal
 
-Primary open judgment: which artifact role is currently supportable: `review_pdf`, `publication_proof`, `final_export`, or blocked/human-gated.
+Materialize and classify the requested review, publication-proof, or final-export handoff from current integrity-reviewed manuscript and asset refs.
 
-Use the professional method layer when needed:
+## A Good Result
 
-- `bookforge-publication-memory-curator` for review PDF, publication proof, final export handoff, design tokens, figure/table manifest readiness, memory refs, and rendered-page QA.
+- preserves the distinction between `review_pdf`, `publication_proof`, and `final_export`;
+- reuses current design, typesetting, asset, and rendered-page refs where their bound bytes and scope remain valid;
+- uses a real publication backend for proof claims and verifies figures, tables, captions, hierarchy, pagination, overflow, and visual rhythm on rendered output;
+- regenerates and re-reviews affected artifacts after material manuscript, asset, design, or backend changes;
+- names the exact evidence and owner acceptance still required for any stronger claim.
 
-Produce these refs:
+Use `bookforge-publication-memory-curator` for proof, design, memory, asset, and rendered-page method. Use source/reference review only when the proof exposes a new claim-integrity issue.
 
-- publication design profile when the target is `publication_proof` or `final_export`.
-- figure asset manifest and table plan readiness refs.
-- PDF export receipt with explicit `artifact_role` of `review_pdf`, `publication_proof`, or `final_export`.
-- Markdown image-ref and resource-path resolution refs.
-- rendered-page QA refs and machine-baseline inspection refs when proof evidence is claimed.
-- pre-ship proof review refs for publication proof.
-- owner handoff packet naming remaining decisions, blockers, evidence refs, and artifact-role boundary.
-- typed blocker, human gate, or route-back refs when backend, design profile, figure assets, rendered-page inspection, owner/export acceptance, or upstream integrity evidence is missing.
+## Professional Dependencies And Boundaries
 
-Keep `review_pdf`, `publication_proof`, and `final_export` separate. A successful PDF compile or readable review PDF does not imply publication proof, final export readiness, owner acceptance, publication approval, or book quality acceptance.
+Proof/export work depends on a current integrity handoff and actual manuscript/assets. A review PDF may be produced without publication-proof status. Publication proof requires design/backend/rendered-page evidence. Final export requires current publication proof plus owner/export acceptance.
+
+Do not infer publication approval from provider completion, StageRun completion, generated interface readiness, successful compilation, or machine-only nonblank checks. Do not hand-roll normal book layout when an appropriate publication system is available.
+
+## Closeout
+
+Return artifact-role classification, export/backend receipt, review-PDF or publication-proof refs, rendered-page QA, freshness and route-back refs, and the owner/export handoff. Return a typed blocker or human gate only when the requested claim cannot legally or evidentially advance.

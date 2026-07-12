@@ -24,7 +24,7 @@
       "stage_kind": "planning",
       "title": "Storyline Architecture",
       "summary": "Shape the premise, reader promise, argument arc, evidence map, chapter thesis chain, and prose style contract before drafting.",
-      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "goal": "Create an evidence-aware storyline, reader contract, and chapter-function architecture that can be handed to chapter production planning.",
       "policy_ref": "agent/stages/storyline-architecture.md",
       "prompt_ref": "agent/prompts/storyline-architecture.md",
       "knowledge_refs": [
@@ -91,7 +91,7 @@
       "stage_kind": "planning",
       "title": "Chapter Production Planning",
       "summary": "Admit approved storyline refs and convert them into chapter budgets, task cards, context-pack plans, memory refs, and an active production queue before prose drafting.",
-      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "goal": "Admit current storyline refs and plan the next chapter-production units, budgets, task cards, context, and memory without drafting manuscript body.",
       "policy_ref": "agent/stages/chapter-production-planning.md",
       "prompt_ref": "agent/prompts/chapter-production-planning.md",
       "knowledge_refs": [
@@ -182,7 +182,7 @@
       "stage_kind": "creation",
       "title": "Chapter Materialization",
       "summary": "Write or repair reader-facing chapter Markdown packages from approved task cards and context packs while preserving honest in-progress states.",
-      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "goal": "Create or repair the authorized chapter Markdown units while preserving reader, chapter-function, source, style, extent, and memory contracts.",
       "policy_ref": "agent/stages/chapter-materialization.md",
       "prompt_ref": "agent/prompts/chapter-materialization.md",
       "knowledge_refs": [
@@ -258,7 +258,7 @@
       "stage_kind": "review",
       "title": "Source And Style Integrity Review",
       "summary": "Review chapter packages for claim/source safety, style consistency, internal-language leakage, sentence integrity, and meta-review route obligations.",
-      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "goal": "Judge current manuscript integrity and route source, style, continuity, evidence, or structural defects to the highest useful repair surface.",
       "policy_ref": "agent/stages/source-style-integrity-review.md",
       "prompt_ref": "agent/prompts/source-style-integrity-review.md",
       "knowledge_refs": [
@@ -336,7 +336,7 @@
       "lane_kind": "variant",
       "title": "Publication Proof Handoff",
       "summary": "Classify and package review PDF, publication proof, or final export handoff refs without turning compile success into owner/export authority.",
-      "goal": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "goal": "Produce the requested review, publication-proof, or final-export handoff with evidence and owner gates appropriate to that artifact role.",
       "policy_ref": "agent/stages/publication-proof-handoff.md",
       "prompt_ref": "agent/prompts/publication-proof-handoff.md",
       "knowledge_refs": [

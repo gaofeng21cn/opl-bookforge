@@ -113,13 +113,13 @@
       "exposure_owner": "opl-bookforge"
     },
     {
-      "capability_id": "opl-bookforge.domain-intake.stage_prompt",
+      "capability_id": "opl-bookforge.storyline-architecture.stage_prompt",
       "surface_role": "stage_prompt",
       "capability_kind": "stage_prompt",
       "canonical_owner": "opl-bookforge",
       "physical_source_ref": {
         "ref_kind": "repo_path",
-        "ref": "agent/prompts/domain_intake.md",
+        "ref": "agent/prompts/storyline-architecture.md",
         "role": "stage_prompt_source"
       },
       "runtime_projection_refs": [
@@ -142,12 +142,12 @@
         "can_claim_production_ready": false
       },
       "improvement_tokens": [
-        "opl-bookforge.domain-intake.stage_prompt",
+        "opl-bookforge.storyline-architecture.stage_prompt",
         "stage_prompt",
         "stage_prompt"
       ],
       "canonical_target_paths": [
-        "agent/prompts/domain_intake.md"
+        "agent/prompts/storyline-architecture.md"
       ],
       "verification_refs": [
         "scripts/verify.sh",

@@ -4,7 +4,7 @@
   "evidence_scope": "controlled_fixture_not_live_domain_progress",
   "domain_id": "opl-bookforge",
   "canary_id": "opl-bookforge.controlled-stage-run-canary.v1",
-  "stage_id": "domain_intake",
+  "stage_id": "storyline-architecture",
   "stage_run_ref": "stage-run-ref:opl-bookforge/controlled-canary",
   "stage_manifest_ref": "stage-manifest-ref:opl-bookforge/controlled-canary",
   "current_pointer_ref": "stage-current-pointer-ref:opl-bookforge/controlled-canary",
