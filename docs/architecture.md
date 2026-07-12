@@ -11,6 +11,18 @@ This repo owns book-domain truth, manuscript quality rules, style policy, figure
 
 OPL owns generated interfaces, generic runtime, queue, attempt ledger, transition runner, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection.
 
+## Implementation And Reference Boundary
+
+`contracts/pack_compiler_input.json#/implementation_profile` is the machine-readable implementation boundary. Agent identity comes only from the Markdown/JSON Declarative Standard Agent Pack; Python is a replaceable publishing-helper implementation, not an Agent type, identity, runtime owner, or publication verdict authority.
+
+The declared helper lane is:
+
+| helper | language | allowed role | source refs |
+| --- | --- | --- | --- |
+| publishing helper family | Python | PDF/publication-proof materialization, rendered-page evidence, and project-local figure assets | `runtime/native_helpers/` |
+
+`implementation_profile.helpers` keeps the helper optional, language-neutral at the Agent identity layer, and excludes Rust from domain-agent implementations. OPL owns helper execution transport, executor discovery, generated surfaces, and generic runtime. `generic_runtime`, `generic_cli`, and `generic_workbench` remain forbidden through the existing functional privatization/source-purity gates even if a checkout contains scripts or diagnostic residue. The top-level `reference_implementation` contract marks Book Forge as a golden-fixture/reference role only: it is not the standard owner, cannot define Framework identity/contracts, and cannot become a second standard source.
+
 Temporal-backed StageRun execution belongs to that OPL-owned runtime layer. Book Forge consumes StageRun, Temporal workflow, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`; it must not create a private Temporal runtime, StageRun wrapper, queue, provider completion store, scheduler, session store, or attempt ledger.
 
 The same policy is also the positive export boundary for OPL generated surfaces: Book Forge exposes book-domain action contracts, chapter task card refs, manuscript/style/artifact authority refs, owner-gated publication/export decision refs, typed blocker refs, and owner receipt refs. It does not expose runtime status read models, private Temporal wrappers, private StageRun wrappers, private queues, private schedulers, private session stores, private provider completion stores, or private attempt ledgers.

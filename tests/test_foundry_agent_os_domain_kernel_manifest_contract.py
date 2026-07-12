@@ -42,6 +42,40 @@ def main() -> int:
 
     assert pack_compiler_input["canonical_agent_id"] == "obf"
     assert pack_compiler_input["domain_id"] == "opl-bookforge"
+    implementation_profile = pack_compiler_input["implementation_profile"]
+    assert implementation_profile == {
+        "profile_id": "opl.standard_domain_agent.v1",
+        "agent_identity": "declarative_standard_agent_pack",
+        "pack_formats": ["markdown", "json"],
+        "helpers": {
+            "optional": True,
+            "entries": [
+                {
+                    "language": "python",
+                    "role": "native_helper",
+                    "source_roots": ["runtime/native_helpers/"],
+                },
+            ],
+            "language_is_identity": False,
+            "rust_policy": "framework_hot_path_only",
+        },
+        "generated_surfaces_owner": "one-person-lab",
+    }
+    assert pack_compiler_input["reference_implementation"] == {
+        "role": "golden_fixture_reference",
+        "is_standard_owner": False,
+        "standard_owner": "one-person-lab",
+        "can_define_standard_agent_identity": False,
+        "can_define_framework_contract": False,
+        "default_runtime_caller": False,
+        "golden_fixture_refs": ["tests/", "docs/evidence/"],
+        "golden_fixture_is_second_standard_source": False,
+    }
+    for helper in implementation_profile["helpers"]["entries"]:
+        assert helper["language"] == "python"
+        assert helper["role"] == "native_helper"
+        assert helper["source_roots"] == ["runtime/native_helpers/"]
+        assert all((REPO_ROOT / ref).is_dir() for ref in helper["source_roots"])
     assert descriptor["authority_boundary"]["domain_owns_truth_quality_artifact_memory_and_receipts"] is True
     assert temporal_policy["stage_run_owner"] == "one-person-lab"
     assert generated_handoff["temporal_stage_run_projection"]["owner"] == "one-person-lab"
