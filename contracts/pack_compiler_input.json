@@ -3,14 +3,19 @@
   "implementation_profile": {
     "profile_id": "opl.standard_domain_agent.v1",
     "agent_identity": "declarative_standard_agent_pack",
-    "pack_formats": ["markdown", "json"],
+    "pack_formats": [
+      "markdown",
+      "json"
+    ],
     "helpers": {
       "optional": true,
       "entries": [
         {
           "language": "python",
           "role": "native_helper",
-          "source_roots": ["runtime/native_helpers/"]
+          "source_roots": [
+            "runtime/native_helpers/"
+          ]
         }
       ],
       "language_is_identity": false,
@@ -25,7 +30,10 @@
     "can_define_standard_agent_identity": false,
     "can_define_framework_contract": false,
     "default_runtime_caller": false,
-    "golden_fixture_refs": ["tests/", "docs/evidence/"],
+    "golden_fixture_refs": [
+      "tests/",
+      "docs/evidence/"
+    ],
     "golden_fixture_is_second_standard_source": false
   },
   "schema_version": 1,
@@ -236,8 +244,7 @@
     "product_entry_manifest",
     "domain_handler",
     "status_read_model",
-    "workbench_drilldown",
-    "functional_harness_cases"
+    "workbench_drilldown"
   ],
   "domain_repo_can_own_generated_surface": false,
   "marker": "generated_by_opl_standard_domain_agent_scaffold_v1",

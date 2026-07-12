@@ -9,8 +9,10 @@ Pass conditions:
 - Chapter repair updates reusable durable refs when a finding is systemic, and keeps local prose edits local when the repair is bounded.
 - Markdown chapter refs remain the manuscript source of truth; assemblies are generated refs, not the only creative working file.
 
-Fail-closed conditions:
+Quality-debt and claim-closed conditions (not progression gates):
 
 - Manuscript body is embedded primarily in Python, TypeScript, shell, or JSON literals.
 - A chapter is marked ready while target extent, task-card linkage, reader-entry plan, source boundary, or required figure/table obligations are missing.
 - Drafting claims source/style integrity, independent meta-review pass, publication-proof readiness, final-export readiness, book quality acceptance, or owner acceptance.
+
+Partial, thin, or structurally imperfect prose is still a readable artifact that Codex may carry forward or route back. Only zero/corrupt output or a real authority, safety/permission, identity/currentness, irreversible-action, or human gate may hard-stop progression.

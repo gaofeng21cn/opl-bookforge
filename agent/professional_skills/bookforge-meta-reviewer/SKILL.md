@@ -67,5 +67,5 @@ This workflow-level skill covers the retired `meta-review-loop`, `revision-entry
 - `source_memory_route_back_missing`: route durable source or memory defects before revision closure.
 - `asset_rights_freshness_missing`: route asset, rights, source, caption, or note freshness defects before proof/export-facing closure.
 - `proof_design_memory_stale`: refresh or route design memory before treating proof findings as closed.
-- `meta_review_iteration_limit_reached`: stop with unresolved findings and owner options after three rounds.
+- `meta_review_iteration_limit_reached`: preserve the best readable draft, unresolved findings, and owner options as quality debt after three rounds; advance or route back without a publication/export claim.
 - `owner_source_blocker_only`: return owner/source decision path instead of polishing around the gap.

@@ -88,7 +88,7 @@ OPL boundary:
 - OPL must not decide the repair level, rewrite manuscript body, update book memory body, authorize quality/export, or sign owner receipts.
 - A future OPL generic review-repair transport should support route-back refs, current-owner projection, iteration caps, and freshness gates without reading or owning Book Forge manuscript semantics.
 
-Fail-closed conditions:
+Quality-debt and claim-closed conditions:
 
 - Required meta-review or owner critique findings are edited directly without a durable revision entrypoint decision.
 - A higher-order defect is classified as local prose because local editing is cheaper.
@@ -96,3 +96,5 @@ Fail-closed conditions:
 - A fast-track audit is used while unresolved storyline, outline, chapter-function, evidence/model, or artifact-target defects remain.
 - A typed owner/source blocker is replaced by smoother prose.
 - OPL-generated or hosted surfaces expose router refs as quality approval, publication readiness, or owner acceptance.
+
+The router supplies Codex context only. Missing routing artifacts, disputed classifications, or unresolved higher-order defects may trigger route-back but cannot programmatically reject or block another declared stage while a readable manuscript or diagnostic exists.

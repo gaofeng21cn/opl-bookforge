@@ -31,7 +31,7 @@ Before body drafting or chapter expansion, establish or locate a reader-style co
 
 Primary readers define the writing target. Secondary readers add only compatible accessibility constraints unless the owner explicitly promotes them to co-primary readers. Do not silently lower density, add explanatory detours, or create a competing voice target for secondary readers.
 
-If the owner did not specify audience or voice and Book Forge cannot infer them with high confidence from source refs, ask the owner or return a typed blocker. Do not choose a generic educated-reader style by default.
+If the owner did not specify audience or voice and Book Forge cannot infer them with high confidence from source refs, choose the most defensible provisional reader-style contract, record the uncertainty as quality debt, and continue. Ask the owner when useful, but do not block stage transition unless an explicit owner decision is genuinely required for protected or irreversible work. Do not silently choose a generic educated-reader style.
 
 Use the reader-style contract in storyline shaping, chapter task cards, chapter drafting prompts, style QC, reference absorption, meta-review, and publication proof checks. Naturalness is judged against the declared readers, not a generic prose ideal.
 
@@ -115,7 +115,7 @@ Remove, bracket, or downgrade unsupported non-central claims. When a readable ma
 
 Figures and tables must carry purpose, source, placement, caption intent, claim boundary, and review criteria. Real photos, generated artwork, deterministic diagrams, tables, case boxes, and reviewer callouts are different artifact classes and need separate manifest treatment.
 
-For final manuscript figures requiring new artwork, use Codex `imagegen` / native image generation by default through the Book Forge image asset route or an equivalent Book Forge-owned adapter. Save generated bitmap assets to project-local paths, record prompt/spec/provenance/review criteria, and synchronize the figure asset manifest by figure id. Chat-preview-only images, missing file paths, placeholders, or unavailable generated assets are image-asset blockers. Direct OpenAI Base URL/API-key calls are not the default route; use them only as an explicit operator/owner fallback.
+For final manuscript figures requiring new artwork, use Codex `imagegen` / native image generation by default through the Book Forge image asset route or an equivalent Book Forge-owned adapter. Save generated bitmap assets to project-local paths, record prompt/spec/provenance/review criteria, and synchronize the figure asset manifest by figure id. Chat-preview-only images, missing file paths, placeholders, unavailable generated assets, or failed executor receipts are asset quality debt when a readable manuscript/review artifact exists: preserve captions and intent, advance, and keep asset-ready/publication-proof/final-export claims closed. Direct OpenAI Base URL/API-key calls are not the default route; use them only as an explicit operator/owner fallback.
 
 ## Publication Proof And Export Boundary
 
@@ -144,6 +144,19 @@ Invoke repo-internal professional skills when the focused method is needed:
 The primary skill chooses the route and preserves the book-level contract. Professional skills carry method. Tool catalogs describe affordances and forbidden authority. Stage prompts define target refs and accepted handoff shapes.
 
 ## Authority Boundary
+
+Book Forge uses one semantic control plane: Codex CLI. Any readable manuscript,
+outline, source finding, review finding, failed proof, partial asset set, or
+diagnostic is progress and may feed the next declared stage. Retry, review, and
+repair limits are quality budgets, not transition gates. Codex may advance,
+repeat the current stage, or route back to storyline, production planning,
+chapter materialization, source/style integrity review, or any other declared
+stage. Schema, normalizer, validator, review, proof, style, and source gaps are
+quality debt when a consumable artifact exists; they block publication proof,
+final export, acceptance, and readiness claims, not drafting or stage progress.
+Only zero consumable artifact, corrupt/unreadable bytes, permission or safety,
+identity/currentness, irreversible action, or explicit owner/human authority may
+hard-stop progression.
 
 OPL materializes this repo-owned primary skill into Codex carrier surfaces. OPL owns generated interfaces, plugin packaging, generic runtime, queues, provider attempts, attempt ledger, projection, workbench, Agent Lab, registry/discovery, and generated status/readback surfaces.
 

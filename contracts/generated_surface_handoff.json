@@ -165,13 +165,6 @@
       "source_contract": "contracts/generated_surface_handoff.json",
       "domain_policy": "domain_repo_does_not_own_generic_operator_workbench",
       "status": "descriptor_source_available"
-    },
-    {
-      "surface_id": "functional_harness_cases",
-      "owner": "one-person-lab",
-      "source_contract": "contracts/pack_compiler_input.json",
-      "domain_policy": "domain_repo_supplies_fixtures_expected_receipts_and_forbidden_write_assertions",
-      "status": "descriptor_source_available"
     }
   ],
   "handoff_surfaces": [
@@ -227,14 +220,6 @@
       ],
       "current_role": "projection_refs",
       "target_role": "opl_hosted_workbench_shell_consuming_domain_refs"
-    },
-    {
-      "surface_id": "functional_harness_cases",
-      "current_paths": [
-        "runtime/fixtures/README.md"
-      ],
-      "current_role": "oracle_fixture_refs",
-      "target_role": "opl_generated_functional_harness_cases"
     }
   ],
   "required_domain_handoff": [

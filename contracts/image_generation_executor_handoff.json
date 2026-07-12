@@ -26,12 +26,16 @@
       ],
       "exit_code": 0
     },
-    "fail_closed_conditions": [
+    "quality_debt_conditions": [
       "unknown_or_non_codex_capability_request",
       "requested_capability_not_activated",
       "executor_nonzero_exit",
       "invalid_or_missing_opl_executor_receipt"
-    ]
+    ],
+    "transport_failure_counts_as_failed_attempt_progress": true,
+    "transport_or_receipt_gap_blocks_stage_transition": false,
+    "transport_or_receipt_gap_blocks_asset_ready_claim": true,
+    "route_selection_owner": "codex_cli"
   },
   "bookforge_retained_boundary": {
     "responsibilities": [
@@ -57,6 +61,7 @@
     "asset_ready_counts_as_publication_ready": false,
     "asset_ready_counts_as_final_export_ready": false,
     "asset_ready_counts_as_owner_acceptance": false,
-    "opl_can_authorize_bookforge_publication_or_delivery": false
+    "opl_can_authorize_bookforge_publication_or_delivery": false,
+    "opl_executor_receipt_can_select_or_reject_stage_route": false
   }
 }

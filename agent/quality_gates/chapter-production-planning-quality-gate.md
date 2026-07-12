@@ -12,12 +12,14 @@ Pass conditions:
 - The chapter context compiler plan separates protected context from compressible context and names the first concrete chapter action.
 - Book memory refs are owner-inspectable working, episodic, and semantic refs, not a private scheduler or second truth source.
 - Ordinary missing detail stays `in_progress` with a next forced delta or routes back to `storyline-architecture`; it does not become a generic typed blocker or hard stop.
-- Transition to `chapter-materialization` occurs only after the admitted storyline, next chapter action, target extent, source boundary, style constraints, and task-card refs are explicit.
+- Quality acceptance for the planning artifact requires an explicit storyline, next chapter action, target extent, source boundary, style constraints, and task-card refs. Missing items become quality debt; Codex may still start `chapter-materialization` or any other declared stage.
 
-Fail-closed conditions:
+Quality-debt and claim-closed conditions:
 
 - The stage hides missing storyline/source/owner refs and starts chapter drafting as if admission had passed.
 - Visible chapter prose is drafted before task cards, target extent, reader-style, source boundary, and next action are explicit.
 - A below-target coverage skeleton is labeled as completed materialization.
 - Planning creates or depends on a private queue, scheduler, session store, attempt ledger, runtime state, owner receipt, typed blocker body, or publication authority.
 - An independent review is made a blanket prerequisite for ordinary planning-to-materialization transition.
+
+None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.

@@ -13,7 +13,7 @@ Pass conditions:
 - The proposed voice uses affirmative, specific, human prose and avoids generic AI-sounding transitions.
 - The next stage receives stable structure for chapter drafting, illustration/table planning, and layout decisions.
 
-Fail-closed conditions:
+Quality-debt and claim-closed conditions (never stage-progression blockers while a readable artifact exists):
 
 - Missing source corpus, audience, owner intent, publication form, or style ref.
 - Audience or natural-expression style is guessed generically when source refs do not support a high-confidence inference and no owner question/blocker is recorded.
@@ -22,3 +22,5 @@ Fail-closed conditions:
 - Chapter plan is a topic list without argument movement.
 - Review relies on shared execution context instead of direct evidence refs.
 - Any generated surface tries to claim final book quality, export readiness, or publication approval.
+
+Codex may carry the best storyline draft into any declared stage or route back. Only zero/corrupt output, authority, permission/safety, identity/currentness, irreversible action, or explicit human authority hard-stops progression.

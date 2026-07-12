@@ -22,7 +22,7 @@ Working policy:
 - After repairs, regenerate the assembly, metrics, hygiene report, and cumulative owner-review PDF before the next meta-review round. Stale PDFs or metrics cannot support a round verdict.
 - Run at most three meta-review rounds by default. A round counts only when an independent review report exists against a fresh assembled manuscript.
 - Stop early when the independent reviewer returns `pass`, or when remaining issues are only optional preferences, owner evidence gaps, publication-proof/final-export acceptance, or source-material blockers that cannot be solved by prose editing.
-- If the third round still returns required manuscript repairs, stop and return a typed `meta_review_iteration_limit_reached` blocker with unresolved findings and owner decision options. Do not keep revising indefinitely.
+- If the third round still returns required manuscript repairs and a readable draft exists, return `completed_with_quality_debt` with unresolved findings and owner options, then advance or route back under Codex judgment. Do not keep revising indefinitely or claim publication/export readiness.
 - Do not let the drafting executor mark its own manuscript as passing meta-review. The drafting executor may summarize, repair, and verify, but the pass/revise verdict must come from the independent review ref or owner receipt.
 - Do not hide disagreements. If Book Forge rejects a meta-review suggestion, record why: conflicts with reader-style contract, unsupported by sources, weakens primary-reader density, repeats already accepted material, requires owner evidence, or is an optional taste preference.
 - Do not use meta-review as a local polishing lane when the report exposes a higher-order defect. A finding that changes reader promise, argument arc, chapter order, chapter function, evidence/model burden, artifact target, or publication design must be routed to that level before sentence repair.
@@ -38,7 +38,7 @@ Review rubric:
 - Prose quality: expression is fluent, affirmative, concrete, reader-facing, and free of visible production scaffolding or obvious AI-flavor patterns.
 - Publication handoff boundary: review PDF, publication proof, final export, owner acceptance, and source evidence blockers remain distinct.
 
-Required fail-closed conditions:
+Required quality-debt and claim-closed conditions:
 
 - Full draft handoff occurs without a durable independent meta-review report unless the owner explicitly waives meta-review.
 - The meta-reviewer receives the drafting conversation, self-justification, or repair notes as primary context and then presents the result as independent.
@@ -48,5 +48,7 @@ Required fail-closed conditions:
 - Repairs are made but assembly metrics, hygiene scans, and owner-review PDF are not refreshed before the next review or handoff.
 - After three review-repair rounds, a readable draft must advance as `completed_with_quality_debt`; the open findings continue to block quality/publication/export claims. Return a typed blocker only when there is no consumable draft or a hard authority/identity/human gate remains.
 - A `pass` is claimed while the latest review verdict is `revise_minor` or `revise_major` and the required findings remain unresolved.
+
+These findings route repair and close quality/publication/export claims; they never let the meta-review program block Codex from starting another declared stage while a readable manuscript or review artifact exists.
 
 This skill improves draft quality and iteration discipline. It does not replace owner review, source-material completion, publication proof inspection, or final export acceptance.

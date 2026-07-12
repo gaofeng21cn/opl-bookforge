@@ -181,7 +181,7 @@ def main() -> int:
             "required_stage_refs": required_stage_refs,
             "optional_stage_refs": [],
             "terminal_stage_refs": [required_stage_refs[-1]],
-            "route_policy": "ordered_stage_attempts_no_skip",
+            "route_policy": "ai_selected_progress_route",
         }
 
     materialize = actions["materialize-book"]

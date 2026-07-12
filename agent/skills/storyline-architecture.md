@@ -16,6 +16,6 @@ Working policy:
 - Identify the stance of major cases and examples during storyline shaping. If a case is authored from inside the practice, route it as practice-involved evidence in the reader-style contract and chapter thesis chain: the chapter should explain what the authors anticipated, why they designed the practice, how it operated, and what remains unproven, instead of framing it as an outside observation of public materials.
 - When owner, editor, or reviewer critique is available before or during drafting, absorb it into the storyline map, chapter function contract, case evidence ladder, core model map, and style engine. Do not treat critique as only a late prose-polish checklist.
 - Ask the owner when audience or style cannot be inferred with high confidence from the brief and source refs.
-- Return typed blockers for missing source, owner, reader-style, style, or audience refs.
+- Missing source, owner, reader-style, style, or audience refs produce a provisional storyline artifact plus quality debt and may advance or route back. Return a typed blocker only when no readable storyline can be produced or a real protected-source, permission, authority, identity/currentness, or explicit human gate applies.
 
 This skill does not authorize final content acceptance, publication readiness, or artifact export.

@@ -42,8 +42,7 @@
     "product_entry_manifest",
     "domain_handler",
     "status_read_model",
-    "workbench_drilldown",
-    "functional_harness_cases"
+    "workbench_drilldown"
   ],
   "private_functional_surface_admission_policy": {
     "surface_kind": "opl_domain_private_functional_surface_admission_policy",
@@ -626,27 +625,6 @@
           "artifact_authority"
         ]
       }
-    },
-    {
-      "module_id": "opl-bookforge.functional-harness-fixtures",
-      "classification": "provenance_or_fixture",
-      "migration_class": "provenance_or_fixture",
-      "code_paths": [
-        "runtime/fixtures/README.md"
-      ],
-      "current_surface_refs": [
-        "functional_harness_cases"
-      ],
-      "active_callers": [
-        "OPL generated functional harness cases"
-      ],
-      "active_caller_status": "fixture_refs_consumed_by_opl_generated_functional_harness",
-      "migration_action": "derive_harness_cases_from_pack_contracts_and_fixture_refs",
-      "retained_domain_authority": [
-        "fixture_oracle_refs"
-      ],
-      "semantic_equivalence_status": "cleared_by_boundary",
-      "audit_visibility": "hidden_by_default"
     },
     {
       "module_id": "opl-bookforge.publication-and-export-helper",

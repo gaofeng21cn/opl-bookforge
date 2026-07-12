@@ -9,7 +9,7 @@ Machine boundary: Human-readable architecture boundary. Machine truth remains in
 
 This repo owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 
-OPL owns generated interfaces, generic runtime, queue, attempt ledger, transition runner, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection.
+OPL owns generated interfaces, generic runtime transport, queue, attempt ledger, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection. Codex CLI alone selects semantic stage routes; OPL has no transition runner or route oracle.
 
 ## Implementation And Reference Boundary
 
