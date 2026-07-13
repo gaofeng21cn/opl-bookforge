@@ -23,4 +23,4 @@ Quality-debt and claim-closed conditions:
 - An independent Review pass is treated as a hard transition prerequisite even when a readable plan exists and only quality debt remains.
 - Review is claimed from an author-thread self-check, a resumed producer thread, or a receipt without exact artifact hashes and `no_context_inheritance=true`.
 
-The independent Review Attempt is required, but a `pass` verdict is not a hard transition prerequisite. None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.
+The independent Review Attempt is required, but `route_impact.stage_quality_cycle.outcome=pass` is not a hard transition prerequisite. None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.

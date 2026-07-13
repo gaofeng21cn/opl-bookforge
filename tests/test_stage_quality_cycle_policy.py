@@ -117,7 +117,11 @@ def test_publication_proof_claims_require_fresh_exact_byte_review() -> None:
         assert "final-export" in text
         assert "owner/export acceptance" in text
     assert "Any regeneration invalidates the prior Review receipt" in gate
-    assert "fresh reviewer or re-reviewer" in prompt
+    assert "controller-materialized Review receipt" in prompt
+    assert "controller-materialized Review receipt" in gate
+    assert "`route_impact.stage_quality_cycle.outcome`" in prompt
+    assert "never a standalone receipt `verdict`" in prompt
+    assert "verdict terminalizes" not in prompt
     assert "producer cannot close publication-proof" in role_prompt
     assert "repairer cannot close publication-proof" in role_prompt
     assert "Do not create a Review receipt or repair map" in role_prompt
@@ -185,7 +189,7 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
     planning_gate = (ROOT / "agent/quality_gates/chapter-production-planning-quality-gate.md").read_text(encoding="utf-8")
     assert "author-thread self-check is only `in_thread_refinement`" in planning_gate
     assert "The independent Review Attempt is required" in planning_gate
-    assert "a `pass` verdict is not a hard transition prerequisite" in planning_gate
+    assert "`route_impact.stage_quality_cycle.outcome=pass` is not a hard transition prerequisite" in planning_gate
     role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(encoding="utf-8")
     for semantic in (
         "stable `finding_id`",

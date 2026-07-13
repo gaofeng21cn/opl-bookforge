@@ -9,7 +9,7 @@ Materialize and classify the requested review, publication-proof, or final-expor
 - preserves the distinction between `review_pdf`, `publication_proof`, and `final_export`;
 - reuses current design, typesetting, asset, and rendered-page refs where their bound bytes and scope remain valid;
 - uses a real publication backend for proof claims and verifies figures, tables, captions, hierarchy, pagination, overflow, and visual rhythm on rendered output;
-- marks every produced or repaired PDF/export as `review_pending` until a fresh reviewer or re-reviewer receipt binds its exact current hash;
+- marks every produced or repaired PDF/export as `review_pending` until a controller-materialized Review receipt binds a fresh reviewer or re-reviewer Attempt to its exact current hash;
 - treats any regeneration after Review as invalidating the prior Review receipt and re-reviews the changed bytes;
 - names the exact evidence and owner acceptance still required for any stronger claim.
 
@@ -23,7 +23,7 @@ Do not infer publication approval from provider completion, StageRun completion,
 
 ## Independent Stage Review Boundary
 
-Refinement in the current Codex thread is `in_thread_refinement` only. Producer and repairer Attempts may return only candidate artifact refs/hashes with `review_pending`; they cannot close publication-proof, final-export, export-ready, or ready claims and may return only `route_impact.stage_route_recommendation`. Formal review, repair, and re-review run as separate StageAttempts with fresh threads and receive only the exact artifact, source, quality-rubric, and necessary lineage refs. The initial reviewer may close Review for unchanged producer bytes when its verdict terminalizes the StageRun; after any repair or regeneration, only a fresh re-reviewer closeout bound to the repaired hashes can close Review. A `repair_required` reviewer continues the quality loop and may only recommend a route. The terminal reviewer or re-reviewer returns `route_impact.stage_route_decision`; OPL validates its role and declared target, then materializes the Review receipt without replacing Book Forge owner/export acceptance. A same-thread resume can only complete the closeout protocol and cannot create a Review receipt.
+Refinement in the current Codex thread is `in_thread_refinement` only. Producer and repairer Attempts may return only candidate artifact refs/hashes with `review_pending`; they cannot close publication-proof, final-export, export-ready, or ready claims and may return only `route_impact.stage_route_recommendation`. Formal review, repair, and re-review run as separate StageAttempts with fresh threads and receive only the exact artifact, source, quality-rubric, and necessary lineage refs. The initial reviewer returns `route_impact.stage_quality_cycle.outcome`, never a standalone receipt `verdict`; for unchanged producer bytes, the OPL StageRun controller may close Review only from that isolated Attempt's terminal outcome, route decision, exact hashes, and rubric. After any repair or regeneration, only a fresh re-reviewer outcome bound to the repaired hashes can close Review. A `repair_required` reviewer continues the quality loop and may only recommend a route. The terminal reviewer or re-reviewer returns `route_impact.stage_route_decision`; OPL validates its role and declared target, then materializes the Review receipt without replacing Book Forge owner/export acceptance. A same-thread resume can only complete the closeout protocol and cannot create a Review receipt.
 
 ## Closeout
 
