@@ -13,7 +13,11 @@
 - OPL canonical agent/package id 固定为 `obf`；`opl-bookforge` 只作为 repo slug、`domain_id`、`foundry_agent_id`、npm package name 和 Codex plugin/现有 distribution carrier locator，不得通过 alias 维持第二个 package identity。
 
 验证入口：
-- `scripts/verify.sh`
+- `scripts/verify.sh` / `scripts/verify.sh fast`：默认快速 policy lane。
+- `scripts/verify.sh structural`：policy 加 OPL scaffold/interfaces/source-hygiene readback。
+- `scripts/verify.sh helpers`：native-helper probe 与 PDF/image adapter 单元测试。
+- `scripts/verify.sh pdf`：两条真实 Pandoc/XeLaTeX compile/render E2E。
+- `scripts/verify.sh full`：上述 lane 的去重并集。
 - 或分别运行：
   - `/Users/gaofeng/workspace/one-person-lab/bin/opl agents scaffold --validate . --json`
   - `/Users/gaofeng/workspace/one-person-lab/bin/opl agents interfaces --repo-dir . --json`

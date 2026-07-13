@@ -446,7 +446,13 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
     assert guard["guard_command"] == "opl workspace source-hygiene --source-root <repo> --json"
 
     verify_script = (repo / "scripts/verify.sh").read_text(encoding="utf-8")
-    assert verify_script.count('workspace source-hygiene --source-root "${repo_dir}" --json') == 2
+    assert verify_script.count('workspace source-hygiene --source-root "${repo_dir}" --json') == 1
+    assert 'case "${lane}" in' in verify_script
+    assert "default|fast)" in verify_script
+    assert "structural)" in verify_script
+    assert "helpers)" in verify_script
+    assert "pdf-smoke|pdf)" in verify_script
+    assert "full)" in verify_script
     assert "bookforge_project_hygiene.py" not in verify_script
     assert "--doctor" not in verify_script
     for helper_ref in (

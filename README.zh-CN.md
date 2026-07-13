@@ -116,7 +116,7 @@ Book Forge 可以产出证据、草稿、导出文件和结构化阻塞。出版
   <summary><strong>技术 OPL / 操作者边界</strong></summary>
 
 - 本包暴露 `shape-storyline` 和 `materialize-book` 动作合同；当前生成的 MCP/OpenAI/AI SDK 描述符只是描述符，后续运行时表面需要单独证明可执行。
-- `scripts/verify.sh` 通过本机 OPL 命令行验证 OPL 标准脚手架和生成接口描述符。
+- `scripts/verify.sh` 是快速 policy lane；`structural` 增加 OPL 脚手架、生成接口和 source-hygiene readback，`helpers` 验证 native helper 与 adapter，`pdf` 执行两条真实 PDF 编译/渲染 E2E。
 - OMA 证据位于 `docs/evidence/oma-agent-lab/`。
 - 真实试运行证据位于 `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`。
 - 试运行导出包含 DOCX、HTML、PDF、渲染页面、生成插图、质量回执和结构化负责人阻塞。这些是证据产物，不是负责人出版接受。
@@ -148,10 +148,14 @@ Book Forge 可以产出证据、草稿、导出文件和结构化阻塞。出版
 
 ```bash
 scripts/verify.sh
+scripts/verify.sh structural
+scripts/verify.sh helpers
+scripts/verify.sh pdf
+scripts/verify.sh full
 python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
 ```
 
-`scripts/verify.sh` 运行 OPL 脚手架和生成接口验证。试运行验证器检查现有证据包、导出文件、渲染页面、风格扫描、插图和负责人签收门阻塞。
+`scripts/verify.sh` 默认只运行快速 policy 检查；`full` 是各 lane 的去重并集。PDF lane 只保留 review PDF 与 publication proof 两次真实编译，负例直接验证 canonical artifact gate。以上测试都不构成出版批准、最终导出就绪或负责人接受。试运行验证器检查现有证据包、导出文件、渲染页面、风格扫描、插图和负责人签收门阻塞。
 
 ## 继续阅读
 

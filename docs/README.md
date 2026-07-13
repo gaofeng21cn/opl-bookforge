@@ -23,7 +23,11 @@ This directory is the documentation entry for the OPL Book Forge domain agent pa
 
 ## Evidence Surfaces
 
-- Structural validation: `scripts/verify.sh`.
+- Fast policy validation: `scripts/verify.sh`.
+- OPL structural readback: `scripts/verify.sh structural`.
+- Native-helper and adapter validation: `scripts/verify.sh helpers`.
+- Proof-backend E2E: `scripts/verify.sh pdf`.
+- Deduplicated integration union: `scripts/verify.sh full`.
 - Helper executable readback: `opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json`.
 - Evidence package index: `docs/evidence/README.md`.
 - Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.

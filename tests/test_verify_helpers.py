@@ -262,14 +262,6 @@ def test_pdf_smoke() -> None:
         assert payload["artifact_gate"]["status"] == "passed", payload["artifact_gate"]
         assert payload["artifact_gate"]["claim_boundary"]["review_pdf_counts_as_publication_proof"] is False, payload["artifact_gate"]
 
-        missing_design = pdf_export(root, "sample-proof-missing-evidence.pdf", "proof-missing-evidence.json", role="publication_proof")
-        assert missing_design.returncode == 0, missing_design.stderr or missing_design.stdout
-        payload = json.loads((root / "proof-missing-evidence.json").read_text(encoding="utf-8"))
-        assert payload["status"] == "generated_with_quality_debt", payload
-        assert payload["artifact_gate"]["status"] == "quality_debt", payload["artifact_gate"]
-        assert payload["artifact_gate"]["quality_debt"]["blocks_stage_transition"] is False
-        assert payload["artifact_gate"]["quality_debt"]["blocks_quality_export_or_ready_claims"] is True
-
         missing_source = pdf_export(
             root,
             "missing-source.pdf",
@@ -283,80 +275,6 @@ def test_pdf_smoke() -> None:
         assert payload["progress_diagnostic"]["code"] == "source_markdown_missing", payload
         assert payload["progress_diagnostic"]["blocks_stage_transition"] is False, payload
         assert payload["progress_diagnostic"]["next_stage_may_start"] is True, payload
-
-        (root / "remote-image.md").write_text(
-            """---
-title: "Remote Image Blocker"
-lang: zh-CN
----
-
-# 第一章
-
-![远程图片不应作为出版 proof 资产](https://example.com/remote.png)
-""",
-            encoding="utf-8",
-        )
-        write_json(root / "publication-design.json", PUBLICATION_DESIGN)
-        incomplete_inspection = dict(COMPLETE_INSPECTION)
-        for field in (
-            "embedded_font_status",
-            "page_density_status",
-            "trailing_whitespace_status",
-            "rendered_page_size_status",
-            "sample_page_roles_status",
-            "checklist_refs_status",
-        ):
-            incomplete_inspection.pop(field)
-        write_json(root / "rendered-page-inspection-incomplete.json", incomplete_inspection)
-
-        incomplete = pdf_export(
-            root,
-            "sample-proof-incomplete-inspection.pdf",
-            "proof-incomplete-inspection.json",
-            role="publication_proof",
-            render_dir=str(root / "rendered-incomplete-proof-pages"),
-            render_prefix="incomplete-proof-page",
-            publication_design_profile=str(root / "publication-design.json"),
-            rendered_page_inspection=str(root / "rendered-page-inspection-incomplete.json"),
-            figure_asset_manifest=str(root / "figure-asset-manifest.json"),
-        )
-        assert incomplete.returncode == 0, incomplete.stderr or incomplete.stdout
-        payload = json.loads((root / "proof-incomplete-inspection.json").read_text(encoding="utf-8"))
-        assert payload["status"] == "generated_with_quality_debt", payload
-        blocker_types = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
-        assert "rendered_page_inspection_incomplete" in blocker_types, payload["artifact_gate"]
-
-        write_json(root / "rendered-page-inspection.json", COMPLETE_INSPECTION)
-        complete = pdf_export(
-            root,
-            "sample-proof.pdf",
-            "proof-manifest.json",
-            role="publication_proof",
-            render_dir=str(root / "rendered-proof-pages"),
-            render_prefix="proof-page",
-            publication_design_profile=str(root / "publication-design.json"),
-            rendered_page_inspection=str(root / "rendered-page-inspection.json"),
-            figure_asset_manifest=str(root / "figure-asset-manifest.json"),
-        )
-        assert complete.returncode == 0, complete.stderr or complete.stdout
-
-        remote = pdf_export(
-            root,
-            "remote-image-proof.pdf",
-            "remote-image-proof-manifest.json",
-            role="publication_proof",
-            source_name="remote-image.md",
-            render_dir=str(root / "rendered-remote-image-proof-pages"),
-            render_prefix="remote-image-proof-page",
-            publication_design_profile=str(root / "publication-design.json"),
-            rendered_page_inspection=str(root / "rendered-page-inspection.json"),
-        )
-        assert remote.returncode == 0, remote.stderr or remote.stdout
-        payload = json.loads((root / "remote-image-proof-manifest.json").read_text(encoding="utf-8"))
-        assert payload["status"] == "generated_with_quality_debt", payload
-        blocker_types = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
-        assert "markdown_image_ref_not_project_local" in blocker_types, payload["artifact_gate"]
-
         bundled = pdf_export(
             root,
             "sample-bundled-profile-proof.pdf",
@@ -394,6 +312,92 @@ lang: zh-CN
             assert path.exists() and path.stat().st_size > 1000, ref
 
 
+def test_artifact_gate_matrix() -> None:
+    helper = load_module("bookforge_pdf_gate", REPO / "runtime/native_helpers/bookforge_pdf_export.py")
+    with tempfile.TemporaryDirectory(prefix="bookforge-artifact-gate-") as tmp:
+        root = Path(tmp)
+        base_payload = {
+            "artifact_role": "publication_proof",
+            "render_status": "rendered",
+            "rendered_pages": ["rendered/page-1.png"],
+            "markdown_image_refs": {"missing_count": 0, "refs": []},
+            "figure_asset_manifest_summary": {"blockers": []},
+            "auto_rendered_page_inspection_ref": None,
+        }
+        base_args = {
+            "publication_design_profile": None,
+            "rendered_page_inspection": None,
+            "owner_acceptance_receipt": None,
+            "figure_asset_manifest": None,
+            "resolved_publication_profile": None,
+        }
+        incomplete_inspection = dict(COMPLETE_INSPECTION)
+        incomplete_inspection.pop("embedded_font_status")
+        scenarios = [
+            {
+                "name": "missing-design",
+                "payload": {},
+                "design": {},
+                "inspection": COMPLETE_INSPECTION,
+                "args": {},
+                "blocker": "publication_design_profile_missing",
+            },
+            {
+                "name": "incomplete-page-inspection",
+                "payload": {},
+                "design": PUBLICATION_DESIGN,
+                "inspection": incomplete_inspection,
+                "args": {},
+                "blocker": "rendered_page_inspection_incomplete",
+            },
+            {
+                "name": "remote-image",
+                "payload": {
+                    "markdown_image_refs": {
+                        "missing_count": 0,
+                        "refs": [{"ref": "https://example.com/remote.png", "status": "external_or_data"}],
+                    },
+                },
+                "design": PUBLICATION_DESIGN,
+                "inspection": COMPLETE_INSPECTION,
+                "args": {},
+                "blocker": "markdown_image_ref_not_project_local",
+            },
+            {
+                "name": "final-export-without-owner",
+                "payload": {"artifact_role": "final_export"},
+                "design": PUBLICATION_DESIGN,
+                "inspection": COMPLETE_INSPECTION,
+                "args": {},
+                "blocker": "owner_acceptance_missing",
+            },
+        ]
+        for scenario in scenarios:
+            payload = {**base_payload, **scenario["payload"]}
+            args = argparse.Namespace(**{**base_args, **scenario["args"]})
+            helper.assess_artifact_gate(
+                payload,
+                args,
+                root,
+                scenario["design"],
+                None,
+                scenario["inspection"],
+                None,
+                {},
+                None,
+            )
+            blockers = {item["blocker_type"] for item in payload["artifact_gate"]["blockers"]}
+            assert scenario["blocker"] in blockers, (scenario["name"], payload["artifact_gate"])
+            assert payload["artifact_gate"]["status"] == "quality_debt"
+            assert payload["artifact_gate"]["quality_debt"]["blocks_stage_transition"] is False
+            assert payload["artifact_gate"]["quality_debt"]["blocks_quality_export_or_ready_claims"] is True
+            assert payload["artifact_gate"]["claim_boundary"] == {
+                "review_pdf_counts_as_publication_proof": False,
+                "publication_proof_counts_as_final_export": False,
+                "helper_receipt_counts_as_owner_acceptance": False,
+            }
+
+
 def test_publication_profile_contract() -> None:
     profile = json.loads(
         (REPO / "runtime/native_helpers/pdf_profiles/bookforge-zh-publication-proof.json").read_text(encoding="utf-8")
@@ -424,16 +428,19 @@ def test_publication_profile_contract() -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pdf-smoke", action="store_true", help="run Pandoc/XeLaTeX proof-backend checks")
+    parser.add_argument("--pdf-smoke-only", action="store_true", help="run only Pandoc/XeLaTeX proof-backend checks")
     args = parser.parse_args(argv)
-    test_pandoc_command_shape()
-    test_image_asset_manifest_lifecycle()
-    test_publication_profile_contract()
-    if args.pdf_smoke:
+    if not args.pdf_smoke_only:
+        test_pandoc_command_shape()
+        test_image_asset_manifest_lifecycle()
+        test_publication_profile_contract()
+        test_artifact_gate_matrix()
+    if args.pdf_smoke or args.pdf_smoke_only:
         test_pdf_smoke()
     print(json.dumps({
         "status": "passed",
         "test": "bookforge_verify_helpers",
-        "pdf_smoke": args.pdf_smoke,
+        "pdf_smoke": args.pdf_smoke or args.pdf_smoke_only,
     }, ensure_ascii=False))
     return 0
 

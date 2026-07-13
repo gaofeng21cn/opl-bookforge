@@ -123,8 +123,8 @@ You can start with prompts like:
   <summary><strong>Technical OPL / operator boundary</strong></summary>
 
 - The package exposes action contracts for `shape-storyline` and `materialize-book`; current generated MCP/OpenAI/AI SDK descriptors are descriptors only unless a runtime surface proves execution.
-- `scripts/verify.sh` validates the OPL standard scaffold, generated interface descriptors, policy tests, OPL source-hygiene and native-helper probe readbacks, plus Book Forge helper self-tests without compiling PDFs.
-- `scripts/verify.sh pdf-smoke` runs the proof-backend PDF compile/render smoke and requires `pandoc` plus `xelatex`.
+- `scripts/verify.sh` runs the fast policy lane. `structural` adds OPL scaffold/interface/source-hygiene readback, and `helpers` adds native-helper probes and adapter tests.
+- `scripts/verify.sh pdf` runs two proof-backend PDF compile/render E2E cases and requires `pandoc` plus `xelatex`; negative gate variants run in-process against the canonical gate.
 - OMA evidence lives under `docs/evidence/oma-agent-lab/`.
 - The real pilot evidence lives under `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`.
 - Pilot exports include DOCX, HTML, PDF, rendered pages, generated figures, quality receipts, and typed owner blockers. They are evidence artifacts, not owner publication acceptance.
@@ -157,12 +157,15 @@ You can start with prompts like:
 
 ```bash
 scripts/verify.sh
-scripts/verify.sh pdf-smoke
+scripts/verify.sh structural
+scripts/verify.sh helpers
+scripts/verify.sh pdf
+scripts/verify.sh full
 opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json
 python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
 ```
 
-`scripts/verify.sh` is the default local structural verifier. `scripts/verify.sh pdf-smoke` is the explicit proof-backend lane for PDF compile/render behavior; it does not prove publication approval, final-export readiness, or owner acceptance. The pilot verifier checks the existing pilot evidence pack, exports, rendered pages, style scan, figures, and owner-gate blockers.
+`scripts/verify.sh` is the fast local policy verifier. `structural` adds OPL scaffold, interface, and source-hygiene readback; `helpers` checks native-helper descriptors and adapters; `pdf` runs exactly two real compile/render paths (review PDF and publication proof); `full` executes their deduplicated union. The PDF gate's negative blocker matrix is exercised directly against the canonical gate function rather than recompiling identical input. None of these lanes proves publication approval, final-export readiness, or owner acceptance. The pilot verifier checks the existing pilot evidence pack, exports, rendered pages, style scan, figures, and owner-gate blockers.
 
 ## Further Reading
 
