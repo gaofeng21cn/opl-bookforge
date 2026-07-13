@@ -5,9 +5,7 @@
   "owner": "opl-bookforge",
   "entrypoint_ref": "bookforge_imagegen_asset.py",
   "runtime_command": "python3",
-  "required_commands": [
-    "opl"
-  ],
+  "required_commands": [],
   "authority_boundary": {
     "can_write_domain_truth": false,
     "can_mutate_artifact_body": false,

@@ -24,7 +24,7 @@ run_helper_tests() {
   "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
   "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
   python3 "${repo_dir}/tests/test_verify_helpers.py"
-  python3 "${repo_dir}/tests/test_imagegen_opl_executor_adapter.py"
+  python3 "${repo_dir}/tests/test_imagegen_host_asset_handler.py"
 }
 
 case "${lane}" in
@@ -41,17 +41,24 @@ case "${lane}" in
   pdf-smoke|pdf)
     python3 "${repo_dir}/tests/test_verify_helpers.py" --pdf-smoke-only
     ;;
+  full-local)
+    run_policy_tests
+    "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
+    "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
+    python3 "${repo_dir}/tests/test_verify_helpers.py" --pdf-smoke
+    python3 "${repo_dir}/tests/test_imagegen_host_asset_handler.py"
+    ;;
   full)
     run_policy_tests
     run_structural_readback
     "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
     "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
     python3 "${repo_dir}/tests/test_verify_helpers.py" --pdf-smoke
-    python3 "${repo_dir}/tests/test_imagegen_opl_executor_adapter.py"
+    python3 "${repo_dir}/tests/test_imagegen_host_asset_handler.py"
     ;;
   *)
     echo "Unknown lane: ${lane}" >&2
-    echo "Usage: scripts/verify.sh [fast|structural|helpers|pdf|full]" >&2
+    echo "Usage: scripts/verify.sh [fast|structural|helpers|pdf|full-local|full]" >&2
     exit 1
     ;;
 esac

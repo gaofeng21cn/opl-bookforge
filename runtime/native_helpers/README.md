@@ -2,6 +2,8 @@
 
 Place domain-specific helper implementations here only when they cannot be represented as declarative pack inputs. OPL owns no-authority helper entrypoint and executable probes; Book Forge retains only domain execution and receipt behavior.
 
+`scripts/verify.sh full-local` runs the complete repo-owned policy/helper/PDF/handler suite without OPL scaffold, generated-interface, or source-closure validation. It is useful while a cross-repo OPL contract/parser release is in flight, but it cannot replace `scripts/verify.sh structural` or `scripts/verify.sh full` for final framework conformance.
+
 ## PDF Export Helper
 
 `bookforge_pdf_export.py` is the Book Forge-owned Markdown-to-PDF export helper for owner-review PDFs and publication-layout candidates. It keeps manuscript prose in Markdown and delegates PDF layout to a real publication/typesetting backend.
@@ -70,39 +72,23 @@ python3 runtime/native_helpers/bookforge_pdf_export.py \
   --manifest "$BOOK_PROJECT/receipts/book-publication-proof.json"
 ```
 
-## Imagegen Asset Helper
+## Image Asset Authority Handler
 
-`bookforge_imagegen_asset.py` is the Book Forge-owned domain adapter for final manuscript figures. It declares the book-specific prompt and project-local output target, then validates the bitmap and writes the figure receipt.
+`bookforge_imagegen_asset.py` is the Book Forge-owned read-only authority handler for final manuscript figures. It does not generate assets. OPL first materializes a bitmap into a host-allocated workspace output and injects immutable attempt/output refs, the workspace-relative bitmap ref, SHA-256, and figure metadata.
 
-Default backend:
+Handler contract:
 
-- `opl executor run`: receives an `AgentExecutionRequest` with `required_capabilities: ["image_generation"]`. OPL Runway owns Codex discovery, capability activation, process transport, and the executor receipt; Book Forge has no local Codex fallback.
-- The OPL executor task must materialize the bitmap directly at the Book Forge-declared project path. Book Forge does not parse Codex JSONL, inspect `$CODEX_HOME`, search generated-image directories, or copy an unbound candidate into the project.
-- The helper records a JSON receipt with prompt hash, output path, image hash/dimensions, runtime surface, and token boundary.
-- Project-relative `--prompt-file`, `--output-file`, `--manifest`, `--receipt-file`, and `--asset-manifest` paths are resolved against `--root`, not the caller's current directory.
-- Pass `--asset-manifest` during generation to update the figure asset manifest by `figure_id` after receipt creation. Pass `--update-asset-manifest --receipt-file <receipt>` to backfill a manifest from an existing helper receipt without generating a new image.
-- The helper does not discover Codex, build `codex exec` arguments, read OpenAI Base URL, `OPENAI_API_KEY`, Codex provider tokens, or project secrets. Executor and provider transport remain owned by OPL Runway.
-
-Boundary:
-
-- Project-bound book figures must end as project-local PNG/WebP/JPEG assets and be tracked by the figure asset manifest.
-- Chat previews and images outside the declared project-local output path are not final book assets. Only the OPL executor receipt plus Book Forge bitmap validation and figure receipt can produce `asset_ready`.
-- The `--mock` / `--self-test` paths only verify helper structure. Mock images must not be counted as final manuscript illustrations.
-- API fallback is an explicit operator/owner route for large batches or unavailable built-in imagegen, not the default Book Forge route.
-
-## Retained Project Hygiene Diagnostic
-
-`bookforge_project_hygiene.py` is a retained, non-default diagnostic for historical Book Forge content-quality regression inspection. It has no generated or default caller; checkout hygiene and lifecycle projection are handled by OPL.
-
-Current checks:
-
-- Active manuscript/workflow refs must not contain known Red Bird outside-observer phrases such as `公开可观察`, `公开资料显示`, `教育实验观察窗口`, `观察它如何强调`, or equivalent phrases that contradict a practice-involved author stance.
-- Active status files must not keep stale early-run metrics such as obsolete chapter blockers or old review-PDF page counts after later chapters have advanced.
-- Retired archive dirs should be tombstone refs, not full readable obsolete drafts that can pollute search results or be mistaken for current manuscript source.
-- Repo source checkouts use OPL `workspace source-hygiene --source-root <repo> --json` for ignored Python/cache/install residue. `scripts/verify.sh` uses that guard directly; this retained diagnostic is not part of the verification path.
+- `contracts/domain_handler_registry.json` is the closed OPL registry ABI: top level contains only `surface_kind`, `version`, and `handlers`; the single entry contains only `handler_id` and a `python_callable` binding. It exposes no shell command or stage/action entry.
+- `contracts/schemas/imagegen-host-bitmap.input.schema.json` defines host input; `contracts/schemas/imagegen-host-bitmap.output.schema.json` defines the authority-candidate / quality-debt result.
+- The handler rejects absolute/escaping refs, symlink traversal, non-regular files, empty or malformed bitmaps, unsupported or mismatched formats, missing/invalid dimensions, digest mismatch, and optional media-type/minimum-dimension mismatch.
+- Validation reads at most 64 MiB from the single host-injected bitmap ref; larger files return image quality debt before their body is read. PNG IDAT validation is streamed with a 256 MiB decompressed-payload ceiling, so compressed input cannot trigger unbounded memory expansion.
+- Valid PNG/JPEG/WebP bytes produce a `bookforge_figure_authority_receipt_candidate.v1` plus an asset-manifest entry candidate. OPL owns persistence of both candidates.
+- Ordinary missing/invalid output produces `completed_with_quality_debt`, does not block later stage work, and closes figure-ready/publication/export claims.
 
 Boundary:
 
-- This helper is a deterministic hygiene scan. It does not replace chapter-level editorial review or owner acceptance.
-- The forbidden-pattern list is intentionally narrow and should be extended when a concrete regression appears.
-- A clean byproduct scan is source-structure evidence only. It is not book delivery, publication proof, final export, owner acceptance, or production-readiness evidence.
+- Project-bound book figures must be workspace-contained regular PNG/WebP/JPEG files with matching host-provided SHA-256 and inspectable figure metadata.
+- The handler cannot create an execution request, spawn OPL/Codex, discover providers/tokens, generate or copy bitmap bytes, or write receipt/manifest/workspace state.
+- The registered callable is reached only through `handler:obf.figure-asset-authority-evaluate`. The richer host handoff contract preserves schema validation, immutable attempt/output/ref/SHA binding, read-only containment, and OPL-owned persistence without expanding the closed registry ABI.
+- A candidate is not visual review, publication proof, final export, owner acceptance, domain readiness, or production readiness.
+- `--self-test` is an in-memory parser check only and creates no bitmap or other file.

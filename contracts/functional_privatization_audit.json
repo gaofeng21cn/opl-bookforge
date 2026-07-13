@@ -343,45 +343,27 @@
     },
     {
       "surface_id": "image_asset_helper",
-      "private_tail_class": "publication_asset_helper",
+      "private_tail_class": "minimal_authority_handler",
       "current_paths": [
         "runtime/native_helpers/bookforge_imagegen_asset.py",
         "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json"
       ],
-      "replacement_opl_primitive": "opl_executor_required_capability_image_generation",
+      "replacement_opl_primitive": "opl_hosted_image_generation_output_injection",
       "retained_domain_authority": [
-        "project_local_figure_asset_receipt_refs",
-        "figure_asset_manifest_refs"
+        "figure_authority_receipt_candidate",
+        "image_asset_quality_debt",
+        "publication_and_export_authority"
       ],
-      "retirement_action": "retain_as_domain_specific_asset_materialization_helper_only",
-      "active_caller_boundary": "explicit_figure_asset_operation_not_provider_manager_or_runtime_queue",
+      "retirement_action": "retain_as_read_only_figure_authority_handler",
+      "active_caller_boundary": "opl_hosted_bitmap_ref_to_read_only_domain_handler",
       "forbidden_domain_repo_roles": [
         "image_provider_manager",
         "api_key_or_base_url_owner",
         "runtime_queue_owner",
+        "executor_request_builder",
+        "executor_process_transport_owner",
+        "artifact_manifest_persistence_owner",
         "publication_ready_authority"
-      ],
-      "physical_delete_authorized": false,
-      "owner_or_live_evidence_required": true
-    },
-    {
-      "surface_id": "project_hygiene_helper",
-      "private_tail_class": "diagnostic_hygiene_helper",
-      "current_paths": [
-        "runtime/native_helpers/bookforge_project_hygiene.py",
-        "runtime/native_helpers/bookforge_project_hygiene_parts/"
-      ],
-      "replacement_opl_primitive": "opl_workspace_source_hygiene_and_artifact_lifecycle_projection",
-      "retained_domain_authority": [
-        "book_specific_hygiene_findings"
-      ],
-      "retirement_action": "retain_as_deterministic_diagnostic_helper_only",
-      "active_caller_boundary": "no_default_or_generated_caller_for_retained_domain_diagnostic",
-      "forbidden_domain_repo_roles": [
-        "workspace_lifecycle_shell",
-        "session_store",
-        "status_workbench",
-        "runtime_currentness_truth"
       ],
       "physical_delete_authorized": false,
       "owner_or_live_evidence_required": true
@@ -447,10 +429,13 @@
   ],
   "modules": [
     {
-      "module_id": "opl-bookforge.generated-wrapper-handler-targets",
-      "classification": "domain_handler_target",
-      "migration_class": "domain_handler_target",
-      "code_paths": [],
+      "module_id": "opl-bookforge.declarative-stage-action-bindings",
+      "classification": "declarative_pack",
+      "migration_class": "declarative_pack",
+      "code_paths": [
+        "contracts/action_catalog.json",
+        "agent/stages/manifest.json"
+      ],
       "generated_surface_refs": [
         "contracts/generated_surface_handoff.json#/generated_surfaces/cli",
         "contracts/generated_surface_handoff.json#/generated_surfaces/mcp",
@@ -463,15 +448,16 @@
         "product_entry_manifest"
       ],
       "active_callers": [
-        "OPL StageRun account generated CLI dispatch",
+        "OPL generated CLI action dispatch",
         "OPL generated MCP",
         "OPL generated skill",
-        "OPL StageRun account generated product-entry dispatch"
+        "OPL generated product-entry action dispatch"
       ],
-      "active_caller_status": "domain_handlers_consumed_by_opl_stage_run_account_generated_surfaces_no_repo_local_default_runner",
-      "migration_action": "derive_wrapper_metadata_from_family_action_catalog_and_route_defaults_through_opl_stage_run_attempt_request",
+      "active_caller_status": "family_action_catalog_v2_stage_bindings_consumed_by_opl_generated_surfaces",
+      "migration_action": "declare_stage_manifest_binding_and_stage_route_only_while_opl_generates_runtime_commands_and_hosted_surfaces",
       "retained_domain_authority": [
-        "domain_action_handler",
+        "domain_action_semantics",
+        "stage_route_refs",
         "owner_receipt_or_typed_blocker"
       ],
       "default_entry_boundary": {
@@ -481,94 +467,30 @@
         "evidence_package_can_bypass_owner_boundary": false
       },
       "semantic_equivalence_status": "cleared_by_boundary",
-      "audit_visibility": "hidden_by_default",
-      "bridge_exit_gate": {
-        "gate_id": "opl-bookforge.default-caller-deletion.generated-wrapper-handler-targets.v1",
-        "claim_scope": "default_caller_deletion_evidence",
-        "replacement_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces",
-        "no_active_default_caller_refs": [
-          "contracts/generated_surface_handoff.json#/handoff_surfaces"
-        ],
-        "no_forbidden_write_evidence_refs": [
-          "contracts/owner_receipt_contract.json#forbidden_claims",
-          "contracts/private_functional_surface_policy.json#/taxonomy_layers/authority_function_inventory/abi/forbidden_outputs"
-        ],
-        "tombstone_refs": [
-          "contracts/generated_surface_handoff.json#/handoff_surfaces",
-          "docs/status.md#Claim Boundary"
-        ],
-        "typed_blocker_refs": [
-          "bookforge-typed-blocker:default-caller-physical-delete:generated-wrapper-handler-targets-owner-decision-required"
-        ],
-        "physical_delete_authorized": false,
-        "default_caller_delete_ready": false,
-        "ready_claim_authorized": false,
-        "forbidden_claims": [
-          "domain_repo_physical_delete_authorization",
-          "default_caller_delete_ready",
-          "domain_ready",
-          "production_ready",
-          "quality_verdict",
-          "artifact_authority"
-        ]
-      }
+      "audit_visibility": "hidden_by_default"
     },
     {
-      "module_id": "opl-bookforge.domain-handler-target",
-      "classification": "domain_handler_target",
-      "migration_class": "domain_handler_target",
+      "module_id": "opl-bookforge.authority-function-policy",
+      "classification": "declarative_pack",
+      "migration_class": "declarative_pack",
       "code_paths": [
         "runtime/authority_functions/README.md"
       ],
       "current_surface_refs": [
-        "domain_handler"
+        "authority_function_inventory"
       ],
       "active_callers": [
-        "OPL StageRun account generated domain handler dispatch"
+        "OPL pack compiler authority-function inventory"
       ],
-      "active_caller_status": "domain_handler_target_returns_owner_receipt_or_typed_blocker_to_stage_run_owner_boundary",
-      "migration_action": "route_stage_run_domain_handler_to_minimal_authority_function_targets",
+      "active_caller_status": "declarative_authority_policy_only_no_runtime_entry",
+      "migration_action": "retain_policy_as_pack_input_and_register_only_concrete_minimal_authority_callables",
       "retained_domain_authority": [
-        "owner_receipt_or_typed_blocker"
+        "quality_or_export_verdict_policy",
+        "artifact_and_memory_authority_policy",
+        "owner_receipt_policy"
       ],
-      "default_entry_boundary": {
-        "default_entry_surface_kind": "opl_stage_run_attempt_request",
-        "direct_domain_cli_is_default_entry": false,
-        "repo_local_stage_run_runner_active": false,
-        "evidence_package_can_bypass_owner_boundary": false
-      },
       "semantic_equivalence_status": "cleared_by_boundary",
-      "audit_visibility": "hidden_by_default",
-      "bridge_exit_gate": {
-        "gate_id": "opl-bookforge.default-caller-deletion.domain-handler-target.v1",
-        "claim_scope": "default_caller_deletion_evidence",
-        "replacement_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces",
-        "no_active_default_caller_refs": [
-          "contracts/generated_surface_handoff.json#/handoff_surfaces"
-        ],
-        "no_forbidden_write_evidence_refs": [
-          "contracts/owner_receipt_contract.json#forbidden_claims",
-          "contracts/private_functional_surface_policy.json#/taxonomy_layers/authority_function_inventory/abi/forbidden_outputs"
-        ],
-        "tombstone_refs": [
-          "contracts/generated_surface_handoff.json#/handoff_surfaces",
-          "docs/status.md#Claim Boundary"
-        ],
-        "typed_blocker_refs": [
-          "bookforge-typed-blocker:default-caller-physical-delete:domain-handler-target-owner-decision-required"
-        ],
-        "physical_delete_authorized": false,
-        "default_caller_delete_ready": false,
-        "ready_claim_authorized": false,
-        "forbidden_claims": [
-          "domain_repo_physical_delete_authorization",
-          "default_caller_delete_ready",
-          "domain_ready",
-          "production_ready",
-          "quality_verdict",
-          "artifact_authority"
-        ]
-      }
+      "audit_visibility": "hidden_by_default"
     },
     {
       "module_id": "opl-bookforge.refs-only-status-and-workbench-projection",
@@ -659,8 +581,8 @@
     },
     {
       "module_id": "opl-bookforge.image-asset-helper",
-      "classification": "native_helper_implementation",
-      "migration_class": "native_helper_implementation",
+      "classification": "minimal_authority_function",
+      "migration_class": "minimal_authority_function",
       "code_paths": [
         "runtime/native_helpers/bookforge_imagegen_asset.py",
         "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json"
@@ -669,41 +591,18 @@
         "image_asset_helper"
       ],
       "active_callers": [
-        "Book Forge explicit figure asset materialization operation"
+        "OPL hosted image output handler_ref invocation",
+        "OPL pack native-helper diagnostic probe"
       ],
-      "active_caller_status": "domain_specific_asset_helper_not_provider_manager_or_runtime_queue",
-      "migration_action": "delegate executable readback to opl_pack_native_helper_probe and all executor discovery, image_generation activation, process transport, and executor receipt parsing to opl_executor_run; keep only the domain prompt, project-local bitmap validation, and figure receipt materialization",
-      "cannot_absorb_reason": "Book Forge owns the domain prompt, project-local figure asset refs, bitmap validation, and receipt shape; OPL Runway owns executor discovery, capability activation, process transport, and executor receipt semantics.",
-      "receipt_schema_ref": "contracts/image_generation_executor_handoff.json",
-      "no_forbidden_write_evidence_ref": "contracts/private_functional_surface_policy.json#/taxonomy_layers/authority_function_inventory/abi/forbidden_outputs",
+      "active_caller_status": "read_only_domain_handler_registered",
+      "migration_action": "consume only OPL host-injected attempt/output refs plus a contained bitmap ref and digest; return a figure authority receipt candidate or quality debt without spawning, generating, copying, or persisting files",
+      "cannot_absorb_reason": "OPL owns image generation and persistence; Book Forge must retain bitmap/figure semantic validation and publication/export authority.",
+      "receipt_schema_ref": "contracts/image_asset_host_handoff.json",
+      "no_forbidden_write_evidence_ref": "contracts/image_asset_host_handoff.json#/forbidden_domain_effects",
       "retained_domain_authority": [
-        "project_local_figure_asset_receipt_refs",
-        "figure_asset_manifest_refs"
-      ],
-      "semantic_equivalence_status": "cleared_by_boundary",
-      "audit_visibility": "hidden_by_default"
-    },
-    {
-      "module_id": "opl-bookforge.project-hygiene-helper",
-      "classification": "native_helper_implementation",
-      "migration_class": "diagnostic_cleanup_path",
-      "code_paths": [
-        "runtime/native_helpers/bookforge_project_hygiene.py",
-        "runtime/native_helpers/bookforge_project_hygiene_parts/"
-      ],
-      "current_surface_refs": [
-        "project_hygiene_helper"
-      ],
-      "active_default_caller_allowed": false,
-      "active_caller_allowed": false,
-      "active_callers": [],
-      "active_caller_status": "no_active_caller_retained_domain_diagnostic",
-      "migration_action": "retire every default and generated caller; OPL owns repo source hygiene and lifecycle projection while this retained diagnostic has no operational entrypoint",
-      "cannot_absorb_reason": "The retained checks encode concrete Book Forge manuscript/source regressions; OPL owns source-byproduct guarding and lifecycle projection.",
-      "receipt_schema_ref": "contracts/artifact_lifecycle_handoff.json",
-      "no_forbidden_write_evidence_ref": "contracts/workspace_lifecycle_policy.json#byproduct_policy.repo_source_byproduct_guard",
-      "retained_domain_authority": [
-        "book_specific_hygiene_findings"
+        "figure_authority_receipt_candidate",
+        "image_asset_quality_debt",
+        "publication_and_export_authority"
       ],
       "semantic_equivalence_status": "cleared_by_boundary",
       "audit_visibility": "hidden_by_default"

@@ -11,6 +11,92 @@
     "pdftoppm",
     "pdffonts"
   ],
+  "source_closure": {
+    "surface_kind": "opl_native_helper_source_closure",
+    "version": "opl-native-helper-source-closure.v1",
+    "effect_slots": [
+      {
+        "slot_id": "pandoc_ast_process",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "image_refs_from_pandoc_ast",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pandoc"
+        ]
+      },
+      {
+        "slot_id": "pdf_compile_process",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "compile_pdf",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pandoc"
+        ]
+      },
+      {
+        "slot_id": "pdf_font_inspection_process",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "inspect_pdf_fonts",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pdffonts"
+        ]
+      },
+      {
+        "slot_id": "pdf_page_render_process",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "render_pdf_pages",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pdftoppm"
+        ]
+      },
+      {
+        "slot_id": "pdf_compile_artifact_write",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "compile_pdf",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "filesystem_write",
+        "target_policy": "declared_artifact_write_slot",
+        "allowed_targets": []
+      },
+      {
+        "slot_id": "png_visual_metrics_read_slot",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "png_visual_metrics",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "filesystem_write",
+        "target_policy": "declared_artifact_write_slot",
+        "allowed_targets": []
+      },
+      {
+        "slot_id": "pdf_page_render_artifact_write",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "render_pdf_pages",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "filesystem_write",
+        "target_policy": "declared_artifact_write_slot",
+        "allowed_targets": []
+      },
+      {
+        "slot_id": "manifest_artifact_write",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "write_manifest",
+        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "effect_kind": "filesystem_write",
+        "target_policy": "declared_artifact_write_slot",
+        "allowed_targets": []
+      }
+    ]
+  },
   "authority_boundary": {
     "can_write_domain_truth": false,
     "can_mutate_artifact_body": false,

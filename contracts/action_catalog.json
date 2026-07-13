@@ -1,6 +1,6 @@
 {
   "surface_kind": "family_action_catalog",
-  "version": "family-action-catalog.v1",
+  "version": "family-action-catalog.v2",
   "catalog_id": "opl_bookforge_action_catalog",
   "target_domain_id": "opl-bookforge",
   "owner": "OPL Book Forge",
@@ -67,9 +67,9 @@
       "natural_language_intent": "Shape or repair a book's premise, reader promise, argument arc, evidence-aware chapter architecture, and owner handoff without drafting or exporting the book.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
-      "source_command": {
-        "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-        "surface_kind": "opl_stage_run_attempt_request"
+      "execution_binding": {
+        "kind": "stage_binding",
+        "stage_manifest_ref": "agent/stages/manifest.json"
       },
       "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
       "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
@@ -95,24 +95,17 @@
         "route_policy": "ai_selected_progress_route"
       },
       "supported_surfaces": {
-        "cli": {
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
-        },
+        "cli": {},
         "mcp": {
           "tool_name": "opl_bookforge_shape_storyline",
-          "surface_kind": "opl_generated_mcp_descriptor",
           "descriptor_only": true,
           "public_runtime": false
         },
         "skill": {
-          "command_contract_id": "opl-bookforge.shape-storyline",
-          "surface_kind": "opl_generated_skill_contract"
+          "command_contract_id": "opl-bookforge.shape-storyline"
         },
         "product_entry": {
-          "action_key": "shape-storyline",
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
+          "action_key": "shape-storyline"
         },
         "openai": {
           "tool_name": "opl_bookforge_shape_storyline"
@@ -163,9 +156,9 @@
       "natural_language_intent": "Continue from approved current storyline refs through incremental chapter planning and drafting, independent source/style integrity review, and the requested owner-gated review/proof/export handoff.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
-      "source_command": {
-        "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-        "surface_kind": "opl_stage_run_attempt_request"
+      "execution_binding": {
+        "kind": "stage_binding",
+        "stage_manifest_ref": "agent/stages/manifest.json"
       },
       "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
       "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
@@ -194,24 +187,17 @@
         "route_policy": "ai_selected_progress_route"
       },
       "supported_surfaces": {
-        "cli": {
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
-        },
+        "cli": {},
         "mcp": {
           "tool_name": "opl_bookforge_materialize_book",
-          "surface_kind": "opl_generated_mcp_descriptor",
           "descriptor_only": true,
           "public_runtime": false
         },
         "skill": {
-          "command_contract_id": "opl-bookforge.materialize-book",
-          "surface_kind": "opl_generated_skill_contract"
+          "command_contract_id": "opl-bookforge.materialize-book"
         },
         "product_entry": {
-          "action_key": "materialize-book",
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
+          "action_key": "materialize-book"
         },
         "openai": {
           "tool_name": "opl_bookforge_materialize_book"

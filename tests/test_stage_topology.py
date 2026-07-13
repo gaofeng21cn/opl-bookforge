@@ -228,15 +228,22 @@ def main() -> int:
             "terminal_stage_refs": [required_stage_refs[-1]],
             "route_policy": "ai_selected_progress_route",
         }
+        assert action["execution_binding"] == {
+            "kind": "stage_binding",
+            "stage_manifest_ref": "agent/stages/manifest.json",
+        }
+        assert "source_command" not in action
+        assert "stage_route_exempt" not in action
+        assert "handler_binding" not in action
+        for surface in action["supported_surfaces"].values():
+            assert "command" not in surface
+            assert "surface_kind" not in surface
 
     materialize = actions["materialize-book"]
     assert actions["shape-storyline"]["natural_language_intent"] != materialize["natural_language_intent"]
     assert "without drafting or exporting" in actions["shape-storyline"]["natural_language_intent"]
     assert "incremental chapter planning" in materialize["natural_language_intent"]
-    expected_command = "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal "
-    assert materialize["source_command"]["command"].startswith(expected_command)
-    assert materialize["supported_surfaces"]["cli"]["command"] == materialize["source_command"]["command"]
-    assert materialize["supported_surfaces"]["product_entry"]["command"] == materialize["source_command"]["command"]
+    assert materialize["stage_route"]["entry_stage_ref"] == "chapter-production-planning"
     assert materialize["human_gate_ids"] == ["chapter_planning_owner_review"]
 
     assert golden_path["ordinary_path"]["stage_refs"] == ["storyline-architecture"]
