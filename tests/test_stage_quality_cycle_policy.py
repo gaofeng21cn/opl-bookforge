@@ -95,3 +95,15 @@ def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
                 walk(child)
 
     walk(profile)
+
+
+def main() -> int:
+    test_bookforge_declares_isolated_stage_review_for_every_ai_producer()
+    test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()
+    test_quality_policy_does_not_define_nested_stage_or_owner_graphs()
+    print(json.dumps({"status": "passed", "contract": "stage_quality_cycle_policy"}))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
