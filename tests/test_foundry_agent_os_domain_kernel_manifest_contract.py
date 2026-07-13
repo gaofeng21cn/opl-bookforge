@@ -97,10 +97,8 @@ def main() -> int:
         "default_project_id": "book-001",
         "required_locator_fields": ["workspace_root"],
         "optional_locator_fields": [],
-        "entry_command_template": None,
-        "manifest_command_template": None,
     }
-    assert standard_interface["runtime"]["dispatch_command"] is None
+    assert set(standard_interface["runtime"]) == {"runtime_domain_id", "registration_ref"}
     assert standard_interface["progress"]["deliverable_delta_aliases"] == [
         "book_manuscript_progress_delta"
     ]

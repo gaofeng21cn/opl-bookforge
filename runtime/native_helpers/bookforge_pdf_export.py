@@ -19,6 +19,7 @@ from bookforge_pdf_export_parts.profile_and_assets import (
     DEFAULT_PUBLICATION_PROFILE,
     figure_manifest_readiness,
     file_refs_exist,
+    image_refs_from_pandoc_document,
     markdown_image_refs,
     profile_list,
     read_json_object,
@@ -103,6 +104,25 @@ def write_manifest(path: Path | None, payload: dict[str, Any]) -> None:
 
 def command_exists(name: str) -> bool:
     return shutil.which(name) is not None
+
+
+def image_refs_from_pandoc_ast(source_md: Path, root: Path) -> list[str] | None:
+    if not command_exists("pandoc"):
+        return None
+    result = subprocess.run(
+        ["pandoc", str(source_md), "-t", "json"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    try:
+        document = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return None
+    return image_refs_from_pandoc_document(document)
 
 
 def as_mapping(value: Any) -> dict[str, Any]:
@@ -706,7 +726,14 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
             error=f"source Markdown not found: {source_md}",
         )
 
-    payload["markdown_image_refs"] = markdown_image_refs(source_md, resource_paths, root)
+    pandoc_image_refs = image_refs_from_pandoc_ast(source_md, root)
+    payload["markdown_image_refs"] = markdown_image_refs(
+        source_md,
+        resource_paths,
+        root,
+        extracted_refs=pandoc_image_refs,
+        extraction_method="pandoc_ast" if pandoc_image_refs is not None else None,
+    )
     if args.backend != "pandoc-xelatex":
         return materialize_progress_diagnostic(
             payload,
@@ -872,7 +899,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    missing = [name for name in ("source_md", "output_pdf") if getattr(args, name) is None]
+    missing = []
+    if args.source_md is None:
+        missing.append("source_md")
+    if args.output_pdf is None:
+        missing.append("output_pdf")
     if missing:
         print(f"missing required arguments: {', '.join('--' + name.replace('_', '-') for name in missing)}", file=sys.stderr)
         return 2

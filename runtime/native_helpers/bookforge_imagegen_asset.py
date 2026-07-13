@@ -1,548 +1,580 @@
 #!/usr/bin/env python3
+"""Validate an OPL-hosted bitmap and return a Book Forge authority candidate."""
+
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
 import os
-import re
-import subprocess
+import stat
 import sys
-import tempfile
 import zlib
 from pathlib import Path
 from typing import Any
 
 
-VERSION = "bookforge-imagegen-asset.v2"
+VERSION = "bookforge-imagegen-asset.v3"
+REQUEST_KIND = "opl_bookforge_host_bitmap_validation_request"
+RESULT_KIND = "opl_bookforge_figure_asset_evaluation"
+RECEIPT_KIND = "bookforge_figure_authority_receipt_candidate.v1"
+MAX_BITMAP_BYTES = 64 * 1024 * 1024
+MAX_PNG_DECOMPRESSED_BYTES = 256 * 1024 * 1024
+PNG_DECOMPRESS_CHUNK_BYTES = 1024 * 1024
+ALLOWED_FORMATS = {"png", "jpeg", "jpg", "webp"}
+ALLOWED_MEDIA_TYPES = {"image/png", "image/jpeg", "image/webp"}
 
 
-def safe_text(value: Any, default: str = "") -> str:
+class RequestShapeError(ValueError):
+    pass
+
+
+class AssetValidationError(ValueError):
+    def __init__(self, code: str, detail: str) -> None:
+        super().__init__(detail)
+        self.code = code
+        self.detail = detail
+
+
+def record(value: Any, field: str) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise RequestShapeError(f"{field} must be an object")
+    return value
+
+
+def required_text(value: Any, field: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise RequestShapeError(f"{field} must be a non-empty string")
+    return value.strip()
+
+
+def optional_text(value: Any, field: str) -> str | None:
     if value is None:
-        return default
-    text = str(value).strip()
-    return text if text else default
-
-
-def rel(path: Path, root: Path) -> str:
-    try:
-        return str(path.resolve().relative_to(root.resolve()))
-    except ValueError:
-        return str(path.resolve())
-
-
-def project_path(root: Path, path: Path | None) -> Path | None:
-    if path is None:
         return None
-    expanded = path.expanduser()
-    if expanded.is_absolute():
-        return expanded.resolve()
-    return (root / expanded).resolve()
+    return required_text(value, field)
+
+
+def reject_unknown_fields(value: dict[str, Any], allowed: set[str], field: str) -> None:
+    unknown = sorted(set(value) - allowed)
+    if unknown:
+        raise RequestShapeError(f"{field} contains unsupported fields: {', '.join(unknown)}")
+
+
+def normalize_sha256(value: Any, field: str) -> str:
+    digest = required_text(value, field).lower()
+    if digest.startswith("sha256:"):
+        digest = digest[7:]
+    if len(digest) != 64 or any(character not in "0123456789abcdef" for character in digest):
+        raise RequestShapeError(f"{field} must be a SHA-256 digest")
+    return f"sha256:{digest}"
+
+
+def normalize_format(value: str) -> str:
+    normalized = value.lower().lstrip(".")
+    return "jpeg" if normalized == "jpg" else normalized
 
 
 def sha256_bytes(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+    return f"sha256:{hashlib.sha256(data).hexdigest()}"
 
 
-def write_json(path: Path | None, payload: dict[str, Any]) -> None:
-    if path is None:
-        return
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+def validate_png_idat_stream(payloads: list[bytes]) -> None:
+    decompressor = zlib.decompressobj()
+    decoded_bytes = 0
+    try:
+        for payload in payloads:
+            pending = payload
+            while pending:
+                remaining = MAX_PNG_DECOMPRESSED_BYTES - decoded_bytes
+                if remaining <= 0:
+                    raise AssetValidationError(
+                        "bitmap_decoded_size_exceeded",
+                        f"PNG decompressed payload exceeds {MAX_PNG_DECOMPRESSED_BYTES} bytes",
+                    )
+                chunk = decompressor.decompress(
+                    pending,
+                    min(PNG_DECOMPRESS_CHUNK_BYTES, remaining + 1),
+                )
+                decoded_bytes += len(chunk)
+                if decoded_bytes > MAX_PNG_DECOMPRESSED_BYTES:
+                    raise AssetValidationError(
+                        "bitmap_decoded_size_exceeded",
+                        f"PNG decompressed payload exceeds {MAX_PNG_DECOMPRESSED_BYTES} bytes",
+                    )
+                pending = decompressor.unconsumed_tail
+        if not decompressor.eof or decompressor.unused_data:
+            raise AssetValidationError("bitmap_structure_invalid", "PNG IDAT stream is incomplete or has trailing data")
+    except zlib.error as error:
+        raise AssetValidationError("bitmap_structure_invalid", f"PNG IDAT payload is invalid: {error}") from error
 
 
-def read_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def read_prompt(args: argparse.Namespace) -> str:
-    if args.prompt_file:
-        return args.prompt_file.read_text(encoding="utf-8").strip()
-    return safe_text(args.prompt)
-
-
-def png_chunk(kind: bytes, data: bytes) -> bytes:
-    payload = kind + data
-    return len(data).to_bytes(4, "big") + kind + data + (zlib.crc32(payload) & 0xFFFFFFFF).to_bytes(4, "big")
-
-
-def mock_png(width: int, height: int, seed: str) -> bytes:
-    digest = hashlib.sha256(seed.encode("utf-8")).digest()
-    bg = (248, 246, 238, 255)
-    accent = tuple(80 + (value % 120) for value in digest[:3]) + (255,)
-    raw_rows: list[bytes] = []
-    for y in range(height):
-        row = bytearray([0])
-        for x in range(width):
-            band = ((x + int(y * 1.3)) % 173) < 4
-            marker = (
-                width * 0.08 < x < width * 0.92
-                and height * 0.16 < y < height * 0.84
-                and ((x // 53 + y // 41) % 13 == 0)
-            )
-            row.extend(accent if band or marker else bg)
-        raw_rows.append(bytes(row))
-    ihdr = width.to_bytes(4, "big") + height.to_bytes(4, "big") + bytes([8, 6, 0, 0, 0])
-    return (
-        b"\x89PNG\r\n\x1a\n"
-        + png_chunk(b"IHDR", ihdr)
-        + png_chunk(b"IDAT", zlib.compress(b"".join(raw_rows), 6))
-        + png_chunk(b"IEND", b"")
-    )
-
-
-def image_info(path: Path) -> dict[str, Any]:
-    data = path.read_bytes()
-    if len(data) >= 24 and data[:8] == b"\x89PNG\r\n\x1a\n":
-        return {
-            "kind": "png",
-            "width": int.from_bytes(data[16:20], "big"),
-            "height": int.from_bytes(data[20:24], "big"),
-            "sha256": sha256_bytes(data),
-            "bytes": len(data),
-        }
-    if len(data) >= 12 and data[:4] == b"RIFF" and data[8:12] == b"WEBP":
-        return {
-            "kind": "webp",
-            "width": None,
-            "height": None,
-            "sha256": sha256_bytes(data),
-            "bytes": len(data),
-        }
-    if len(data) >= 4 and data[:2] == b"\xff\xd8":
-        return {
-            "kind": "jpeg",
-            "width": None,
-            "height": None,
-            "sha256": sha256_bytes(data),
-            "bytes": len(data),
-        }
-    raise ValueError(f"not a supported bitmap image: {path}")
-
-
-def build_task_prompt(args: argparse.Namespace, output_file: Path, prompt: str) -> str:
-    tool_options = {
-        "type": "image_generation",
-        "size": args.size,
-        "quality": args.quality,
-        "format": output_file.suffix.lower().lstrip(".") or "png",
-        "background": "opaque",
-    }
-    return "\n".join([
-        "你是 OPL Book Forge 的 Codex executor，负责执行书稿插图资产生成任务。",
-        "必须显式使用 $imagegen 或 Codex 原生 image_generation 能力生成 raster bitmap。不要使用脚本绘图、SVG、HTML 截图、占位图、外部 curl/fetch、显式 Base URL、显式 API key 或 OPENAI_API_KEY。",
-        "最终 bitmap 必须由本次 OPL executor task 直接物化到指定 output_file；其他位置的预览或临时图片不计为书稿资产。",
-        "如果无法生成或无法落盘，返回 JSON blocker，不要伪造图片。",
-        f"bookforge_helper_version: {VERSION}",
-        f"figure_id: {args.figure_id}",
-        f"title: {args.title}",
-        f"output_file: {output_file}",
-        f"style_reference: {args.style_reference or ''}",
-        f"image_tool_options: {json.dumps(tool_options, ensure_ascii=False)}",
-        "",
-        "Image prompt:",
-        prompt,
-        "",
-        "完成后只回复一行 JSON，不要附加说明：",
-        json.dumps({
-            "ok": True,
-            "mode": "codex_native_imagegen",
-            "image_file": str(output_file),
-        }, ensure_ascii=False),
-    ])
-
-
-def build_opl_executor_request(
-    args: argparse.Namespace,
-    root: Path,
-    output_file: Path,
-    prompt: str,
-) -> dict[str, Any]:
-    request: dict[str, Any] = {
-        "executor_kind": "codex_cli",
-        "mode": "bookforge_project_image_asset",
-        "prompt": build_task_prompt(args, output_file, prompt),
-        "cwd": str(root),
-        "timeout_ms": args.timeout * 1000,
-        "json": True,
-        "required_capabilities": ["image_generation"],
-        "domain_payload": {
-            "domain_id": "opl-bookforge",
-            "artifact_role": args.artifact_role,
-            "figure_id": args.figure_id,
-            "output_ref": rel(output_file, root),
-        },
-    }
-    if args.model:
-        request["model"] = args.model
-    if args.reasoning_effort:
-        request["reasoning_effort"] = args.reasoning_effort
-    return request
-
-
-def read_opl_executor_receipt(stdout: str) -> dict[str, Any]:
-    response = json.loads(stdout)
-    if not isinstance(response, dict):
-        raise ValueError("OPL executor response must be a JSON object")
-    receipt = response.get("agent_execution_receipt")
-    if not isinstance(receipt, dict):
-        raise ValueError("OPL executor response has no agent_execution_receipt")
-    return receipt
-
-
-def base_payload(args: argparse.Namespace, root: Path, output_file: Path, prompt: str) -> dict[str, Any]:
-    return {
-        "surface_kind": "bookforge_imagegen_asset",
-        "version": VERSION,
-        "artifact_role": args.artifact_role,
-        "figure_id": args.figure_id,
-        "title": args.title,
-        "root": str(root),
-        "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
-        "output_file": rel(output_file, root),
-        "status": "blocked",
-        "blocker_kind": None,
-        "error": None,
-        "asset": None,
-        "generation_runtime": None,
-        "quality_boundary": {
-            "uses_codex_native_imagegen": True,
-            "project_local_bitmap_required": True,
-            "chat_preview_only_is_not_asset": True,
-            "script_drawn_or_svg_final_figure_allowed": False,
-            "explicit_provider_token_required": False,
-            "provider_token_persisted": False,
-        },
-    }
-
-
-def materialize_progress_diagnostic(
-    payload: dict[str, Any],
-    *,
-    code: str,
-    error: str,
-) -> dict[str, Any]:
-    payload["status"] = "completed_with_quality_debt"
-    payload["blocker_kind"] = None
-    payload["error"] = error
-    payload["progress_diagnostic"] = {
-        "code": code,
-        "detail": error,
-        "no_output": payload.get("asset") is None,
-        "blocks_stage_transition": False,
-        "blocks_quality_export_or_ready_claims": True,
-        "next_stage_may_start": True,
-        "route_selection_owner": "codex_cli",
-    }
-    return payload
-
-
-def update_asset_manifest(asset_manifest: Path | None, receipt_path: Path | None, receipt: dict[str, Any], root: Path) -> None:
-    if asset_manifest is None:
-        return
-    if not asset_manifest.exists():
-        raise FileNotFoundError(f"asset manifest does not exist: {asset_manifest}")
-
-    payload = read_json(asset_manifest)
-    figures = payload.get("figures")
-    if not isinstance(figures, list):
-        raise ValueError(f"asset manifest has no figures list: {asset_manifest}")
-
-    figure_id = safe_text(receipt.get("figure_id"))
-    if not figure_id:
-        raise ValueError("receipt has no figure_id")
-
-    target = None
-    for item in figures:
-        if isinstance(item, dict) and item.get("id") == figure_id:
-            target = item
+def png_info(data: bytes) -> tuple[int, int] | None:
+    if not data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return None
+    if len(data) < 33 or data[8:12] != b"\x00\x00\x00\x0d" or data[12:16] != b"IHDR":
+        raise AssetValidationError("bitmap_structure_invalid", "PNG has no valid IHDR chunk")
+    width = int.from_bytes(data[16:20], "big")
+    height = int.from_bytes(data[20:24], "big")
+    offset = 8
+    idat_payloads: list[bytes] = []
+    saw_idat = False
+    saw_iend = False
+    while offset + 12 <= len(data):
+        chunk_size = int.from_bytes(data[offset:offset + 4], "big")
+        chunk_end = offset + 12 + chunk_size
+        if chunk_end > len(data):
+            raise AssetValidationError("bitmap_structure_invalid", "PNG contains a truncated chunk")
+        kind = data[offset + 4:offset + 8]
+        payload = data[offset + 8:offset + 8 + chunk_size]
+        expected_crc = int.from_bytes(data[offset + 8 + chunk_size:chunk_end], "big")
+        observed_crc = zlib.crc32(kind + payload) & 0xFFFFFFFF
+        if expected_crc != observed_crc:
+            raise AssetValidationError("bitmap_structure_invalid", f"PNG {kind!r} chunk CRC mismatch")
+        saw_idat = saw_idat or kind == b"IDAT"
+        if kind == b"IDAT":
+            idat_payloads.append(payload)
+        saw_iend = saw_iend or kind == b"IEND"
+        offset = chunk_end
+        if saw_iend:
             break
-    if target is None:
-        raise ValueError(f"figure id not found in asset manifest: {figure_id}")
-
-    status = safe_text(receipt.get("status"), "blocked")
-    target["asset_status"] = status
-    target["receipt_ref"] = rel(receipt_path, root) if receipt_path else None
-    target["blocker_kind"] = receipt.get("blocker_kind")
-    target.pop("preview_note", None)
-    target["prompt_sha256"] = receipt.get("prompt_sha256")
-    if receipt.get("error"):
-        target["error"] = receipt.get("error")
-    else:
-        target.pop("error", None)
-
-    if status == "asset_ready":
-        asset = receipt.get("asset") or {}
-        runtime = receipt.get("generation_runtime") or {}
-        target["project_local_path"] = asset.get("path") or receipt.get("output_file")
-        target["asset"] = {
-            key: asset.get(key)
-            for key in ("kind", "width", "height", "bytes", "sha256")
-            if key in asset
-        }
-        target["generation_runtime"] = {
-            key: runtime.get(key)
-            for key in (
-                "provider",
-                "task_surface",
-                "imagegen_mode",
-                "session_id",
-                "requested_capabilities",
-                "activated_capabilities",
-                "materialized_by",
-                "provider_token_source",
-            )
-            if key in runtime
-        }
-        target["review_result"] = "Generated through Book Forge native imagegen helper; visual review still required before publication proof."
-    else:
-        target.pop("asset", None)
-        target.pop("generation_runtime", None)
-        target.pop("review_result", None)
-
-    write_json(asset_manifest, payload)
+    if not saw_idat or not saw_iend:
+        raise AssetValidationError("bitmap_structure_invalid", "PNG must contain IDAT and IEND chunks")
+    validate_png_idat_stream(idat_payloads)
+    return width, height
 
 
-def generate_mock(args: argparse.Namespace, root: Path, output_file: Path, prompt: str) -> dict[str, Any]:
-    payload = base_payload(args, root, output_file, prompt)
-    width, height = parse_size(args.size)
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    output_file.write_bytes(mock_png(width, height, f"{args.figure_id}:{prompt}"))
-    info = image_info(output_file)
-    payload["status"] = "asset_ready"
-    payload["asset"] = {
-        "path": rel(output_file, root),
-        **info,
+def jpeg_info(data: bytes) -> tuple[int, int] | None:
+    if not data.startswith(b"\xff\xd8"):
+        return None
+    offset = 2
+    start_of_frame = {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}
+    while offset < len(data):
+        while offset < len(data) and data[offset] != 0xFF:
+            offset += 1
+        while offset < len(data) and data[offset] == 0xFF:
+            offset += 1
+        if offset >= len(data):
+            break
+        marker = data[offset]
+        offset += 1
+        if marker in {0x01, *range(0xD0, 0xD8)}:
+            continue
+        if marker in {0xD9, 0xDA}:
+            break
+        if offset + 2 > len(data):
+            break
+        segment_length = int.from_bytes(data[offset:offset + 2], "big")
+        if segment_length < 2 or offset + segment_length > len(data):
+            raise AssetValidationError("bitmap_structure_invalid", "JPEG contains a truncated segment")
+        if marker in start_of_frame:
+            if segment_length < 7:
+                raise AssetValidationError("bitmap_structure_invalid", "JPEG SOF segment is too short")
+            height = int.from_bytes(data[offset + 3:offset + 5], "big")
+            width = int.from_bytes(data[offset + 5:offset + 7], "big")
+            remainder = data[offset + segment_length:]
+            if b"\xff\xda" not in remainder:
+                raise AssetValidationError("bitmap_structure_invalid", "JPEG has no SOS marker")
+            if b"\xff\xd9" not in remainder:
+                raise AssetValidationError("bitmap_structure_invalid", "JPEG has no EOI marker")
+            return width, height
+        offset += segment_length
+    raise AssetValidationError("bitmap_dimensions_missing", "JPEG has no supported SOF dimensions")
+
+
+def webp_info(data: bytes) -> tuple[int, int] | None:
+    if len(data) < 12 or data[:4] != b"RIFF" or data[8:12] != b"WEBP":
+        return None
+    declared_size = int.from_bytes(data[4:8], "little") + 8
+    if declared_size > len(data):
+        raise AssetValidationError("bitmap_structure_invalid", "WebP RIFF payload is truncated")
+    offset = 12
+    while offset + 8 <= len(data):
+        chunk_kind = data[offset:offset + 4]
+        chunk_size = int.from_bytes(data[offset + 4:offset + 8], "little")
+        payload_start = offset + 8
+        payload_end = payload_start + chunk_size
+        if payload_end > len(data):
+            raise AssetValidationError("bitmap_structure_invalid", "WebP contains a truncated chunk")
+        payload = data[payload_start:payload_end]
+        if chunk_kind == b"VP8X" and len(payload) >= 10:
+            width = 1 + int.from_bytes(payload[4:7], "little")
+            height = 1 + int.from_bytes(payload[7:10], "little")
+            return width, height
+        if chunk_kind == b"VP8L" and len(payload) >= 5 and payload[0] == 0x2F:
+            dimensions = int.from_bytes(payload[1:5], "little")
+            return 1 + (dimensions & 0x3FFF), 1 + ((dimensions >> 14) & 0x3FFF)
+        if chunk_kind == b"VP8 " and len(payload) >= 10 and payload[3:6] == b"\x9d\x01\x2a":
+            width = int.from_bytes(payload[6:8], "little") & 0x3FFF
+            height = int.from_bytes(payload[8:10], "little") & 0x3FFF
+            return width, height
+        offset = payload_end + (chunk_size % 2)
+    raise AssetValidationError("bitmap_dimensions_missing", "WebP has no supported dimension chunk")
+
+
+def image_info(data: bytes, path: Path) -> dict[str, Any]:
+    if not data:
+        raise AssetValidationError("bitmap_empty", "bitmap is empty")
+    detected: tuple[str, str, tuple[int, int] | None] = (
+        "png",
+        "image/png",
+        png_info(data),
+    )
+    if detected[2] is None:
+        detected = ("jpeg", "image/jpeg", jpeg_info(data))
+    if detected[2] is None:
+        detected = ("webp", "image/webp", webp_info(data))
+    if detected[2] is None:
+        raise AssetValidationError("bitmap_format_unsupported", "asset is not PNG, JPEG, or WebP")
+    kind, media_type, dimensions = detected
+    if dimensions is None or dimensions[0] <= 0 or dimensions[1] <= 0:
+        raise AssetValidationError("bitmap_dimensions_invalid", "bitmap dimensions must be positive")
+    suffix = normalize_format(path.suffix)
+    if suffix != kind:
+        raise AssetValidationError(
+            "bitmap_extension_mismatch",
+            f"bitmap bytes are {kind} but the file extension is {path.suffix or '<none>'}",
+        )
+    return {
+        "format": kind,
+        "media_type": media_type,
+        "width": dimensions[0],
+        "height": dimensions[1],
+        "bytes": len(data),
+        "sha256": sha256_bytes(data),
     }
-    payload["generation_runtime"] = {
-        "provider": "mock",
-        "task_surface": "bookforge_imagegen_asset_mock",
-        "imagegen_mode": "mock_no_provider_call",
-        "token_persisted": False,
+
+
+def read_contained_regular_file(root_value: str, ref_value: str) -> tuple[Path, Path, bytes]:
+    root_input = Path(root_value)
+    if not root_input.is_absolute():
+        raise AssetValidationError("workspace_root_not_absolute", "workspace root must be an absolute host path")
+    try:
+        root = root_input.resolve(strict=True)
+    except OSError as error:
+        raise AssetValidationError("workspace_root_unavailable", str(error)) from error
+    if not root.is_dir():
+        raise AssetValidationError("workspace_root_not_directory", f"workspace root is not a directory: {root}")
+
+    ref = Path(ref_value)
+    if (
+        ref.is_absolute()
+        or not ref.parts
+        or ref.as_posix() != ref_value
+        or any(part in {"", ".", ".."} for part in ref.parts)
+    ):
+        raise AssetValidationError("bitmap_ref_not_contained", "bitmap_ref must be a normalized workspace-relative path")
+
+    cursor = root
+    for part in ref.parts:
+        cursor = cursor / part
+        if cursor.is_symlink():
+            raise AssetValidationError("bitmap_ref_symlink", f"bitmap_ref traverses a symlink: {ref_value}")
+    candidate = root / ref
+    try:
+        resolved = candidate.resolve(strict=True)
+        resolved.relative_to(root)
+    except FileNotFoundError as error:
+        raise AssetValidationError("bitmap_unavailable", str(error)) from error
+    except (OSError, ValueError) as error:
+        raise AssetValidationError("bitmap_ref_not_contained", str(error)) from error
+
+    try:
+        with resolved.open("rb") as stream:
+            opened = os.fstat(stream.fileno())
+            before = os.stat(resolved, follow_symlinks=False)
+            if not stat.S_ISREG(opened.st_mode) or not stat.S_ISREG(before.st_mode):
+                raise AssetValidationError("bitmap_not_regular_file", f"bitmap_ref is not a regular file: {ref_value}")
+            if (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino):
+                raise AssetValidationError("bitmap_identity_changed", f"bitmap_ref changed while opening: {ref_value}")
+            if opened.st_size > MAX_BITMAP_BYTES:
+                raise AssetValidationError(
+                    "bitmap_too_large",
+                    f"bitmap exceeds the {MAX_BITMAP_BYTES}-byte validation limit: {opened.st_size}",
+                )
+            data = stream.read()
+            after = os.stat(resolved, follow_symlinks=False)
+            if (
+                opened.st_dev,
+                opened.st_ino,
+                opened.st_size,
+                opened.st_mtime_ns,
+            ) != (
+                after.st_dev,
+                after.st_ino,
+                after.st_size,
+                after.st_mtime_ns,
+            ) or len(data) != opened.st_size:
+                raise AssetValidationError("bitmap_identity_changed", f"bitmap_ref changed while reading: {ref_value}")
+    except OSError as error:
+        raise AssetValidationError("bitmap_unavailable", str(error)) from error
+    return root, resolved, data
+
+
+def request_parts(request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    reject_unknown_fields(
+        request,
+        {"surface_kind", "schema_version", "host_context", "bitmap", "figure"},
+        "request",
+    )
+    if request.get("surface_kind") != REQUEST_KIND:
+        raise RequestShapeError(f"surface_kind must be {REQUEST_KIND}")
+    if request.get("schema_version") != 1:
+        raise RequestShapeError("schema_version must be 1")
+    host = record(request.get("host_context"), "host_context")
+    bitmap = record(request.get("bitmap"), "bitmap")
+    figure = record(request.get("figure"), "figure")
+    reject_unknown_fields(host, {"workspace_root", "attempt_ref", "output_ref"}, "host_context")
+    reject_unknown_fields(bitmap, {"bitmap_ref", "sha256", "format", "media_type"}, "bitmap")
+    reject_unknown_fields(
+        figure,
+        {
+            "figure_id",
+            "title",
+            "artifact_role",
+            "prompt_sha256",
+            "style_reference",
+            "placement_ref",
+            "caption_intent",
+            "claim_boundary",
+            "source_refs",
+            "review_criteria",
+            "minimum_width",
+            "minimum_height",
+        },
+        "figure",
+    )
+    required_text(host.get("workspace_root"), "host_context.workspace_root")
+    required_text(host.get("attempt_ref"), "host_context.attempt_ref")
+    required_text(host.get("output_ref"), "host_context.output_ref")
+    required_text(bitmap.get("bitmap_ref"), "bitmap.bitmap_ref")
+    normalize_sha256(bitmap.get("sha256"), "bitmap.sha256")
+    if bitmap.get("format") is not None:
+        bitmap_format = required_text(bitmap["format"], "bitmap.format")
+        if bitmap_format not in ALLOWED_FORMATS:
+            raise RequestShapeError(f"bitmap.format must be one of: {', '.join(sorted(ALLOWED_FORMATS))}")
+    if bitmap.get("media_type") is not None:
+        media_type = required_text(bitmap["media_type"], "bitmap.media_type")
+        if media_type not in ALLOWED_MEDIA_TYPES:
+            raise RequestShapeError(f"bitmap.media_type must be one of: {', '.join(sorted(ALLOWED_MEDIA_TYPES))}")
+    required_text(figure.get("figure_id"), "figure.figure_id")
+    required_text(figure.get("title"), "figure.title")
+    required_text(figure.get("artifact_role"), "figure.artifact_role")
+    if figure.get("prompt_sha256") is not None:
+        normalize_sha256(figure.get("prompt_sha256"), "figure.prompt_sha256")
+    for field in ("style_reference", "placement_ref", "caption_intent", "claim_boundary"):
+        if field in figure:
+            optional_text(figure[field], f"figure.{field}")
+    for field in ("source_refs", "review_criteria"):
+        if field not in figure:
+            continue
+        values = figure[field]
+        if not isinstance(values, list) or not values or any(not isinstance(item, str) or not item.strip() for item in values):
+            raise RequestShapeError(f"figure.{field} must be a non-empty array of non-empty strings")
+        if len(values) != len(set(values)):
+            raise RequestShapeError(f"figure.{field} must not contain duplicates")
+    for field in ("minimum_width", "minimum_height"):
+        if field in figure and (not isinstance(figure[field], int) or isinstance(figure[field], bool) or figure[field] <= 0):
+            raise RequestShapeError(f"figure.{field} must be a positive integer")
+    return host, bitmap, figure
+
+
+def authority_boundary() -> dict[str, bool]:
+    return {
+        "candidate_requires_opl_persistence": True,
+        "visual_review_still_required": True,
+        "authorizes_publication_proof": False,
+        "authorizes_final_export": False,
+        "counts_as_owner_acceptance": False,
+        "counts_as_domain_ready": False,
+        "counts_as_production_ready": False,
     }
-    return payload
 
 
-def parse_size(value: str) -> tuple[int, int]:
-    match = re.match(r"^(\d+)x(\d+)$", safe_text(value))
-    if not match:
-        return 1536, 1024
-    return int(match.group(1)), int(match.group(2))
+def invalid_host_input(detail: str) -> dict[str, Any]:
+    return {
+        "surface_kind": RESULT_KIND,
+        "schema_version": 1,
+        "status": "invalid_host_input",
+        "figure_authority_receipt_candidate": None,
+        "quality_debt": None,
+        "error": {"code": "host_input_schema_invalid", "detail": detail},
+        "authority_boundary": authority_boundary(),
+    }
 
 
-def generate_live(args: argparse.Namespace, root: Path, output_file: Path, prompt: str) -> dict[str, Any]:
-    payload = base_payload(args, root, output_file, prompt)
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="bookforge-opl-executor-") as tmp:
-        request_file = Path(tmp) / "agent-execution-request.json"
-        write_json(request_file, build_opl_executor_request(args, root, output_file, prompt))
-        try:
-            result = subprocess.run(
-                [args.opl_bin, "executor", "run", "--request", str(request_file), "--json"],
-                cwd=root,
-                text=True,
-                capture_output=True,
-                check=False,
+def quality_debt(
+    host: dict[str, Any],
+    bitmap: dict[str, Any],
+    figure: dict[str, Any],
+    error: AssetValidationError,
+) -> dict[str, Any]:
+    return {
+        "surface_kind": RESULT_KIND,
+        "schema_version": 1,
+        "status": "completed_with_quality_debt",
+        "figure_id": figure["figure_id"],
+        "host_refs": {
+            "attempt_ref": host["attempt_ref"],
+            "output_ref": host["output_ref"],
+        },
+        "figure_authority_receipt_candidate": None,
+        "quality_debt": {
+            "code": error.code,
+            "detail": error.detail,
+            "bitmap_ref": bitmap["bitmap_ref"],
+            "blocks_stage_transition": False,
+            "blocks_figure_ready_or_export_claims": True,
+            "next_stage_may_start": True,
+        },
+        "error": None,
+        "authority_boundary": authority_boundary(),
+    }
+
+
+def evaluate_host_bitmap(request: dict[str, Any]) -> dict[str, Any]:
+    """Evaluate a host-injected bitmap ref without spawning or writing files."""
+    if not isinstance(request, dict):
+        return invalid_host_input("request document must be an object")
+    try:
+        host, bitmap, figure = request_parts(request)
+    except RequestShapeError as error:
+        return invalid_host_input(str(error))
+
+    bitmap_ref = required_text(bitmap["bitmap_ref"], "bitmap.bitmap_ref")
+    expected_sha256 = normalize_sha256(bitmap["sha256"], "bitmap.sha256")
+    try:
+        root, asset_path, data = read_contained_regular_file(host["workspace_root"], bitmap_ref)
+        observed_sha256 = sha256_bytes(data)
+        if observed_sha256 != expected_sha256:
+            raise AssetValidationError(
+                "bitmap_sha256_mismatch",
+                f"expected {expected_sha256}, observed {observed_sha256}",
             )
-        except OSError as exc:
-            payload["status"] = "blocked_opl_executor_unavailable"
-            payload["blocker_kind"] = "opl_executor_command_unavailable"
-            payload["error"] = str(exc)
-            return payload
-        if result.returncode != 0:
-            return materialize_progress_diagnostic(
-                payload,
-                code="image_generation_attempt_failed",
-                error=(result.stderr or result.stdout or "OPL image-generation executor task failed").strip()[-4000:],
+        info = image_info(data, asset_path)
+        expected_media_type = optional_text(bitmap.get("media_type"), "bitmap.media_type")
+        if expected_media_type and expected_media_type != info["media_type"]:
+            raise AssetValidationError(
+                "bitmap_media_type_mismatch",
+                f"expected {expected_media_type}, observed {info['media_type']}",
             )
-
-        try:
-            receipt = read_opl_executor_receipt(result.stdout)
-        except (json.JSONDecodeError, ValueError) as exc:
-            payload["status"] = "blocked_invalid_opl_executor_receipt"
-            payload["blocker_kind"] = "opl_executor_receipt_invalid"
-            payload["error"] = str(exc)
-            return payload
-        requested = receipt.get("requested_capabilities")
-        activated = receipt.get("activated_capabilities")
-        if requested != ["image_generation"] or activated != ["image_generation"]:
-            payload["status"] = "blocked_opl_capability_not_activated"
-            payload["blocker_kind"] = "opl_executor_image_generation_capability_not_activated"
-            payload["error"] = "OPL executor receipt did not prove activation of the requested image_generation capability."
-            return payload
-
-        if receipt.get("exit_code") != 0:
-            return materialize_progress_diagnostic(
-                payload,
-                code="image_generation_attempt_failed",
-                error=safe_text(receipt.get("stderr_preview"), "OPL executor returned a non-zero exit code.")[-4000:],
+        expected_format = optional_text(bitmap.get("format"), "bitmap.format")
+        if expected_format and normalize_format(expected_format) != info["format"]:
+            raise AssetValidationError(
+                "bitmap_format_mismatch",
+                f"expected {expected_format}, observed {info['format']}",
             )
-
-        if not output_file.is_file():
-            return materialize_progress_diagnostic(
-                payload,
-                code="project_bitmap_not_materialized",
-                error=f"OPL executor completed without creating output_file: {output_file}",
+        minimum_width = figure.get("minimum_width", 1)
+        minimum_height = figure.get("minimum_height", 1)
+        if info["width"] < minimum_width or info["height"] < minimum_height:
+            raise AssetValidationError(
+                "bitmap_dimensions_below_minimum",
+                f"expected at least {minimum_width}x{minimum_height}, observed {info['width']}x{info['height']}",
             )
+    except (AssetValidationError, OSError) as error:
+        normalized = error if isinstance(error, AssetValidationError) else AssetValidationError("bitmap_unavailable", str(error))
+        return quality_debt(host, bitmap, figure, normalized)
 
-        info = image_info(output_file)
-        payload["status"] = "asset_ready"
-        payload["asset"] = {
-            "path": rel(output_file, root),
+    prompt_sha256 = figure.get("prompt_sha256")
+    candidate = {
+        "receipt_kind": RECEIPT_KIND,
+        "candidate_only": True,
+        "owner": "OPL Book Forge",
+        "figure_id": figure["figure_id"],
+        "title": figure["title"],
+        "artifact_role": figure["artifact_role"],
+        "prompt_sha256": normalize_sha256(prompt_sha256, "figure.prompt_sha256") if prompt_sha256 else None,
+        "asset": {
+            "path": str(asset_path.relative_to(root)),
             **info,
-        }
-        payload["generation_runtime"] = {
-            "provider": safe_text(receipt.get("executor_kind"), "codex_cli"),
-            "task_surface": safe_text(receipt.get("surface_kind"), "opl_agent_execution_receipt"),
-            "imagegen_mode": "opl_executor_required_capability",
-            "session_id": receipt.get("session_id"),
-            "requested_capabilities": requested,
-            "activated_capabilities": activated,
-            "materialized_by": "opl_executor_task_to_domain_owned_output_ref",
-            "model_selection": args.model or "inherit_local_codex_default",
-            "tool_options": {
-                "type": "image_generation",
-                "size": args.size,
-                "quality": args.quality,
-                "format": output_file.suffix.lower().lstrip(".") or "png",
-            },
-            "token_persisted": False,
-            "explicit_provider_token_required": False,
-            "provider_token_source": "codex_executor_native_tool",
-        }
-        return payload
+        },
+        "host_refs": {
+            "attempt_ref": host["attempt_ref"],
+            "output_ref": host["output_ref"],
+        },
+        "figure_metadata": {
+            key: figure[key]
+            for key in (
+                "style_reference",
+                "placement_ref",
+                "caption_intent",
+                "claim_boundary",
+                "source_refs",
+                "review_criteria",
+            )
+            if key in figure
+        },
+        "asset_manifest_entry_candidate": {
+            "id": figure["figure_id"],
+            "title": figure["title"],
+            "artifact_role": figure["artifact_role"],
+            "asset_status": "bitmap_validated_pending_visual_review",
+            "project_local_path": str(asset_path.relative_to(root)),
+            "asset": info,
+            "source_attempt_ref": host["attempt_ref"],
+            "source_output_ref": host["output_ref"],
+        },
+        "authority_boundary": authority_boundary(),
+    }
+    return {
+        "surface_kind": RESULT_KIND,
+        "schema_version": 1,
+        "status": "figure_authority_receipt_candidate",
+        "figure_id": figure["figure_id"],
+        "host_refs": candidate["host_refs"],
+        "figure_authority_receipt_candidate": candidate,
+        "quality_debt": None,
+        "error": None,
+        "authority_boundary": authority_boundary(),
+    }
 
 
-def run_self_test(args: argparse.Namespace) -> dict[str, Any]:
-    with tempfile.TemporaryDirectory(prefix="bookforge-imagegen-selftest-") as tmp:
-        root = Path(tmp)
-        manifest = root / "manifest.json"
-        output = root / "figures" / "self-test.png"
-        test_args = argparse.Namespace(**vars(args))
-        test_args.mock = True
-        test_args.root = root
-        test_args.output_file = output
-        test_args.manifest = manifest
-        test_args.prompt = "Draw a simple Book Forge imagegen helper self-test bitmap."
-        test_args.prompt_file = None
-        test_args.figure_id = "self-test"
-        test_args.title = "Book Forge imagegen helper self-test"
-        payload = generate_mock(test_args, root, output, test_args.prompt)
-        write_json(manifest, payload)
-        return {
-            "surface_kind": "bookforge_imagegen_asset_self_test",
-            "version": VERSION,
-            "status": "passed" if payload["status"] == "asset_ready" and output.exists() and manifest.exists() else "failed",
-            "manifest_status": payload["status"],
-            "asset_kind": payload.get("asset", {}).get("kind"),
-            "asset_bytes": payload.get("asset", {}).get("bytes"),
-        }
+def run_self_test() -> dict[str, Any]:
+    def chunk(kind: bytes, payload: bytes) -> bytes:
+        checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
+        return len(payload).to_bytes(4, "big") + kind + payload + checksum.to_bytes(4, "big")
+
+    header = (2).to_bytes(4, "big") + (3).to_bytes(4, "big") + b"\x08\x06\x00\x00\x00"
+    rows = b"".join(b"\x00" + b"\x00\x00\x00\xff" * 2 for _ in range(3))
+    png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", header) + chunk(b"IDAT", zlib.compress(rows)) + chunk(b"IEND", b"")
+    info = image_info(png, Path("self-test.png"))
+    return {
+        "surface_kind": "bookforge_imagegen_asset_self_test",
+        "version": VERSION,
+        "status": "passed" if info["width"] == 2 and info["height"] == 3 else "failed",
+        "writes_files": False,
+        "spawns_processes": False,
+    }
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate OPL Book Forge project-local bitmap figure assets through Codex native imagegen.")
-    parser.add_argument("--self-test", action="store_true", help="Run a mock helper self-test without provider calls.")
-    parser.add_argument("--update-asset-manifest", action="store_true", help="Update --asset-manifest from an existing --receipt-file without generating.")
-    parser.add_argument("--mock", action="store_true", help="Write a deterministic mock PNG. For verification only; not a final book figure.")
-    parser.add_argument("--root", type=Path, default=Path.cwd(), help="Book project root for relative refs.")
-    parser.add_argument("--prompt", default="", help="Image prompt text.")
-    parser.add_argument("--prompt-file", type=Path, help="File containing the image prompt.")
-    parser.add_argument("--output-file", type=Path, help="Project-local bitmap output path.")
-    parser.add_argument("--manifest", type=Path, help="Optional generation manifest path.")
-    parser.add_argument("--receipt-file", type=Path, help="Existing helper receipt for --update-asset-manifest.")
-    parser.add_argument("--asset-manifest", type=Path, help="Optional figure asset manifest to update by figure id after generation.")
-    parser.add_argument("--figure-id", default="", help="Figure id for provenance.")
-    parser.add_argument("--title", default="", help="Figure title for provenance.")
-    parser.add_argument("--style-reference", default="", help="Optional style reference path recorded in the child prompt.")
-    parser.add_argument("--size", default="1536x1024", help="Requested image size, e.g. 1536x1024.")
-    parser.add_argument("--quality", default="high", help="Requested image quality.")
-    parser.add_argument("--artifact-role", default="book_manuscript_figure", help="Artifact role recorded in the manifest.")
-    parser.add_argument("--opl-bin", default=os.environ.get("OPL_BIN", "opl"), help="Canonical OPL CLI used for executor transport.")
-    parser.add_argument("--model", default=os.environ.get("OBF_CODEX_MODEL", ""), help="Optional model override passed through OPL executor request.")
-    parser.add_argument("--reasoning-effort", default=os.environ.get("OBF_CODEX_REASONING_EFFORT", ""), help="Optional reasoning override passed through OPL executor request.")
-    parser.add_argument("--timeout", type=int, default=900, help="OPL executor request timeout in seconds.")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--self-test", action="store_true", help="Run an in-memory parser self-test.")
+    parser.add_argument("--request-file", type=Path, help="Host-generated validation request JSON.")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     if args.self_test:
-        payload = run_self_test(args)
+        payload = run_self_test()
         print(json.dumps(payload, ensure_ascii=False, indent=2))
         return 0 if payload["status"] == "passed" else 1
-
-    root = args.root.resolve()
-    if args.update_asset_manifest:
-        receipt_file = project_path(root, args.receipt_file)
-        asset_manifest = project_path(root, args.asset_manifest)
-        if receipt_file is None or asset_manifest is None:
-            print("--update-asset-manifest requires --receipt-file and --asset-manifest", file=sys.stderr)
-            return 2
-        payload = read_json(receipt_file)
-        update_asset_manifest(asset_manifest, receipt_file, payload, root)
-        print(json.dumps({
-            "surface_kind": "bookforge_imagegen_asset_manifest_update",
-            "version": VERSION,
-            "status": "updated",
-            "figure_id": payload.get("figure_id"),
-            "asset_manifest": rel(asset_manifest, root),
-            "receipt_file": rel(receipt_file, root),
-            "asset_status": payload.get("status"),
-        }, ensure_ascii=False, indent=2))
-        return 0
-
-    args.prompt_file = project_path(root, args.prompt_file)
-    if args.output_file is None:
-        print("missing required --output-file", file=sys.stderr)
-        return 2
-
-    output_file = project_path(root, args.output_file)
-    manifest = project_path(root, args.manifest)
-    asset_manifest = project_path(root, args.asset_manifest)
-    prompt = read_prompt(args)
-    if not prompt:
-        payload = materialize_progress_diagnostic(
-            base_payload(args, root, output_file, prompt),
-            code="image_prompt_missing",
-            error="missing required prompt or prompt-file",
-        )
-        write_json(manifest, payload)
-        try:
-            update_asset_manifest(asset_manifest, manifest, payload, root)
-        except Exception as exc:
-            payload["progress_diagnostic"]["asset_manifest_update_error"] = str(exc)
-            write_json(manifest, payload)
+    if args.request_file is None:
+        payload = invalid_host_input("--request-file is required")
         print(json.dumps(payload, ensure_ascii=False, indent=2))
-        return 0
+        return 2
     try:
-        payload = generate_mock(args, root, output_file, prompt) if args.mock else generate_live(args, root, output_file, prompt)
-    except Exception as exc:
-        payload = base_payload(args, root, output_file, prompt)
-        payload = materialize_progress_diagnostic(
-            payload,
-            code=(
-                "corrupt_or_unreadable_output"
-                if output_file.exists()
-                else "image_helper_attempt_failed"
-            ),
-            error=str(exc),
-        )
-    write_json(manifest, payload)
-    if asset_manifest:
-        try:
-            update_asset_manifest(asset_manifest, manifest, payload, root)
-        except Exception as exc:
-            if payload["status"] == "asset_ready":
-                payload = materialize_progress_diagnostic(
-                    payload,
-                    code="asset_manifest_update_failed",
-                    error=str(exc),
-                )
-            else:
-                payload.setdefault("progress_diagnostic", {})["asset_manifest_update_error"] = str(exc)
-            write_json(manifest, payload)
+        request = json.loads(args.request_file.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        payload = invalid_host_input(str(error))
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 2
+    if not isinstance(request, dict):
+        payload = invalid_host_input("request document must be an object")
+    else:
+        payload = evaluate_host_bitmap(request)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    return 0 if payload["status"] in {"asset_ready", "completed_with_quality_debt"} else 1
+    return 2 if payload["status"] == "invalid_host_input" else 0
 
 
 if __name__ == "__main__":

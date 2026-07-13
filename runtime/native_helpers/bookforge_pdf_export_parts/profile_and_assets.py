@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import json
 import re
-import shutil
-import subprocess
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
@@ -19,10 +17,6 @@ def rel(path: Path, root: Path) -> str:
         return str(path.resolve().relative_to(root.resolve()))
     except ValueError:
         return str(path.resolve())
-
-
-def command_exists(name: str) -> bool:
-    return shutil.which(name) is not None
 
 
 def as_list(value: Any) -> list[Any]:
@@ -102,23 +96,7 @@ def is_remote_or_data_ref(ref: str) -> bool:
     return parsed.scheme in {"http", "https", "data", "mailto"}
 
 
-def image_refs_from_pandoc_ast(source_md: Path, root: Path) -> list[str] | None:
-    if not command_exists("pandoc"):
-        return None
-    result = subprocess.run(
-        ["pandoc", str(source_md), "-t", "json"],
-        cwd=root,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        return None
-    try:
-        ast = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return None
-
+def image_refs_from_pandoc_document(document: Any) -> list[str]:
     refs: list[str] = []
 
     def walk(value: Any) -> None:
@@ -137,7 +115,7 @@ def image_refs_from_pandoc_ast(source_md: Path, root: Path) -> list[str] | None:
             for item in value:
                 walk(item)
 
-    walk(ast)
+    walk(document)
     return refs
 
 
@@ -149,12 +127,20 @@ def image_refs_from_markdown_text(source_md: Path) -> list[str]:
     return [match.group(1).strip("<>") for match in MARKDOWN_IMAGE_RE.finditer(source)]
 
 
-def markdown_image_refs(source_md: Path, resource_paths: list[Path], root: Path) -> dict[str, Any]:
+def markdown_image_refs(
+    source_md: Path,
+    resource_paths: list[Path],
+    root: Path,
+    *,
+    extracted_refs: list[str] | None = None,
+    extraction_method: str | None = None,
+) -> dict[str, Any]:
     refs: list[dict[str, Any]] = []
-    extracted_refs = image_refs_from_pandoc_ast(source_md, root)
-    extraction_method = "pandoc_ast" if extracted_refs is not None else "markdown_text_scan"
     if extracted_refs is None:
         extracted_refs = image_refs_from_markdown_text(source_md)
+        extraction_method = "markdown_text_scan"
+    else:
+        extraction_method = extraction_method or "host_parsed"
 
     for raw in extracted_refs:
         raw_ref = unquote(raw.strip("<>"))

@@ -1,0 +1,53 @@
+{
+  "surface_kind": "bookforge_hosted_image_asset_handoff",
+  "schema_version": 1,
+  "owner": "OPL Book Forge",
+  "state": "domain_handler_registered",
+  "host_binding_status": "bound_to_domain_handler_registry_v1",
+  "machine_boundary": "OPL generates the bitmap and injects immutable attempt/output refs plus the workspace-relative bitmap ref and digest. OPL Book Forge only validates the contained bitmap and returns a figure-authority receipt candidate or quality debt.",
+  "domain_handler": {
+    "handler_ref": "handler:obf.figure-asset-authority-evaluate",
+    "registry_entry_ref": "contracts/domain_handler_registry.json#/handlers/0",
+    "input_schema_ref": "contracts/schemas/imagegen-host-bitmap.input.schema.json",
+    "output_schema_ref": "contracts/schemas/imagegen-host-bitmap.output.schema.json",
+    "maximum_bitmap_bytes": 67108864,
+    "maximum_png_decompressed_bytes": 268435456
+  },
+  "opl_owned": [
+    "image_generation_capability_activation",
+    "executor_selection_and_transport",
+    "attempt_and_output_refs",
+    "workspace_output_slot",
+    "bitmap_materialization",
+    "candidate_persistence",
+    "asset_manifest_persistence"
+  ],
+  "bookforge_owned": [
+    "figure_metadata",
+    "workspace_containment_validation",
+    "regular_file_and_symlink_validation",
+    "bitmap_format_and_dimension_validation",
+    "bitmap_digest_validation",
+    "figure_authority_receipt_candidate",
+    "image_asset_quality_debt",
+    "publication_and_export_authority"
+  ],
+  "forbidden_domain_effects": [
+    "executor_request_creation",
+    "executor_or_opl_process_spawn",
+    "provider_or_token_discovery",
+    "bitmap_generation_or_copy",
+    "receipt_or_manifest_persistence",
+    "workspace_or_attempt_state_mutation"
+  ],
+  "success_result": "figure_authority_receipt_candidate",
+  "ordinary_failure_result": "completed_with_quality_debt",
+  "claim_boundary": {
+    "candidate_counts_as_visual_review": false,
+    "candidate_counts_as_publication_proof": false,
+    "candidate_counts_as_final_export": false,
+    "candidate_counts_as_owner_acceptance": false,
+    "candidate_counts_as_domain_ready": false,
+    "candidate_counts_as_production_ready": false
+  }
+}

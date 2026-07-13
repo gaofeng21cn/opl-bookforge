@@ -1,75 +1,28 @@
 {
   "surface_kind": "family_action_catalog",
-  "version": "family-action-catalog.v1",
+  "version": "family-action-catalog.v2",
   "catalog_id": "opl_bookforge_action_catalog",
   "target_domain_id": "opl-bookforge",
   "owner": "OPL Book Forge",
-  "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
   "authority_boundary": {
-    "opl_role": "generated_interface_projection_only",
     "domain_truth_owner": "OPL Book Forge",
+    "opl_role": "projection_consumer_only",
+    "write_policy": "no_domain_truth_writes",
     "opl_can_write_domain_truth": false,
     "opl_can_write_memory_body": false,
     "opl_can_authorize_quality_or_export": false,
-    "domain_repo_can_own_generated_surface": false,
-    "domain_repo_can_own_temporal_runtime": false,
-    "temporal_attempt_ledger_owner": "one-person-lab",
-    "provider_completion_is_domain_completion": false,
-    "generated_surface_ready_counts_as_domain_ready": false,
-    "bookforge_can_write_opl_stage_attempts": false
+    "provider_completion_is_domain_completion": false
   },
-  "completion_audit_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit",
-  "completion_audit_summary": {
-    "review_pdf_publication_proof_final_export_are_distinct": true,
-    "provider_completion_counts_as_any_bookforge_completion_account": false,
-    "generated_surface_ready_counts_as_any_bookforge_completion_account": false,
-    "stage_run_status_ready_counts_as_any_bookforge_completion_account": false,
-    "final_export_requires_owner_export_acceptance_ref": true,
-    "owner_acceptance_cannot_be_inferred_from_generated_or_stage_run_status": true,
-    "real_book_pilot_evidence_is_acceptance_tail_not_completion": true
-  },
-  "default_entry_policy": {
-    "default_entry_surface_kind": "opl_stage_run_attempt_request",
-    "entry_owner": "one-person-lab",
-    "stage_run_account_owner": "one-person-lab",
-    "domain_owner": "OPL Book Forge",
-    "stage_run_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
-    "direct_domain_cli_is_default_entry": false,
-    "evidence_package_can_be_default_entry": false,
-    "production_acceptance_routes_through_owner_answer_ref": true
-  },
-  "bookforge_exposed_domain_surfaces": [
-    "book_domain_action_contract_ref",
-    "chapter_task_card_ref",
-    "manuscript_authority_ref",
-    "style_authority_ref",
-    "artifact_authority_ref",
-    "owner_gated_publication_decision_ref",
-    "owner_gated_export_decision_ref",
-    "typed_blocker_ref",
-    "owner_receipt_ref"
-  ],
-  "forbidden_runtime_surface_exports": [
-    "private_temporal_wrapper",
-    "private_stage_run_wrapper",
-    "private_scheduler",
-    "private_queue",
-    "private_session_store",
-    "private_provider_completion_store",
-    "private_attempt_ledger",
-    "runtime_status_read_model"
-  ],
   "actions": [
     {
       "action_id": "shape-storyline",
       "title": "Shape Storyline",
       "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
-      "natural_language_intent": "Shape or repair a book's premise, reader promise, argument arc, evidence-aware chapter architecture, and owner handoff without drafting or exporting the book.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
-      "source_command": {
-        "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-        "surface_kind": "opl_stage_run_attempt_request"
+      "execution_binding": {
+        "kind": "stage_binding",
+        "stage_manifest_ref": "agent/stages/manifest.json"
       },
       "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
       "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
@@ -95,24 +48,17 @@
         "route_policy": "ai_selected_progress_route"
       },
       "supported_surfaces": {
-        "cli": {
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
-        },
+        "cli": {},
         "mcp": {
           "tool_name": "opl_bookforge_shape_storyline",
-          "surface_kind": "opl_generated_mcp_descriptor",
           "descriptor_only": true,
           "public_runtime": false
         },
         "skill": {
-          "command_contract_id": "opl-bookforge.shape-storyline",
-          "surface_kind": "opl_generated_skill_contract"
+          "command_contract_id": "opl-bookforge.shape-storyline"
         },
         "product_entry": {
-          "action_key": "shape-storyline",
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage storyline-architecture --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
+          "action_key": "shape-storyline"
         },
         "openai": {
           "tool_name": "opl_bookforge_shape_storyline"
@@ -123,49 +69,24 @@
       },
       "authority_boundary": {
         "domain_truth_owner": "OPL Book Forge",
-        "opl_role": "projection_only",
-        "can_write_target_domain_truth": false,
-        "can_write_target_domain_memory_body": false,
-        "can_mutate_target_domain_artifact_body": false,
-        "can_authorize_target_domain_quality_or_export": false,
-        "provider_completion_is_domain_completion": false,
-        "domain_repo_can_own_temporal_runtime": false,
-        "temporal_attempt_ledger_owner": "one-person-lab",
-        "bookforge_can_write_opl_stage_attempts": false,
-        "default_entry_surface_kind": "opl_stage_run_attempt_request",
-        "default_entry_routes_via_stage_run_account": true,
-        "direct_domain_cli_is_default_entry": false,
-        "evidence_package_can_bypass_owner_boundary": false,
-        "domain_completion_ref_fields": [
-          "owner_receipt_ref",
-          "typed_blocker_ref",
-          "human_gate_ref",
-          "route_back_ref"
-        ],
-        "completion_audit_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit",
-        "completion_accounts": [
-          "review_pdf",
-          "publication_proof",
-          "final_export",
-          "owner_acceptance"
-        ],
-        "false_completion_accounts": [
-          "provider_attempt_completion",
-          "generated_surface_ready",
-          "stage_run_status_ready"
-        ]
+        "opl_role": "projection_consumer_only",
+        "write_policy": "no_domain_truth_writes",
+        "opl_can_write_domain_truth": false,
+        "opl_can_write_memory_body": false,
+        "opl_can_mutate_domain_artifact_body": false,
+        "opl_can_authorize_quality_or_export": false,
+        "provider_completion_is_domain_completion": false
       }
     },
     {
       "action_id": "materialize-book",
       "title": "Materialize Book",
       "summary": "Enter chapter production planning directly, then continue through drafting, source/style review, and proof/export handoff with owner-gated refs.",
-      "natural_language_intent": "Continue from approved current storyline refs through incremental chapter planning and drafting, independent source/style integrity review, and the requested owner-gated review/proof/export handoff.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
-      "source_command": {
-        "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-        "surface_kind": "opl_stage_run_attempt_request"
+      "execution_binding": {
+        "kind": "stage_binding",
+        "stage_manifest_ref": "agent/stages/manifest.json"
       },
       "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
       "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
@@ -194,24 +115,17 @@
         "route_policy": "ai_selected_progress_route"
       },
       "supported_surfaces": {
-        "cli": {
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
-        },
+        "cli": {},
         "mcp": {
           "tool_name": "opl_bookforge_materialize_book",
-          "surface_kind": "opl_generated_mcp_descriptor",
           "descriptor_only": true,
           "public_runtime": false
         },
         "skill": {
-          "command_contract_id": "opl-bookforge.materialize-book",
-          "surface_kind": "opl_generated_skill_contract"
+          "command_contract_id": "opl-bookforge.materialize-book"
         },
         "product_entry": {
-          "action_key": "materialize-book",
-          "command": "opl family-runtime attempt create --domain opl-bookforge --stage chapter-production-planning --provider temporal --workspace-locator <workspace_locator_json> --task <task_ref> --source-fingerprint <source_fingerprint>",
-          "surface_kind": "opl_stage_run_attempt_request"
+          "action_key": "materialize-book"
         },
         "openai": {
           "tool_name": "opl_bookforge_materialize_book"
@@ -222,65 +136,14 @@
       },
       "authority_boundary": {
         "domain_truth_owner": "OPL Book Forge",
-        "opl_role": "projection_only",
-        "can_write_target_domain_truth": false,
-        "can_write_target_domain_memory_body": false,
-        "can_mutate_target_domain_artifact_body": false,
-        "can_authorize_target_domain_quality_or_export": false,
-        "provider_completion_is_domain_completion": false,
-        "domain_repo_can_own_temporal_runtime": false,
-        "temporal_attempt_ledger_owner": "one-person-lab",
-        "bookforge_can_write_opl_stage_attempts": false,
-        "default_entry_surface_kind": "opl_stage_run_attempt_request",
-        "default_entry_routes_via_stage_run_account": true,
-        "direct_domain_cli_is_default_entry": false,
-        "evidence_package_can_bypass_owner_boundary": false,
-        "domain_completion_ref_fields": [
-          "owner_receipt_ref",
-          "typed_blocker_ref",
-          "human_gate_ref",
-          "route_back_ref"
-        ],
-        "completion_audit_policy_ref": "contracts/temporal_stage_run_consumption_policy.json#completion_audit",
-        "completion_accounts": [
-          "review_pdf",
-          "publication_proof",
-          "final_export",
-          "owner_acceptance"
-        ],
-        "false_completion_accounts": [
-          "provider_attempt_completion",
-          "generated_surface_ready",
-          "stage_run_status_ready"
-        ]
+        "opl_role": "projection_consumer_only",
+        "write_policy": "no_domain_truth_writes",
+        "opl_can_write_domain_truth": false,
+        "opl_can_write_memory_body": false,
+        "opl_can_mutate_domain_artifact_body": false,
+        "opl_can_authorize_quality_or_export": false,
+        "provider_completion_is_domain_completion": false
       }
     }
-  ],
-  "forbidden_generic_owner_roles": [
-    "generic_scheduler_owner",
-    "generic_daemon_owner",
-    "generic_lifecycle_owner",
-    "generic_queue_owner",
-    "generic_attempt_ledger_owner",
-    "generic_state_machine_runner_owner",
-    "generic_cli_mcp_product_wrapper_owner",
-    "generic_sidecar_owner",
-    "generic_session_store_owner",
-    "generic_status_workbench_owner",
-    "generic_workspace_source_intake_owner",
-    "generic_memory_transport_owner",
-    "generic_artifact_gallery_owner",
-    "generic_operator_workbench_owner",
-    "generic_observability_slo_owner",
-    "generic_persistence_engine_owner",
-    "generic_sqlite_lifecycle_owner",
-    "generic_native_helper_envelope_owner",
-    "generic_review_repair_transport_owner",
-    "generated_surface_owner_in_domain_repo",
-    "temporal_runtime_owner",
-    "temporal_queue_owner",
-    "temporal_attempt_ledger_owner",
-    "provider_attempt_owner",
-    "stage_run_state_machine_owner"
   ]
 }

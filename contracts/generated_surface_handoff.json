@@ -22,15 +22,9 @@
       {
         "surface_id": "image_asset_helper",
         "generated_or_hosted_owner": "one-person-lab",
-        "domain_retained_role": "project_local_asset_receipt_helper",
-        "executor_handoff_contract_ref": "contracts/image_generation_executor_handoff.json",
-        "default_runtime_surface": false,
-        "ready_claim_authorized": false
-      },
-      {
-        "surface_id": "project_hygiene_helper",
-        "generated_or_hosted_owner": "one-person-lab",
-        "domain_retained_role": "deterministic_diagnostic_helper",
+        "domain_retained_role": "read_only_figure_authority_handler",
+        "host_handoff_contract_ref": "contracts/image_asset_host_handoff.json",
+        "handler_registry_ref": "contracts/domain_handler_registry.json",
         "default_runtime_surface": false,
         "ready_claim_authorized": false
       },

@@ -51,7 +51,7 @@ Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md
 
 Tool catalogs under `agent/tools/` describe affordances, write scope, side effects, credentials, and forbidden authority. Tools do not prescribe executor strategy, own manuscript truth, or grant readiness verdicts.
 
-Image generation follows the same framework/domain split. Book Forge builds the figure prompt and declares the project-local output ref, then calls `opl executor run` with `required_capabilities: ["image_generation"]`. OPL Runway owns Codex discovery, capability activation, process transport, and the executor receipt. Book Forge only accepts the result after validating the declared bitmap bytes, then writes the figure receipt and asset-manifest projection; publication, final-export, and owner-acceptance authority remain in Book Forge.
+Image generation follows the same framework/domain split. OPL owns capability activation, executor selection and transport, the workspace output slot, bitmap materialization, attempt/output refs, and candidate persistence. The Book Forge handler registered as `handler:obf.figure-asset-authority-evaluate` consumes only the host-injected relative bitmap ref, SHA-256 digest, attempt/output refs, and figure metadata. It validates containment, regular-file identity, bitmap structure, format, dimensions, and digest, then returns either a figure-authority receipt candidate or quality debt. It does not create execution requests, spawn OPL/Codex, generate or copy bitmap bytes, or persist receipts/manifests. Publication, final-export, and owner-acceptance authority remain in Book Forge.
 
 ## Revision Architecture
 
@@ -72,7 +72,7 @@ This hierarchy preserves owner routing while using the focused stage graph. Stru
 
 ## Generated Surface Boundary
 
-The action catalog exposes `shape-storyline` and `materialize-book`. Generated MCP/OpenAI/AI SDK descriptors are interface descriptors unless a runtime surface provides execution evidence.
+The `family-action-catalog.v2` catalog exposes `shape-storyline` and `materialize-book` as public stage actions. Each action declares only `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}`; the action's own `stage_route` keeps its entry and required stage refs. The domain pack does not carry a `source_command`, action-level handler id/ref, or surface-specific command; OPL generates the canonical `opl agents run --domain opl-bookforge --action <action_id> --workspace <absolute_path>` entry and hosted surface kinds. Generated MCP/OpenAI/AI SDK descriptors remain interface descriptors unless a runtime surface provides execution evidence.
 
 Scaffold validation and generated interface readiness prove the domain pack can be read by OPL. They do not prove manuscript quality, export acceptance, publication readiness, owner acceptance, or hosted runtime parity.
 

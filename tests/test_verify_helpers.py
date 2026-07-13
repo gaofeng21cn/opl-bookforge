@@ -9,6 +9,7 @@ import json
 import subprocess
 import sys
 import tempfile
+import zlib
 from pathlib import Path
 from typing import Any
 
@@ -60,65 +61,54 @@ def test_pandoc_command_shape() -> None:
     assert "--number-sections" not in unnumbered_command, unnumbered_command
 
 
-def test_image_asset_manifest_lifecycle() -> None:
-    helper = REPO / "runtime/native_helpers/bookforge_imagegen_asset.py"
+def png_chunk(kind: bytes, payload: bytes) -> bytes:
+    checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
+    return len(payload).to_bytes(4, "big") + kind + payload + checksum.to_bytes(4, "big")
+
+
+def png_bytes(width: int = 16, height: int = 12) -> bytes:
+    header = width.to_bytes(4, "big") + height.to_bytes(4, "big") + b"\x08\x06\x00\x00\x00"
+    rows = b"".join(b"\x00" + b"\x00\x00\x00\xff" * width for _ in range(height))
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + png_chunk(b"IHDR", header)
+        + png_chunk(b"IDAT", zlib.compress(rows))
+        + png_chunk(b"IEND", b"")
+    )
+
+
+def test_image_asset_candidate_contract() -> None:
+    helper = load_module("bookforge_imagegen_asset", REPO / "runtime/native_helpers/bookforge_imagegen_asset.py")
     with tempfile.TemporaryDirectory(prefix="bookforge-verify-image-") as tmp:
         root = Path(tmp)
-        asset_manifest = root / "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json"
-        write_json(asset_manifest, {
-            "surface_kind": "bookforge_figure_asset_manifest",
-            "version": "bookforge-figure-asset-manifest.v1",
-            "figures": [{
-                "id": "verify-figure",
-                "title": "图 0-1：Verify Figure",
-                "chapter": "验证",
-                "required": True,
-                "project_local_path": "artifacts/figures/verify-figure.png",
-                "asset_status": "planned",
-                "blocker_kind": "imagegen_asset_not_generated",
-            }],
-        })
-
-        receipt = root / "artifacts/figures/verify-figure.receipt.json"
         output = root / "artifacts/figures/verify-figure.png"
-        run([
-            PYTHON,
-            str(helper),
-            "--mock",
-            "--root",
-            str(root),
-            "--figure-id",
-            "verify-figure",
-            "--title",
-            "图 0-1：Verify Figure",
-            "--prompt",
-            "mock manifest sync smoke",
-            "--output-file",
-            "artifacts/figures/verify-figure.png",
-            "--manifest",
-            "artifacts/figures/verify-figure.receipt.json",
-            "--asset-manifest",
-            "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json",
-        ])
-        run([
-            PYTHON,
-            str(helper),
-            "--update-asset-manifest",
-            "--root",
-            str(root),
-            "--receipt-file",
-            "artifacts/figures/verify-figure.receipt.json",
-            "--asset-manifest",
-            "artifacts/stage_outputs/chapter-materialization/figure-asset-manifest.json",
-        ])
-
-        payload = json.loads(asset_manifest.read_text(encoding="utf-8"))
-        item = payload["figures"][0]
-        assert item["asset_status"] == "asset_ready", item
-        assert item["receipt_ref"] == "artifacts/figures/verify-figure.receipt.json", item
-        assert item["project_local_path"] == "artifacts/figures/verify-figure.png", item
-        assert receipt.exists(), receipt
-        assert output.exists(), output
+        output.parent.mkdir(parents=True)
+        data = png_bytes()
+        output.write_bytes(data)
+        payload = helper.evaluate_host_bitmap({
+            "surface_kind": "opl_bookforge_host_bitmap_validation_request",
+            "schema_version": 1,
+            "host_context": {
+                "workspace_root": str(root),
+                "attempt_ref": "stage-run://verify/attempt",
+                "output_ref": "stage-run://verify/output/figure",
+            },
+            "bitmap": {
+                "bitmap_ref": "artifacts/figures/verify-figure.png",
+                "sha256": helper.sha256_bytes(data),
+                "format": "png",
+                "media_type": "image/png",
+            },
+            "figure": {
+                "figure_id": "verify-figure",
+                "title": "图 0-1：Verify Figure",
+                "artifact_role": "book_manuscript_figure",
+            },
+        })
+        assert payload["status"] == "figure_authority_receipt_candidate", payload
+        candidate = payload["figure_authority_receipt_candidate"]
+        assert candidate["asset_manifest_entry_candidate"]["asset_status"] == "bitmap_validated_pending_visual_review", candidate
+        assert candidate["authority_boundary"]["candidate_requires_opl_persistence"] is True, candidate
 
 
 SAMPLE_MARKDOWN = """---
@@ -182,24 +172,9 @@ COMPLETE_INSPECTION = {
 
 def prepare_pdf_fixture(root: Path) -> None:
     (root / "sample.md").write_text(SAMPLE_MARKDOWN, encoding="utf-8")
-    image_helper = REPO / "runtime/native_helpers/bookforge_imagegen_asset.py"
-    run([
-        PYTHON,
-        str(image_helper),
-        "--mock",
-        "--root",
-        str(root),
-        "--figure-id",
-        "smoke-figure",
-        "--title",
-        "图 0-1：出版 proof 图片解析 smoke",
-        "--prompt",
-        "mock publication proof figure resource path smoke",
-        "--output-file",
-        "artifacts/figures/smoke-figure.png",
-        "--manifest",
-        "artifacts/figures/smoke-figure.receipt.json",
-    ])
+    figure_path = root / "artifacts/figures/smoke-figure.png"
+    figure_path.parent.mkdir(parents=True)
+    figure_path.write_bytes(png_bytes())
     write_json(root / "figure-asset-manifest.json", {
         "surface_kind": "bookforge_figure_asset_manifest",
         "version": "bookforge-figure-asset-manifest.v1",
@@ -432,7 +407,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if not args.pdf_smoke_only:
         test_pandoc_command_shape()
-        test_image_asset_manifest_lifecycle()
+        test_image_asset_candidate_contract()
         test_publication_profile_contract()
         test_artifact_gate_matrix()
     if args.pdf_smoke or args.pdf_smoke_only:

@@ -29,6 +29,7 @@ be treated as current truth:
 
 | Area | Role | Read rule |
 | --- | --- | --- |
+| `image-asset-private-execution-retirement-2026-07-13.md` | Retired repo-local image execution route and no-caller hygiene deletion provenance. | History only. Current handler and host split come from active contracts and source. |
 | `external-learning/` | External writing-agent, revision-routing, and publication-proof learning provenance. | Reference only. Absorbed rules must appear in agent skills, quality gates, contracts, current docs, or evidence package boundaries. |
 | `process/` | Process-history index and docs-governance foldback. | Topic-level provenance only; do not grow dated worktree, commit, verifier, render, or pilot closeout ledgers here. |
 
