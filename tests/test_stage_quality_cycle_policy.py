@@ -9,13 +9,24 @@ def read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_bookforge_declares_isolated_stage_review_for_every_ai_producer() -> None:
+def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     manifest = read_json("agent/stages/manifest.json")
     profile = read_json("contracts/stage_quality_cycle_policy.json")
+    expected_review_policy = {
+        "storyline-architecture": (True, 3),
+        "chapter-production-planning": (True, 3),
+        "chapter-materialization": (True, 3),
+        "source-style-integrity-review": (False, 0),
+        "publication-proof-handoff": (True, 3),
+    }
 
     assert manifest["quality_governance_profile_ref"] == "contracts/opl-framework/official-knowledge-deliverable-quality-profile.json"
     assert manifest["meta_review_policy_ref"] == "contracts/stage_quality_cycle_policy.json#/meta_review_policy"
     assert profile["framework_contract_ref"] == "contracts/opl-framework/stage-quality-cycle-contract.json"
+    assert profile["route_selection_contract_ref"] == (
+        "contracts/opl-framework/stage-quality-cycle-contract.json"
+        "#/cross_stage_route_selection"
+    )
     assert profile["review_attempt_contract"]["new_stage_attempt_per_role"] is True
     assert profile["review_attempt_contract"]["new_execution_session_per_attempt"] is True
     assert profile["review_attempt_contract"]["no_context_inheritance"] is True
@@ -25,17 +36,18 @@ def test_bookforge_declares_isolated_stage_review_for_every_ai_producer() -> Non
     }
     role_outputs = profile["review_attempt_contract"]["required_role_output_ref_fields"]
     assert role_outputs["reviewer"] == [
-        "finding_refs", "review_receipt_refs", "reviewed_artifact_refs", "reviewed_artifact_hashes"
+        "finding_refs", "verdict", "evidence_refs", "acceptance_criteria_refs"
     ]
+    assert "review_receipt_refs" not in role_outputs["reviewer"]
     assert "repair_map_refs" not in role_outputs["reviewer"]
     assert "repair_map_refs" in role_outputs["repairer"]
     assert "changed_artifact_refs" in role_outputs["repairer"]
     assert "re_review_closure_refs" in profile["review_attempt_contract"]["required_role_output_ref_fields"]["re_reviewer"]
+    assert "review_receipt_refs" not in role_outputs["re_reviewer"]
 
     manifest_stages = {stage["stage_id"]: stage for stage in manifest["stages"]}
     assert set(profile["stages"]) == set(manifest_stages)
     for stage_id, policy in profile["stages"].items():
-        stage_role = manifest_stages[stage_id].get("stage_role")
         assert manifest_stages[stage_id]["stage_quality_cycle_policy_ref"] == (
             f"contracts/stage_quality_cycle_policy.json#/stages/{stage_id}"
         )
@@ -55,9 +67,73 @@ def test_bookforge_declares_isolated_stage_review_for_every_ai_producer() -> Non
             "controller_creates_next_attempt", "attempt_is_not_sub_stage",
         }
         assert all(policy["attempt_boundary"].values())
-        if stage_role != "cross_stage_meta_review":
-            assert policy["formal_review"]["required"] is True
-            assert policy["formal_review"]["max_repair_rounds"] == 3
+        assert (
+            policy["formal_review"]["required"],
+            policy["formal_review"]["max_repair_rounds"],
+        ) == expected_review_policy[stage_id]
+
+    assert manifest_stages["publication-proof-handoff"]["handoff_review_boundary"] == {
+        "artifact_effect": "new_or_transformed_reviewable_bytes",
+        "freezes_canonical_artifact_bytes": True,
+        "issues_quality_export_publication_or_ready_claim": True,
+        "downstream_owner_retains_acceptance": True,
+    }
+
+
+def test_publication_proof_claims_require_fresh_exact_byte_review() -> None:
+    prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
+        encoding="utf-8"
+    )
+    gate = (
+        ROOT / "agent/quality_gates/publication-proof-handoff-quality-gate.md"
+    ).read_text(encoding="utf-8")
+    role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(
+        encoding="utf-8"
+    )
+
+    for text in (prompt, gate, role_prompt):
+        assert "`review_pending`" in text
+        assert "publication-proof" in text
+        assert "final-export" in text
+        assert "owner/export acceptance" in text
+    assert "Any regeneration invalidates the prior Review receipt" in gate
+    assert "fresh reviewer or re-reviewer" in prompt
+    assert "producer cannot close publication-proof" in role_prompt
+    assert "repairer cannot close publication-proof" in role_prompt
+    assert "Do not create a Review receipt or repair map" in role_prompt
+    assert "OPL StageRun controller materializes" in role_prompt
+    assert "Do not create the controller-owned Review receipt" in role_prompt
+    assert "reviewed final-export candidate may be handed downstream pending acceptance" in gate
+
+
+def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
+    role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(
+        encoding="utf-8"
+    )
+    meta_prompt = " ".join(
+        (ROOT / "agent/prompts/source-style-integrity-review.md")
+        .read_text(encoding="utf-8")
+        .split()
+    )
+    proof_prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
+        encoding="utf-8"
+    )
+    profile = read_json("contracts/stage_quality_cycle_policy.json")
+
+    assert "`route_impact.stage_route_decision`" in role_prompt
+    assert "`route_impact.stage_route_recommendation`" in role_prompt
+    assert "producer is decisive only in a primary-only StageRun" in role_prompt
+    assert "repairer never makes a terminal route decision" in role_prompt
+    assert "If the verdict is `repair_required`" in role_prompt
+    assert "decisive cross-Stage route owner" in meta_prompt
+    assert "terminal reviewer or re-reviewer" in proof_prompt
+    assert profile["meta_review_policy"]["terminal_route_output"] == (
+        "route_impact.stage_route_decision"
+    )
+    assert profile["meta_review_policy"]["terminal_route_owner"] == "producer"
+    assert "route_decision_evidence_refs" in profile["meta_review_policy"][
+        "required_output_ref_fields"
+    ]
 
 
 def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair() -> None:
@@ -124,7 +200,9 @@ def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
 
 
 def main() -> int:
-    test_bookforge_declares_isolated_stage_review_for_every_ai_producer()
+    test_bookforge_declares_explicit_review_policy_for_each_stage()
+    test_publication_proof_claims_require_fresh_exact_byte_review()
+    test_attempt_route_owner_and_machine_output_are_unambiguous()
     test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()
     test_quality_policy_does_not_define_nested_stage_or_owner_graphs()
     print(json.dumps({"status": "passed", "contract": "stage_quality_cycle_policy"}))

@@ -16,6 +16,11 @@ Use `bookforge-source-reference-reviewer` for claim integrity and reference abso
 
 This independent Meta Review StageRun uses a `producer` Attempt and a fresh Codex thread. Optional multi-axis subagents remain inside that Attempt and do not become OPL ledger roles. Its inputs are limited to exact manuscript/artifact hashes, Stage Review receipts, source and reader/style refs, the whole-book rubric, and necessary lineage; drafting or repair conversations, thread resumes, and author self-justification are forbidden review context.
 
+Because this StageRun is primary-only, its producer is the decisive cross-Stage
+route owner. It may select any Stage declared by the manifest; OPL validates only
+the Attempt role and target identity and does not reinterpret the editorial
+diagnosis.
+
 ## Professional Dependencies And Boundaries
 
 This review depends on actual materialized manuscript refs. Route reader promise, argument arc, or chapter-role defects to `storyline-architecture`; production-plan, task-card, context, or extent defects to `chapter-production-planning`; manuscript, claim, evidence, or local prose defects to `chapter-materialization`. Choose the earliest Stage that can close the root cause and do not edit manuscript artifacts inside this Meta Review Stage. The target Stage creates a new generation, completes its independent Stage Review, and then re-enters Meta Review.
@@ -26,4 +31,4 @@ Do not rewrite source evidence, invent owner authorization, generate proof/expor
 
 ## Closeout
 
-Return the integrity review, defect-owner matrix, claim/evidence and style findings, accepted quality debt, route-back refs, invalidated downstream refs, freshness obligations, and an integrity handoff for proof/export work when eligible. If no review result is produced, return a no-output diagnostic and allow later stages to start; reserve typed blocker or human gate for true hard-stop boundaries.
+Return the integrity review, defect-owner matrix, claim/evidence and style findings, accepted quality debt, route evidence, invalidated downstream refs, freshness obligations, and an integrity handoff for proof/export work when eligible. Return the terminal selection as `route_impact.stage_route_decision`, with non-empty `evidence_refs` and a declared `target_stage_id` except for `complete`. If no review result is produced, return a no-output diagnostic and select the next declared owner Stage when work can continue; reserve typed blocker or human gate for true hard-stop boundaries.

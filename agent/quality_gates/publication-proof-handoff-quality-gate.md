@@ -5,11 +5,15 @@ Pass conditions:
 - The handoff classifies the artifact as `review_pdf`, `publication_proof`, or `final_export`, and records what each role can and cannot prove.
 - Review PDF output is labeled as owner/editor review artifact only.
 - Publication proof evidence includes publication design profile, concrete design tokens, template/component inventory, resource-path-backed figure resolution, Markdown image-ref checks, figure asset manifest readiness, rendered-page refs, rendered-page inspection, and pre-ship proof review.
-- Final export handoff requires publication-proof evidence plus owner/export acceptance receipt refs.
+- Every producer or repairer output is a `review_pending` candidate; it cannot itself close publication-proof, final-export, export-ready, or ready claims.
+- The exact current PDF/export hashes are bound to a fresh reviewer receipt for unchanged producer bytes or a fresh re-reviewer receipt after repair. Any regeneration invalidates the prior Review receipt.
+- A reviewed final-export candidate may be handed downstream pending acceptance. A final-export accepted/export-ready/ready claim requires the fresh exact-byte Review closeout, publication-proof evidence, and separate downstream owner/export acceptance receipt refs.
+- Producer and repairer Attempts may return only `stage_route_recommendation`; only a terminal reviewer or re-reviewer may return `stage_route_decision`, and a `repair_required` reviewer cannot bypass repair plus fresh re-review.
 - Missing proof backend, design profile, asset paths, rendered-page inspection, or owner/export acceptance returns `generated_with_quality_debt`, a human gate, or route-back instead of a ready claim when a readable review artifact exists. It does not block the stage transition; it does block publication-proof/final-export/readiness claims.
 
 Forbidden cross-stage blocking behavior:
 
 - A review PDF, HTML preview, unstyled backend output, hand-rolled raster renderer, command success, or provider completion is used as publication-proof or final-export evidence.
+- A producer or repairer candidate, stale Review receipt, or receipt bound to different bytes is used to close publication-proof, final-export, export-ready, or ready status.
 - Missing publication-proof evidence is not used to block unrelated chapter drafting, source integrity, style review, or ordinary review-PDF refresh; it blocks only publication-proof, final-export, owner-accepted, or ready claims.
 - The stage claims publication approval, final export acceptance, book quality acceptance, owner acceptance, domain readiness, production readiness, or runtime readiness without the required owner/domain authority refs.

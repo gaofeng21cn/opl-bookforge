@@ -84,7 +84,18 @@ OMA / Agent Lab evidence evaluates the agent baseline and improvement loop. Pilo
 
 ## Independent Stage Review And Whole-Book Meta Review
 
-Book Forge binds `official_high_value_knowledge_deliverable.v1`. Every AI producer Stage uses isolated producer, reviewer, repairer, and re-reviewer Attempts under one StageRun, with a fresh Codex thread per Attempt. Same-thread checking is only `in_thread_refinement`; a protocol closeout resume cannot produce a Review receipt.
+Book Forge binds `official_high_value_knowledge_deliverable.v1`, while formal Review is an explicit per-Stage risk decision rather than a blanket rule. `storyline-architecture`, `chapter-production-planning`, and `chapter-materialization` use isolated producer, reviewer, repairer, and re-reviewer Attempts because they create open judgments or manuscript bytes. `source-style-integrity-review` is already the independent Meta Review StageRun and does not recursively review itself. `publication-proof-handoff` retains the full Review loop because it generates or transforms final PDF/export bytes, freezes their canonical identity, and can support publication/export/ready claims. Same-thread checking is only `in_thread_refinement`; a protocol closeout resume cannot produce a Review receipt.
+
+Within `publication-proof-handoff`, producer and repairer outputs remain `review_pending` candidates. Any regeneration invalidates the prior receipt. Only a fresh reviewer receipt for unchanged producer bytes or fresh re-reviewer receipt for repaired bytes can close Review against the exact current hashes; downstream owner/export acceptance remains a separate Book Forge authority.
+
+Cross-Stage routing remains a Codex domain judgment, with one decisive Attempt per
+StageRun: the producer for a primary-only StageRun, otherwise the terminal
+reviewer or re-reviewer. Producer and repairer Attempts inside formal Review, and
+any reviewer returning `repair_required`, can only recommend a route. Machine
+output is `route_impact.stage_route_decision` or
+`stage_route_recommendation`; OPL only validates role eligibility and that the
+target is a manifest-declared Stage. It does not rewrite Book Forge editorial or
+publication semantics.
 
 `source-style-integrity-review` keeps its stable ID and acts as the independent whole-book Meta Review and integrity gate. It consumes exact manuscript/artifact hashes, Stage Review receipts, source/reader-style/rubric refs, and necessary lineage only. It routes defects to the earliest owning storyline, planning, or materialization Stage and never edits manuscript artifacts inside the Meta Review Stage. Three exhausted repair/route-back rounds with a readable manuscript produce quality debt, which still closes publication/export/ready claims.
 

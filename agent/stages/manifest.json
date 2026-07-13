@@ -349,6 +349,12 @@
     {
       "stage_id": "publication-proof-handoff",
       "stage_kind": "packaging",
+      "handoff_review_boundary": {
+        "artifact_effect": "new_or_transformed_reviewable_bytes",
+        "freezes_canonical_artifact_bytes": true,
+        "issues_quality_export_publication_or_ready_claim": true,
+        "downstream_owner_retains_acceptance": true
+      },
       "lane_kind": "variant",
       "title": "Publication Proof Handoff",
       "summary": "Classify and package review PDF, publication proof, or final export handoff refs without turning compile success into owner/export authority.",
