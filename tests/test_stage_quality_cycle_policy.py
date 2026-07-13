@@ -151,9 +151,9 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
         assert f"`{outcome}`" in role_prompt
     assert "`hard_stop` is never an Attempt outcome" in role_prompt
     assert "`hard_stop` is not an Attempt outcome" in role_prompt
-    assert "producer is decisive only in a primary-only StageRun" in role_prompt
+    assert "producer is decisive only for a progress-terminal result" in role_prompt
     assert "repairer never makes a terminal route decision" in role_prompt
-    assert "If the outcome is `repair_required`" in role_prompt
+    assert "While repair budget remains" in role_prompt
     assert "decisive cross-Stage route owner" in meta_prompt
     assert "terminal reviewer or re-reviewer" in proof_prompt
     assert profile["meta_review_policy"]["terminal_route_output"] == (
@@ -163,6 +163,58 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
     assert "route_decision_evidence_refs" in profile["meta_review_policy"][
         "required_output_ref_fields"
     ]
+
+
+def test_quality_role_prompt_terminalizes_final_budget_without_routing_hard_boundaries() -> None:
+    roles = " ".join(
+        (ROOT / "agent/prompts/stage-quality-cycle-roles.md")
+        .read_text(encoding="utf-8")
+        .split()
+    )
+
+    assert "`repair_budget_remaining`" in roles
+    assert "another repair round remains" in roles
+    assert "returns outcome `repair_required`" in roles
+    assert "controller creates the next fresh repairer Attempt" in roles
+    assert "This branch is non-terminal" in roles
+
+    assert "`final_budget_consumable`" in roles
+    assert "no repair round remains" in roles
+    assert "keep outcome `repair_required`" in roles
+    assert "do not relabel them `quality_debt`" in roles
+    assert "exactly one `route_impact.stage_route_decision`" in roles
+    assert "remaining required finding refs and quality-debt refs" in roles
+    assert "classifies this branch as `terminal_quality_debt`" in roles
+    assert "projects `completed_with_quality_debt`" in roles
+    assert "`quality_debt` only when no required finding remains" in roles
+
+    assert "`hard_boundary_or_zero_artifact`" in roles
+    assert "literal zero consumable exact artifact is not a Stage-routing judgment" in roles
+    assert "returns neither `route_impact.stage_route_decision` nor" in roles
+    assert "`route_impact.stage_route_recommendation`" in roles
+    assert "Literal zero consumable artifact uses `blocked`" in roles
+    assert "terminalizes the StageRun as blocked or human-gated" in roles
+    assert "A hard-boundary reviewer returns no route output" in roles
+    assert "A hard-boundary re-reviewer returns no route output" in roles
+    assert "A repairer never makes a terminal route decision" in roles
+
+    meta_prompt = (ROOT / "agent/prompts/source-style-integrity-review.md").read_text(
+        encoding="utf-8"
+    )
+    proof_prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
+        encoding="utf-8"
+    )
+    proof_gate = (
+        ROOT / "agent/quality_gates/publication-proof-handoff-quality-gate.md"
+    ).read_text(encoding="utf-8")
+    acceptance_gate = (ROOT / "agent/quality_gates/domain_acceptance.md").read_text(
+        encoding="utf-8"
+    )
+    for prompt in (meta_prompt, proof_prompt):
+        assert "no route output" in prompt
+    assert "keeps outcome `repair_required`" in proof_prompt
+    assert "controller projects `completed_with_quality_debt`" in proof_gate
+    assert "Literal zero consumable artifact is a controller hard stop" in acceptance_gate
 
 
 def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair() -> None:

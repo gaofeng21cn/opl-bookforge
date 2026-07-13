@@ -40,7 +40,7 @@ FOUNDRY_SERIES_CONSUMER_REFS = {
     "canonical_series_contract_ref": "contracts/opl-framework/foundry-agent-series-contract.json",
     "canonical_skeleton_contract_ref": "contracts/opl-framework/standard-domain-agent-skeleton-contract.json",
 }
-FOUNDRY_POLICY_FINGERPRINT = "sha256:30a1d0034eeafbf5ea042fc33c64af585c3e68276328eb97d20903105087bb5d"
+FOUNDRY_POLICY_FINGERPRINT = "sha256:11dae4f01d2647ba77b5bee332ceda0004be62984daab26903abe85f61e36722"
 LEGACY_FOUNDRY_POLICY_BODY_FIELDS = {
     "agent_membership_projection_policy",
     "app_projection_policy",
