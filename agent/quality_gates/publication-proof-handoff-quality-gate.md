@@ -11,5 +11,5 @@ Pass conditions:
 Forbidden cross-stage blocking behavior:
 
 - A review PDF, HTML preview, unstyled backend output, hand-rolled raster renderer, command success, or provider completion is used as publication-proof or final-export evidence.
-- Missing publication-proof evidence is used to block unrelated chapter drafting, source integrity, style review, or ordinary review-PDF refresh instead of only blocking publication-proof or final-export claims.
+- Missing publication-proof evidence is not used to block unrelated chapter drafting, source integrity, style review, or ordinary review-PDF refresh; it blocks only publication-proof, final-export, owner-accepted, or ready claims.
 - The stage claims publication approval, final export acceptance, book quality acceptance, owner acceptance, domain readiness, production readiness, or runtime readiness without the required owner/domain authority refs.

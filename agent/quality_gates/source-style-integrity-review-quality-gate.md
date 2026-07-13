@@ -7,7 +7,7 @@ Pass conditions:
 - Style calibration records adopted rules, rejected patterns, fatigue scan evidence, accepted exceptions, and back-propagation refs when owner-inspectable style inputs exist.
 - Visible manuscript refs pass internal-language, AI-flavor, and sentence-integrity scans, or accepted exceptions are recorded with locations and reasons.
 - Serious owner/reviewer/meta-review findings are routed through a revision entrypoint decision before prose edits are claimed.
-- Meta-review loops are bounded. Budget exhaustion with a readable manuscript returns `completed_with_quality_debt` and advances; typed blockers remain reserved for zero artifact or hard authority/identity/human-gate conditions.
+- Meta-review loops are bounded. Budget exhaustion with a readable manuscript returns `completed_with_quality_debt` and advances; zero, corrupt, or unreadable review output becomes a no-output/failure diagnostic and also advances. Typed blockers remain reserved for unavailable executors or hard authority/safety/permission/identity/currentness/irreversible-action/human-decision boundaries.
 
 Quality-debt conditions:
 

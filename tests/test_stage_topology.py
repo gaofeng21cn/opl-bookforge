@@ -155,9 +155,15 @@ def main() -> int:
         stage for stage in manifest_stages if stage["stage_id"] == "publication-proof-handoff"
     )
     assert publication_proof["lane_kind"] == "variant"
-    assert [stage["next_stage_refs"] for stage in manifest_stages] == [
-        [stage_id] for stage_id in STAGE_SEQUENCE[1:]
-    ] + [[]]
+    manifest_policy = stage_manifest["progress_first_policy"]
+    assert manifest_policy["route_selection_owner"] == "codex_cli"
+    assert manifest_policy["codex_may_advance_skip_repeat_reverse_or_route_back"] is True
+    assert manifest_policy["any_declared_stage_may_start_from_any_prior_stage_result"] is True
+    assert manifest_policy["declared_requires_are_quality_context_not_launch_gates"] is True
+    assert manifest_policy["next_stage_refs_are_recommendations_not_constraints"] is True
+    assert manifest_policy["no_output_or_failure_diagnostic_advances_stage"] is True
+    declared_stage_ids = {stage["stage_id"] for stage in manifest_stages}
+    assert all(set(stage["next_stage_refs"]) <= declared_stage_ids for stage in manifest_stages)
 
     planning = manifest_stages[1]
     progress_policy = planning["stage_contract"]["progress_first_policy"]
