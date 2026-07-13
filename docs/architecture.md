@@ -37,7 +37,7 @@ Book Forge uses a storyline default stage plus focused materialization stages:
 - `source-style-integrity-review`: run source/claim integrity, style consistency, AI-flavor/internal-language scan, meta-review routing, and repair entrypoint judgment.
 - `publication-proof-handoff`: package review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundaries.
 
-The sequence is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`. Planning owns storyline-ref admission and route-back. Ordinary planning gaps stay in progress or route back with exact repair refs; an independent review receipt is not a blanket transition prerequisite.
+The sequence is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`. Planning owns storyline-ref admission and route-back. The planning StageRun launches an independent reviewer Attempt, but a reviewer `pass` is not a hard transition prerequisite: ordinary gaps may route back or close as explicit quality debt when a readable plan exists.
 
 The stage split follows the OMA-derived sizing rule: one top-level stage should own one major open judgment. Deterministic file generation, validators, helper receipts, and professional-skill method work remain inside the relevant stage; independent judgments such as planning, drafting, integrity review, and proof/export handoff are separated.
 

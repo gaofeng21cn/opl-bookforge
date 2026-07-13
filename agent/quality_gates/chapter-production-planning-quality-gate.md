@@ -20,7 +20,7 @@ Quality-debt and claim-closed conditions:
 - Visible chapter prose is drafted before task cards, target extent, reader-style, source boundary, and next action are explicit.
 - A below-target coverage skeleton is labeled as completed materialization.
 - Planning creates or depends on a private queue, scheduler, session store, attempt ledger, runtime state, owner receipt, typed blocker body, or publication authority.
-- An independent review is made a blanket prerequisite for ordinary planning-to-materialization transition.
+- An independent Review pass is treated as a hard transition prerequisite even when a readable plan exists and only quality debt remains.
 - Review is claimed from an author-thread self-check, a resumed producer thread, or a receipt without exact artifact hashes and `no_context_inheritance=true`.
 
-None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.
+The independent Review Attempt is required, but a `pass` verdict is not a hard transition prerequisite. None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.

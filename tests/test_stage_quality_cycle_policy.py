@@ -83,13 +83,17 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
     assert "do not edit manuscript artifacts inside this Meta Review Stage" in prompt
     planning_gate = (ROOT / "agent/quality_gates/chapter-production-planning-quality-gate.md").read_text(encoding="utf-8")
     assert "author-thread self-check is only `in_thread_refinement`" in planning_gate
+    assert "The independent Review Attempt is required" in planning_gate
+    assert "a `pass` verdict is not a hard transition prerequisite" in planning_gate
     role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(encoding="utf-8")
     for semantic in (
         "stable `finding_id`",
+        "`repair_expectation`",
         "repair map keyed by every accepted `finding_id`",
-        "repair regression",
-        "critical new finding",
-        "optional observations or quality debt without reopening the loop",
+        "`changed_artifact_refs`",
+        "`repair_regression`",
+        "`critical_new_finding`",
+        "`optional_observation` or quality debt without reopening the loop",
     ):
         assert semantic in role_prompt
 
