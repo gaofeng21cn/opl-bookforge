@@ -31,12 +31,30 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     assert profile["review_attempt_contract"]["new_execution_session_per_attempt"] is True
     assert profile["review_attempt_contract"]["no_context_inheritance"] is True
     assert profile["review_attempt_contract"]["same_thread_resume_counts_as_review"] is False
+    assert profile["review_attempt_contract"]["attempt_output_contract"] == {
+        "envelope_path": "route_impact.stage_quality_cycle",
+        "outcome_field": "outcome",
+        "outcome_required_for_roles": ["reviewer", "re_reviewer"],
+        "outcome_values": [
+            "pass", "repair_required", "quality_debt", "blocked", "human_gate",
+        ],
+        "attempts_must_not_emit_receipt_verdict": True,
+        "receipt_materializer_owner": "opl_stage_run_controller",
+        "review_receipt_verdict_mapping": {
+            "pass": "pass",
+            "repair_required": "repair_required",
+            "quality_debt": "quality_debt",
+            "blocked": "hard_stop",
+            "human_gate": "hard_stop",
+        },
+    }
     assert set(profile["review_attempt_contract"]["role_prompt_refs"]) == {
         "producer", "reviewer", "repairer", "re_reviewer"
     }
     role_outputs = profile["review_attempt_contract"]["required_role_output_ref_fields"]
     assert role_outputs["reviewer"] == [
-        "finding_refs", "verdict", "evidence_refs", "acceptance_criteria_refs"
+        "route_impact.stage_quality_cycle.outcome", "finding_refs", "evidence_refs",
+        "acceptance_criteria_refs",
     ]
     assert "review_receipt_refs" not in role_outputs["reviewer"]
     assert "repair_map_refs" not in role_outputs["reviewer"]
@@ -44,6 +62,8 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     assert "changed_artifact_refs" in role_outputs["repairer"]
     assert "re_review_closure_refs" in profile["review_attempt_contract"]["required_role_output_ref_fields"]["re_reviewer"]
     assert "review_receipt_refs" not in role_outputs["re_reviewer"]
+    assert "verdict" not in role_outputs["reviewer"]
+    assert "verdict" not in role_outputs["re_reviewer"]
 
     manifest_stages = {stage["stage_id"]: stage for stage in manifest["stages"]}
     assert set(profile["stages"]) == set(manifest_stages)
@@ -122,9 +142,14 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
 
     assert "`route_impact.stage_route_decision`" in role_prompt
     assert "`route_impact.stage_route_recommendation`" in role_prompt
+    assert "`route_impact.stage_quality_cycle.outcome`" in role_prompt
+    for outcome in ("pass", "repair_required", "quality_debt", "blocked", "human_gate"):
+        assert f"`{outcome}`" in role_prompt
+    assert "`hard_stop` is never an Attempt outcome" in role_prompt
+    assert "`hard_stop` is not an Attempt outcome" in role_prompt
     assert "producer is decisive only in a primary-only StageRun" in role_prompt
     assert "repairer never makes a terminal route decision" in role_prompt
-    assert "If the verdict is `repair_required`" in role_prompt
+    assert "If the outcome is `repair_required`" in role_prompt
     assert "decisive cross-Stage route owner" in meta_prompt
     assert "terminal reviewer or re-reviewer" in proof_prompt
     assert profile["meta_review_policy"]["terminal_route_output"] == (
