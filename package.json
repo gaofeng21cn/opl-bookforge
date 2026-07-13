@@ -1,6 +1,6 @@
 {
   "name": "opl-bookforge",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "OPL-standard Foundry Agent domain pack for book authoring.",
   "scripts": {
