@@ -23,9 +23,13 @@ def test_bookforge_declares_isolated_stage_review_for_every_ai_producer() -> Non
     assert set(profile["review_attempt_contract"]["role_prompt_refs"]) == {
         "producer", "reviewer", "repairer", "re_reviewer"
     }
-    assert profile["review_attempt_contract"]["required_role_output_ref_fields"]["reviewer"] == [
-        "finding_refs", "repair_map_refs", "reviewed_artifact_hashes"
+    role_outputs = profile["review_attempt_contract"]["required_role_output_ref_fields"]
+    assert role_outputs["reviewer"] == [
+        "finding_refs", "review_receipt_refs", "reviewed_artifact_refs", "reviewed_artifact_hashes"
     ]
+    assert "repair_map_refs" not in role_outputs["reviewer"]
+    assert "repair_map_refs" in role_outputs["repairer"]
+    assert "changed_artifact_refs" in role_outputs["repairer"]
     assert "re_review_closure_refs" in profile["review_attempt_contract"]["required_role_output_ref_fields"]["re_reviewer"]
 
     manifest_stages = {stage["stage_id"]: stage for stage in manifest["stages"]}
@@ -79,11 +83,29 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
     assert "do not edit manuscript artifacts inside this Meta Review Stage" in prompt
     planning_gate = (ROOT / "agent/quality_gates/chapter-production-planning-quality-gate.md").read_text(encoding="utf-8")
     assert "author-thread self-check is only `in_thread_refinement`" in planning_gate
+    role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(encoding="utf-8")
+    for semantic in (
+        "stable `finding_id`",
+        "repair map keyed by every accepted `finding_id`",
+        "repair regression",
+        "critical new finding",
+        "optional observations or quality debt without reopening the loop",
+    ):
+        assert semantic in role_prompt
 
 
 def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
     profile = read_json("contracts/stage_quality_cycle_policy.json")
-    forbidden = {"next_stage", "requires", "ensures", "stage_route", "sub_stage_graph", "independent_owner"}
+    forbidden = {
+        "next_stage_refs",
+        "requires",
+        "ensures",
+        "stage_route",
+        "sub_stage_graph",
+        "independent_owner",
+        "stage_current_pointer",
+        "stage_transition_authority",
+    }
 
     def walk(value: object) -> None:
         if isinstance(value, dict):

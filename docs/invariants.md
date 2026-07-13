@@ -69,4 +69,5 @@ Machine boundary: Human-readable hard constraints. Machine truth remains in cont
 - Route missing human acceptance as owner receipt blockers or typed blockers, not as silent success.
 - Treat generated MCP/OpenAI/AI SDK surfaces as descriptors until live OPL StageRun or hosted execution evidence exists.
 - A formal Stage Review must use a new StageAttempt and executor session. Producer self-checks, same-thread resumes, or receipts without exact artifact hashes and `no_context_inheritance=true` are not Review.
+- Initial Review owns stable findings and repair expectations; Repair owns the per-finding repair map and changed artifact refs; Re-review owns finding closure against the changed bytes. Only an unclosed required finding, repair regression, or critical new finding may consume another repair round. Ordinary new suggestions remain optional observations or quality debt and must not reopen the loop.
 - `source-style-integrity-review` is a context-isolated whole-book Meta Review. It diagnoses and routes defects to the earliest owning Stage; it must not inherit author/repair conversations or edit manuscript artifacts inline.
