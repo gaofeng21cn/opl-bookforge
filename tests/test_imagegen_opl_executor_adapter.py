@@ -121,6 +121,19 @@ def main() -> int:
         assert blocked["blocker_kind"] == "opl_executor_image_generation_capability_not_activated", blocked
         assert not output.exists(), output
 
+        os.environ["FAKE_OPL_MODE"] = "no-output"
+        diagnostic = helper.generate_live(
+            helper_args(str(fake_opl)),
+            root,
+            output,
+            "A third book-specific explanatory figure.",
+        )
+        assert diagnostic["status"] == "completed_with_quality_debt", diagnostic
+        assert diagnostic["progress_diagnostic"]["code"] == "project_bitmap_not_materialized", diagnostic
+        assert diagnostic["progress_diagnostic"]["blocks_stage_transition"] is False, diagnostic
+        assert diagnostic["progress_diagnostic"]["next_stage_may_start"] is True, diagnostic
+        assert not output.exists(), output
+
     print(json.dumps({"status": "passed", "surface": "bookforge_imagegen_opl_executor_adapter"}))
     return 0
 

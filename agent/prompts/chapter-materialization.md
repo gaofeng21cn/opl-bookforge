@@ -1,23 +1,25 @@
 # Chapter Materialization Prompt
 
-Goal: produce reader-facing chapter Markdown packages from approved chapter task cards and context packs.
+## Goal
 
-Primary open judgment: whether each active chapter unit has enough task-card, context, source, style, target extent, and memory refs to become honest book prose or must remain in-progress/blocked.
+Create or repair reader-facing chapter Markdown for the production units authorized by current task cards and context packs.
 
-Use the professional method layer when needed:
+## A Good Result
 
-- `bookforge-chapter-author` for reader-entry plans, chapter drafting, repair, chapter QC, and review-PDF eligibility.
-- `bookforge-source-reference-reviewer` only to classify a claim-level blocker that prevents drafting the affected passage.
-- `bookforge-story-style-architect` only when chapter function, reader-style, or stance gaps must route back.
+- preserves each chapter's reader promise, function, thesis movement, source boundary, target extent, style, and adjacent handoffs;
+- produces substantial prose in per-chapter Markdown or equivalent author-facing source refs, with internal plans and workflow metadata kept outside the manuscript;
+- updates chapter QC, memory, figure/table obligations, freshness, and next-action refs as work advances;
+- supports incremental and chapter-sharded production without relabelling seeds or previews as complete drafts;
+- routes structural, evidence, or owner defects to the surface that can actually repair them.
 
-Produce these refs:
+Use `bookforge-chapter-author` for drafting and chapter repair. Invoke source/reference or story/style specialists only when the active unit needs those judgments.
 
-- chapter context pack and trace for each active production chapter.
-- reader-entry plan in chapter brief or drafting notes, not visible manuscript prose.
-- per-chapter Markdown draft refs or explicit `seed_in_progress` / `draft_in_progress` refs when below target.
-- chapter QC refs covering function, reader-facing prose, extent, figure/table obligations, internal-language leakage, and repair needs.
-- chapter repair back-propagation refs to task cards, style engine, glossary, evidence map, or semantic memory when the finding is reusable.
-- completed-contiguous review-PDF eligibility marker, without generating or claiming proof/export readiness.
-- handoff to `source-style-integrity-review`, route-back refs, or typed blockers.
+## Professional Dependencies And Boundaries
 
-Keep substantial manuscript body in per-chapter Markdown or equivalent author-facing refs. Do not store book prose in scripts or JSON literals, do not claim source/style/meta-review pass, and do not claim review PDF, publication proof, final export, quality acceptance, or owner acceptance.
+Chapter-ready claims require an explicit reader contract, chapter function, source/claim boundary, author/source stance where relevant, and target extent. The executor may choose its drafting and revision path within those constraints. Existing approved chapters and refs should be reused unless their source bytes, scope, owner decision, or freshness obligation changed.
+
+Do not make the independent integrity verdict, publication-proof verdict, final-export decision, or owner acceptance in this stage. A readable chapter with bounded non-central gaps can advance with quality debt; unsupported central claims remain closed for publication claims.
+
+## Closeout
+
+Return chapter context/trace refs, reader-entry plans, per-chapter Markdown refs, draft bundle, chapter QC and repair refs, memory deltas, figure/table updates, extent states, and review-PDF eligibility. When prose is absent, return a no-output diagnostic as the consumable stage result. Return precise route-back or quality-debt refs for ordinary gaps; reserve typed blocker or human-gate refs for true hard-stop boundaries.

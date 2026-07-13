@@ -574,6 +574,36 @@ def assess_artifact_gate(
     }
 
 
+def materialize_progress_diagnostic(payload: dict[str, Any], *, code: str, error: str) -> dict[str, Any]:
+    payload["status"] = "completed_with_quality_debt"
+    payload["error"] = error
+    payload["progress_diagnostic"] = {
+        "code": code,
+        "detail": error,
+        "no_output": not Path(str(payload["output_pdf"])).is_file(),
+        "blocks_stage_transition": False,
+        "blocks_quality_export_or_ready_claims": True,
+        "next_stage_may_start": True,
+        "route_selection_owner": "codex_cli",
+    }
+    payload["artifact_gate"] = {
+        "status": "quality_debt",
+        "blockers": [{"blocker_type": code, "message": error}],
+        "quality_debt": {
+            "status": "open",
+            "blocks_stage_transition": False,
+            "blocks_quality_export_or_ready_claims": True,
+        },
+        "warnings": [],
+        "claim_boundary": {
+            "review_pdf_counts_as_publication_proof": False,
+            "publication_proof_counts_as_final_export": False,
+            "helper_receipt_counts_as_owner_acceptance": False,
+        },
+    }
+    return payload
+
+
 def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     root = args.root.resolve()
     source_md = args.source_md.resolve()
@@ -670,21 +700,27 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     payload["figure_asset_manifest_summary"] = figure_summary
 
     if not source_md.exists():
-        payload["status"] = "blocked_missing_source_md"
-        payload["error"] = f"source Markdown not found: {source_md}"
-        return payload
+        return materialize_progress_diagnostic(
+            payload,
+            code="source_markdown_missing",
+            error=f"source Markdown not found: {source_md}",
+        )
 
     payload["markdown_image_refs"] = markdown_image_refs(source_md, resource_paths, root)
     if args.backend != "pandoc-xelatex":
-        payload["status"] = "blocked_unsupported_backend"
-        payload["error"] = f"unsupported backend: {args.backend}"
-        return payload
+        return materialize_progress_diagnostic(
+            payload,
+            code="unsupported_backend",
+            error=f"unsupported backend: {args.backend}",
+        )
 
     metadata_file = args.metadata_file.resolve() if args.metadata_file else None
     if metadata_file and not metadata_file.exists():
-        payload["status"] = "blocked_missing_metadata_file"
-        payload["error"] = f"metadata file not found: {metadata_file}"
-        return payload
+        return materialize_progress_diagnostic(
+            payload,
+            code="metadata_file_missing",
+            error=f"metadata file not found: {metadata_file}",
+        )
 
     command, blocker = pandoc_xelatex_command(
         source_md,
@@ -697,18 +733,30 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     )
     payload["command"] = command
     if blocker:
-        payload["status"] = f"blocked_missing_{blocker.split()[0]}"
-        payload["error"] = blocker
-        return payload
+        if blocker in {"pandoc not found", "xelatex not found"}:
+            payload["status"] = "blocked_executor_unavailable"
+            payload["error"] = blocker
+            payload["hard_stop"] = {
+                "kind": "executor_unavailable",
+                "blocks_stage_transition": True,
+            }
+            return payload
+        return materialize_progress_diagnostic(
+            payload,
+            code="publication_backend_input_missing",
+            error=blocker,
+        )
 
     output_pdf.parent.mkdir(parents=True, exist_ok=True)
     result = subprocess.run(command, cwd=root, text=True, capture_output=True, check=False)
     if result.returncode != 0:
         if output_pdf.exists():
             output_pdf.unlink()
-        payload["status"] = "blocked_pdf_compile_failed"
-        payload["error"] = (result.stderr or result.stdout or "pandoc failed").strip()[-2000:]
-        return payload
+        return materialize_progress_diagnostic(
+            payload,
+            code="pdf_compile_failed",
+            error=(result.stderr or result.stdout or "pandoc failed").strip()[-2000:],
+        )
 
     payload["status"] = "generated"
     payload["error"] = None
@@ -832,7 +880,11 @@ def main(argv: list[str]) -> int:
     payload = compile_pdf(args)
     write_manifest(args.manifest, payload)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    return 0 if payload["status"] in {"generated", "generated_with_quality_debt"} else 1
+    return 0 if payload["status"] in {
+        "generated",
+        "generated_with_quality_debt",
+        "completed_with_quality_debt",
+    } else 1
 
 
 if __name__ == "__main__":

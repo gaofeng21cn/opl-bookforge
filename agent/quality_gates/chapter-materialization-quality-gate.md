@@ -15,4 +15,4 @@ Quality-debt and claim-closed conditions (not progression gates):
 - A chapter is marked ready while target extent, task-card linkage, reader-entry plan, source boundary, or required figure/table obligations are missing.
 - Drafting claims source/style integrity, independent meta-review pass, publication-proof readiness, final-export readiness, book quality acceptance, or owner acceptance.
 
-Partial, thin, or structurally imperfect prose is still a readable artifact that Codex may carry forward or route back. Only zero/corrupt output or a real authority, safety/permission, identity/currentness, irreversible-action, or human gate may hard-stop progression.
+Partial, thin, structurally imperfect, zero, or corrupt output becomes a consumable artifact or no-output/failure diagnostic that Codex may carry forward or route back. Only an unavailable executor or a real authority, safety/permission, identity/currentness, irreversible-action, or human gate may hard-stop progression.

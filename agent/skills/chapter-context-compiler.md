@@ -71,13 +71,17 @@ Blocking and progress rules:
 - When the reader-style contract, source refs, target extent, or author/source
   stance is incomplete but a readable context pack or draft exists, record
   `completed_with_quality_debt`, continue to the next stage, and keep affected
-  quality/source/publication claims closed. Return a typed blocker only when no
-  consumable pack can be produced or protected-source/owner authority is required.
-- Return a typed blocker when the compiler cannot identify the active chapter
-  task card or cannot distinguish protected context from compressible context.
-- Return a typed blocker when selected refs are stale relative to newer chapter,
-  source, style, figure, or owner-decision refs and the next action depends on
-  that freshness.
+  quality/source/publication claims closed. If no consumable pack can be
+  produced, materialize a no-output/failure diagnostic and advance. Return a
+  typed blocker only when protected-source/owner authority, an unavailable
+  executor, wrong-target identity/currentness, irreversible action, or explicit
+  human decision is required.
+- When the compiler cannot identify the active chapter task card or distinguish
+  protected context from compressible context, emit a diagnostic and let Codex
+  continue or route back.
+- When selected refs are stale relative to newer chapter, source, style, figure,
+  or owner-decision refs, preserve the stale-ref diagnostic and route back to
+  refresh them. Only wrong-target identity/currentness is a hard stop.
 - Continue progress when ordinary quality gaps are visible but the next repair
   can be named. Repetition, thin transitions, weak examples, AI-flavor, missing
   figure interpretation, or local style drift should usually become a concrete

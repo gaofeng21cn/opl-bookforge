@@ -1,7 +1,7 @@
 {
   "surface_kind": "opl_agent_package_manifest.v1",
-  "agent_id": "opl-bookforge",
-  "package_id": "opl-bookforge",
+  "agent_id": "obf",
+  "package_id": "obf",
   "display_name": "OPL Book Forge",
   "publisher": "one-person-lab",
   "version": "0.1.0",

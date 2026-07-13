@@ -216,6 +216,27 @@ def base_payload(args: argparse.Namespace, root: Path, output_file: Path, prompt
     }
 
 
+def materialize_progress_diagnostic(
+    payload: dict[str, Any],
+    *,
+    code: str,
+    error: str,
+) -> dict[str, Any]:
+    payload["status"] = "completed_with_quality_debt"
+    payload["blocker_kind"] = None
+    payload["error"] = error
+    payload["progress_diagnostic"] = {
+        "code": code,
+        "detail": error,
+        "no_output": payload.get("asset") is None,
+        "blocks_stage_transition": False,
+        "blocks_quality_export_or_ready_claims": True,
+        "next_stage_may_start": True,
+        "route_selection_owner": "codex_cli",
+    }
+    return payload
+
+
 def update_asset_manifest(asset_manifest: Path | None, receipt_path: Path | None, receipt: dict[str, Any], root: Path) -> None:
     if asset_manifest is None:
         return
@@ -329,10 +350,11 @@ def generate_live(args: argparse.Namespace, root: Path, output_file: Path, promp
             payload["error"] = str(exc)
             return payload
         if result.returncode != 0:
-            payload["status"] = "blocked_opl_executor_failed"
-            payload["blocker_kind"] = "opl_executor_image_generation_failed"
-            payload["error"] = (result.stderr or result.stdout or "OPL image-generation executor task failed").strip()[-4000:]
-            return payload
+            return materialize_progress_diagnostic(
+                payload,
+                code="image_generation_attempt_failed",
+                error=(result.stderr or result.stdout or "OPL image-generation executor task failed").strip()[-4000:],
+            )
 
         try:
             receipt = read_opl_executor_receipt(result.stdout)
@@ -350,16 +372,18 @@ def generate_live(args: argparse.Namespace, root: Path, output_file: Path, promp
             return payload
 
         if receipt.get("exit_code") != 0:
-            payload["status"] = "blocked_opl_executor_failed"
-            payload["blocker_kind"] = "opl_executor_image_generation_failed"
-            payload["error"] = safe_text(receipt.get("stderr_preview"), "OPL executor returned a non-zero exit code.")[-4000:]
-            return payload
+            return materialize_progress_diagnostic(
+                payload,
+                code="image_generation_attempt_failed",
+                error=safe_text(receipt.get("stderr_preview"), "OPL executor returned a non-zero exit code.")[-4000:],
+            )
 
         if not output_file.is_file():
-            payload["status"] = "blocked_missing_project_bitmap"
-            payload["blocker_kind"] = "opl_executor_did_not_materialize_project_asset"
-            payload["error"] = f"OPL executor completed without creating output_file: {output_file}"
-            return payload
+            return materialize_progress_diagnostic(
+                payload,
+                code="project_bitmap_not_materialized",
+                error=f"OPL executor completed without creating output_file: {output_file}",
+            )
 
         info = image_info(output_file)
         payload["status"] = "asset_ready"
@@ -468,10 +492,6 @@ def main(argv: list[str]) -> int:
         return 0
 
     args.prompt_file = project_path(root, args.prompt_file)
-    prompt = read_prompt(args)
-    if not prompt:
-        print("missing required prompt or prompt-file", file=sys.stderr)
-        return 2
     if args.output_file is None:
         print("missing required --output-file", file=sys.stderr)
         return 2
@@ -479,18 +499,50 @@ def main(argv: list[str]) -> int:
     output_file = project_path(root, args.output_file)
     manifest = project_path(root, args.manifest)
     asset_manifest = project_path(root, args.asset_manifest)
+    prompt = read_prompt(args)
+    if not prompt:
+        payload = materialize_progress_diagnostic(
+            base_payload(args, root, output_file, prompt),
+            code="image_prompt_missing",
+            error="missing required prompt or prompt-file",
+        )
+        write_json(manifest, payload)
+        try:
+            update_asset_manifest(asset_manifest, manifest, payload, root)
+        except Exception as exc:
+            payload["progress_diagnostic"]["asset_manifest_update_error"] = str(exc)
+            write_json(manifest, payload)
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 0
     try:
         payload = generate_mock(args, root, output_file, prompt) if args.mock else generate_live(args, root, output_file, prompt)
     except Exception as exc:
         payload = base_payload(args, root, output_file, prompt)
-        payload["status"] = "blocked_helper_exception"
-        payload["blocker_kind"] = "bookforge_imagegen_helper_exception"
-        payload["error"] = str(exc)
+        payload = materialize_progress_diagnostic(
+            payload,
+            code=(
+                "corrupt_or_unreadable_output"
+                if output_file.exists()
+                else "image_helper_attempt_failed"
+            ),
+            error=str(exc),
+        )
     write_json(manifest, payload)
     if asset_manifest:
-        update_asset_manifest(asset_manifest, manifest, payload, root)
+        try:
+            update_asset_manifest(asset_manifest, manifest, payload, root)
+        except Exception as exc:
+            if payload["status"] == "asset_ready":
+                payload = materialize_progress_diagnostic(
+                    payload,
+                    code="asset_manifest_update_failed",
+                    error=str(exc),
+                )
+            else:
+                payload.setdefault("progress_diagnostic", {})["asset_manifest_update_error"] = str(exc)
+            write_json(manifest, payload)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    return 0 if payload["status"] == "asset_ready" else 1
+    return 0 if payload["status"] in {"asset_ready", "completed_with_quality_debt"} else 1
 
 
 if __name__ == "__main__":

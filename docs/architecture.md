@@ -13,7 +13,7 @@ OPL owns generated interfaces, generic runtime transport, queue, attempt ledger,
 
 ## Implementation And Reference Boundary
 
-`contracts/pack_compiler_input.json#/implementation_profile` is the machine-readable implementation boundary. Agent identity comes only from the Markdown/JSON Declarative Standard Agent Pack; Python is a replaceable publishing-helper implementation, not an Agent type, identity, runtime owner, or publication verdict authority.
+`contracts/pack_compiler_input.json#/implementation_profile` is the machine-readable implementation boundary. Canonical Agent and OPL Package identity is `obf`, declared by `pack_compiler_input.canonical_agent_id` and package manifest `agent_id/package_id`. Repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators remain `opl-bookforge`; they do not define a second package identity. Agent identity comes only from the Markdown/JSON Declarative Standard Agent Pack; Python is a replaceable publishing-helper implementation, not an Agent type, identity, runtime owner, or publication verdict authority.
 
 The declared helper lane is:
 
@@ -66,7 +66,7 @@ The repair hierarchy is:
 - evidence/model: repair claim ledgers, source locators, case evidence ladder, concept map, core model map, figures, and tables.
 - publication design: repair proof target, TOC/front matter, figure stance, page profile, and rendered-page inspection plan.
 - local prose: repair sentence rhythm, paragraph movement, terminology clarity, transitions, and AI-flavor residue.
-- owner/source blocker: return a typed blocker when source material, authorization, owner decision, outcome evidence, publication acceptance, or final export acceptance is missing.
+- owner/source gap: preserve any manuscript or diagnostic, record quality debt, and let Codex continue or route back when source material, outcome evidence, publication acceptance, final export acceptance, or readable bytes are missing. Use a typed blocker only for protected-material authorization, real authority/safety/permission, wrong-target identity/currentness, irreversible action, executor unavailability, or an explicit owner decision that must occur before the requested action.
 
 This hierarchy preserves owner routing while using the focused stage graph. Structural route-back goes to the owning Book Forge refs, especially `storyline-architecture` when top-level design changes; chapter-package issues route to `chapter-production-planning` or `chapter-materialization`; source/style/meta-review issues route to `source-style-integrity-review`; proof/export issues route to `publication-proof-handoff`. OPL only transports opaque route refs, blockers, receipts, and current-owner projections; it does not decide manuscript semantics or quality.
 

@@ -144,9 +144,11 @@ Progress policy:
 - If the chapter's central movement depends on an unsupported claim but a
   readable manuscript exists, record `completed_with_quality_debt`, keep the
   claim visibly unresolved, and advance while publication/export/readiness
-  claims remain closed. Use a typed blocker only for zero consumable artifact,
-  missing protected-source/owner authorization, corrupt evidence, or stale
-  identity/currentness that makes continued use unsafe.
+  claims remain closed. Zero consumable output or corrupt evidence becomes a
+  consumable no-output/failure diagnostic. Use a typed blocker only for an
+  unavailable executor, missing protected-source/owner authorization, an
+  irreversible action, or stale identity/currentness that makes continued use
+  unsafe.
 - Do not turn source integrity into infinite preflight. Each audit pass must
   end with supported claims, explicit claim repairs, typed blockers, or
   concrete next-source-actions.

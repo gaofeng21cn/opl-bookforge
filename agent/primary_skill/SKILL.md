@@ -19,9 +19,13 @@ Use OPL Book Forge when the task is to:
 
 Do not use this skill to claim production readiness, publication approval, final export acceptance, owner acceptance, hosted runtime parity, or OPL runtime readiness. Those claims require their own owner receipts, typed blockers, runtime receipts, rendered proof evidence, or final-export acceptance refs.
 
+## Progress-First Stage Policy
+
+Any readable outline, manuscript fragment, failed attempt, review finding, source gap, export diagnostic, negative result, corrupt/unreadable-output diagnostic, or no-output diagnostic is valid input to the next declared stage. Retry, independent review, and repair limits are quality budgets; budget exhaustion preserves the best artifact or materializes a diagnostic as `completed_with_quality_debt` and never blocks stage transition. Codex may advance, skip, repeat, reverse, or route back to any declared stage while preserving lineage. Only wrong-target identity/currentness, an unavailable executor, permission/safety/authority boundaries, irreversible action, or an explicit human decision may hard-stop progress. Quality debt closes publication-proof, final-export, owner-accepted, and ready claims only.
+
 ## Reader And Style Contract
 
-Before body drafting or chapter expansion, establish or locate a reader-style contract. It must name:
+Before a chapter is declared ready for formal production, establish or locate a reader-style contract. Exploratory prose may help discover the contract, but it cannot substitute for it. The contract should name what is material to this book, including:
 
 - primary readers, secondary readers, and excluded readers;
 - reading situation, prior knowledge, reader anxieties, practical questions, and tolerance for theory, examples, jargon, and persuasion;
@@ -31,7 +35,7 @@ Before body drafting or chapter expansion, establish or locate a reader-style co
 
 Primary readers define the writing target. Secondary readers add only compatible accessibility constraints unless the owner explicitly promotes them to co-primary readers. Do not silently lower density, add explanatory detours, or create a competing voice target for secondary readers.
 
-If the owner did not specify audience or voice and Book Forge cannot infer them with high confidence from source refs, choose the most defensible provisional reader-style contract, record the uncertainty as quality debt, and continue. Ask the owner when useful, but do not block stage transition unless an explicit owner decision is genuinely required for protected or irreversible work. Do not silently choose a generic educated-reader style.
+If the owner did not specify audience or voice and Book Forge cannot infer them with high confidence from source refs, keep formal chapter-ready claims closed and return an owner question or human gate. Consumable exploratory architecture may still advance with the uncertainty recorded. Do not choose a generic educated-reader style by default.
 
 Use the reader-style contract in storyline shaping, chapter task cards, chapter drafting prompts, style QC, reference absorption, meta-review, and publication proof checks. Naturalness is judged against the declared readers, not a generic prose ideal.
 
@@ -44,7 +48,7 @@ Storyline architecture owns the durable book design before materialization. Prod
 - author/source stance map for major cases and examples;
 - chapter thesis chain with each chapter's primary job, new movement, adjacent handoff, and non-repeat claims;
 - early concept map for recurring terms and where they are first defined or foreshadowed;
-- two or three whole-book core models with introduction, later application, figure/table candidates, and final recovery points;
+- the whole-book models justified by the argument, with introduction, later application, figure/table candidates, and final recovery points where useful;
 - risks, owner questions, route-back refs, typed blockers, or owner handoff refs.
 
 When critique identifies repetition, weak case density, unclear concepts, poor modelization, or publication-level monotony, absorb the finding into storyline refs, chapter task cards, style rules, evidence maps, quality gates, or publication design refs before local prose repair.
@@ -53,22 +57,13 @@ When critique identifies repetition, weak case density, unclear concepts, poor m
 
 Keep book prose Markdown-first. Per-chapter Markdown files, or equivalent author-facing Markdown refs, own substantial manuscript body. Scripts may assemble, count, validate, export, and write reports; they must not become the manuscript source of truth through large Python, TypeScript, shell, or JSON prose literals.
 
-Materialize book-length nonfiction chapter by chapter:
+Materialize book-length nonfiction through the declared Stage route: approved current storyline refs inform planning; planning authorizes incremental chapter units; materialized manuscript bytes receive current integrity review before proof/export claims; and final export remains owner-gated. Within those dependencies, Codex may revisit planning from drafting discoveries, work chapter-sharded units in safe parallel, reuse current approved refs, and choose the drafting and revision method that best serves the book.
 
-1. approved storyline and reader-style contract;
-2. target extent converted into chapter budgets and an active production queue;
-3. chapter task card and chapter context pack;
-4. chapter brief with reader-entry plan;
-5. per-chapter Markdown draft;
-6. chapter-level QC, source/claim check, style check, and memory update;
-7. contiguous review PDF or equivalent owner review artifact when eligible;
-8. whole-book assembly, meta-review, repair routing, proof/export handoff.
+Before formal chapter materialization is closed out, keep a reader-entry plan or equivalent chapter-intent ref outside visible manuscript prose. It should capture the opening move, reader tension or question, concrete evidence/example role, main claim, section movement, figure/table role, and closing transition when those elements serve the chapter. Keep budgets, source refs, asset status, QC notes, blockers, and internal workflow fields out of manuscript prose.
 
-Before visible chapter prose is written, create a reader-entry plan in the chapter brief or drafting notes: opening scene/question, reader tension, concrete example/case, main claim, section movement, figure/table role, and closing transition. Keep that plan, budgets, source refs, asset status, QC notes, blockers, and internal workflow fields out of manuscript prose.
+First visible drafts should read like book prose for the declared readers. Choose openings and transitions that create the intended reader movement; concrete scenes, reader problems, practical questions, consequences, tensions, or direct technical framing are options rather than a universal recipe. If drafts repeatedly read like memos or production scaffolds, repair the chapter-production pattern before continuing.
 
-First visible drafts should read like book prose for the declared readers. Chapter openings and major transitions should start from a concrete scene, reader problem, practical question, consequence, or tension before concepts, unless the reader-style contract explicitly calls for a technical structure. If first drafts repeatedly read like memos or production scaffolds, repair the chapter-production pattern before continuing.
-
-Target extent is a gate. Preserve owner/source-declared page, word, character, chapter, figure, table, or series targets. Below-target units remain `seed_in_progress` or `draft_in_progress`; below-target whole-book assemblies must be named previews. Do not relabel compact samples as complete drafts unless the owner explicitly changes the artifact target.
+Target extent is a quality and naming gate, not a stage-transition gate. Preserve owner/source-declared page, word, character, chapter, figure, table, or series targets. Below-target units remain `seed_in_progress` or `draft_in_progress`; below-target whole-book assemblies must be named previews, may feed review or later stages, and must not be relabelled as complete drafts unless the owner explicitly changes the artifact target.
 
 Use chapter task cards as the chapter-runtime surface: reader promise, chapter job, thesis movement, source refs, target extent, figure/table obligations, active memory refs, style constraints, QC state, next action, review-PDF eligibility, and blockers. Do not add a Book Forge-private scheduler, queue, session store, provider store, or attempt ledger.
 
@@ -82,7 +77,7 @@ Back-propagate reusable chapter QC repairs into task cards, style engine, glossa
 
 ## Revision And Review Workflow
 
-After serious critique, complete-version comparison, or whole-book meta-review, route repair before editing. Classify the topmost repair level:
+After serious critique, complete-version comparison, or whole-book meta-review, identify the highest owning repair level before claiming the issue resolved:
 
 - artifact target;
 - storyline architecture;
@@ -111,11 +106,11 @@ Match language to evidence class:
 - outcome or impact evidence;
 - unsupported gap.
 
-Remove, bracket, or downgrade unsupported non-central claims. When a readable manuscript exists but a central claim or outcome locator remains unsupported, mark `completed_with_quality_debt`, advance, and keep publication/export/readiness claims closed. Return a typed blocker only when no consumable manuscript can be produced, protected material or authorization is missing, identity/currentness is invalid, or an explicit human decision is required.
+Remove, bracket, or downgrade unsupported non-central claims. When a readable manuscript exists but a central claim or outcome locator remains unsupported, mark `completed_with_quality_debt`, advance, and keep publication/export/readiness claims closed. When no manuscript is produced or bytes are corrupt/unreadable, materialize a diagnostic and still allow the next declared stage to start. Return a typed blocker only when protected material or authorization is missing, identity/currentness is invalid, the executor is unavailable, an irreversible action is requested, or an explicit human decision is required.
 
 Figures and tables must carry purpose, source, placement, caption intent, claim boundary, and review criteria. Real photos, generated artwork, deterministic diagrams, tables, case boxes, and reviewer callouts are different artifact classes and need separate manifest treatment.
 
-For final manuscript figures requiring new artwork, use Codex `imagegen` / native image generation by default through the Book Forge image asset route or an equivalent Book Forge-owned adapter. Save generated bitmap assets to project-local paths, record prompt/spec/provenance/review criteria, and synchronize the figure asset manifest by figure id. Chat-preview-only images, missing file paths, placeholders, unavailable generated assets, or failed executor receipts are asset quality debt when a readable manuscript/review artifact exists: preserve captions and intent, advance, and keep asset-ready/publication-proof/final-export claims closed. Direct OpenAI Base URL/API-key calls are not the default route; use them only as an explicit operator/owner fallback.
+For final manuscript figures requiring new artwork, use Codex `imagegen` / native image generation by default through the Book Forge image asset route or an equivalent Book Forge-owned adapter. Save generated bitmap assets to project-local paths, record prompt/spec/provenance/review criteria, and synchronize the figure asset manifest by figure id. Chat-preview-only images, missing file paths, placeholders, or unavailable generated assets are image-asset quality debt: they close figure-ready/publication-proof/final-export claims but do not block later stage work. Direct OpenAI Base URL/API-key calls are not the default route; use them only as an explicit operator/owner fallback.
 
 ## Publication Proof And Export Boundary
 
@@ -145,23 +140,10 @@ The primary skill chooses the route and preserves the book-level contract. Profe
 
 ## Authority Boundary
 
-Book Forge uses one semantic control plane: Codex CLI. Any readable manuscript,
-outline, source finding, review finding, failed proof, partial asset set, or
-diagnostic is progress and may feed the next declared stage. Retry, review, and
-repair limits are quality budgets, not transition gates. Codex may advance,
-repeat the current stage, or route back to storyline, production planning,
-chapter materialization, source/style integrity review, or any other declared
-stage. Schema, normalizer, validator, review, proof, style, and source gaps are
-quality debt when a consumable artifact exists; they block publication proof,
-final export, acceptance, and readiness claims, not drafting or stage progress.
-Only zero consumable artifact, corrupt/unreadable bytes, permission or safety,
-identity/currentness, irreversible action, or explicit owner/human authority may
-hard-stop progression.
-
 OPL materializes this repo-owned primary skill into Codex carrier surfaces. OPL owns generated interfaces, plugin packaging, generic runtime, queues, provider attempts, attempt ledger, projection, workbench, Agent Lab, registry/discovery, and generated status/readback surfaces.
 
 OPL Book Forge owns book-domain truth, manuscript body, memory body, source/claim bodies, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, owner receipts, typed blocker refs, human gates, and route-back refs.
 
 Generated interface readiness, scaffold validation, provider completion, StageRun readiness, OMA pass, focused tests, review PDF compilation, or this skill's presence cannot claim domain readiness, production readiness, publication approval, final export readiness, owner acceptance, or live hosted parity.
 
-Valid closeout shapes are owner receipt refs, typed blocker refs, human gate refs, route-back refs, or clearly scoped review/export artifacts with their evidence boundary named.
+Valid closeout shapes are owner receipt refs, typed blocker refs, human gate refs, route-back refs, no-output/failure diagnostic refs, or clearly scoped review/export artifacts with their evidence boundary named.

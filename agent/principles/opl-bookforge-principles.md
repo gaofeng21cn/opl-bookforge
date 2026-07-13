@@ -7,7 +7,7 @@ Machine boundary: this is a human-readable domain specialization. Machine-readab
 
 OPL Book Forge adopts the OPL principles as a book authoring Foundry Agent:
 
-- Intake is the `domain_intake` stage/prompt policy and starter handoff into `storyline-architecture`, not a standalone Skill. It should produce source refs, storyline work refs, route-back refs, human gates, owner receipts, or typed blockers.
+- Intake is part of the active `storyline-architecture` entry stage, not an orphan stage/prompt or standalone Skill. It should produce source refs, storyline work refs, route-back refs, human gates, owner receipts, or typed blockers.
 - Storyline architecture and book materialization are AI-first stages. They own narrative structure, chapter planning, source-claim integrity, style consistency, figure/table plans, draft materialization, and revision loop semantics.
 - Book quality, export/publication readiness, memory body, artifact body, and owner acceptance remain Book Forge authority. OPL scaffold or interface validation proves structure only, not production readiness or book delivery readiness.
 - `agent/stages/`, `agent/prompts/`, `agent/skills/`, `agent/quality_gates/`, `agent/knowledge/`, and `agent/tools/domain_affordances.md` are the declarative book pack. Native helpers may materialize refs and run doctors, but cannot replace book judgment.

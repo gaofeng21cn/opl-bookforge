@@ -270,6 +270,20 @@ def test_pdf_smoke() -> None:
         assert payload["artifact_gate"]["quality_debt"]["blocks_stage_transition"] is False
         assert payload["artifact_gate"]["quality_debt"]["blocks_quality_export_or_ready_claims"] is True
 
+        missing_source = pdf_export(
+            root,
+            "missing-source.pdf",
+            "missing-source-diagnostic.json",
+            role="review_pdf",
+            source_name="does-not-exist.md",
+        )
+        assert missing_source.returncode == 0, missing_source.stderr or missing_source.stdout
+        payload = json.loads((root / "missing-source-diagnostic.json").read_text(encoding="utf-8"))
+        assert payload["status"] == "completed_with_quality_debt", payload
+        assert payload["progress_diagnostic"]["code"] == "source_markdown_missing", payload
+        assert payload["progress_diagnostic"]["blocks_stage_transition"] is False, payload
+        assert payload["progress_diagnostic"]["next_stage_may_start"] is True, payload
+
         (root / "remote-image.md").write_text(
             """---
 title: "Remote Image Blocker"

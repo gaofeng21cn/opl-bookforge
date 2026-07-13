@@ -8,7 +8,7 @@ Pass conditions:
 - Final export handoff requires publication-proof evidence plus owner/export acceptance receipt refs.
 - Missing proof backend, design profile, asset paths, rendered-page inspection, or owner/export acceptance returns `generated_with_quality_debt`, a human gate, or route-back instead of a ready claim when a readable review artifact exists. It does not block the stage transition; it does block publication-proof/final-export/readiness claims.
 
-Fail-closed conditions:
+Forbidden cross-stage blocking behavior:
 
 - A review PDF, HTML preview, unstyled backend output, hand-rolled raster renderer, command success, or provider completion is used as publication-proof or final-export evidence.
 - Missing publication-proof evidence is used to block unrelated chapter drafting, source integrity, style review, or ordinary review-PDF refresh instead of only blocking publication-proof or final-export claims.

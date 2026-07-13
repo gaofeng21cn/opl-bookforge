@@ -33,8 +33,8 @@
     "domain_intake": {
       "principle_id": "domain_intake_mapping",
       "domain_stage_ref": "agent/stages/manifest.json#/stages/0",
-      "stage_id": "domain_intake",
-      "prompt_ref": "agent/prompts/domain_intake.md",
+      "stage_id": "storyline-architecture",
+      "prompt_ref": "agent/prompts/storyline-architecture.md",
       "is_standalone_skill": false,
       "owner_receipt_or_typed_blocker_required": false,
       "consumable_artifact_progress_receipt_allowed": true,
@@ -70,7 +70,6 @@
     "generated_surface_handoff_ref": "contracts/generated_surface_handoff.json",
     "capability_pack_is_not_domain_intake": true,
     "stage_surfaces": [
-      "agent/stages/domain_intake.md",
       "agent/stages/storyline-architecture.md",
       "agent/stages/chapter-production-planning.md",
       "agent/stages/chapter-materialization.md",
@@ -78,7 +77,6 @@
       "agent/stages/publication-proof-handoff.md"
     ],
     "prompt_surfaces": [
-      "agent/prompts/domain_intake.md",
       "agent/prompts/storyline-architecture.md",
       "agent/prompts/chapter-production-planning.md",
       "agent/prompts/chapter-materialization.md",

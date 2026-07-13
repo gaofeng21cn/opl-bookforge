@@ -23,4 +23,4 @@ Quality-debt and claim-closed conditions (never stage-progression blockers while
 - Review relies on shared execution context instead of direct evidence refs.
 - Any generated surface tries to claim final book quality, export readiness, or publication approval.
 
-Codex may carry the best storyline draft into any declared stage or route back. Only zero/corrupt output, authority, permission/safety, identity/currentness, irreversible action, or explicit human authority hard-stops progression.
+Codex may carry the best storyline draft or a zero/corrupt-output diagnostic into any declared stage or route back. Only an unavailable executor, authority, permission/safety, identity/currentness, irreversible action, or explicit human authority hard-stops progression.

@@ -17,7 +17,7 @@ Machine boundary: Human-readable project overview. Machine truth belongs in cont
 
 After full-manuscript meta-review or serious critique, Book Forge routes repairs by level before editing: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. This keeps top-level book design defects from being hidden by sentence-level polish.
 
-The product name is `OPL Book Forge`. The repo slug, `domain_id`, and `foundry_agent_id` are `opl-bookforge`.
+The product name is `OPL Book Forge`. Its canonical Agent and OPL Package id is `obf`; the repo slug, `domain_id`, `foundry_agent_id`, npm package, and Codex plugin/carrier locators remain `opl-bookforge`.
 
 ## Current Evidence
 

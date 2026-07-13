@@ -64,7 +64,7 @@
       "action_id": "shape-storyline",
       "title": "Shape Storyline",
       "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
-      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "natural_language_intent": "Shape or repair a book's premise, reader promise, argument arc, evidence-aware chapter architecture, and owner handoff without drafting or exporting the book.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {
@@ -160,7 +160,7 @@
       "action_id": "materialize-book",
       "title": "Materialize Book",
       "summary": "Enter chapter production planning directly, then continue through drafting, source/style review, and proof/export handoff with owner-gated refs.",
-      "natural_language_intent": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+      "natural_language_intent": "Continue from approved current storyline refs through incremental chapter planning and drafting, independent source/style integrity review, and the requested owner-gated review/proof/export handoff.",
       "owner": "OPL Book Forge",
       "effect": "mutating",
       "source_command": {

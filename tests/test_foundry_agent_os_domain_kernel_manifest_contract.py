@@ -29,6 +29,9 @@ def main() -> int:
     manifest = load_json("contracts/foundry-agent-os-domain-kernel-manifest.json")
     descriptor = load_json("contracts/domain_descriptor.json")
     pack_compiler_input = load_json("contracts/pack_compiler_input.json")
+    package_manifest = load_json("contracts/opl_agent_package_manifest.json")
+    plugin_manifest = load_json("plugins/opl-bookforge/.codex-plugin/plugin.json")
+    package_metadata = load_json("package.json")
     temporal_policy = load_json("contracts/temporal_stage_run_consumption_policy.json")
     generated_handoff = load_json("contracts/generated_surface_handoff.json")
     ledger_contract = load_json("contracts/opl_ledger_artifact_registration.json")
@@ -42,6 +45,11 @@ def main() -> int:
 
     assert pack_compiler_input["canonical_agent_id"] == "obf"
     assert pack_compiler_input["domain_id"] == "opl-bookforge"
+    assert package_manifest["agent_id"] == pack_compiler_input["canonical_agent_id"]
+    assert package_manifest["package_id"] == pack_compiler_input["canonical_agent_id"]
+    assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
+    assert plugin_manifest["name"] == "opl-bookforge"
+    assert package_metadata["name"] == "opl-bookforge"
     implementation_profile = pack_compiler_input["implementation_profile"]
     assert implementation_profile == {
         "profile_id": "opl.standard_domain_agent.v1",
@@ -77,6 +85,25 @@ def main() -> int:
         assert helper["source_roots"] == ["runtime/native_helpers/"]
         assert all((REPO_ROOT / ref).is_dir() for ref in helper["source_roots"])
     assert descriptor["authority_boundary"]["domain_owns_truth_quality_artifact_memory_and_receipts"] is True
+    standard_interface = descriptor["standard_agent_interface"]
+    assert standard_interface["version"] == "opl_standard_agent_interface.v1"
+    assert standard_interface["workspace_binding"] == {
+        "locator_surface_kind": "opl_bookforge_workspace",
+        "default_profile_id": "one_off",
+        "workspace_kind": "book_authoring_workspace",
+        "project_kind": "book_project",
+        "project_collection_label": "books",
+        "default_workspace_id": "bookforge-workspace",
+        "default_project_id": "book-001",
+        "required_locator_fields": ["workspace_root"],
+        "optional_locator_fields": [],
+        "entry_command_template": None,
+        "manifest_command_template": None,
+    }
+    assert standard_interface["runtime"]["dispatch_command"] is None
+    assert standard_interface["progress"]["deliverable_delta_aliases"] == [
+        "book_manuscript_progress_delta"
+    ]
     assert temporal_policy["stage_run_owner"] == "one-person-lab"
     assert generated_handoff["temporal_stage_run_projection"]["owner"] == "one-person-lab"
     assert ledger_contract["refs_only"] is True

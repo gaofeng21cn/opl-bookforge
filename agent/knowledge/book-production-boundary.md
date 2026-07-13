@@ -22,7 +22,7 @@ Reader-facing prose should not expose Book Forge operations. Terms about current
 
 If an earlier pass produced a compact or sample draft against a book-length target, that draft is historical evidence, not the active seed for completion. Retire it to an archive/tombstone ref and restart the active manuscript from chapter packages, briefs, drafts, QC refs, and final assembly.
 
-Target extent is part of book truth. If the owner brief, source plan, publisher brief, or storyline map declares a page count, word count, chapter count, or series volume, materialization must preserve that target or return a typed extent blocker. A compact draft, sample chapter, or synopsis is a different deliverable and needs an explicit owner decision.
+Target extent is part of book truth. If the owner brief, source plan, publisher brief, or storyline map declares a page count, word count, chapter count, or series volume, materialization must preserve that target or record non-blocking extent quality debt and continue with the best readable artifact. A compact draft, sample chapter, or synopsis remains a different deliverable; it cannot be relabeled complete without an explicit owner decision.
 
 PDF export is a Book Forge capability boundary. Project-local scripts may assemble chapter refs and invoke the Book Forge PDF export helper, but they should not own publication layout engines or hand-roll page rendering. The normal path is Markdown or chapter sources into a Book Forge-owned backend adapter for Pandoc/XeLaTeX, Quarto, Typst, or an equivalent publication/typesetting system, followed by rendered-page inspection and an export manifest.
 
