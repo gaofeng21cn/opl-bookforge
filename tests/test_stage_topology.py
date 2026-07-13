@@ -240,9 +240,9 @@ def main() -> int:
             assert "surface_kind" not in surface
 
     materialize = actions["materialize-book"]
-    assert actions["shape-storyline"]["natural_language_intent"] != materialize["natural_language_intent"]
-    assert "without drafting or exporting" in actions["shape-storyline"]["natural_language_intent"]
-    assert "incremental chapter planning" in materialize["natural_language_intent"]
+    assert "natural_language_intent" not in actions["shape-storyline"]
+    assert "natural_language_intent" not in materialize
+    assert actions["shape-storyline"]["summary"] != materialize["summary"]
     assert materialize["stage_route"]["entry_stage_ref"] == "chapter-production-planning"
     assert materialize["human_gate_ids"] == ["chapter_planning_owner_review"]
 

@@ -72,7 +72,7 @@ This hierarchy preserves owner routing while using the focused stage graph. Stru
 
 ## Generated Surface Boundary
 
-The `family-action-catalog.v2` catalog exposes `shape-storyline` and `materialize-book` as public stage actions. Each action declares only `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}`; the action's own `stage_route` keeps its entry and required stage refs. The domain pack does not carry a `source_command`, action-level handler id/ref, or surface-specific command; OPL generates the canonical `opl agents run --agent opl-bookforge --action <action_id>` entry and hosted surface kinds. Generated MCP/OpenAI/AI SDK descriptors remain interface descriptors unless a runtime surface provides execution evidence.
+The `family-action-catalog.v2` catalog exposes `shape-storyline` and `materialize-book` as public stage actions. Each action declares only `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}`; the action's own `stage_route` keeps its entry and required stage refs. The domain pack does not carry a `source_command`, action-level handler id/ref, or surface-specific command; OPL generates the canonical `opl agents run --domain opl-bookforge --action <action_id> --workspace <absolute_path>` entry and hosted surface kinds. Generated MCP/OpenAI/AI SDK descriptors remain interface descriptors unless a runtime surface provides execution evidence.
 
 Scaffold validation and generated interface readiness prove the domain pack can be read by OPL. They do not prove manuscript quality, export acceptance, publication readiness, owner acceptance, or hosted runtime parity.
 

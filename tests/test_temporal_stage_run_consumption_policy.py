@@ -972,32 +972,19 @@ def main() -> int:
     assert owner_acceptance["can_be_written_by_generated_surface"] is False
     assert owner_acceptance["can_be_inferred_from_stage_run_status"] is False
 
-    assert action_catalog["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     assert action_catalog["version"] == "family-action-catalog.v2"
-    assert action_catalog["completion_audit_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#completion_audit"
-    default_entry_policy = action_catalog["default_entry_policy"]
-    assert default_entry_policy["default_entry_surface_kind"] == "opl_stage_run_attempt_request"
-    assert default_entry_policy["entry_owner"] == "one-person-lab"
-    assert default_entry_policy["stage_run_account_owner"] == "one-person-lab"
-    assert default_entry_policy["domain_owner"] == "OPL Book Forge"
-    assert default_entry_policy["stage_run_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing"
-    assert default_entry_policy["direct_domain_cli_is_default_entry"] is False
-    assert default_entry_policy["evidence_package_can_be_default_entry"] is False
-    assert default_entry_policy["production_acceptance_routes_through_owner_answer_ref"] is True
-    catalog_audit = action_catalog["completion_audit_summary"]
-    assert catalog_audit["review_pdf_publication_proof_final_export_are_distinct"] is True
-    assert catalog_audit["provider_completion_counts_as_any_bookforge_completion_account"] is False
-    assert catalog_audit["generated_surface_ready_counts_as_any_bookforge_completion_account"] is False
-    assert catalog_audit["stage_run_status_ready_counts_as_any_bookforge_completion_account"] is False
-    assert catalog_audit["final_export_requires_owner_export_acceptance_ref"] is True
-    assert catalog_audit["owner_acceptance_cannot_be_inferred_from_generated_or_stage_run_status"] is True
-    assert catalog_audit["real_book_pilot_evidence_is_acceptance_tail_not_completion"] is True
+    assert set(action_catalog) == {
+        "surface_kind",
+        "version",
+        "catalog_id",
+        "target_domain_id",
+        "owner",
+        "authority_boundary",
+        "actions",
+    }
+    assert action_catalog["authority_boundary"]["opl_role"] == "projection_consumer_only"
+    assert action_catalog["authority_boundary"]["write_policy"] == "no_domain_truth_writes"
     assert_false(action_catalog, "authority_boundary.provider_completion_is_domain_completion")
-    assert_false(action_catalog, "authority_boundary.domain_repo_can_own_temporal_runtime")
-    assert_false(action_catalog, "authority_boundary.generated_surface_ready_counts_as_domain_ready")
-    assert_false(action_catalog, "authority_boundary.bookforge_can_write_opl_stage_attempts")
-    assert action_catalog["authority_boundary"]["temporal_attempt_ledger_owner"] == "one-person-lab"
-    assert_surface_export_boundary(action_catalog, "action catalog surface export boundary")
 
     assert "standard_public_projection_policy" not in foundry_series
     assert all(value is False for value in foundry_series["authority_boundary"].values())
@@ -1009,24 +996,22 @@ def main() -> int:
         }, action["action_id"]
         assert action["stage_route"]["entry_stage_ref"] == stage_name, action["action_id"]
         assert "source_command" not in action, action["action_id"]
+        assert "natural_language_intent" not in action, action["action_id"]
         assert "stage_route_exempt" not in action, action["action_id"]
         assert "handler_binding" not in action, action["action_id"]
         for surface in action["supported_surfaces"].values():
             assert "command" not in surface, action["action_id"]
             assert "surface_kind" not in surface, action["action_id"]
-        boundary = action["authority_boundary"]
-        assert boundary["provider_completion_is_domain_completion"] is False, action["action_id"]
-        assert boundary["domain_repo_can_own_temporal_runtime"] is False, action["action_id"]
-        assert boundary["bookforge_can_write_opl_stage_attempts"] is False, action["action_id"]
-        assert boundary["default_entry_surface_kind"] == "opl_stage_run_attempt_request", action["action_id"]
-        assert boundary["default_entry_routes_via_stage_run_account"] is True, action["action_id"]
-        assert boundary["direct_domain_cli_is_default_entry"] is False, action["action_id"]
-        assert boundary["evidence_package_can_bypass_owner_boundary"] is False, action["action_id"]
-        assert boundary["temporal_attempt_ledger_owner"] == "one-person-lab", action["action_id"]
-        assert_closeout_refs(boundary["domain_completion_ref_fields"], f"action {action['action_id']}")
-        assert boundary["completion_audit_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json#completion_audit", action["action_id"]
-        assert set(boundary["completion_accounts"]) == COMPLETION_ACCOUNTS, action["action_id"]
-        assert set(boundary["false_completion_accounts"]) == FALSE_COMPLETION_ACCOUNTS, action["action_id"]
+        assert action["authority_boundary"] == {
+            "domain_truth_owner": "OPL Book Forge",
+            "opl_role": "projection_consumer_only",
+            "write_policy": "no_domain_truth_writes",
+            "opl_can_write_domain_truth": False,
+            "opl_can_write_memory_body": False,
+            "opl_can_mutate_domain_artifact_body": False,
+            "opl_can_authorize_quality_or_export": False,
+            "provider_completion_is_domain_completion": False,
+        }, action["action_id"]
 
     assert generated_handoff["temporal_stage_run_consumption_policy_ref"] == "contracts/temporal_stage_run_consumption_policy.json"
     projection = generated_handoff["temporal_stage_run_projection"]

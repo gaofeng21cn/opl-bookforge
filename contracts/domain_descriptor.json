@@ -30,13 +30,10 @@
       "default_workspace_id": "bookforge-workspace",
       "default_project_id": "book-001",
       "required_locator_fields": ["workspace_root"],
-      "optional_locator_fields": [],
-      "entry_command_template": null,
-      "manifest_command_template": null
+      "optional_locator_fields": []
     },
     "runtime": {
       "runtime_domain_id": "opl-bookforge",
-      "dispatch_command": null,
       "registration_ref": "contracts/foundry-agent-os-domain-kernel-manifest.json"
     },
     "progress": {
