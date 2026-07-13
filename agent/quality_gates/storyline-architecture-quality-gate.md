@@ -1,7 +1,6 @@
 # Storyline Architecture Quality Gate
 
-Quality gate declaration is required for every generated OPL-compatible stage.
-Dedicated review stage is conditional: create one when storyline decisions change owner intent, chapter ordering, evidence scope, publication promise, or editorial position.
+Quality gate declaration is required for every generated OPL-compatible stage. Storyline output receives an independent reviewer Attempt in a fresh execution context before the Stage closes; risk changes review depth and reviewer count, not context independence.
 
 Pass conditions:
 

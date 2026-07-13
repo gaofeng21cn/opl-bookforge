@@ -20,6 +20,10 @@ Chapter-ready claims require an explicit reader contract, chapter function, sour
 
 Do not make the independent integrity verdict, publication-proof verdict, final-export decision, or owner acceptance in this stage. A readable chapter with bounded non-central gaps can advance with quality debt; unsupported central claims remain closed for publication claims.
 
+## Independent Stage Review Boundary
+
+Refinement in the current Codex thread is `in_thread_refinement` only. Formal review, repair, and re-review run as separate StageAttempts with fresh threads and receive only the exact artifact, source, quality-rubric, and necessary lineage refs; a same-thread resume can only complete the closeout protocol and cannot create a review receipt.
+
 ## Closeout
 
 Return chapter context/trace refs, reader-entry plans, per-chapter Markdown refs, draft bundle, chapter QC and repair refs, memory deltas, figure/table updates, extent states, and review-PDF eligibility. When prose is absent, return a no-output diagnostic as the consumable stage result. Return precise route-back or quality-debt refs for ordinary gaps; reserve typed blocker or human-gate refs for true hard-stop boundaries.

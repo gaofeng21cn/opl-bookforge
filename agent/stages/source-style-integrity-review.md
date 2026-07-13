@@ -1,8 +1,8 @@
-# Source And Style Integrity Review Stage
+# Whole-Book Meta Review And Integrity Gate Stage
 
 Stage id: `source-style-integrity-review`
 Action ref: `materialize-book`
 
-This stage reviews materialized chapter packages for source/claim safety, style consistency, internal-language leakage, sentence integrity, and meta-review routing. It owns the integrity judgment before proof/export handoff.
+This independent StageRun reviews materialized chapter packages for whole-book coherence, source/claim safety, style consistency, internal-language leakage, sentence integrity, and defect-owner routing. Its reviewer Attempts use fresh Codex threads and cannot inherit or resume author or repair conversations.
 
-The stage returns an integrity handoff to `publication-proof-handoff`, route-back refs to storyline or chapter stages, repair plans, typed blockers, or human gates.
+The stage does not edit manuscript artifacts. It returns an integrity handoff to `publication-proof-handoff`, route-back refs to the earliest owning storyline/planning/materialization Stage, closure criteria, typed blockers, or human gates.

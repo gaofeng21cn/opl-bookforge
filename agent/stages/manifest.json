@@ -3,6 +3,8 @@
   "version": "opl-standard-agent-declarative-stage-manifest.v1",
   "target_domain_id": "opl-bookforge",
   "owner": "opl-bookforge",
+  "quality_governance_profile_ref": "contracts/opl-framework/official-knowledge-deliverable-quality-profile.json",
+  "meta_review_policy_ref": "contracts/stage_quality_cycle_policy.json#/meta_review_policy",
   "progress_first_policy": {
     "route_selection_owner": "codex_cli",
     "codex_may_advance_skip_repeat_reverse_or_route_back": true,
@@ -33,6 +35,7 @@
       "goal": "Create an evidence-aware storyline, reader contract, and chapter-function architecture that can be handed to chapter production planning.",
       "policy_ref": "agent/stages/storyline-architecture.md",
       "prompt_ref": "agent/prompts/storyline-architecture.md",
+      "stage_quality_cycle_policy_ref": "contracts/stage_quality_cycle_policy.json#/stages/storyline-architecture",
       "knowledge_refs": [
         "agent/knowledge/book-authority-boundary.md"
       ],
@@ -100,6 +103,7 @@
       "goal": "Admit current storyline refs and plan the next chapter-production units, budgets, task cards, context, and memory without drafting manuscript body.",
       "policy_ref": "agent/stages/chapter-production-planning.md",
       "prompt_ref": "agent/prompts/chapter-production-planning.md",
+      "stage_quality_cycle_policy_ref": "contracts/stage_quality_cycle_policy.json#/stages/chapter-production-planning",
       "knowledge_refs": [
         "agent/knowledge/book-production-boundary.md"
       ],
@@ -137,6 +141,7 @@
         "stage-attempt-receipt-ref:chapter-production-planning",
         "executor-receipt-ref:chapter-production-planning/codex-cli",
         "boundary-receipt-ref:chapter-production-planning/refs-only",
+        "independent-gate-receipt-ref:chapter-production-planning",
         "owner-handoff-ref:chapter-production-planning",
         "stage-user-log-ref:chapter-production-planning",
         "stage-folder-contract-ref:opl-bookforge/chapter-production-planning",
@@ -171,7 +176,7 @@
           "ordinary_gap_can_emit_generic_typed_blocker": false,
           "next_forced_delta_required_for_in_progress": false,
           "route_back_target": "storyline-architecture",
-          "independent_review_required_for_ordinary_transition": false,
+          "independent_review_required_for_ordinary_transition": true,
           "typed_blocker_reserved_for": [
             "missing_protected_source_or_owner_authority",
             "unsafe_inference",
@@ -181,7 +186,7 @@
           ]
         },
         "transition_policy": {
-          "ordinary_transition_requires_independent_review": false
+          "ordinary_transition_requires_independent_review": true
         }
       }
     },
@@ -193,6 +198,7 @@
       "goal": "Create or repair the authorized chapter Markdown units while preserving reader, chapter-function, source, style, extent, and memory contracts.",
       "policy_ref": "agent/stages/chapter-materialization.md",
       "prompt_ref": "agent/prompts/chapter-materialization.md",
+      "stage_quality_cycle_policy_ref": "contracts/stage_quality_cycle_policy.json#/stages/chapter-materialization",
       "knowledge_refs": [
         "agent/knowledge/book-production-boundary.md"
       ],
@@ -264,11 +270,13 @@
     {
       "stage_id": "source-style-integrity-review",
       "stage_kind": "review",
-      "title": "Source And Style Integrity Review",
+      "stage_role": "cross_stage_meta_review",
+      "title": "Whole-Book Meta Review And Integrity Gate",
       "summary": "Review chapter packages for claim/source safety, style consistency, internal-language leakage, sentence integrity, and meta-review route obligations.",
       "goal": "Judge current manuscript integrity and route source, style, continuity, evidence, or structural defects to the highest useful repair surface.",
       "policy_ref": "agent/stages/source-style-integrity-review.md",
       "prompt_ref": "agent/prompts/source-style-integrity-review.md",
+      "stage_quality_cycle_policy_ref": "contracts/stage_quality_cycle_policy.json#/stages/source-style-integrity-review",
       "knowledge_refs": [
         "agent/knowledge/book-production-boundary.md"
       ],
@@ -347,6 +355,7 @@
       "goal": "Produce the requested review, publication-proof, or final-export handoff with evidence and owner gates appropriate to that artifact role.",
       "policy_ref": "agent/stages/publication-proof-handoff.md",
       "prompt_ref": "agent/prompts/publication-proof-handoff.md",
+      "stage_quality_cycle_policy_ref": "contracts/stage_quality_cycle_policy.json#/stages/publication-proof-handoff",
       "knowledge_refs": [
         "agent/knowledge/book-production-boundary.md"
       ],

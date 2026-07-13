@@ -20,6 +20,10 @@ Proof/export work depends on a current integrity handoff and actual manuscript/a
 
 Do not infer publication approval from provider completion, StageRun completion, generated interface readiness, successful compilation, or machine-only nonblank checks. Do not hand-roll normal book layout when an appropriate publication system is available.
 
+## Independent Stage Review Boundary
+
+Refinement in the current Codex thread is `in_thread_refinement` only. Formal review, repair, and re-review run as separate StageAttempts with fresh threads and receive only the exact artifact, source, quality-rubric, and necessary lineage refs; a same-thread resume can only complete the closeout protocol and cannot create a review receipt.
+
 ## Closeout
 
 Return artifact-role classification, export/backend receipt, review-PDF or publication-proof refs, rendered-page QA, freshness and route-back refs, and the owner/export handoff. Missing proof evidence or unreadable output becomes quality debt and a diagnostic that closes the stronger claim without blocking stage transition. Return a typed blocker or human gate only for a true authority, safety, permission, identity/currentness, irreversible-action, executor-unavailable, or explicit-decision boundary.

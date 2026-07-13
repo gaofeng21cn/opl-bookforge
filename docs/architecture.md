@@ -81,3 +81,9 @@ Generated status/readback surfaces may project the Temporal StageRun policy flag
 ## Evidence Flow
 
 OMA / Agent Lab evidence evaluates the agent baseline and improvement loop. Pilot evidence evaluates a real short-book project. Owner receipts and runtime receipts remain separate gates.
+
+## Independent Stage Review And Whole-Book Meta Review
+
+Book Forge binds `official_high_value_knowledge_deliverable.v1`. Every AI producer Stage uses isolated producer, reviewer, repairer, and re-reviewer Attempts under one StageRun, with a fresh Codex thread per Attempt. Same-thread checking is only `in_thread_refinement`; a protocol closeout resume cannot produce a Review receipt.
+
+`source-style-integrity-review` keeps its stable ID and acts as the independent whole-book Meta Review and integrity gate. It consumes exact manuscript/artifact hashes, Stage Review receipts, source/reader-style/rubric refs, and necessary lineage only. It routes defects to the earliest owning storyline, planning, or materialization Stage and never edits manuscript artifacts inside the Meta Review Stage. Three exhausted repair/route-back rounds with a readable manuscript produce quality debt, which still closes publication/export/ready claims.

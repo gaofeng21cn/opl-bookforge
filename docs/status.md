@@ -60,3 +60,5 @@ Evidence package navigation is owned by [docs/evidence/README.md](./evidence/REA
 - A book-specific publication-proof visual inspection report covering front matter, chapter openings, dense body pages, figure/table pages, callouts, closing pages, and owner-directed design preferences.
 - A real publication-proof run that exercises the Kami-inspired Book Forge proof refs: design token receipt, component inventory, font actual-load/readback, rendered-page QA, front matter/TOC cleanliness, page rhythm/density/orphan checks, material/asset coverage, and pre-ship proof review.
 - Live OPL StageRun execution and hosted OPL artifact-handoff parity evidence.
+
+The declarative pack now records isolated Stage Review for every AI producer Stage and a separate `source-style-integrity-review` whole-book Meta Review policy. This is structural policy currentness only; it does not supply live review receipts, real route-back generations, publication acceptance, final-export authority, or owner acceptance.

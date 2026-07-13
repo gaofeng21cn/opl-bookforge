@@ -21,8 +21,8 @@
     "evolution_and_revision": [
       "revision-lineage-ref:opl-bookforge/controlled-canary"
     ],
-    "meta_review_learning": [
-      "meta-review-ref:opl-bookforge/controlled-canary"
+    "strategy_retrospective": [
+      "strategy-retrospective-ref:opl-bookforge/controlled-canary"
     ],
     "independent_quality_gate": [
       "independent-gate-ref:opl-bookforge/controlled-canary"
@@ -33,7 +33,7 @@
     "reflection_review_ref": "reflection-review-ref:opl-bookforge/controlled-canary",
     "ranking_selection_ref": "ranking-selection-ref:opl-bookforge/controlled-canary",
     "revision_lineage_ref": "revision-lineage-ref:opl-bookforge/controlled-canary",
-    "meta_review_ref": "meta-review-ref:opl-bookforge/controlled-canary",
+    "strategy_retrospective_ref": "strategy-retrospective-ref:opl-bookforge/controlled-canary",
     "independent_gate_ref": "independent-gate-ref:opl-bookforge/controlled-canary"
   },
   "closeout": {

@@ -5,7 +5,7 @@ Use this skill inside `source-style-integrity-review` after a full manuscript dr
 Working policy:
 
 - Treat meta-review as an independent editorial quality loop, not as ordinary chapter QC. The reviewer should approach the assembled book as a new reader/editor and judge the whole manuscript, not only the changed chapter.
-- The meta-reviewer must be context-isolated from the drafting run as much as the execution environment allows. Prefer a separate Codex executor, subagent, model call, or explicit fresh-review prompt that receives only the manuscript and necessary contract refs, not the drafting conversation, repair rationale, or author self-evaluation.
+- The meta-reviewer must run as a new OPL StageAttempt with a fresh Codex thread. It receives only exact manuscript/artifact hashes, source and quality-contract refs, Stage Review receipts, and necessary lineage; it must not inherit or resume the drafting/repair conversation, rationale, or author self-evaluation.
 - A valid meta-review reads the assembled manuscript plus only the minimum quality contracts needed to judge it: reader-style contract, chapter function contract, core model map, case evidence ladder, source/evidence boundaries, and current metrics. It should not read hidden drafting notes unless those are the object of review.
 - The reviewer must produce a durable `meta-review/round-N.md` or equivalent ref with:
   - round number and date;

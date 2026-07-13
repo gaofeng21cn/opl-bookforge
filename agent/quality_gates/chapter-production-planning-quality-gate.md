@@ -1,6 +1,6 @@
 # Chapter Production Planning Quality Gate
 
-Quality gate declaration is required for every generated OPL-compatible stage. This gate is the planning stage's domain self-check; an independent review receipt is not required for the ordinary transition to `chapter-materialization`.
+Quality gate declaration is required for every generated OPL-compatible stage. The planning artifact receives an independent reviewer Attempt in a fresh execution context; an author-thread self-check is only `in_thread_refinement` and cannot close this gate.
 
 Pass conditions:
 
@@ -21,5 +21,6 @@ Quality-debt and claim-closed conditions:
 - A below-target coverage skeleton is labeled as completed materialization.
 - Planning creates or depends on a private queue, scheduler, session store, attempt ledger, runtime state, owner receipt, typed blocker body, or publication authority.
 - An independent review is made a blanket prerequisite for ordinary planning-to-materialization transition.
+- Review is claimed from an author-thread self-check, a resumed producer thread, or a receipt without exact artifact hashes and `no_context_inheritance=true`.
 
 None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.

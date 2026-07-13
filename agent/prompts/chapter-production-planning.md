@@ -16,9 +16,13 @@ Use `bookforge-chapter-author` for task-card, context, budget, and production-qu
 
 ## Professional Dependencies And Boundaries
 
-The formal production plan depends on a consumable storyline and reader/source contract, but exploratory notes may have helped produce them earlier. Ordinary incompleteness stays `in_progress` or returns an exact route-back; it is not a hard blocker. Independent review is required only when risk or owner policy calls for it, not for every planning transition.
+The formal production plan depends on a consumable storyline and reader/source contract, but exploratory notes may have helped produce them earlier. Ordinary incompleteness stays `in_progress` or returns an exact route-back; it is not a hard blocker.
 
 Do not draft manuscript body, make integrity or publication verdicts, generate proof artifacts, or claim chapter readiness without the relevant task-card and source boundaries.
+
+## Independent Stage Review Boundary
+
+Refinement in the current Codex thread is `in_thread_refinement` only. Formal review, repair, and re-review run as separate StageAttempts with fresh threads and receive only the exact artifact, source, quality-rubric, and necessary lineage refs; a same-thread resume can only complete the closeout protocol and cannot create a review receipt.
 
 ## Closeout
 

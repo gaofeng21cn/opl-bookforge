@@ -170,16 +170,21 @@ def main() -> int:
     assert progress_policy["ordinary_gap_outcome"] == "completed_with_quality_debt_or_route_back"
     assert progress_policy["next_forced_delta_required_for_in_progress"] is False
     assert progress_policy["ordinary_gap_can_emit_generic_typed_blocker"] is False
-    assert progress_policy["independent_review_required_for_ordinary_transition"] is False
-    assert planning["stage_contract"]["transition_policy"]["ordinary_transition_requires_independent_review"] is False
+    assert progress_policy["independent_review_required_for_ordinary_transition"] is True
+    assert planning["stage_contract"]["transition_policy"]["ordinary_transition_requires_independent_review"] is True
     planning_refs = set(planning["ensures"])
-    assert "independent-gate-receipt-ref:chapter-production-planning" not in planning_refs
+    assert "independent-gate-receipt-ref:chapter-production-planning" in planning_refs
     assert "owner-handoff-ref:storyline-architecture" in planning["requires"]
     assert "storyline-admission-ref:chapter-production-planning" in planning["ensures"]
     assert "planning-progress-ref:chapter-production-planning" in planning["ensures"]
     assert "active-production-queue-ref:chapter-production-planning" in planning["ensures"]
     assert "chapter-task-card-bundle-ref:chapter-production-planning" in planning["ensures"]
-    assert "independent-gate-receipt-ref:chapter-production-planning" not in planning["ensures"]
+    assert "independent-gate-receipt-ref:chapter-production-planning" in planning["ensures"]
+    canary = load_json(repo, "contracts/stage_run_canary_evidence.json")
+    assert "strategy_retrospective" in canary["strategy_trace"]
+    assert "meta_review_learning" not in canary["strategy_trace"]
+    assert "strategy_retrospective_ref" in canary["role_artifact_refs"]
+    assert "meta_review_ref" not in canary["role_artifact_refs"]
 
     materialization = manifest_stages[2]
     assert "chapter-task-card-bundle-ref:chapter-production-planning" in materialization["requires"]
