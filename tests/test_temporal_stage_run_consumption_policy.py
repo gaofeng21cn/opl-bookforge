@@ -175,6 +175,15 @@ NATIVE_HELPER_PROBE_DESCRIPTORS = {
         "helper_id": "opl-bookforge.pdf-export",
         "entrypoint_ref": "bookforge_pdf_export.py",
         "required_commands": ["pandoc", "xelatex", "pdftoppm", "pdffonts"],
+        "source_closure_effects": {
+            ("image_refs_from_pandoc_ast", "process_spawn"),
+            ("compile_pdf", "process_spawn"),
+            ("inspect_pdf_fonts", "process_spawn"),
+            ("render_pdf_pages", "process_spawn"),
+            ("compile_pdf", "filesystem_write"),
+            ("render_pdf_pages", "filesystem_write"),
+            ("write_manifest", "filesystem_write"),
+        },
     },
     "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json": {
         "helper_id": "opl-bookforge.imagegen-asset",
@@ -478,6 +487,13 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
         assert set(descriptor["authority_boundary"]) == NATIVE_HELPER_PROBE_AUTHORITY_FIELDS, descriptor_ref
         assert all(value is False for value in descriptor["authority_boundary"].values()), descriptor_ref
         assert (repo / descriptor_ref).parent.joinpath(descriptor["entrypoint_ref"]).is_file(), descriptor_ref
+        if "source_closure_effects" in expected:
+            effect_slots = descriptor["source_closure"]["effect_slots"]
+            assert {(slot["symbol"], slot["effect_kind"]) for slot in effect_slots} == expected[
+                "source_closure_effects"
+            ], descriptor_ref
+        else:
+            assert "source_closure" not in descriptor, descriptor_ref
         command = f'pack native-helper probe --descriptor "${{repo_dir}}/{descriptor_ref}" --json'
         assert command in verify_script, descriptor_ref
 

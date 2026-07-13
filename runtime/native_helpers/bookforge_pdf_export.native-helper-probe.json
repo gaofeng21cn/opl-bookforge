@@ -69,15 +69,6 @@
         "allowed_targets": []
       },
       {
-        "slot_id": "png_visual_metrics_read_slot",
-        "source_ref": "bookforge_pdf_export.py",
-        "symbol": "png_visual_metrics",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
-        "effect_kind": "filesystem_write",
-        "target_policy": "declared_artifact_write_slot",
-        "allowed_targets": []
-      },
-      {
         "slot_id": "pdf_page_render_artifact_write",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "render_pdf_pages",
