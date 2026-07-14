@@ -91,9 +91,13 @@ Within `publication-proof-handoff`, producer and repairer outputs remain `review
 Cross-Stage routing remains a Codex domain judgment. The semantic owner is the
 single `decisive_codex_attempt`: the producer for a primary-only StageRun,
 otherwise the terminal reviewer or re-reviewer. Producer and repairer Attempts
-inside formal Review, and any reviewer returning `repair_required` while budget
-remains, can only recommend a route; a final-budget reviewer or re-reviewer with
-consumable bytes remains decisive while preserving outcome `repair_required`.
+inside formal Review can only recommend a route. A reviewer or re-reviewer with
+`repair_required` continues the local loop while budget remains when the current
+Stage is the narrowest repair owner. If a different declared Stage is the
+narrowest owner, it may instead decisively route back to that Stage before
+budget exhaustion; this is the only permitted pre-exhaustion terminal route for
+`repair_required`. A final-budget reviewer or re-reviewer with consumable bytes
+remains decisive while preserving outcome `repair_required`.
 Machine output is `route_impact.stage_route_decision` or
 `stage_route_recommendation`. The OPL StageRun controller owns only transition
 validation and materialization; it does not rewrite Book Forge editorial or

@@ -31,21 +31,23 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     assert profile["review_attempt_contract"]["new_execution_session_per_attempt"] is True
     assert profile["review_attempt_contract"]["no_context_inheritance"] is True
     assert profile["review_attempt_contract"]["same_thread_resume_counts_as_review"] is False
-    assert profile["review_attempt_contract"]["route_authority_contract"] == {
+    assert profile["cross_stage_route_selection"] == {
         "semantic_route_decision_owner": "decisive_codex_attempt",
         "stage_transition_materialization_owner": "opl_stage_run_controller",
         "primary_only_decisive_attempt_role": "producer",
         "formal_review_decisive_attempt_roles": ["reviewer", "re_reviewer"],
         "repairer_can_be_decisive_attempt": False,
-        "repair_required_with_budget_remaining_route_output": (
-            "route_impact.stage_route_recommendation"
-        ),
-        "repair_required_without_budget_and_consumable_artifact_route_output": (
-            "route_impact.stage_route_decision"
-        ),
+        "producer_or_repairer_may_return_terminal_route_decision": False,
+        "same_stage_repair_required_with_budget_remaining_continues_quality_loop": True,
+        "repair_required_review_or_re_review_may_select_cross_stage_route_back_before_budget_exhaustion": True,
+        "repair_required_cross_stage_route_back_requires_target_different_from_current_stage": True,
+        "cross_stage_route_back_requires_narrowest_canonical_owner_stage": True,
+        "repair_required_review_or_re_review_may_select_other_terminal_route_before_budget_exhaustion": False,
+        "repair_required_review_or_re_review_may_select_terminal_route_after_budget_exhaustion": True,
         "repair_budget_exhaustion_terminal_status": "completed_with_quality_debt",
         "hard_stop_or_zero_consumable_artifact_route_output": "none",
     }
+    assert "route_authority_contract" not in profile["review_attempt_contract"]
     assert profile["review_attempt_contract"]["attempt_output_contract"] == {
         "envelope_path": "route_impact.stage_quality_cycle",
         "outcome_field": "outcome",
@@ -171,9 +173,14 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
     assert "receipt-only `verdict=pass|repair_required|quality_debt`" in role_prompt
     assert "producer is decisive only for a progress-terminal result" in role_prompt
     assert "repairer never makes a terminal route decision" in role_prompt
-    assert "While repair budget remains" in role_prompt
+    assert "current Stage is the narrowest repair owner" in role_prompt
+    reviewer_fragment = role_prompt.split("## Reviewer", 1)[1].split("## Repairer", 1)[0]
+    re_reviewer_fragment = role_prompt.split("## Re Reviewer", 1)[1]
+    for fragment in (reviewer_fragment, re_reviewer_fragment):
+        assert "`same_stage_repair_required`" in fragment
+        assert "`cross_stage_route_back_before_budget_exhaustion`" in fragment
     assert "decisive cross-Stage route owner" in meta_prompt
-    assert "terminal reviewer or re-reviewer" in proof_prompt
+    assert "decisive reviewer or re-reviewer" in proof_prompt
     assert profile["meta_review_policy"]["terminal_route_output"] == (
         "route_impact.stage_route_decision"
     )
@@ -183,18 +190,27 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
     ]
 
 
-def test_quality_role_prompt_terminalizes_final_budget_without_routing_hard_boundaries() -> None:
+def test_quality_role_prompt_routes_cross_stage_owner_before_final_budget() -> None:
     roles = " ".join(
         (ROOT / "agent/prompts/stage-quality-cycle-roles.md")
         .read_text(encoding="utf-8")
         .split()
     )
 
-    assert "`repair_budget_remaining`" in roles
+    assert "`same_stage_repair_required`" in roles
     assert "another repair round remains" in roles
     assert "returns outcome `repair_required`" in roles
     assert "controller creates the next fresh repairer Attempt" in roles
     assert "This branch is non-terminal" in roles
+
+    assert "`cross_stage_route_back_before_budget_exhaustion`" in roles
+    assert "narrowest owner of required work is a different declared Stage" in roles
+    assert "exactly one `route_impact.stage_route_decision`" in roles
+    assert "`decision_kind=route_back`" in roles
+    assert "`target_stage_id` different from the current Stage" in roles
+    assert "non-empty `evidence_refs` bound to the finding and owner diagnosis" in roles
+    assert "only terminal route allowed for `repair_required` before budget exhaustion" in roles
+    assert "Do not use `advance`, `skip`, `repeat`, `reverse`, or `complete`" in roles
 
     assert "`final_budget_consumable`" in roles
     assert "no repair round remains" in roles
@@ -231,9 +247,11 @@ def test_quality_role_prompt_terminalizes_final_budget_without_routing_hard_boun
     for prompt in (meta_prompt, proof_prompt):
         assert "no route output" in prompt
     assert "keeps outcome `repair_required`" in proof_prompt
+    assert "narrowest repair owner is `publication-proof-handoff`" in proof_prompt
+    assert "only terminal route allowed for `repair_required` before budget exhaustion" in proof_prompt
     assert "controller projects `completed_with_quality_debt`" in proof_gate
+    assert "only permitted pre-exhaustion terminal route" in proof_gate
     assert "Literal zero consumable artifact is a controller hard stop" in acceptance_gate
-
 
 def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair() -> None:
     manifest = read_json("agent/stages/manifest.json")
@@ -308,7 +326,7 @@ def main() -> int:
     test_bookforge_declares_explicit_review_policy_for_each_stage()
     test_publication_proof_claims_require_fresh_exact_byte_review()
     test_attempt_route_owner_and_machine_output_are_unambiguous()
-    test_quality_role_prompt_terminalizes_final_budget_without_routing_hard_boundaries()
+    test_quality_role_prompt_routes_cross_stage_owner_before_final_budget()
     test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()
     test_quality_policy_does_not_define_nested_stage_or_owner_graphs()
     print(json.dumps({"status": "passed", "contract": "stage_quality_cycle_policy"}))

@@ -15,10 +15,19 @@ the same fields plus `reason`. Never return both or use
 Use the controller-provided `quality_round_index`, `max_repair_rounds`, and exact
 artifact identity to choose one branch:
 
-- `repair_budget_remaining`: when required defects still need repair and another
-  repair round remains, a reviewer or re-reviewer returns outcome
-  `repair_required` and at most `route_impact.stage_route_recommendation`. This
-  branch is non-terminal; the controller creates the next fresh repairer Attempt.
+- `same_stage_repair_required`: when the narrowest owner of every
+  required repair is the current Stage and another repair round remains, a
+  reviewer or re-reviewer returns outcome `repair_required` and at most
+  `route_impact.stage_route_recommendation`. This branch is non-terminal; the
+  controller creates the next fresh repairer Attempt.
+- `cross_stage_route_back_before_budget_exhaustion`: when the narrowest owner of required
+  work is a different declared Stage, the reviewer or re-reviewer may end the
+  current StageRun before budget exhaustion with outcome `repair_required` and
+  exactly one `route_impact.stage_route_decision`: `decision_kind=route_back`,
+  `target_stage_id` different from the current Stage, and non-empty
+  `evidence_refs` bound to the finding and owner diagnosis. This is the only
+  terminal route allowed for `repair_required` before budget exhaustion. Do not
+  use `advance`, `skip`, `repeat`, `reverse`, or `complete` in this branch.
 - `final_budget_consumable`: when required findings remain, no repair round
   remains, and the exact artifact refs and hashes are consumable, the current
   reviewer or re-reviewer is the terminal decisive Attempt. Required findings
@@ -54,7 +63,9 @@ For `publication-proof-handoff`, every generated PDF/export is a `review_pending
 
 ## Reviewer
 
-In a fresh thread, review the exact artifact bytes against the Stage rubric. Return `route_impact.stage_quality_cycle.outcome` with exactly one of `pass`, `repair_required`, `quality_debt`, `blocked`, or `human_gate`, plus findings with stable `finding_id`, `severity`, `required`, `evidence_refs`, `repair_expectation`, and acceptance-criteria fields, and a precise location and reader/editor impact when relevant. Do not return a standalone receipt `verdict`. Do not create a Review receipt or repair map, edit manuscript artifacts, or read author conversation history. The OPL StageRun controller materializes the Review receipt from this Attempt's identity, session, exact reviewed hashes, rubric, and outcome. After the Attempt ends, the controller maps Attempt `outcome=pass|repair_required|quality_debt` to receipt-only `verdict=pass|repair_required|quality_debt`, and maps Attempt `outcome=blocked|human_gate` to receipt-only `verdict=hard_stop`; identical string values do not merge the Attempt outcome and receipt verdict into one field or owner, and `hard_stop` is never an Attempt outcome. While repair budget remains, a `repair_required` reviewer is non-terminal and returns at most a route recommendation when the defect belongs to another Stage. At final consumable budget it keeps outcome `repair_required` and follows `final_budget_consumable`. A progress-terminal reviewer returns the terminal route decision. A hard-boundary reviewer returns no route output.
+In a fresh thread, review the exact artifact bytes against the Stage rubric. Return `route_impact.stage_quality_cycle.outcome` with exactly one of `pass`, `repair_required`, `quality_debt`, `blocked`, or `human_gate`, plus findings with stable `finding_id`, `severity`, `required`, `evidence_refs`, `repair_expectation`, and acceptance-criteria fields, and a precise location and reader/editor impact when relevant. Do not return a standalone receipt `verdict`. Do not create a Review receipt or repair map, edit manuscript artifacts, or read author conversation history. The OPL StageRun controller materializes the Review receipt from this Attempt's identity, session, exact reviewed hashes, rubric, and outcome. After the Attempt ends, the controller maps Attempt `outcome=pass|repair_required|quality_debt` to receipt-only `verdict=pass|repair_required|quality_debt`, and maps Attempt `outcome=blocked|human_gate` to receipt-only `verdict=hard_stop`; identical string values do not merge the Attempt outcome and receipt verdict into one field or owner, and `hard_stop` is never an Attempt outcome.
+
+For `same_stage_repair_required`, while repair budget remains, return outcome `repair_required` and at most a route recommendation; the controller creates the next fresh repairer Attempt. For `cross_stage_route_back_before_budget_exhaustion`, when the narrowest owner is a different declared Stage, return outcome `repair_required` plus the single decisive `route_back` decision defined above instead of spending a local repair round. At final consumable budget keep outcome `repair_required` and follow `final_budget_consumable`. A progress-terminal reviewer returns the terminal route decision. A hard-boundary reviewer returns no route output.
 
 For unchanged `publication-proof-handoff` producer bytes, only this fresh exact-hash Review closeout can clear `review_pending`; downstream owner/export acceptance remains separate.
 
@@ -73,9 +84,14 @@ For `publication-proof-handoff`, any regenerated PDF/export invalidates the prio
 
 In another fresh thread, inspect the exact repaired artifact refs and hashes against the prior findings, repair map, original source refs, and original rubric. Return `closed`, `partially_closed`, or `still_open` for every accepted `finding_id`, remaining quality-debt and evidence refs, and `route_impact.stage_quality_cycle.outcome` with exactly one of `pass`, `repair_required`, `quality_debt`, `blocked`, or `human_gate`. Do not return a standalone receipt `verdict`. Do not create the controller-owned Review receipt. The controller alone maps `blocked` or `human_gate` to receipt verdict `hard_stop`; `hard_stop` is not an Attempt outcome. Only `required_finding_not_closed`, `repair_regression`, or `critical_new_finding` may trigger another repair round. Record ordinary new suggestions as `optional_observation` or quality debt without reopening the loop. Do not inherit repair rationale or accept a repairer's self-report as closure.
 
-When another repair round is required and remains available, return only a route
-recommendation. On the final consumable round, keep outcome `repair_required`
-and return the route decision for controller-classified terminal quality debt.
+For `same_stage_repair_required`, when another repair round is required, remains
+available, and the current Stage is the narrowest repair owner, return only a
+route recommendation. For `cross_stage_route_back_before_budget_exhaustion`,
+when the narrowest owner is a different declared Stage, return outcome
+`repair_required` plus the single decisive `route_back` decision defined above;
+do not spend a local repair round on another Stage's work. On the final consumable round, keep outcome
+`repair_required` and return the route decision for controller-classified
+terminal quality debt.
 When this re-reviewer progress-terminalizes the StageRun, it returns the terminal
 route decision. A hard-boundary re-reviewer returns no route output.
 
