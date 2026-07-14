@@ -251,6 +251,9 @@ def test_quality_role_prompt_routes_cross_stage_owner_before_final_budget() -> N
     assert "only terminal route allowed for `repair_required` before budget exhaustion" in proof_prompt
     assert "controller projects `completed_with_quality_debt`" in proof_gate
     assert "only permitted pre-exhaustion terminal route" in proof_gate
+    for publication_ref in (proof_prompt, proof_gate):
+        assert "`same_stage_repair_required`" in publication_ref
+        assert "`cross_stage_route_back_before_budget_exhaustion`" in publication_ref
     assert "Literal zero consumable artifact is a controller hard stop" in acceptance_gate
 
 def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair() -> None:
