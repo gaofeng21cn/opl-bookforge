@@ -31,6 +31,21 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     assert profile["review_attempt_contract"]["new_execution_session_per_attempt"] is True
     assert profile["review_attempt_contract"]["no_context_inheritance"] is True
     assert profile["review_attempt_contract"]["same_thread_resume_counts_as_review"] is False
+    assert profile["review_attempt_contract"]["route_authority_contract"] == {
+        "semantic_route_decision_owner": "decisive_codex_attempt",
+        "stage_transition_materialization_owner": "opl_stage_run_controller",
+        "primary_only_decisive_attempt_role": "producer",
+        "formal_review_decisive_attempt_roles": ["reviewer", "re_reviewer"],
+        "repairer_can_be_decisive_attempt": False,
+        "repair_required_with_budget_remaining_route_output": (
+            "route_impact.stage_route_recommendation"
+        ),
+        "repair_required_without_budget_and_consumable_artifact_route_output": (
+            "route_impact.stage_route_decision"
+        ),
+        "repair_budget_exhaustion_terminal_status": "completed_with_quality_debt",
+        "hard_stop_or_zero_consumable_artifact_route_output": "none",
+    }
     assert profile["review_attempt_contract"]["attempt_output_contract"] == {
         "envelope_path": "route_impact.stage_quality_cycle",
         "outcome_field": "outcome",
@@ -151,8 +166,9 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
         assert f"`{outcome}`" in role_prompt
     assert "`hard_stop` is never an Attempt outcome" in role_prompt
     assert "`hard_stop` is not an Attempt outcome" in role_prompt
-    assert "to its identically named receipt verdict" in role_prompt
-    assert "to the same receipt verdict" not in role_prompt
+    assert "to its identically named receipt verdict" not in role_prompt
+    assert "identical string values do not merge the Attempt outcome and receipt verdict" in role_prompt
+    assert "receipt-only `verdict=pass|repair_required|quality_debt`" in role_prompt
     assert "producer is decisive only for a progress-terminal result" in role_prompt
     assert "repairer never makes a terminal route decision" in role_prompt
     assert "While repair budget remains" in role_prompt
@@ -286,6 +302,7 @@ def main() -> int:
     test_bookforge_declares_explicit_review_policy_for_each_stage()
     test_publication_proof_claims_require_fresh_exact_byte_review()
     test_attempt_route_owner_and_machine_output_are_unambiguous()
+    test_quality_role_prompt_terminalizes_final_budget_without_routing_hard_boundaries()
     test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()
     test_quality_policy_does_not_define_nested_stage_or_owner_graphs()
     print(json.dumps({"status": "passed", "contract": "stage_quality_cycle_policy"}))

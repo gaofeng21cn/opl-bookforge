@@ -34,6 +34,7 @@ def main() -> int:
     package_metadata = load_json("package.json")
     temporal_policy = load_json("contracts/temporal_stage_run_consumption_policy.json")
     generated_handoff = load_json("contracts/generated_surface_handoff.json")
+    functional_audit = load_json("contracts/functional_privatization_audit.json")
     ledger_contract = load_json("contracts/opl_ledger_artifact_registration.json")
 
     assert manifest["surface_kind"] == "foundry_agent_os_domain_kernel_manifest"
@@ -50,9 +51,28 @@ def main() -> int:
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.0"
+    assert package_metadata["version"] == "0.3.1"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
+    assert functional_audit["retired_default_surface_ids"] == [
+        "cli",
+        "mcp",
+        "skill",
+        "product_entry",
+        "product_status",
+        "product_session",
+        "domain_handler",
+        "workbench",
+    ]
+    assert functional_audit["default_surface_boundary"] == {
+        "state": "physically_absent",
+        "owner": "one-person-lab",
+        "domain_repo_can_own_default_surface": False,
+        "no_resurrection_policy": (
+            "generated_or_hosted_by_opl_only_do_not_restore_repo_local_default_surfaces"
+        ),
+    }
+    assert all("bridge_exit_gate" not in module for module in functional_audit["modules"])
     assert "distribution_payload" not in package_manifest
     implementation_profile = pack_compiler_input["implementation_profile"]
     assert implementation_profile == {

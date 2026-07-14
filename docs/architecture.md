@@ -88,13 +88,15 @@ Book Forge binds `official_high_value_knowledge_deliverable.v1`, while formal Re
 
 Within `publication-proof-handoff`, producer and repairer outputs remain `review_pending` candidates. Any regeneration invalidates the prior receipt. Only a controller-materialized Review receipt bound to a fresh reviewer Attempt for unchanged producer bytes or a fresh re-reviewer Attempt for repaired bytes can close Review against the exact current hashes; downstream owner/export acceptance remains a separate Book Forge authority.
 
-Cross-Stage routing remains a Codex domain judgment, with one decisive Attempt per
-StageRun: the producer for a primary-only StageRun, otherwise the terminal
-reviewer or re-reviewer. Producer and repairer Attempts inside formal Review, and
-any reviewer returning `repair_required`, can only recommend a route. Machine
-output is `route_impact.stage_route_decision` or
-`stage_route_recommendation`; OPL only validates role eligibility and that the
-target is a manifest-declared Stage. It does not rewrite Book Forge editorial or
+Cross-Stage routing remains a Codex domain judgment. The semantic owner is the
+single `decisive_codex_attempt`: the producer for a primary-only StageRun,
+otherwise the terminal reviewer or re-reviewer. Producer and repairer Attempts
+inside formal Review, and any reviewer returning `repair_required` while budget
+remains, can only recommend a route; a final-budget reviewer or re-reviewer with
+consumable bytes remains decisive while preserving outcome `repair_required`.
+Machine output is `route_impact.stage_route_decision` or
+`stage_route_recommendation`. The OPL StageRun controller owns only transition
+validation and materialization; it does not rewrite Book Forge editorial or
 publication semantics.
 
 `source-style-integrity-review` keeps its stable ID and acts as the independent whole-book Meta Review and integrity gate. It consumes exact manuscript/artifact hashes, Stage Review receipts, source/reader-style/rubric refs, and necessary lineage only. It routes defects to the earliest owning storyline, planning, or materialization Stage and never edits manuscript artifacts inside the Meta Review Stage. Three exhausted repair/route-back rounds with a readable manuscript produce quality debt, which still closes publication/export/ready claims.

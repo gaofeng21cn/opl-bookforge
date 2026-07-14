@@ -3,6 +3,22 @@
   "schema_version": 1,
   "domain_id": "opl-bookforge",
   "marker": "generated_by_opl_standard_domain_agent_scaffold_v1",
+  "retired_default_surface_ids": [
+    "cli",
+    "mcp",
+    "skill",
+    "product_entry",
+    "product_status",
+    "product_session",
+    "domain_handler",
+    "workbench"
+  ],
+  "default_surface_boundary": {
+    "state": "physically_absent",
+    "owner": "one-person-lab",
+    "domain_repo_can_own_default_surface": false,
+    "no_resurrection_policy": "generated_or_hosted_by_opl_only_do_not_restore_repo_local_default_surfaces"
+  },
   "classification_policy": {
     "rule": "domain_declares_non_knowledge_functional_modules_for_opl_unified_audit",
     "accepted_migration_classes": [
@@ -516,37 +532,7 @@
         "owner_receipt_refs"
       ],
       "semantic_equivalence_status": "cleared_by_boundary",
-      "audit_visibility": "hidden_by_default",
-      "bridge_exit_gate": {
-        "gate_id": "opl-bookforge.default-caller-deletion.refs-only-status-and-workbench-projection.v1",
-        "claim_scope": "default_caller_deletion_evidence",
-        "replacement_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces",
-        "no_active_default_caller_refs": [
-          "contracts/generated_surface_handoff.json#/handoff_surfaces"
-        ],
-        "no_forbidden_write_evidence_refs": [
-          "contracts/owner_receipt_contract.json#forbidden_claims",
-          "contracts/private_functional_surface_policy.json#/taxonomy_layers/authority_function_inventory/abi/forbidden_outputs"
-        ],
-        "tombstone_refs": [
-          "contracts/generated_surface_handoff.json#/handoff_surfaces",
-          "docs/status.md#Claim Boundary"
-        ],
-        "typed_blocker_refs": [
-          "bookforge-typed-blocker:default-caller-physical-delete:refs-only-status-and-workbench-owner-decision-required"
-        ],
-        "physical_delete_authorized": false,
-        "default_caller_delete_ready": false,
-        "ready_claim_authorized": false,
-        "forbidden_claims": [
-          "domain_repo_physical_delete_authorization",
-          "default_caller_delete_ready",
-          "domain_ready",
-          "production_ready",
-          "quality_verdict",
-          "artifact_authority"
-        ]
-      }
+      "audit_visibility": "hidden_by_default"
     },
     {
       "module_id": "opl-bookforge.publication-and-export-helper",

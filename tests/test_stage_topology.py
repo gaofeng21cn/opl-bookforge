@@ -91,6 +91,7 @@ def main() -> int:
     repo = Path(__file__).resolve().parents[1]
     stage_manifest = load_json(repo, "agent/stages/manifest.json")
     stage_operating_principles = load_json(repo, "contracts/stage_operating_principles.json")
+    stage_run_kernel_profile = load_json(repo, "contracts/stage_run_kernel_profile.json")
     principles = load_json(repo, "contracts/standard-agent-principles-adoption.json")
     action_catalog = load_json(repo, "contracts/action_catalog.json")
     capability_map = load_json(repo, "contracts/capability_map.json")
@@ -162,14 +163,24 @@ def main() -> int:
     assert publication_proof["lane_kind"] == "variant"
     manifest_policy = stage_manifest["progress_first_policy"]
     operating_speed_policy = stage_operating_principles["speed_policy"]
-    assert manifest_policy["route_selection_owner"] == "codex_cli"
+    kernel_route_policy = stage_run_kernel_profile["codex_semantic_route_policy"]
+    route_owner_contract = {
+        "semantic_route_decision_owner": "decisive_codex_attempt",
+        "stage_transition_materialization_owner": "opl_stage_run_controller",
+    }
+    for field, expected in route_owner_contract.items():
+        assert manifest_policy[field] == expected
+        assert operating_speed_policy[field] == expected
+        assert kernel_route_policy[field] == expected
+    assert "route_selection_owner" not in manifest_policy
+    assert "route_selection_owner" not in operating_speed_policy
+    assert "semantic_owner" not in kernel_route_policy
     assert manifest_policy["codex_may_advance_skip_repeat_reverse_or_route_back"] is True
     assert manifest_policy["any_declared_stage_may_start_from_any_prior_stage_result"] is True
     assert manifest_policy["declared_requires_are_quality_context_not_launch_gates"] is True
     assert manifest_policy["next_stage_refs_are_recommendations_not_constraints"] is True
     assert manifest_policy["no_output_or_failure_diagnostic_advances_stage"] is True
     for field in (
-        "route_selection_owner",
         "codex_may_advance_skip_repeat_reverse_or_route_back",
         "any_declared_stage_may_start_from_any_prior_stage_result",
         "declared_requires_are_quality_context_not_launch_gates",
