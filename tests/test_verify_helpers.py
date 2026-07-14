@@ -61,6 +61,22 @@ def test_pandoc_command_shape() -> None:
     assert "--number-sections" not in unnumbered_command, unnumbered_command
 
 
+def test_progress_diagnostic_has_no_route_authority() -> None:
+    helper = load_module("bookforge_pdf_export", REPO / "runtime/native_helpers/bookforge_pdf_export.py")
+    payload = helper.materialize_progress_diagnostic(
+        {"output_pdf": "missing.pdf"},
+        code="source_markdown_missing",
+        error="source markdown does not exist",
+    )
+    diagnostic = payload["progress_diagnostic"]
+    assert diagnostic["next_stage_may_start"] is True, diagnostic
+    assert not {
+        "route_selection_owner",
+        "semantic_route_decision_owner",
+        "stage_transition_materialization_owner",
+    } & diagnostic.keys(), diagnostic
+
+
 def png_chunk(kind: bytes, payload: bytes) -> bytes:
     checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
     return len(payload).to_bytes(4, "big") + kind + payload + checksum.to_bytes(4, "big")
@@ -407,6 +423,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if not args.pdf_smoke_only:
         test_pandoc_command_shape()
+        test_progress_diagnostic_has_no_route_authority()
         test_image_asset_candidate_contract()
         test_publication_profile_contract()
         test_artifact_gate_matrix()

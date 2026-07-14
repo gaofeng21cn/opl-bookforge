@@ -604,7 +604,6 @@ def materialize_progress_diagnostic(payload: dict[str, Any], *, code: str, error
         "blocks_stage_transition": False,
         "blocks_quality_export_or_ready_claims": True,
         "next_stage_may_start": True,
-        "route_selection_owner": "codex_cli",
     }
     payload["artifact_gate"] = {
         "status": "quality_debt",
