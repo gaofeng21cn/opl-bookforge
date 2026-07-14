@@ -50,6 +50,10 @@ def main() -> int:
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
+    assert package_metadata["version"] == "0.3.0"
+    assert plugin_manifest["version"] == package_metadata["version"]
+    assert package_manifest["version"] == package_metadata["version"]
+    assert "distribution_payload" not in package_manifest
     implementation_profile = pack_compiler_input["implementation_profile"]
     assert implementation_profile == {
         "profile_id": "opl.standard_domain_agent.v1",
