@@ -37,7 +37,6 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
         "primary_only_decisive_attempt_role": "producer",
         "formal_review_decisive_attempt_roles": ["reviewer", "re_reviewer"],
         "repairer_can_be_decisive_attempt": False,
-        "producer_or_repairer_may_return_terminal_route_decision": False,
         "same_stage_repair_required_with_budget_remaining_continues_quality_loop": True,
         "repair_required_review_or_re_review_may_select_cross_stage_route_back_before_budget_exhaustion": True,
         "repair_required_cross_stage_route_back_requires_target_different_from_current_stage": True,
@@ -47,6 +46,10 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
         "repair_budget_exhaustion_terminal_status": "completed_with_quality_debt",
         "hard_stop_or_zero_consumable_artifact_route_output": "none",
     }
+    assert (
+        "producer_or_repairer_may_return_terminal_route_decision"
+        not in profile["cross_stage_route_selection"]
+    )
     assert "route_authority_contract" not in profile["review_attempt_contract"]
     assert profile["review_attempt_contract"]["attempt_output_contract"] == {
         "envelope_path": "route_impact.stage_quality_cycle",
