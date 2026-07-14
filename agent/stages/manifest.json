@@ -35,6 +35,10 @@
       "stage_id": "storyline-architecture",
       "stage_kind": "planning",
       "title": "Storyline Architecture",
+      "display_names": {
+        "en-US": "Storyline Architecture",
+        "zh-CN": "全书叙事架构"
+      },
       "summary": "Shape the premise, reader promise, argument arc, evidence map, chapter thesis chain, and prose style contract before drafting.",
       "goal": "Create an evidence-aware storyline, reader contract, and chapter-function architecture that can be handed to chapter production planning.",
       "policy_ref": "agent/stages/storyline-architecture.md",
@@ -103,6 +107,10 @@
       "stage_id": "chapter-production-planning",
       "stage_kind": "planning",
       "title": "Chapter Production Planning",
+      "display_names": {
+        "en-US": "Chapter Production Planning",
+        "zh-CN": "章节写作规划"
+      },
       "summary": "Admit approved storyline refs and convert them into chapter budgets, task cards, context-pack plans, memory refs, and an active production queue before prose drafting.",
       "goal": "Admit current storyline refs and plan the next chapter-production units, budgets, task cards, context, and memory without drafting manuscript body.",
       "policy_ref": "agent/stages/chapter-production-planning.md",
@@ -198,6 +206,10 @@
       "stage_id": "chapter-materialization",
       "stage_kind": "creation",
       "title": "Chapter Materialization",
+      "display_names": {
+        "en-US": "Chapter Materialization",
+        "zh-CN": "章节撰写"
+      },
       "summary": "Write or repair reader-facing chapter Markdown packages from approved task cards and context packs while preserving honest in-progress states.",
       "goal": "Create or repair the authorized chapter Markdown units while preserving reader, chapter-function, source, style, extent, and memory contracts.",
       "policy_ref": "agent/stages/chapter-materialization.md",
@@ -276,6 +288,10 @@
       "stage_kind": "review",
       "stage_role": "cross_stage_meta_review",
       "title": "Whole-Book Meta Review And Integrity Gate",
+      "display_names": {
+        "en-US": "Whole-Book Meta Review And Integrity Gate",
+        "zh-CN": "全书总审与完整性检查"
+      },
       "summary": "Review chapter packages for claim/source safety, style consistency, internal-language leakage, sentence integrity, and meta-review route obligations.",
       "goal": "Judge current manuscript integrity and route source, style, continuity, evidence, or structural defects to the highest useful repair surface.",
       "policy_ref": "agent/stages/source-style-integrity-review.md",
@@ -361,6 +377,10 @@
       },
       "lane_kind": "variant",
       "title": "Publication Proof Handoff",
+      "display_names": {
+        "en-US": "Publication Proof Handoff",
+        "zh-CN": "出版校样交接"
+      },
       "summary": "Classify and package review PDF, publication proof, or final export handoff refs without turning compile success into owner/export authority.",
       "goal": "Produce the requested review, publication-proof, or final-export handoff with evidence and owner gates appropriate to that artifact role.",
       "policy_ref": "agent/stages/publication-proof-handoff.md",

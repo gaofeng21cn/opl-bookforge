@@ -122,6 +122,16 @@ def main() -> int:
         "required_locator_fields": ["workspace_root"],
         "optional_locator_fields": [],
     }
+    assert standard_interface["stage_catalog"] == {
+        "source_kind": "agent_repo_relative_json",
+        "relative_path": "agent/stages/manifest.json",
+        "items_pointer": "/stages",
+        "field_map": {
+            "stage_id": "stage_id",
+            "display_name": "title",
+            "display_names": "display_names",
+        },
+    }
     assert set(standard_interface["runtime"]) == {"runtime_domain_id", "registration_ref"}
     assert standard_interface["progress"]["deliverable_delta_aliases"] == [
         "book_manuscript_progress_delta"

@@ -12,6 +12,28 @@ STAGE_SEQUENCE = [
     "source-style-integrity-review",
     "publication-proof-handoff",
 ]
+STAGE_DISPLAY_NAMES = {
+    "storyline-architecture": {
+        "en-US": "Storyline Architecture",
+        "zh-CN": "全书叙事架构",
+    },
+    "chapter-production-planning": {
+        "en-US": "Chapter Production Planning",
+        "zh-CN": "章节写作规划",
+    },
+    "chapter-materialization": {
+        "en-US": "Chapter Materialization",
+        "zh-CN": "章节撰写",
+    },
+    "source-style-integrity-review": {
+        "en-US": "Whole-Book Meta Review And Integrity Gate",
+        "zh-CN": "全书总审与完整性检查",
+    },
+    "publication-proof-handoff": {
+        "en-US": "Publication Proof Handoff",
+        "zh-CN": "出版校样交接",
+    },
+}
 ACTION_STAGE_ROUTES = {
     "shape-storyline": ["storyline-architecture"],
     "materialize-book": STAGE_SEQUENCE[1:],
@@ -103,6 +125,12 @@ def main() -> int:
 
     manifest_stages = stage_manifest["stages"]
     assert [stage["stage_id"] for stage in manifest_stages] == STAGE_SEQUENCE
+    assert {
+        stage["stage_id"]: stage["display_names"] for stage in manifest_stages
+    } == STAGE_DISPLAY_NAMES
+    assert all(
+        stage["display_names"]["en-US"] == stage["title"] for stage in manifest_stages
+    )
     assert len({stage["goal"] for stage in manifest_stages}) == len(STAGE_SEQUENCE)
     for stage in manifest_stages:
         prompt = (repo / stage["prompt_ref"]).read_text(encoding="utf-8")
