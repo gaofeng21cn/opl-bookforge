@@ -255,7 +255,13 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
         "chapter-materialization",
     ]
     prompt = (ROOT / "agent/prompts/source-style-integrity-review.md").read_text(encoding="utf-8")
+    stage_policy = (ROOT / "agent/stages/source-style-integrity-review.md").read_text(
+        encoding="utf-8"
+    )
     assert "do not edit manuscript artifacts inside this Meta Review Stage" in prompt
+    assert "one new `producer` Attempt" in stage_policy
+    assert "does not start reviewer, repairer, or re-reviewer Attempts" in stage_policy
+    assert "Its reviewer Attempts" not in stage_policy
     planning_gate = (ROOT / "agent/quality_gates/chapter-production-planning-quality-gate.md").read_text(encoding="utf-8")
     assert "author-thread self-check is only `in_thread_refinement`" in planning_gate
     assert "The independent Review Attempt is required" in planning_gate
