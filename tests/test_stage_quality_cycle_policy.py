@@ -151,6 +151,8 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
         assert f"`{outcome}`" in role_prompt
     assert "`hard_stop` is never an Attempt outcome" in role_prompt
     assert "`hard_stop` is not an Attempt outcome" in role_prompt
+    assert "to its identically named receipt verdict" in role_prompt
+    assert "to the same receipt verdict" not in role_prompt
     assert "producer is decisive only for a progress-terminal result" in role_prompt
     assert "repairer never makes a terminal route decision" in role_prompt
     assert "While repair budget remains" in role_prompt
