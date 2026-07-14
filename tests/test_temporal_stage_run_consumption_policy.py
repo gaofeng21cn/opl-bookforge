@@ -918,12 +918,20 @@ def main() -> int:
     assert_handoff_current_paths_exist(repo, generated_handoff)
     trigger = agent_lab_handoff["feedback_self_evolution_trigger"]
     assert trigger["surface_kind"] == "opl_foundry_agent_feedback_self_evolution_trigger"
+    assert trigger["schema_version"] == 2
     assert (
         trigger["policy_ref"]
         == "contracts/opl-framework/foundry-agent-series-contract.json#/standard_feedback_self_evolution_trigger_policy"
     )
     assert trigger["target_agent_id"] == "opl-bookforge"
     assert trigger["external_suite_ref"] == "contracts/agent_lab_handoff.json"
+    assert trigger["policy_id"] == "standard_agent_feedback_self_evolution_trigger.v2"
+    assert trigger["agent_evolution_skill_ref"] == (
+        "opl-meta-agent:oma-agent-evolution"
+    )
+    assert "agent_evolution_skill_ref" in trigger["required_trigger_fields"]
+    assert "oma_evolution_skill_ref" not in trigger
+    assert "default_oma_skill_ref" not in trigger
     assert trigger["developer_mode_execution_gate_refs"] == [
         "opl-developer-mode:repo-fix-execution",
         "opl-developer-mode:direct-fix-or-fork-pr-route",

@@ -9,9 +9,9 @@
   },
   "feedback_self_evolution_trigger": {
     "surface_kind": "opl_foundry_agent_feedback_self_evolution_trigger",
-    "schema_version": 1,
+    "schema_version": 2,
     "policy_ref": "contracts/opl-framework/foundry-agent-series-contract.json#/standard_feedback_self_evolution_trigger_policy",
-    "policy_id": "standard_agent_feedback_self_evolution_trigger.v1",
+    "policy_id": "standard_agent_feedback_self_evolution_trigger.v2",
     "target_agent_id": "opl-bookforge",
     "target_domain_id": "opl-bookforge",
     "adapter_kind": "domain_thin_feedback_adapter",
@@ -26,7 +26,7 @@
       "idempotency_key",
       "external_suite_ref",
       "developer_mode_execution_gate_refs",
-      "oma_evolution_skill_ref",
+      "agent_evolution_skill_ref",
       "owner_closeout_readback_refs"
     ],
     "trigger_chain": [
@@ -42,8 +42,7 @@
       "opl-developer-mode:repo-fix-execution",
       "opl-developer-mode:direct-fix-or-fork-pr-route"
     ],
-    "oma_evolution_skill_ref": "opl-meta-agent:oma-agent-evolution",
-    "default_oma_skill_ref": "opl-meta-agent:oma-agent-evolution",
+    "agent_evolution_skill_ref": "opl-meta-agent:oma-agent-evolution",
     "status_projection_ref": "contracts/opl-framework/agent-lab-contract.json#domain_feedback_self_evolution_surface",
     "owner_closeout_readback_refs": [
       "contracts/production_acceptance/bookforge-production-acceptance.json",
