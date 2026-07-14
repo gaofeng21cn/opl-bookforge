@@ -42,6 +42,7 @@ Publication-proof quality:
 Boundary:
 
 - The helper may compile PDFs, render pages for inspection, and write a JSON manifest.
+- Its probe binds every process and artifact-write slot to the exact helper bytes. Process targets are limited to the probe's declared publication commands, while artifact writes use only carrier-provided artifact slots; neither surface grants route, lifecycle, executor, receipt, verdict, or readiness authority.
 - It does not authorize publication readiness, owner acceptance, or final export approval.
 - It must not be replaced by project-local raster text drawing, Pillow/canvas page painting, or bespoke layout engines as the normal path.
 

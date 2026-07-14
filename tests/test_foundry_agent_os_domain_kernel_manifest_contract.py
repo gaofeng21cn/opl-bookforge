@@ -51,7 +51,7 @@ def main() -> int:
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.2"
+    assert package_metadata["version"] == "0.3.3"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
     assert functional_audit["retired_default_surface_ids"] == [

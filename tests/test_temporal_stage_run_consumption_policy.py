@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -492,6 +493,19 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
             assert {(slot["symbol"], slot["effect_kind"]) for slot in effect_slots} == expected[
                 "source_closure_effects"
             ], descriptor_ref
+            source_path = (repo / descriptor_ref).parent / descriptor["entrypoint_ref"]
+            source_digest = f"sha256:{hashlib.sha256(source_path.read_bytes()).hexdigest()}"
+            assert {slot["source_digest"] for slot in effect_slots} == {source_digest}, descriptor_ref
+            for slot in effect_slots:
+                if slot["effect_kind"] == "process_spawn":
+                    assert slot["target_policy"] == "declared_command_set", slot
+                    assert slot["allowed_targets"], slot
+                    assert set(slot["allowed_targets"]) <= set(descriptor["required_commands"]), slot
+                    assert not {"codex", "opl"} & set(slot["allowed_targets"]), slot
+                else:
+                    assert slot["effect_kind"] == "filesystem_write", slot
+                    assert slot["target_policy"] == "declared_artifact_write_slot", slot
+                    assert slot["allowed_targets"] == [], slot
         else:
             assert "source_closure" not in descriptor, descriptor_ref
         command = f'pack native-helper probe --descriptor "${{repo_dir}}/{descriptor_ref}" --json'

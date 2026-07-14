@@ -19,7 +19,7 @@
         "slot_id": "pandoc_ast_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "image_refs_from_pandoc_ast",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -30,7 +30,7 @@
         "slot_id": "pdf_compile_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "compile_pdf",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -41,7 +41,7 @@
         "slot_id": "pdf_font_inspection_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "inspect_pdf_fonts",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -52,7 +52,7 @@
         "slot_id": "pdf_page_render_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "render_pdf_pages",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -63,7 +63,7 @@
         "slot_id": "pdf_compile_artifact_write",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "compile_pdf",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "filesystem_write",
         "target_policy": "declared_artifact_write_slot",
         "allowed_targets": []
@@ -72,7 +72,7 @@
         "slot_id": "pdf_page_render_artifact_write",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "render_pdf_pages",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "filesystem_write",
         "target_policy": "declared_artifact_write_slot",
         "allowed_targets": []
@@ -81,7 +81,7 @@
         "slot_id": "manifest_artifact_write",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "write_manifest",
-        "source_digest": "sha256:d8f3d0a35b6516341f21bbb7525cfba6b1580e9bef044fc6e2981583ac30c182",
+        "source_digest": "sha256:9a524cf21b8d022e4f2f025c5de71c811d9e1adf9317d350d03d8f60276bb26d",
         "effect_kind": "filesystem_write",
         "target_policy": "declared_artifact_write_slot",
         "allowed_targets": []
