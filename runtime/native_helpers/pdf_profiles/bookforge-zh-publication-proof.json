@@ -5,13 +5,9 @@
   "pandoc_variables": [
     "documentclass=ctexbook",
     "classoption=oneside",
+    "classoption=fontset=fandol",
     "papersize=a5",
     "fontsize=11pt",
-    "mainfont=Noto Serif CJK SC",
-    "CJKmainfont=Noto Serif CJK SC",
-    "sansfont=PingFang SC",
-    "CJKsansfont=PingFang SC",
-    "monofont=Menlo",
     "geometry:paperwidth=148mm",
     "geometry:paperheight=210mm",
     "geometry:top=18mm",
@@ -45,9 +41,12 @@
       "foot_skip": "10mm"
     },
     "font": {
-      "body": "Noto Serif CJK SC",
-      "heading": "PingFang SC",
-      "mono": "Menlo",
+      "body": "FandolSong-Regular",
+      "heading": "FandolHei-Regular",
+      "mono": "FandolFang-Regular",
+      "fontset": "fandol",
+      "provider": "TeX Live CTEX distribution",
+      "requires_system_font_service": false,
       "body_size": "11pt",
       "line_stretch": 1.24,
       "embedded_font_required_for_publication_proof": true
@@ -62,7 +61,7 @@
       "widow_orphan_policy": "manual proof review required for final export"
     },
     "caption": {
-      "font_family": "PingFang SC",
+      "font_family": "FandolHei-Regular",
       "size": "small",
       "label_treatment": "warm accent label separated from body prose"
     },
@@ -121,7 +120,7 @@
   },
   "publication_design_profile": {
     "page_geometry": "A5 e-book proof, 148mm x 210mm, 18mm side margins, 18/20mm top/bottom margins, readable line length for Chinese nonfiction.",
-    "typography_hierarchy": "Noto Serif CJK SC body, PingFang SC chapter headings, restrained chapter numbers, increased section spacing, running heads, and table of contents.",
+    "typography_hierarchy": "CTEX-distributed Fandol Song body and Fandol Hei chapter headings, restrained chapter numbers, increased section spacing, running heads, and table of contents without a host-specific font service dependency.",
     "caption_style": "Small sans-serif captions with a warm accent label and spacing separated from body prose.",
     "figure_treatment": "Figures centered, constrained to text width, protected by Pandoc resource paths, with captions checked in rendered pages.",
     "table_treatment": "Booktabs-style tables, small readable type, alternating vertical rhythm, and no decorative grid overload.",

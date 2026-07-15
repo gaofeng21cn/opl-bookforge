@@ -160,6 +160,27 @@
           "purpose": "Chinese book document class."
         },
         {
+          "dependency_id": "FandolSong-Regular.otf",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fandol",
+          "purpose": "Portable Chinese serif body font supplied by the TeX Live CTEX distribution."
+        },
+        {
+          "dependency_id": "FandolHei-Regular.otf",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fandol",
+          "purpose": "Portable Chinese sans-serif heading font supplied by the TeX Live CTEX distribution."
+        },
+        {
+          "dependency_id": "FandolFang-Regular.otf",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fandol",
+          "purpose": "Portable Chinese monospaced font supplied by the TeX Live CTEX distribution."
+        },
+        {
           "dependency_id": "titling.sty",
           "kind": "latex_package",
           "required_level": "legacy_not_required",

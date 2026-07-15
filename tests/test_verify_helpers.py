@@ -289,6 +289,16 @@ def test_pdf_smoke() -> None:
         assert auto["inspection_kind"] == "machine_baseline", auto
         assert auto["embedded_font_status"] == "passed", auto
         assert auto["embedded_font_inspection"]["embedded_font_count"] > 0, auto
+        embedded_font_names = {
+            font["name"] for font in auto["embedded_font_inspection"]["fonts"]
+        }
+        assert any("FandolSong" in name for name in embedded_font_names), embedded_font_names
+        assert any("FandolHei" in name for name in embedded_font_names), embedded_font_names
+        assert not any(
+            host_font in name
+            for name in embedded_font_names
+            for host_font in ("Noto", "PingFang", "Menlo")
+        ), embedded_font_names
         assert auto["page_density_status"] in {"passed", "checked_with_warnings"}, auto
         assert auto["trailing_whitespace_status"] in {"passed", "checked_with_warnings"}, auto
         assert auto["rendered_page_size_status"] == "passed", auto
@@ -395,8 +405,26 @@ def test_publication_profile_contract() -> None:
     )
     tokens = profile["design_tokens"]
     expectations = profile["visual_qa_expectations"]
+    variables = profile["pandoc_variables"]
     assert tokens["owner"] == "OPL Book Forge", tokens
     assert "inspired_by_kami_patterns" in tokens["source_pattern_note"], tokens
+    assert "classoption=fontset=fandol" in variables, variables
+    assert not any(
+        host_font in variable
+        for variable in variables
+        for host_font in ("Noto", "PingFang", "Menlo")
+    ), variables
+    assert tokens["font"] == {
+        "body": "FandolSong-Regular",
+        "heading": "FandolHei-Regular",
+        "mono": "FandolFang-Regular",
+        "fontset": "fandol",
+        "provider": "TeX Live CTEX distribution",
+        "requires_system_font_service": False,
+        "body_size": "11pt",
+        "line_stretch": 1.24,
+        "embedded_font_required_for_publication_proof": True,
+    }, tokens["font"]
     for key in (
         "page",
         "font",
