@@ -1,9 +1,12 @@
 {
   "surface_kind": "domain_live_stage_run_progress_evidence",
+  "schema_ref": "contracts/opl-framework/domain-live-stage-run-progress-evidence.schema.json",
+  "schema_version": 1,
   "domain_id": "opl-bookforge",
+  "domain_agent_id": "obf",
   "owner": "OPL Book Forge",
-  "status": "topology_superseded_live_evidence_deferred_not_ready_claim",
-  "evidence_contract_status": "active_refs_only_false_authority_contract",
+  "status": "owner_evidence_required",
+  "evidence_contract_status": "standard_contract_resolved_without_accepted_refs",
   "topology_state": "historical_two_stage_evidence_superseded_by_current_five_stage_topology",
   "summary": "The retained pilot evidence predates the current five-stage topology and is provenance only. Current-topology Live StageRun evidence is deferred; this contract records no ready claim, owner acceptance, final export acceptance, or synthesized current-stage evidence.",
   "active_stage_sequence": [
@@ -21,7 +24,7 @@
       "docs/evidence/oma-agent-lab/provenance/baseline_delivery_receipt.json",
       "docs/evidence/oma-agent-lab/provenance/stage_decomposition_attempt_receipt.json"
     ],
-    "no_regression_refs": [
+    "topology_guard_refs": [
       "agent/stages/manifest.json",
       "contracts/temporal_stage_run_consumption_policy.json#completion_boundary",
       "contracts/temporal_stage_run_consumption_policy.json#completion_audit.acceptance_tail"
@@ -36,7 +39,7 @@
       "./scripts/verify.sh"
     ]
   },
-  "evidence_items": [
+  "deferred_stage_evidence_items": [
     {
       "stage_id": "storyline-architecture",
       "result_shape": "live_evidence_deferred",
@@ -68,7 +71,7 @@
       "claim_boundary": "No current-topology publication proof, final export, or owner acceptance evidence is recorded."
     }
   ],
-  "typed_blocker_kind": "none_current_topology_live_evidence_deferred",
+  "evidence_gap_kind": "current_topology_live_evidence_required",
   "open_tail": {
     "owner_acceptance_open": true,
     "final_export_acceptance_open": true,

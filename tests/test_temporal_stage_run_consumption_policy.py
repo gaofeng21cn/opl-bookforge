@@ -72,14 +72,14 @@ FORBIDDEN_RUNTIME_SURFACE_EXPORTS = {
 }
 
 LIVE_STAGE_RUN_PROGRESS_ACCEPTED_STATUSES = {
-    "topology_superseded_live_evidence_deferred_not_ready_claim",
+    "owner_evidence_required",
 }
 
 LIVE_STAGE_RUN_PROGRESS_REF_FIELDS = {
     "typed_blocker_refs",
     "quality_or_export_receipt_refs",
     "superseded_topology_provenance_refs",
-    "no_regression_refs",
+    "topology_guard_refs",
     "doc_refs",
     "next_verification_command_refs",
 }
@@ -516,7 +516,8 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
     assert payload["domain_id"] == "opl-bookforge"
     assert payload["owner"] == "OPL Book Forge"
     assert payload["status"] in LIVE_STAGE_RUN_PROGRESS_ACCEPTED_STATUSES
-    assert payload["status"] == "topology_superseded_live_evidence_deferred_not_ready_claim"
+    assert payload["status"] == "owner_evidence_required"
+    assert payload["evidence_contract_status"] == "standard_contract_resolved_without_accepted_refs"
     assert payload["topology_state"] == "historical_two_stage_evidence_superseded_by_current_five_stage_topology"
     assert payload["active_stage_sequence"] == [
         "storyline-architecture",
@@ -525,7 +526,8 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
         "source-style-integrity-review",
         "publication-proof-handoff",
     ]
-    assert payload["typed_blocker_kind"] == "none_current_topology_live_evidence_deferred"
+    assert payload["evidence_gap_kind"] == "current_topology_live_evidence_required"
+    assert "typed_blocker_kind" not in payload
 
     refs = payload["refs"]
     assert LIVE_STAGE_RUN_PROGRESS_REF_FIELDS <= set(refs), "live StageRun progress evidence missing ref groups"
@@ -541,12 +543,12 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
         "superseded topology provenance refs",
     )
     assert_ref_fields(
-        refs["no_regression_refs"],
+        refs["topology_guard_refs"],
         {
             "contracts/temporal_stage_run_consumption_policy.json#completion_boundary",
             "contracts/temporal_stage_run_consumption_policy.json#completion_audit.acceptance_tail",
         },
-        "live StageRun no-regression refs",
+        "live StageRun topology guard refs",
     )
     assert_ref_fields(
         refs["next_verification_command_refs"],
@@ -558,7 +560,7 @@ def assert_live_stage_run_progress_evidence(payload: dict[str, Any]) -> None:
         "live StageRun verification refs",
     )
 
-    evidence_items = payload["evidence_items"]
+    evidence_items = payload["deferred_stage_evidence_items"]
     assert len(evidence_items) == 5, evidence_items
     assert [item["stage_id"] for item in evidence_items] == payload["active_stage_sequence"]
     assert {item["result_shape"] for item in evidence_items} == {"live_evidence_deferred"}
