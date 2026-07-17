@@ -3,51 +3,43 @@
 Owner: `opl-bookforge`
 Purpose: `docs_index`
 State: `active_index`
-Machine boundary: Human-readable navigation. Machine truth remains in contracts, agent pack files, OPL validator output, OMA Agent Lab evidence, pilot evidence, future runtime receipts, owner receipts, and typed blockers.
+Machine boundary: Human-readable navigation and lifecycle map. Machine truth remains in contracts, agent pack files, source, tests, OPL validator/readback output, runtime receipts, owner receipts, and typed blockers.
 
-This directory is the documentation entry for the OPL Book Forge domain agent package.
+## Reading Order
 
-## Current Reading Order
+1. [Project](./project.md): product role and scope.
+2. [Status](./status.md): concise current implementation and claim boundary.
+3. [Active Truth plan](./active/bookforge-ideal-state-gap-plan.md): current state, open gaps, and next executable prompt.
+4. [Architecture](./architecture.md): ownership and protocol flow.
+5. [Invariants](./invariants.md): hard domain and authority constraints.
+6. [Decisions](./decisions.md): durable accepted design decisions.
+7. [OPL revision-routing handoff](./references/opl-base-revision-routing-handoff.md): current cross-repo support boundary.
+8. [Evidence index](./evidence/README.md): tracked package roles and claim limits.
+9. [History index](./history/README.md): external-learning and retirement provenance.
 
-1. [Project](./project.md)
-2. [Status](./status.md)
-3. [Active gap plan](./active/bookforge-ideal-state-gap-plan.md)
-4. [Architecture](./architecture.md)
-5. [Invariants](./invariants.md)
-6. [Decisions](./decisions.md)
-7. [Docs portfolio governance](./docs_portfolio_consolidation.md)
-8. [OPL base revision routing handoff](./references/opl-base-revision-routing-handoff.md)
-9. [Evidence package index](./evidence/README.md)
-10. [History index](./history/README.md)
-11. [Process history index](./history/process/README.md)
+## Single-Owner Map
 
-## Evidence Surfaces
+| Theme | Owner surface |
+| --- | --- |
+| Product role and scope | `docs/project.md` |
+| Current implementation and claim boundary | `docs/status.md` |
+| Current state, open gaps, next prompt, coverage ledger | `docs/active/bookforge-ideal-state-gap-plan.md` |
+| Ownership and stage architecture | `docs/architecture.md` |
+| Hard rules | `docs/invariants.md` |
+| Accepted design choices | `docs/decisions.md` |
+| Evidence package names, roles, and claim boundaries | `docs/evidence/README.md` |
+| Historical provenance | `docs/history/README.md` |
 
-- Fast policy validation: `scripts/verify.sh`.
-- OPL structural readback: `scripts/verify.sh structural`.
-- Native-helper and adapter validation: `scripts/verify.sh helpers`.
-- Proof-backend E2E: `scripts/verify.sh pdf`.
-- Deduplicated integration union: `scripts/verify.sh full`.
-- Helper executable readback: `opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json`.
-- Evidence package index: `docs/evidence/README.md`.
-- Pilot verifier: `python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py`.
-- Revision routing design: `agent/skills/revision-entrypoint-router.md`, `docs/history/external-learning/revision-routing-2026-06-20.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
-- Kami-inspired publication proof design: `agent/skills/publication-design.md`, `agent/quality_gates/publication-proof-handoff-quality-gate.md`, and `docs/history/external-learning/kami-publication-proof-2026-06-20.md`.
-- Process and historical provenance: `docs/history/README.md` and
-  `docs/history/process/README.md`.
+Do not add empty taxonomy directories. Create a new `public/`, `product/`, `runtime/`, `delivery/`, `source/`, `policies/`, or `specs/` area only when durable content has a distinct owner, purpose, state, and machine boundary.
 
-## Optional Support Directories
+## Evidence Payload Rule
 
-This docs tree intentionally has no `docs/runtime/` support directory today.
-Use the executable helper paths under `runtime/native_helpers/` and the current
-core docs above; do not link to a nonexistent runtime README. Create a runtime
-docs README only when Book Forge has durable runtime-support prose with its own
-owner, purpose, state, and machine boundary.
+Package READMEs under `docs/evidence/**` are manifests. Markdown leaves under package `inputs/`, `artifacts/`, `stage_outputs/`, `quality/`, `receipts/`, verifier, or export directories are historical evidence bodies. They do not need governance headers and must not be rewritten merely to satisfy doctor output. Promote one only after choosing a new semantic owner.
 
-## Claim Boundary
+The current short-book pilot deliberately retains its old two-stage vocabulary and now-missing source paths because those bytes describe the historical run. Current topology and claim truth stay in status, the Active Truth plan, contracts, and agent files.
 
-Current evidence supports OPL-standard scaffold validity, generated interface descriptors, OMA Agent Lab takeover evidence, external-suite self-evolution evidence, and a real short-book pilot with DOCX/HTML/PDF exports and render checks.
+## Verification And Claims
 
-Current evidence does not support production-ready book-writing claims, publication approval, owner acceptance, or hosted runtime parity. Those require human owner receipt plus live OPL StageRun or hosted artifact-handoff parity evidence.
+Use `scripts/verify.sh` for the fast policy lane and `scripts/verify.sh full` for the full repo/OPL structural union. `helpers`, `pdf`, and `full-local` are explicit heavier lanes described in [Status](./status.md).
 
-Kami-inspired publication proof rules are Book Forge-owned domain contracts plus helper machine-baseline proof plumbing. They do not import Kami's runtime or visual identity, and they still do not replace human publication-design review, final-export acceptance, or owner proof readiness evidence.
+No documentation, validator, helper, evidence package, or rendered page can by itself establish live execution, book quality, publication approval, final-export readiness, hosted parity, owner acceptance, release, or production readiness.

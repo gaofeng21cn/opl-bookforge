@@ -11,9 +11,8 @@ approval, final export readiness, hosted runtime parity, or owner acceptance.
 Current status stays in `docs/status.md`; current gaps and next work stay in
 `docs/active/bookforge-ideal-state-gap-plan.md`.
 Historical process foldback and external-learning provenance stay in
-`docs/history/README.md` and `docs/history/process/README.md`; evidence package
-payloads should not be copied there except as compressed topic-level
-provenance.
+`docs/history/README.md`; evidence package payloads should not be copied there
+except as compressed topic-level provenance.
 
 ## SSOT And Foldback
 

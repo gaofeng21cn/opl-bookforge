@@ -1,83 +1,39 @@
-# OPL Base Revision Routing Handoff
+# OPL Revision Routing Handoff
 
 Owner: `opl-bookforge`
-Purpose: `support_reference_opl_base_handoff`
-State: `reference_landed_initial_opl_transport`
-Machine boundary: Human-readable cross-repo handoff reference. Machine truth remains in Book Forge contracts, OPL validator output, OPL source/tests, runtime receipts, owner receipts, and typed blockers.
+Purpose: `support_reference_opl_revision_transport`
+State: `active_reference`
+Machine boundary: Human-readable cross-repo handoff boundary. Machine truth remains in Book Forge contracts and agent files, current OPL source/tests/readbacks, runtime receipts, owner receipts, and typed blockers.
 
-## Problem
+## Purpose
 
-Book Forge Meta Review can now discover that a manuscript should not be repaired from a sentence or chapter. Some findings require a route back to artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, or owner/source decisions.
+Whole-book review may find that repair belongs above local prose: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, or an owner/source decision. Book Forge owns that diagnosis. OPL may transport and project the resulting opaque refs so the next owner and route remain inspectable.
 
-The domain owns those semantics, but the OPL base should make the route easy to execute and inspect across agents.
-
-## Landed Initial OPL Surface
-
-The local OPL base checkout now has an initial refs-only workspace transport for this class of handoff:
-
-- CLI: `opl workspace artifact-lifecycle --workspace <path> [--project-id <id>] [--dry-run|--apply]`.
-- Implementation: `/Users/gaofeng/workspace/one-person-lab/src/workspace-artifact-lifecycle.ts`.
-- Projection root: `control/opl/artifact_lifecycle/`.
-- Domain handoff input: `handoff/review-repair-transport.json`.
-- Review-repair output: `control/opl/artifact_lifecycle/review_repair_transport.json`.
-
-The transport treats domain repair decisions as opaque refs:
-
-- `revision_entrypoint_decision_ref`
-- `route_back_ref`
-- `repair_plan_ref`
-- `typed_blocker_ref`
-- `owner_decision_ref`
-- `freshness_gate_ref`
-- `iteration_limit_ref`
-- `current_owner_delta_ref`
-
-It projects current owner, accepted next-answer shape, route-back target, iteration count, stale downstream refs, and closure options. It does not parse or decide Book Forge manuscript meaning.
-
-## Domain-Owned Semantics
+## Book Forge Owner Surface
 
 Book Forge owns:
 
-- repair level selection;
-- reverse-outline interpretation;
-- storyline, reader, chapter, evidence, model, style, publication design, and artifact-target refs;
-- manuscript and memory body;
-- quality/export verdicts;
-- owner receipts and owner blockers.
+- the selected repair level and its evidence;
+- reverse-outline and affected-artifact refs;
+- allowed and forbidden lower-level edits;
+- repair-plan, route-back, freshness, blocker, and owner-decision refs;
+- manuscript and memory bodies, quality/export verdicts, and owner receipt bodies.
 
-## OPL-Owned Mechanics
+`contracts/artifact_lifecycle_handoff.json` declares the refs and false-ready boundary consumed by OPL. The current routing method lives in `agent/skills/revision-entrypoint-router.md`.
+
+## OPL Owner Surface
 
 OPL may own:
 
-- route-back transport and projection;
-- iteration cap accounting;
-- stale-ref/freshness projection from declared refs;
-- current-owner display;
-- handoff packet lifecycle;
-- generated interface descriptors that expose opaque refs only.
+- workspace artifact-lifecycle transport and readback;
+- current-owner, accepted-answer, iteration, and stale-ref projection;
+- handoff packet lifecycle and generated surface descriptors;
+- fail-closed validation when required routing or owner fields are absent.
 
-## Required Guardrails
+OPL must not interpret manuscript semantics, edit Book Forge artifacts, sign owner receipts, or convert a route or review ref into quality/export approval.
 
-- OPL must not convert `route-back-ref` into quality approval.
-- OPL must not rewrite domain artifacts or memory body.
-- OPL must not sign owner receipts or quality/export verdicts.
-- OPL must preserve the domain's typed blocker and owner-decision labels.
-- OPL should fail closed when the route-back target, current owner, or accepted answer shape is missing.
+## Verification Boundary
 
-## OPL Transport Evidence Boundary
+The Book Forge contract and repository tests prove only the declared handoff shape. Current OPL command behavior and currentness must be read from the active OPL repository and runtime readback; this reference does not pin a local checkout path, commit, dated test count, or hosted implementation claim.
 
-- `npm run typecheck` in `/Users/gaofeng/workspace/one-person-lab`: passed on 2026-06-20.
-- `node --experimental-strip-types --test tests/src/cli/cases/workspace-domain.initializer.test.ts` in `/Users/gaofeng/workspace/one-person-lab`: 19/19 passed on 2026-06-20.
-- Focused test coverage includes a Book Forge success path that materializes source passport, memory lifecycle, output lifecycle, review-repair transport, health, and index projections.
-- Focused test coverage includes a fail-closed Book Forge path for missing current owner, missing accepted answer shape, missing route-back target, stale downstream refs, and exceeded iteration limit.
-
-These are dated local OPL source/test refs for the initial transport surface. Current OPL transport truth must be refreshed from the OPL repo's source/tests/read-model before making a currentness claim. This handoff reference is not hosted runtime parity, production readiness, repair acceptance, publication readiness, final export acceptance, or owner acceptance.
-
-## Book Forge Evidence Needed Before Promotion
-
-- A real manuscript meta-review that produces a revision entrypoint decision.
-- At least one routed repair that refreshes the corresponding Book Forge refs and downstream artifacts.
-- A route-back case to `storyline-architecture` or `outline_sequence_repair`.
-- A local prose case that proves fast-track does not bypass higher-order defects.
-- Book Forge `scripts/verify.sh` after the domain refs are updated.
-- OPL `workspace artifact-lifecycle --apply` evidence against a real Book Forge workspace with project-local handoff refs.
+A real promotion claim still requires an evidence-bound manuscript review, an actual routed repair with refreshed downstream refs, current OPL apply/readback evidence, and the relevant Book Forge review or owner receipt. None of those can be synthesized from this document.

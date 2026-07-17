@@ -3,41 +3,31 @@
 Owner: `opl-bookforge`
 Purpose: `history_index`
 State: `historical_archive_index`
-Machine boundary: Human-readable history navigation. Machine truth remains in
-contracts, agent pack files, OPL validator output, evidence package payloads,
-runtime receipts, owner receipts, typed blockers, source, and repo-native
-verification.
+Machine boundary: Human-readable provenance navigation. Current machine truth remains in contracts, agent pack files, source, tests, OPL validator/readback output, runtime receipts, owner receipts, and typed blockers.
 
-This directory stores provenance only. Historical external-learning notes,
-process closeouts, evidence-package foldbacks, pilot records, and retired
-workflow context are not current status, active gap state, production readiness,
-publication approval, final export acceptance, hosted-runtime parity, or owner
-acceptance.
+History explains how a decision, external lesson, evidence package, or retirement arose. It is not current status, an active gap plan, a proof ledger, publication approval, final-export acceptance, hosted parity, owner acceptance, or production readiness.
 
-Durable conclusions must fold back to the current owner surface before they can
-be treated as current truth:
+## Areas
 
-- current status: `docs/status.md`;
-- active progress, functional/structural gaps, and next baton:
-  `docs/active/bookforge-ideal-state-gap-plan.md`;
-- docs lifecycle and directory roles: `docs/docs_portfolio_consolidation.md`;
-- evidence package navigation and claim boundaries: `docs/evidence/README.md`;
-- runtime/framework/domain machine truth: contracts, agent pack files, source,
-  validators, OPL readbacks, receipts, typed blockers, and owner surfaces.
-
-## History Areas
-
-| Area | Role | Read rule |
+| Area | Role | Current owner for durable conclusions |
 | --- | --- | --- |
-| `image-asset-private-execution-retirement-2026-07-13.md` | Retired repo-local image execution route and no-caller hygiene deletion provenance. | History only. Current handler and host split come from active contracts and source. |
-| `external-learning/` | External writing-agent, revision-routing, and publication-proof learning provenance. | Reference only. Absorbed rules must appear in agent skills, quality gates, contracts, current docs, or evidence package boundaries. |
-| `process/` | Process-history index and docs-governance foldback. | Topic-level provenance only; do not grow dated worktree, commit, verifier, render, or pilot closeout ledgers here. |
+| `external-learning/revision-routing-2026-06-20.md` | Higher-order repair and opaque handoff learning provenance | revision skill, architecture, invariants, and current handoff reference |
+| `external-learning/kami-publication-proof-2026-06-20.md` | Publication-proof design learning provenance | publication skill, proof helper/profile, invariants, and decisions |
+| `image-asset-private-execution-retirement-2026-07-13.md` | No-resurrection record for repo-local image execution and historical hygiene implementation | image handoff/handler contracts and source |
 
-## No-Ready Boundary
+## Current Owner Map
 
-History can explain how a decision or evidence package was produced. It cannot
-upgrade scaffold validation, generated descriptors, pilot exports, rendered-page
-checks, helper proof plumbing, or evidence-package payloads into Book Forge
-production readiness, publication approval, final export acceptance, live
-StageRun completion, hosted artifact-handoff parity, physical delete readiness,
-or owner acceptance.
+| Theme | Owner surface |
+| --- | --- |
+| Current status and claim boundary | `docs/status.md` |
+| Current state, gaps, next prompt, coverage | `docs/active/bookforge-ideal-state-gap-plan.md` |
+| Documentation navigation and lifecycle roles | `docs/README.md` |
+| Evidence package names and boundaries | `docs/evidence/README.md` |
+| OPL revision-routing handoff | `docs/references/opl-base-revision-routing-handoff.md` |
+| Runtime/domain executable truth | contracts, agent files, source, tests, OPL readbacks, receipts, and blockers |
+
+## Foldback Rule
+
+Durable current rules must be rewritten into their current owner before they can be treated as truth. Do not append dated tranche logs, worktree or commit receipts, verifier transcripts, rendered-page lists, package file lists, or pilot closeout ledgers here. Exact process detail remains in evidence packages or Git history.
+
+Historical material cannot upgrade scaffold validation, generated descriptors, helper plumbing, pilot exports, rendered pages, or evidence payloads into Book Forge readiness or owner acceptance.

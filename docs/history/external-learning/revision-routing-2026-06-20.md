@@ -49,7 +49,7 @@ The new `revision-entrypoint-router` sits between Meta Review and repair. It pro
 - route-back refs and typed blockers;
 - downstream freshness obligations.
 
-The router preserves the existing two-stage model. If repair begins at storyline, the route goes back to `storyline-architecture`; if repair stays in materialization, it updates the relevant chapter, evidence/model, publication-design, or prose refs.
+At the time of this learning record, the router was landed against the then-current two-stage model. That topology is historical. The current five-stage route and repair owners are defined by `agent/stages/manifest.json`, current skills, contracts, architecture, and the active handoff reference.
 
 ## OPL Base Handoff
 
@@ -59,6 +59,6 @@ The handoff reference is `docs/references/opl-base-revision-routing-handoff.md`.
 
 ## Landing Provenance
 
-This record only preserves the external-learning decision: higher-order repair before prose, reverse-outline diagnostic, architecture-style risk routing, hierarchical repair naming, and opaque OPL transport refs were adopted or adapted into Book Forge owner surfaces. Current rules now live in `agent/skills/revision-entrypoint-router.md`, `agent/quality_gates/book-materialization-quality-gate.md`, `contracts/stage_control_plane.json`, `docs/architecture.md`, `docs/invariants.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
+This record only preserves the external-learning decision: higher-order repair before prose, reverse-outline diagnostic, architecture-style risk routing, hierarchical repair naming, and opaque OPL transport refs were adopted or adapted into Book Forge owner surfaces. Current rules now live in `agent/skills/revision-entrypoint-router.md`, the five current stage quality gates, `agent/stages/manifest.json`, `contracts/artifact_lifecycle_handoff.json`, `docs/architecture.md`, `docs/invariants.md`, and `docs/references/opl-base-revision-routing-handoff.md`.
 
 The old row-by-row landing audit is intentionally not kept here. It was dated provenance and must not be read as current hosted-runtime parity, publication readiness, repair acceptance, final export acceptance, or owner acceptance. Real manuscript workspace evidence and owner acceptance remain later evidence lanes under the active gap plan.
