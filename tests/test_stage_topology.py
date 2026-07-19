@@ -304,6 +304,24 @@ def main() -> int:
     )
     assert primary_skill == carrier_skill
     assert "two or three whole-book core models" not in primary_skill.lower()
+    assert "description: Use when Codex needs OPL Book Forge to shape or materially produce a book-length nonfiction work" in primary_skill
+    assert "Do not use for an isolated article, research paper, grant, slide deck, generic document formatting" in primary_skill
+    for heading in (
+        "Admission",
+        "Action Routing",
+        "Default Workflow",
+        "Quality And Hard Stops",
+        "Output Expectations",
+        "References",
+    ):
+        assert f"## {heading}\n" in primary_skill
+    assert "`shape-storyline`: use when the premise" in primary_skill
+    assert "`materialize-book`: use when a current approved storyline exists" in primary_skill
+    assert "run `shape-storyline` first, obtain the owner decision, then invoke `materialize-book`" in primary_skill
+    assert "begins at `chapter-production-planning` and must not silently invent a replacement storyline" in primary_skill
+    assert "Scripts may assemble, validate, and export, but must not hide manuscript prose in code or JSON literals" in primary_skill
+    assert "Keep `review_pdf`, `publication_proof`, and `final_export` distinct" in primary_skill
+    assert "Retry, independent-review, and repair limits are quality budgets" in primary_skill
 
     print(json.dumps({"status": "passed", "stage_sequence": STAGE_SEQUENCE}))
     return 0
