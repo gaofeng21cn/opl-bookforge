@@ -5,7 +5,6 @@
   "domain_id": "opl-bookforge",
   "state": "active_contract",
   "framework_baseline": {
-    "canonical_sha": "367738244273664452e6b7ebfb86d5de5bb36c30",
     "currentness_contract_ref": "contracts/opl-framework/epistemic-review-currentness-contract.json",
     "scope_schema_ref": "contracts/opl-framework/epistemic-review-scope-v2.schema.json",
     "stage_quality_cycle_contract_ref": "contracts/opl-framework/stage-quality-cycle-contract.json"

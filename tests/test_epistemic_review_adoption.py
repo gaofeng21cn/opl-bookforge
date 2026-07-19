@@ -54,7 +54,6 @@ def test_contract_binds_canonical_framework_and_declares_true_dependencies() -> 
 
     assert contract["surface_kind"] == "opl_bookforge_epistemic_review_adoption"
     assert contract["framework_baseline"] == {
-        "canonical_sha": "367738244273664452e6b7ebfb86d5de5bb36c30",
         "currentness_contract_ref": (
             "contracts/opl-framework/epistemic-review-currentness-contract.json"
         ),
