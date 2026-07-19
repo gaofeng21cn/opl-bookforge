@@ -11,7 +11,7 @@
     "contracts/foundry_agent_series.json",
     "contracts/pack_compiler_input.json",
     "contracts/generated_surface_handoff.json",
-    "contracts/private_functional_surface_policy.json",
+    "contracts/functional_privatization_audit.json",
     "contracts/temporal_stage_run_consumption_policy.json",
     "contracts/opl_ledger_artifact_registration.json",
     "contracts/artifact_locator_contract.json",
@@ -180,13 +180,12 @@
     ],
     "validator_refs": [
       "python3 -m json.tool contracts/foundry-agent-os-domain-kernel-manifest.json",
-      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents scaffold --validate <repo-dir> --json",
-      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents interfaces --repo-dir <repo-dir> --json"
+      "opl agents check --repo <repo-dir> --json"
     ],
     "source_contract_refs": [
       "contracts/domain_descriptor.json",
       "contracts/generated_surface_handoff.json",
-      "contracts/private_functional_surface_policy.json",
+      "contracts/functional_privatization_audit.json",
       "contracts/temporal_stage_run_consumption_policy.json",
       "contracts/opl_ledger_artifact_registration.json"
     ]

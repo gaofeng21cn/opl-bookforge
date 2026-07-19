@@ -79,7 +79,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -151,7 +151,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -214,7 +214,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -283,7 +283,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -353,7 +353,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -422,7 +422,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -492,7 +492,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -559,7 +559,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -619,7 +619,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -679,7 +679,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",
@@ -739,7 +739,7 @@
       ],
       "verification_refs": [
         "scripts/verify.sh",
-        "opl agents scaffold --validate <repo-dir> --json"
+        "opl agents check --repo <repo-dir> --json"
       ],
       "forbidden_surfaces": [
         "owner_receipt_body",

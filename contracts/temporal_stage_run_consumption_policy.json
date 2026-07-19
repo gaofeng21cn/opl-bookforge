@@ -166,8 +166,7 @@
         "gate": "standard_scaffold_interface",
         "contract_ref": "contracts/domain_descriptor.json",
         "validator_refs": [
-          "opl agents scaffold --validate <repo-dir> --json",
-          "opl agents interfaces --repo-dir <repo-dir> --json"
+          "opl agents check --repo <repo-dir> --json"
         ],
         "claim_boundary": "scaffold_and_interface_validation_only"
       },

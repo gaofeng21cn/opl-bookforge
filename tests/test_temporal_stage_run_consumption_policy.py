@@ -297,8 +297,7 @@ def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
     assert_ref_fields(
         refs_by_gate["standard_scaffold_interface"]["validator_refs"],
         {
-            "opl agents scaffold --validate <repo-dir> --json",
-            "opl agents interfaces --repo-dir <repo-dir> --json",
+            "opl agents check --repo <repo-dir> --json",
         },
         "standard scaffold/interface validator refs",
     )

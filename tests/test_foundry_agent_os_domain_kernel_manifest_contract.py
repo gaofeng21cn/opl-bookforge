@@ -15,6 +15,11 @@ FORBIDDEN_AUTHORITY_FLAGS = {
     "can_authorize_quality_export_publication_or_review_verdict": False,
 }
 
+CANONICAL_PRIVATE_POLICY_REF = (
+    "contracts/opl-framework/standard-domain-agent-skeleton-contract.json"
+    "#/new_agent_scaffold/private_functional_surface_admission_policy"
+)
+
 
 def load_json(ref: str) -> dict[str, Any]:
     return json.loads((REPO_ROOT / ref).read_text(encoding="utf-8"))
@@ -36,6 +41,8 @@ def main() -> int:
     generated_handoff = load_json("contracts/generated_surface_handoff.json")
     functional_audit = load_json("contracts/functional_privatization_audit.json")
     ledger_contract = load_json("contracts/opl_ledger_artifact_registration.json")
+    principles = load_json("contracts/standard-agent-principles-adoption.json")
+    capability_map = load_json("contracts/capability_map.json")
 
     assert manifest["surface_kind"] == "foundry_agent_os_domain_kernel_manifest"
     assert manifest["version"] == "foundry-agent-os-domain-kernel-manifest.v1"
@@ -72,6 +79,29 @@ def main() -> int:
             "generated_or_hosted_by_opl_only_do_not_restore_repo_local_default_surfaces"
         ),
     }
+    assert (
+        functional_audit["private_functional_surface_admission_policy_ref"]
+        == CANONICAL_PRIVATE_POLICY_REF
+    )
+    assert "private_functional_surface_admission_policy" not in functional_audit
+    morphology = functional_audit["physical_source_morphology_policy"]
+    assert morphology["policy_id"] == "opl-bookforge.physical-source-morphology.v1"
+    assert morphology["authority_boundary"] == {
+        "domain_can_claim_generic_runtime_owner": False,
+        "domain_repo_can_own_generated_surface": False,
+    }
+    assert not (REPO_ROOT / "contracts/private_functional_surface_policy.json").exists()
+    assert "contracts/private_functional_surface_policy.json" not in json.dumps(manifest)
+    assert "contracts/private_functional_surface_policy.json" not in json.dumps(principles)
+    assert "contracts/functional_privatization_audit.json" in manifest["source_of_truth_refs"]
+    assert "contracts/functional_privatization_audit.json" in manifest["verification"]["source_contract_refs"]
+    assert manifest["verification"]["validator_refs"] == [
+        "python3 -m json.tool contracts/foundry-agent-os-domain-kernel-manifest.json",
+        "opl agents check --repo <repo-dir> --json",
+    ]
+    for capability in capability_map["capabilities"]:
+        assert "opl agents check --repo <repo-dir> --json" in capability["verification_refs"]
+        assert all("agents scaffold --validate" not in ref for ref in capability["verification_refs"])
     assert all("bridge_exit_gate" not in module for module in functional_audit["modules"])
     assert "distribution_payload" not in package_manifest
     implementation_profile = pack_compiler_input["implementation_profile"]

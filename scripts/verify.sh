@@ -15,8 +15,7 @@ run_policy_tests() {
 }
 
 run_structural_readback() {
-  "${opl_bin}" agents scaffold --validate "${repo_dir}" --json
-  "${opl_bin}" agents interfaces --repo-dir "${repo_dir}" --json
+  "${opl_bin}" agents check --repo "${repo_dir}" --json
   "${opl_bin}" workspace source-hygiene --source-root "${repo_dir}" --json
 }
 
