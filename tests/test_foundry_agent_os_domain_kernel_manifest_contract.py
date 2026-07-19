@@ -16,12 +16,6 @@ FORBIDDEN_AUTHORITY_FLAGS = {
     "can_authorize_quality_export_publication_or_review_verdict": False,
 }
 
-CANONICAL_PRIVATE_POLICY_REF = (
-    "contracts/opl-framework/standard-domain-agent-skeleton-contract.json"
-    "#/new_agent_scaffold/private_functional_surface_admission_policy"
-)
-
-
 def load_json(ref: str) -> dict[str, Any]:
     return json.loads((REPO_ROOT / ref).read_text(encoding="utf-8"))
 
@@ -103,10 +97,20 @@ def main() -> int:
             "generated_or_hosted_by_opl_only_do_not_restore_repo_local_default_surfaces"
         ),
     }
+    assert generated_handoff["surface_kind"] == "opl_generated_surface_handoff_delta"
     assert (
-        functional_audit["private_functional_surface_admission_policy_ref"]
-        == CANONICAL_PRIVATE_POLICY_REF
+        generated_handoff["defaults_profile"]
+        == "opl.standard-generated-surface-handoff.v1"
     )
+    assert "generated_surfaces" not in generated_handoff
+    assert "handoff_surfaces" not in generated_handoff
+    assert (
+        functional_audit["defaults_profile"]
+        == "opl.standard-functional-privatization-audit.v1"
+    )
+    assert "classification_policy" not in functional_audit
+    assert "forbidden_generic_owner_roles" not in functional_audit
+    assert "private_functional_surface_admission_policy_ref" not in functional_audit
     assert "private_functional_surface_admission_policy" not in functional_audit
     morphology = functional_audit["physical_source_morphology_policy"]
     assert morphology["policy_id"] == "opl-bookforge.physical-source-morphology.v1"

@@ -488,7 +488,7 @@ def assert_no_forbidden_keys(payload: Any, forbidden: set[str], label: str) -> N
 
 
 def assert_handoff_current_paths_exist(repo: Path, generated_handoff: dict[str, Any]) -> None:
-    for surface in generated_handoff["handoff_surfaces"]:
+    for surface in generated_handoff["handoff_surface_overrides"]:
         for current_path in surface.get("current_paths", []):
             assert (repo / current_path).exists(), f"{surface['surface_id']} points at missing {current_path}"
 
@@ -578,6 +578,12 @@ def assert_opl_ledger_artifact_registration(payload: dict[str, Any]) -> None:
 
 
 def assert_generated_handoff_ledger_projection(generated_handoff: dict[str, Any]) -> None:
+    assert generated_handoff["surface_kind"] == "opl_generated_surface_handoff_delta"
+    assert generated_handoff["defaults_profile"] == "opl.standard-generated-surface-handoff.v1"
+    assert generated_handoff["generated_surface_owner"] == "one-person-lab"
+    assert generated_handoff["domain_repo_can_own_generated_surface"] is False
+    assert "generated_surfaces" not in generated_handoff
+    assert "handoff_surfaces" not in generated_handoff
     assert generated_handoff["opl_ledger_artifact_registration_contract_ref"] == "contracts/opl_ledger_artifact_registration.json"
     projection = generated_handoff["opl_ledger_artifact_registration_projection"]
     assert projection["owner"] == "one-person-lab"
@@ -598,8 +604,8 @@ def assert_generated_handoff_ledger_projection(generated_handoff: dict[str, Any]
     ):
         assert projection[field] is False, f"ledger projection.{field} expected false"
 
-    generated_surface_ids = {item["surface_id"] for item in generated_handoff["generated_surfaces"]}
-    handoff_surface_ids = {item["surface_id"] for item in generated_handoff["handoff_surfaces"]}
+    generated_surface_ids = {item["surface_id"] for item in generated_handoff["generated_surface_overrides"]}
+    handoff_surface_ids = {item["surface_id"] for item in generated_handoff["handoff_surface_overrides"]}
     assert "opl_ledger_artifact_registration" not in generated_surface_ids
     assert "opl_ledger_artifact_registration" not in handoff_surface_ids
 
