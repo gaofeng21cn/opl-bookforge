@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -61,6 +62,29 @@ def main() -> int:
     assert package_metadata["version"] == "0.3.5"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
+    dependency_profile = descriptor["dependency_profiles"][0]
+    package_dependency_profile = package_manifest["dependency_profiles"][0]
+    profile_bytes = json.dumps(
+        dependency_profile,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    assert "dependencies" not in package_dependency_profile
+    assert package_dependency_profile["source_descriptor_ref"] == (
+        "contracts/domain_descriptor.json#/dependency_profiles/0"
+    )
+    assert package_dependency_profile["source_profile_sha256"] == (
+        f"sha256:{hashlib.sha256(profile_bytes).hexdigest()}"
+    )
+    dependency_ids = {
+        dependency["dependency_id"] for dependency in dependency_profile["dependencies"]
+    }
+    assert {
+        "FandolSong-Regular.otf",
+        "FandolHei-Regular.otf",
+        "FandolFang-Regular.otf",
+    } <= dependency_ids
     assert functional_audit["retired_default_surface_ids"] == [
         "cli",
         "mcp",
