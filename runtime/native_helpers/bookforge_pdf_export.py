@@ -10,6 +10,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from opl_framework.artifact_inspection import (
+    inspect_pdf_fonts as inspect_pdf_font_inventory,
+    inspect_png_visual_metrics,
+)
+
 HELPER_DIR = Path(__file__).resolve().parent
 if str(HELPER_DIR) not in sys.path:
     sys.path.insert(0, str(HELPER_DIR))
@@ -137,13 +142,6 @@ def missing_fields(section: dict[str, Any], fields: tuple[str, ...]) -> list[str
     return [field for field in fields if section.get(field) in (None, "", [], {})]
 
 
-def png_dimensions(path: Path) -> tuple[int | None, int | None]:
-    data = path.read_bytes()[:24]
-    if len(data) >= 24 and data[:8] == b"\x89PNG\r\n\x1a\n":
-        return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
-    return None, None
-
-
 def profile_threshold(profile: dict[str, Any], key: str, default: float) -> float:
     expectations = as_mapping(profile.get("visual_qa_expectations"))
     value = expectations.get(key)
@@ -160,51 +158,15 @@ def profile_string_list(profile: dict[str, Any], section: str, key: str, default
 
 
 def inspect_pdf_fonts(pdf_path: Path, root: Path) -> dict[str, Any]:
-    tool = shutil.which("pdffonts")
-    if not tool:
-        return {
-            "status": "tool_missing",
-            "tool": "pdffonts",
-            "embedded_font_count": 0,
-            "non_embedded_font_count": 0,
-            "fonts": [],
-            "error": "pdffonts not found",
-        }
-
-    result = subprocess.run(
-        [tool, str(pdf_path)],
-        cwd=root,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        return {
-            "status": "failed",
-            "tool": tool,
-            "embedded_font_count": 0,
-            "non_embedded_font_count": 0,
-            "fonts": [],
-            "error": (result.stderr or result.stdout or "pdffonts failed").strip()[-1000:],
-        }
-
-    fonts: list[dict[str, Any]] = []
-    for raw_line in result.stdout.splitlines()[2:]:
-        line = raw_line.strip()
-        if not line:
-            continue
-        parts = line.split()
-        embedded = parts[-5].lower() if len(parts) >= 6 else "unknown"
-        fonts.append({
-            "name": parts[0],
-            "embedded": embedded == "yes",
-            "embedded_raw": embedded,
-            "raw": raw_line.rstrip(),
-        })
-
+    inventory = inspect_pdf_font_inventory(pdf_path, root)
+    fonts = inventory["fonts"]
     non_embedded = [font for font in fonts if font["embedded_raw"] not in ("yes", "unknown")]
-    embedded_count = sum(1 for font in fonts if font["embedded"])
-    if not fonts:
+    embedded_count = inventory["embedded_font_count"]
+    if inventory["inspection_status"] == "tool_missing":
+        status = "tool_missing"
+    elif inventory["inspection_status"] == "tool_error":
+        status = "failed"
+    elif not fonts:
         status = "unchecked"
     elif non_embedded:
         status = "failed"
@@ -214,73 +176,33 @@ def inspect_pdf_fonts(pdf_path: Path, root: Path) -> dict[str, Any]:
         status = "passed"
     return {
         "status": status,
-        "tool": tool,
+        "tool": inventory["tool"],
         "embedded_font_count": embedded_count,
         "non_embedded_font_count": len(non_embedded),
         "fonts": fonts,
-        "error": None,
+        "error": inventory["error"],
     }
 
 
 def png_visual_metrics(path: Path, *, min_fill_ratio: float, max_trailing_whitespace_ratio: float) -> dict[str, Any]:
-    width, height = png_dimensions(path) if path.exists() else (None, None)
-    size = path.stat().st_size if path.exists() else 0
-    metrics: dict[str, Any] = {
-        "bytes": size,
-        "width": width,
-        "height": height,
-        "nonblank_baseline": bool(size > 1000 and width and height),
-        "fill_ratio": None,
-        "trailing_whitespace_ratio": None,
-        "density_status": "unchecked",
-        "trailing_whitespace_status": "unchecked",
-        "visual_scan_error": None,
-    }
-    if not path.exists():
-        metrics["visual_scan_error"] = "rendered page PNG missing"
-        return metrics
-
-    try:
-        from PIL import Image
-    except ImportError:
-        metrics["visual_scan_error"] = "Pillow not available"
-        return metrics
-
-    try:
-        with Image.open(path) as image:
-            rgb = image.convert("RGB")
-            width, height = rgb.size
-            bg = rgb.getpixel((0, 0))
-            sample_step = max(1, width // 160)
-            row_step = max(1, height // 240)
-            non_bg_pixels = 0
-            sampled_pixels = 0
-            last_content_y = 0
-            for y in range(0, height, row_step):
-                row_has_content = False
-                for x in range(0, width, sample_step):
-                    pixel = rgb.getpixel((x, y))
-                    sampled_pixels += 1
-                    if max(abs(pixel[index] - bg[index]) for index in range(3)) > 12:
-                        non_bg_pixels += 1
-                        row_has_content = True
-                if row_has_content:
-                    last_content_y = y
-            fill_ratio = non_bg_pixels / sampled_pixels if sampled_pixels else 0
-            trailing_whitespace_ratio = (height - last_content_y) / height if height else 1
-            metrics.update({
-                "width": width,
-                "height": height,
-                "nonblank_baseline": non_bg_pixels > 0,
-                "fill_ratio": round(fill_ratio, 4),
-                "trailing_whitespace_ratio": round(trailing_whitespace_ratio, 4),
-                "density_status": "passed" if fill_ratio >= min_fill_ratio else "checked_with_warnings",
-                "trailing_whitespace_status": (
-                    "passed" if trailing_whitespace_ratio <= max_trailing_whitespace_ratio else "checked_with_warnings"
-                ),
-            })
-    except Exception as exc:
-        metrics["visual_scan_error"] = str(exc)
+    metrics = inspect_png_visual_metrics(path)
+    fill_ratio = metrics["fill_ratio"]
+    trailing_whitespace_ratio = metrics["trailing_whitespace_ratio"]
+    metrics["density_status"] = (
+        "passed"
+        if isinstance(fill_ratio, (int, float)) and fill_ratio >= min_fill_ratio
+        else "checked_with_warnings"
+        if isinstance(fill_ratio, (int, float))
+        else "unchecked"
+    )
+    metrics["trailing_whitespace_status"] = (
+        "passed"
+        if isinstance(trailing_whitespace_ratio, (int, float))
+        and trailing_whitespace_ratio <= max_trailing_whitespace_ratio
+        else "checked_with_warnings"
+        if isinstance(trailing_whitespace_ratio, (int, float))
+        else "unchecked"
+    )
     return metrics
 
 

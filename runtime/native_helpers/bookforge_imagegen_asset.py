@@ -4,14 +4,17 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
-import os
-import stat
 import sys
 import zlib
 from pathlib import Path
 from typing import Any
+
+from opl_framework.artifact_inspection import (
+    ContainedFileReadError,
+    read_contained_regular_file as framework_read_contained_regular_file,
+    sha256_bytes,
+)
 
 
 VERSION = "bookforge-imagegen-asset.v3"
@@ -72,10 +75,6 @@ def normalize_sha256(value: Any, field: str) -> str:
 def normalize_format(value: str) -> str:
     normalized = value.lower().lstrip(".")
     return "jpeg" if normalized == "jpg" else normalized
-
-
-def sha256_bytes(data: bytes) -> str:
-    return f"sha256:{hashlib.sha256(data).hexdigest()}"
 
 
 def validate_png_idat_stream(payloads: list[bytes]) -> None:
@@ -245,69 +244,25 @@ def image_info(data: bytes, path: Path) -> dict[str, Any]:
 
 
 def read_contained_regular_file(root_value: str, ref_value: str) -> tuple[Path, Path, bytes]:
-    root_input = Path(root_value)
-    if not root_input.is_absolute():
-        raise AssetValidationError("workspace_root_not_absolute", "workspace root must be an absolute host path")
     try:
-        root = root_input.resolve(strict=True)
-    except OSError as error:
-        raise AssetValidationError("workspace_root_unavailable", str(error)) from error
-    if not root.is_dir():
-        raise AssetValidationError("workspace_root_not_directory", f"workspace root is not a directory: {root}")
-
-    ref = Path(ref_value)
-    if (
-        ref.is_absolute()
-        or not ref.parts
-        or ref.as_posix() != ref_value
-        or any(part in {"", ".", ".."} for part in ref.parts)
-    ):
-        raise AssetValidationError("bitmap_ref_not_contained", "bitmap_ref must be a normalized workspace-relative path")
-
-    cursor = root
-    for part in ref.parts:
-        cursor = cursor / part
-        if cursor.is_symlink():
-            raise AssetValidationError("bitmap_ref_symlink", f"bitmap_ref traverses a symlink: {ref_value}")
-    candidate = root / ref
-    try:
-        resolved = candidate.resolve(strict=True)
-        resolved.relative_to(root)
-    except FileNotFoundError as error:
-        raise AssetValidationError("bitmap_unavailable", str(error)) from error
-    except (OSError, ValueError) as error:
-        raise AssetValidationError("bitmap_ref_not_contained", str(error)) from error
-
-    try:
-        with resolved.open("rb") as stream:
-            opened = os.fstat(stream.fileno())
-            before = os.stat(resolved, follow_symlinks=False)
-            if not stat.S_ISREG(opened.st_mode) or not stat.S_ISREG(before.st_mode):
-                raise AssetValidationError("bitmap_not_regular_file", f"bitmap_ref is not a regular file: {ref_value}")
-            if (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino):
-                raise AssetValidationError("bitmap_identity_changed", f"bitmap_ref changed while opening: {ref_value}")
-            if opened.st_size > MAX_BITMAP_BYTES:
-                raise AssetValidationError(
-                    "bitmap_too_large",
-                    f"bitmap exceeds the {MAX_BITMAP_BYTES}-byte validation limit: {opened.st_size}",
-                )
-            data = stream.read()
-            after = os.stat(resolved, follow_symlinks=False)
-            if (
-                opened.st_dev,
-                opened.st_ino,
-                opened.st_size,
-                opened.st_mtime_ns,
-            ) != (
-                after.st_dev,
-                after.st_ino,
-                after.st_size,
-                after.st_mtime_ns,
-            ) or len(data) != opened.st_size:
-                raise AssetValidationError("bitmap_identity_changed", f"bitmap_ref changed while reading: {ref_value}")
-    except OSError as error:
-        raise AssetValidationError("bitmap_unavailable", str(error)) from error
-    return root, resolved, data
+        return framework_read_contained_regular_file(
+            root_value,
+            ref_value,
+            max_bytes=MAX_BITMAP_BYTES,
+        )
+    except ContainedFileReadError as error:
+        code = {
+            "root_not_absolute": "workspace_root_not_absolute",
+            "root_unavailable": "workspace_root_unavailable",
+            "root_not_directory": "workspace_root_not_directory",
+            "ref_not_contained": "bitmap_ref_not_contained",
+            "ref_symlink": "bitmap_ref_symlink",
+            "ref_not_directory": "bitmap_ref_not_contained",
+            "not_regular_file": "bitmap_not_regular_file",
+            "file_too_large": "bitmap_too_large",
+            "identity_changed": "bitmap_identity_changed",
+        }.get(error.code, "bitmap_unavailable")
+        raise AssetValidationError(code, error.detail) from error
 
 
 def request_parts(request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:

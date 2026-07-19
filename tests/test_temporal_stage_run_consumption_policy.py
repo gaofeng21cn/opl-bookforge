@@ -151,7 +151,6 @@ NATIVE_HELPER_PROBE_DESCRIPTORS = {
         "source_closure_effects": {
             ("image_refs_from_pandoc_ast", "process_spawn"),
             ("compile_pdf", "process_spawn"),
-            ("inspect_pdf_fonts", "process_spawn"),
             ("render_pdf_pages", "process_spawn"),
             ("compile_pdf", "filesystem_write"),
             ("render_pdf_pages", "filesystem_write"),

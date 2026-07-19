@@ -134,11 +134,14 @@ def assert_read_only_handler_source(source: str) -> None:
         "write_text",
     }
     observed_forbidden_calls: set[str] = set()
+    framework_primitives: set[str] = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             imported_roots.update(alias.name.split(".", 1)[0] for alias in node.names)
         elif isinstance(node, ast.ImportFrom) and node.module:
             imported_roots.add(node.module.split(".", 1)[0])
+            if node.module == "opl_framework.artifact_inspection":
+                framework_primitives.update(alias.name for alias in node.names)
         elif isinstance(node, ast.Call):
             if isinstance(node.func, ast.Name) and node.func.id in {"__import__", "compile", "eval", "exec"}:
                 observed_forbidden_calls.add(node.func.id)
@@ -146,7 +149,12 @@ def assert_read_only_handler_source(source: str) -> None:
                 observed_forbidden_calls.add(node.func.attr)
     assert imported_roots.isdisjoint(forbidden_imports), imported_roots & forbidden_imports
     assert not observed_forbidden_calls, observed_forbidden_calls
-    assert source.count('.open("rb")') == 1, "handler must have exactly one binary read site"
+    assert source.count('.open("rb")') == 0, "handler must delegate binary reads to Framework"
+    assert {
+        "ContainedFileReadError",
+        "read_contained_regular_file",
+        "sha256_bytes",
+    } <= framework_primitives, framework_primitives
 
 
 def main() -> int:

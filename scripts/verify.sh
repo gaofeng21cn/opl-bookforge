@@ -3,9 +3,11 @@ set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 opl_bin="${OPL_BIN:-/Users/gaofeng/workspace/one-person-lab/bin/opl}"
+framework_root="${OPL_FRAMEWORK_ROOT:-$(cd "$(dirname "${opl_bin}")/.." && pwd)}"
 lane="${1:-default}"
 
 export PYTHONDONTWRITEBYTECODE=1
+export PYTHONPATH="${framework_root}/python${PYTHONPATH:+:${PYTHONPATH}}"
 
 run_policy_tests() {
   python3 "${repo_dir}/tests/test_foundry_agent_os_domain_kernel_manifest_contract.py"
