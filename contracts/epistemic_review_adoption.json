@@ -1,0 +1,418 @@
+{
+  "surface_kind": "opl_bookforge_epistemic_review_adoption",
+  "version": "opl-bookforge-epistemic-review-adoption.v1",
+  "owner": "opl-bookforge",
+  "domain_id": "opl-bookforge",
+  "state": "active_contract",
+  "framework_baseline": {
+    "canonical_sha": "367738244273664452e6b7ebfb86d5de5bb36c30",
+    "currentness_contract_ref": "contracts/opl-framework/epistemic-review-currentness-contract.json",
+    "scope_schema_ref": "contracts/opl-framework/epistemic-review-scope-v2.schema.json",
+    "stage_quality_cycle_contract_ref": "contracts/opl-framework/stage-quality-cycle-contract.json"
+  },
+  "stage_boundary": {
+    "whole_book_meta_review_stage_id": "source-style-integrity-review",
+    "publication_proof_stage_id": "publication-proof-handoff",
+    "stages_must_remain_distinct": true,
+    "whole_book_meta_review_recursively_requires_formal_review": false,
+    "whole_book_meta_review_max_route_back_rounds": 3,
+    "formal_stage_review_max_repair_rounds": 3
+  },
+  "budget_binding": {
+    "execution_unit": "opl_stage_attempt",
+    "controller_owner": "OPL Framework",
+    "formal_review_budget_ref": "contracts/stage_quality_cycle_policy.json#/stages/*/formal_review/scope_budget",
+    "whole_book_meta_review_round_unit": "one_completed_source_style_integrity_review_producer_stage_attempt",
+    "foreground_review_must_use_managed_stage_attempt": true,
+    "domain_parallel_budget_or_scheduler_forbidden": true,
+    "professional_skill_can_schedule_or_expand_attempts": false
+  },
+  "currentness_policy": {
+    "evidence_profile": "epistemic_provenance",
+    "trust_model": "trusted_local_workspace",
+    "unit": "review_dimension_and_transitive_declared_dependencies",
+    "semantic_change_required_for_invalidation": true,
+    "whole_package_regeneration_invalidates_all_review_dimensions": false,
+    "hash_role": "optional_locator_or_stale_hint_only",
+    "hash_change_alone_invalidates_review": false,
+    "content_semantic_change_fail_closed": true,
+    "affected_scope_re_review_required_before_stronger_claim": true,
+    "unaffected_scope_receipt_reuse_allowed": true
+  },
+  "scope_materialization": {
+    "surface_kind": "opl_epistemic_review_scope",
+    "version": "opl-epistemic-review-scope.v2",
+    "schema_ref": "contracts/opl-framework/epistemic-review-scope-v2.schema.json",
+    "one_scope_per_review_dimension": true,
+    "scope_id_template": "opl-bookforge:{workspace_id}:{artifact_id}:{review_dimension}",
+    "actual_reviewed_node_refs_required": true,
+    "actual_artifact_claim_and_provenance_nodes_required": true,
+    "actual_dependency_edges_required": true,
+    "domain_dimension_to_framework_scope_mapping_ref": "contracts/epistemic_review_adoption.json#/review_dimensions",
+    "framework_evaluates_currentness": true,
+    "bookforge_declares_nodes_edges_scope_and_verdict": true
+  },
+  "review_dimensions": {
+    "content": {
+      "framework_scope_kind": "content",
+      "review_owner_stage_ids": [
+        "chapter-materialization",
+        "source-style-integrity-review"
+      ],
+      "reviewed_node_roles": [
+        "context",
+        "claim",
+        "limitation"
+      ],
+      "framework_change_classes": [
+        "context",
+        "claim",
+        "limitation"
+      ],
+      "artifact_dependencies": [
+        "storyline_and_chapter_function",
+        "manuscript_semantics",
+        "claims_and_limitations"
+      ],
+      "depends_on_dimensions": []
+    },
+    "editorial": {
+      "framework_scope_kind": "content",
+      "review_owner_stage_ids": [
+        "chapter-materialization",
+        "source-style-integrity-review"
+      ],
+      "reviewed_node_roles": [
+        "context",
+        "claim",
+        "limitation"
+      ],
+      "framework_change_classes": [
+        "context",
+        "claim"
+      ],
+      "artifact_dependencies": [
+        "manuscript_semantics",
+        "reader_style_contract",
+        "voice_terminology_and_prose"
+      ],
+      "depends_on_dimensions": [
+        "content"
+      ]
+    },
+    "reference": {
+      "framework_scope_kind": "reference",
+      "review_owner_stage_ids": [
+        "source-style-integrity-review"
+      ],
+      "reviewed_node_roles": [
+        "claim",
+        "reference_source",
+        "citation_linkage",
+        "limitation"
+      ],
+      "framework_change_classes": [
+        "claim",
+        "reference_source",
+        "citation_linkage",
+        "limitation"
+      ],
+      "artifact_dependencies": [
+        "claims_and_limitations",
+        "citation_linkage",
+        "reference_sources_and_locators"
+      ],
+      "depends_on_dimensions": [
+        "content"
+      ]
+    },
+    "display": {
+      "framework_scope_kind": "display",
+      "review_owner_stage_ids": [
+        "publication-proof-handoff"
+      ],
+      "reviewed_node_roles": [
+        "claim",
+        "citation_linkage",
+        "visual_content"
+      ],
+      "framework_change_classes": [
+        "claim",
+        "citation_linkage",
+        "visual_content"
+      ],
+      "artifact_dependencies": [
+        "reader_facing_text_and_notes",
+        "figures_tables_captions_and_callouts",
+        "visual_content"
+      ],
+      "depends_on_dimensions": [
+        "content",
+        "editorial",
+        "reference"
+      ]
+    },
+    "layout": {
+      "framework_scope_kind": "display",
+      "review_owner_stage_ids": [
+        "publication-proof-handoff"
+      ],
+      "reviewed_node_roles": [
+        "visual_content",
+        "layout",
+        "render_template"
+      ],
+      "framework_change_classes": [
+        "visual_content",
+        "layout",
+        "render_template"
+      ],
+      "artifact_dependencies": [
+        "display_components",
+        "publication_design_tokens",
+        "layout_template_font_and_pagination"
+      ],
+      "depends_on_dimensions": [
+        "display"
+      ]
+    },
+    "export": {
+      "framework_scope_kind": "package",
+      "review_owner_stage_ids": [
+        "publication-proof-handoff"
+      ],
+      "reviewed_node_roles": [
+        "layout",
+        "render_template",
+        "package_content"
+      ],
+      "framework_change_classes": [
+        "layout",
+        "render_template",
+        "package_composition"
+      ],
+      "artifact_dependencies": [
+        "layout_result",
+        "export_backend_and_parameters",
+        "pdf_docx_or_html_export"
+      ],
+      "depends_on_dimensions": [
+        "layout"
+      ]
+    },
+    "package": {
+      "framework_scope_kind": "package",
+      "review_owner_stage_ids": [
+        "publication-proof-handoff"
+      ],
+      "reviewed_node_roles": [
+        "package_content",
+        "package_wrapper"
+      ],
+      "framework_change_classes": [
+        "package_composition",
+        "package_wrapper"
+      ],
+      "artifact_dependencies": [
+        "selected_export_artifacts",
+        "package_composition",
+        "package_wrapper_and_manifest"
+      ],
+      "depends_on_dimensions": [
+        "export"
+      ]
+    }
+  },
+  "dependency_edges": [
+    {
+      "source_dimension": "content",
+      "dependent_dimension": "editorial",
+      "relation": "derived_from"
+    },
+    {
+      "source_dimension": "content",
+      "dependent_dimension": "reference",
+      "relation": "supports"
+    },
+    {
+      "source_dimension": "content",
+      "dependent_dimension": "display",
+      "relation": "renders"
+    },
+    {
+      "source_dimension": "editorial",
+      "dependent_dimension": "display",
+      "relation": "renders"
+    },
+    {
+      "source_dimension": "reference",
+      "dependent_dimension": "display",
+      "relation": "renders"
+    },
+    {
+      "source_dimension": "display",
+      "dependent_dimension": "layout",
+      "relation": "renders"
+    },
+    {
+      "source_dimension": "layout",
+      "dependent_dimension": "export",
+      "relation": "renders"
+    },
+    {
+      "source_dimension": "export",
+      "dependent_dimension": "package",
+      "relation": "packages"
+    }
+  ],
+  "semantic_change_impact": {
+    "content": [
+      "content",
+      "editorial",
+      "reference",
+      "display",
+      "layout",
+      "export",
+      "package"
+    ],
+    "editorial": [
+      "editorial",
+      "display",
+      "layout",
+      "export",
+      "package"
+    ],
+    "reference": [
+      "reference",
+      "display",
+      "layout",
+      "export",
+      "package"
+    ],
+    "display": [
+      "display",
+      "layout",
+      "export",
+      "package"
+    ],
+    "layout": [
+      "layout",
+      "export",
+      "package"
+    ],
+    "export": [
+      "export",
+      "package"
+    ],
+    "package": [
+      "package"
+    ],
+    "locator_only": [],
+    "governance_metadata": [],
+    "review_receipt": []
+  },
+  "claim_requirements": {
+    "whole_book_integrity_handoff": [
+      "content",
+      "editorial",
+      "reference"
+    ],
+    "publication_proof": [
+      "content",
+      "editorial",
+      "reference",
+      "display",
+      "layout",
+      "export"
+    ],
+    "final_export_handoff": [
+      "content",
+      "editorial",
+      "reference",
+      "display",
+      "layout",
+      "export",
+      "package"
+    ]
+  },
+  "counterexample_expectations": {
+    "layout_only_regeneration": {
+      "semantic_changed_dimensions": [
+        "layout"
+      ],
+      "stale_review_dimensions": [
+        "layout",
+        "export",
+        "package"
+      ],
+      "current_review_dimensions": [
+        "content",
+        "editorial",
+        "reference",
+        "display"
+      ]
+    },
+    "export_only_regeneration": {
+      "semantic_changed_dimensions": [
+        "export"
+      ],
+      "stale_review_dimensions": [
+        "export",
+        "package"
+      ],
+      "current_review_dimensions": [
+        "content",
+        "editorial",
+        "reference",
+        "display",
+        "layout"
+      ]
+    },
+    "hash_only_locator_change": {
+      "semantic_changed_dimensions": [],
+      "locator_hash_changed": true,
+      "stale_review_dimensions": [],
+      "current_review_dimensions": [
+        "content",
+        "editorial",
+        "reference",
+        "display",
+        "layout",
+        "export",
+        "package"
+      ]
+    },
+    "content_change_with_unchanged_hash": {
+      "semantic_changed_dimensions": [
+        "content"
+      ],
+      "locator_hash_changed": false,
+      "stale_review_dimensions": [
+        "content",
+        "editorial",
+        "reference",
+        "display",
+        "layout",
+        "export",
+        "package"
+      ],
+      "current_review_dimensions": [],
+      "fail_closed": true
+    }
+  },
+  "integrity_separation": {
+    "release_integrity_contract_role": "separate_exact_byte_integrity_contract",
+    "release_integrity_required_for_external_distribution_when_declared": true,
+    "release_integrity_receipt_can_replace_epistemic_review": false,
+    "epistemic_review_can_replace_release_integrity": false,
+    "owner_export_acceptance_remains_separate": true
+  },
+  "authority_boundary": {
+    "framework_owns_generic_currentness_validation_and_attempt_enforcement": true,
+    "bookforge_owns_domain_dependencies_review_scope_and_verdict": true,
+    "bookforge_can_create_parallel_currentness_engine": false,
+    "hash_is_content_authority": false,
+    "framework_can_issue_book_quality_export_or_publication_verdict": false,
+    "professional_skill_can_issue_controller_receipt": false
+  }
+}

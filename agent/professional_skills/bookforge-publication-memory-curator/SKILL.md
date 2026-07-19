@@ -43,6 +43,8 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 - Keep memory concise and cited. Do not promote unsupported conclusions into semantic memory.
 - Feed chapter context packs through selected refs and traces; do not dump the whole memory body into every chapter prompt.
 - Keep `review_pdf`, `publication_proof`, and `final_export` separate.
+- Classify semantic changes as content, editorial, reference, display, layout, export, or package and refresh only that review dimension and its declared dependents. Layout-only changes leave content/editorial/reference/display review current; export-only changes leave content/editorial/reference/display/layout review current; content changes fail closed across every downstream dimension.
+- Treat hashes as locators or stale hints, not proof authority. Keep exact-byte release integrity, epistemic review, and downstream owner/export acceptance as independent requirements that cannot substitute for one another.
 - Use real typesetting backends such as Pandoc/XeLaTeX, Quarto, Typst, or Paged.js through Book Forge-owned adapters. Do not hand-roll book PDFs with raster text drawing.
 - For proof visual QA, inspect representative rendered pages by page class: front matter, TOC, chapter opening, dense body, figure/table, callout/case box, notes, and closing pages when present.
 - Before publication-proof handoff, check unresolved source/reference, reviewer-absorption, memory, asset, rights, and owner-decision route-backs. If any one changes durable truth or artifact scope, return the route-back packet instead of proof closure.

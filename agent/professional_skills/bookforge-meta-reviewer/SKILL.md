@@ -44,7 +44,9 @@ Run independent whole-manuscript review and route serious findings before prose 
 - Route source-memory, proof/design memory, asset/right/source freshness, and owner-decision defects back to their owning refs before manuscript edits when the defect changes durable truth, continuity, artifact target, or public-use boundary.
 - A route-back decision must include the blocking diagnosis, target skill/ref, minimum input needed to continue, affected chapters/artifacts, and downstream freshness obligations. It is not a quality, proof, export, or owner-acceptance claim.
 - Fast-track only local, evidence-bounded repairs that preserve reader-style, source stance, chapter chain, target extent, and latest review verdict.
-- Cap independent review-repair at three rounds unless the owner changes policy.
+- Bind whole-book findings to declared content, editorial, and reference scopes. A semantic content change invalidates all three and their downstream display/layout/export/package dependents; layout- or export-only regeneration does not invalidate whole-book content/editorial/reference review.
+- Treat hashes as artifact locators or stale hints only. Currentness comes from semantic changes in declared artifact, claim, and provenance dependencies; exact-byte release integrity remains a separate contract.
+- Cap independent review-repair at three rounds unless the owner changes policy. Count each round from its OPL-managed `source-style-integrity-review` producer StageAttempt; do not create a skill-local counter or scheduler.
 
 ## Stage Prompt Boundary
 

@@ -10,6 +10,7 @@ export PYTHONDONTWRITEBYTECODE=1
 run_policy_tests() {
   python3 "${repo_dir}/tests/test_foundry_agent_os_domain_kernel_manifest_contract.py"
   python3 "${repo_dir}/tests/test_stage_quality_cycle_policy.py"
+  python3 "${repo_dir}/tests/test_epistemic_review_adoption.py"
   python3 "${repo_dir}/tests/test_stage_topology.py"
   python3 "${repo_dir}/tests/test_temporal_stage_run_consumption_policy.py"
 }

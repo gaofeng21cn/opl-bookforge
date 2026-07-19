@@ -5,6 +5,7 @@
   "owner": "opl-bookforge",
   "framework_contract_ref": "contracts/opl-framework/stage-quality-cycle-contract.json",
   "route_selection_contract_ref": "contracts/opl-framework/stage-quality-cycle-contract.json#/cross_stage_route_selection",
+  "epistemic_review_adoption_ref": "contracts/epistemic_review_adoption.json",
   "quality_governance_profile_ref": "contracts/opl-framework/official-knowledge-deliverable-quality-profile.json",
   "cross_stage_route_selection": {
     "semantic_route_decision_owner": "decisive_codex_attempt",
@@ -71,7 +72,22 @@
       },
       "quality_rubric_refs": ["agent/quality_gates/storyline-architecture-quality-gate.md"],
       "in_thread_refinement": {"allowed": true, "authoritative": false},
-      "formal_review": {"required": true, "risk_tier": "high", "review_depth": "multi_axis", "context_isolation_required": true, "max_repair_rounds": 3},
+      "formal_review": {
+        "required": true,
+        "risk_tier": "high",
+        "review_depth": "multi_axis",
+        "context_isolation_required": true,
+        "max_repair_rounds": 3,
+        "scope_budget": {
+          "surface_kind": "opl_stage_quality_scope_budget",
+          "version": "opl-stage-quality-scope-budget.v1",
+          "max_attempts": 3,
+          "max_elapsed_ms": 21600000,
+          "max_tokens": 1000000,
+          "token_budget_requires_observed_usage": true,
+          "foreground_execution_must_use_managed_attempt": true
+        }
+      },
       "budget_exhaustion": "complete_with_quality_debt_if_consumable",
       "attempt_boundary": {"inherits_stage_goal_scope_authority": true, "role_overlay_may_only_narrow": true, "controller_creates_next_attempt": true, "attempt_is_not_sub_stage": true}
     },
@@ -88,7 +104,22 @@
       },
       "quality_rubric_refs": ["agent/quality_gates/chapter-production-planning-quality-gate.md"],
       "in_thread_refinement": {"allowed": true, "authoritative": false},
-      "formal_review": {"required": true, "risk_tier": "medium", "review_depth": "full", "context_isolation_required": true, "max_repair_rounds": 3},
+      "formal_review": {
+        "required": true,
+        "risk_tier": "medium",
+        "review_depth": "full",
+        "context_isolation_required": true,
+        "max_repair_rounds": 3,
+        "scope_budget": {
+          "surface_kind": "opl_stage_quality_scope_budget",
+          "version": "opl-stage-quality-scope-budget.v1",
+          "max_attempts": 3,
+          "max_elapsed_ms": 21600000,
+          "max_tokens": 1000000,
+          "token_budget_requires_observed_usage": true,
+          "foreground_execution_must_use_managed_attempt": true
+        }
+      },
       "budget_exhaustion": "complete_with_quality_debt_if_consumable",
       "attempt_boundary": {"inherits_stage_goal_scope_authority": true, "role_overlay_may_only_narrow": true, "controller_creates_next_attempt": true, "attempt_is_not_sub_stage": true}
     },
@@ -105,7 +136,22 @@
       },
       "quality_rubric_refs": ["agent/quality_gates/chapter-materialization-quality-gate.md"],
       "in_thread_refinement": {"allowed": true, "authoritative": false},
-      "formal_review": {"required": true, "risk_tier": "high", "review_depth": "multi_axis", "context_isolation_required": true, "max_repair_rounds": 3},
+      "formal_review": {
+        "required": true,
+        "risk_tier": "high",
+        "review_depth": "multi_axis",
+        "context_isolation_required": true,
+        "max_repair_rounds": 3,
+        "scope_budget": {
+          "surface_kind": "opl_stage_quality_scope_budget",
+          "version": "opl-stage-quality-scope-budget.v1",
+          "max_attempts": 3,
+          "max_elapsed_ms": 21600000,
+          "max_tokens": 1000000,
+          "token_budget_requires_observed_usage": true,
+          "foreground_execution_must_use_managed_attempt": true
+        }
+      },
       "budget_exhaustion": "complete_with_quality_debt_if_consumable",
       "attempt_boundary": {"inherits_stage_goal_scope_authority": true, "role_overlay_may_only_narrow": true, "controller_creates_next_attempt": true, "attempt_is_not_sub_stage": true}
     },
@@ -122,7 +168,22 @@
       },
       "quality_rubric_refs": ["agent/quality_gates/source-style-integrity-review-quality-gate.md"],
       "in_thread_refinement": {"allowed": true, "authoritative": false},
-      "formal_review": {"required": false, "risk_tier": "high", "review_depth": "multi_axis", "context_isolation_required": true, "max_repair_rounds": 0},
+      "formal_review": {
+        "required": false,
+        "risk_tier": "high",
+        "review_depth": "multi_axis",
+        "context_isolation_required": true,
+        "max_repair_rounds": 0,
+        "scope_budget": {
+          "surface_kind": "opl_stage_quality_scope_budget",
+          "version": "opl-stage-quality-scope-budget.v1",
+          "max_attempts": 0,
+          "max_elapsed_ms": 21600000,
+          "max_tokens": 1000000,
+          "token_budget_requires_observed_usage": true,
+          "foreground_execution_must_use_managed_attempt": true
+        }
+      },
       "budget_exhaustion": "complete_with_quality_debt_if_consumable",
       "attempt_boundary": {"inherits_stage_goal_scope_authority": true, "role_overlay_may_only_narrow": true, "controller_creates_next_attempt": true, "attempt_is_not_sub_stage": true}
     },
@@ -139,7 +200,22 @@
       },
       "quality_rubric_refs": ["agent/quality_gates/publication-proof-handoff-quality-gate.md"],
       "in_thread_refinement": {"allowed": true, "authoritative": false},
-      "formal_review": {"required": true, "risk_tier": "high", "review_depth": "multi_axis", "context_isolation_required": true, "max_repair_rounds": 3},
+      "formal_review": {
+        "required": true,
+        "risk_tier": "high",
+        "review_depth": "multi_axis",
+        "context_isolation_required": true,
+        "max_repair_rounds": 3,
+        "scope_budget": {
+          "surface_kind": "opl_stage_quality_scope_budget",
+          "version": "opl-stage-quality-scope-budget.v1",
+          "max_attempts": 3,
+          "max_elapsed_ms": 21600000,
+          "max_tokens": 1000000,
+          "token_budget_requires_observed_usage": true,
+          "foreground_execution_must_use_managed_attempt": true
+        }
+      },
       "budget_exhaustion": "complete_with_quality_debt_if_consumable",
       "attempt_boundary": {"inherits_stage_goal_scope_authority": true, "role_overlay_may_only_narrow": true, "controller_creates_next_attempt": true, "attempt_is_not_sub_stage": true}
     }
@@ -149,16 +225,17 @@
     "attempt_role": "producer",
     "stage_prompt_ref": "agent/prompts/source-style-integrity-review.md",
     "professional_review_mode": "multi_axis_executor_managed",
-    "required_output_ref_fields": ["finding_refs", "route_decision_evidence_refs", "closure_criteria_refs", "remaining_quality_debt_refs"],
+    "required_output_ref_fields": ["finding_refs", "route_decision_evidence_refs", "closure_criteria_refs", "review_scope_currentness_refs", "remaining_quality_debt_refs"],
     "terminal_route_output": "route_impact.stage_route_decision",
     "terminal_route_owner": "producer",
     "independent_stage_run_required": true,
     "new_execution_session_required": true,
     "no_context_inheritance": true,
     "input_boundary": [
-      "assembled_manuscript_refs_and_hashes",
-      "final_stage_artifact_refs_and_hashes",
+      "assembled_manuscript_refs_and_locator_hashes",
+      "final_stage_artifact_refs_and_locator_hashes",
       "stage_review_receipt_refs",
+      "epistemic_review_scope_and_dependency_refs",
       "source_and_reader_style_refs",
       "whole_book_quality_rubric_refs",
       "necessary_artifact_lineage_refs"
@@ -176,7 +253,8 @@
         "chapter-production-planning",
         "chapter-materialization"
       ],
-      "downstream_artifact_and_review_invalidation_required": true,
+      "affected_dependency_scope_invalidation_required": true,
+      "unaffected_review_scope_reuse_allowed": true,
       "meta_review_reentry_required": true
     },
     "max_route_back_rounds": 3,

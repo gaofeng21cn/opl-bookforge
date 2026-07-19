@@ -27,6 +27,9 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
         "contracts/opl-framework/stage-quality-cycle-contract.json"
         "#/cross_stage_route_selection"
     )
+    assert profile["epistemic_review_adoption_ref"] == (
+        "contracts/epistemic_review_adoption.json"
+    )
     assert profile["review_attempt_contract"]["new_stage_attempt_per_role"] is True
     assert profile["review_attempt_contract"]["new_execution_session_per_attempt"] is True
     assert profile["review_attempt_contract"]["no_context_inheritance"] is True
@@ -111,6 +114,16 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
             policy["formal_review"]["required"],
             policy["formal_review"]["max_repair_rounds"],
         ) == expected_review_policy[stage_id]
+        scope_budget = policy["formal_review"]["scope_budget"]
+        assert scope_budget == {
+            "surface_kind": "opl_stage_quality_scope_budget",
+            "version": "opl-stage-quality-scope-budget.v1",
+            "max_attempts": policy["formal_review"]["max_repair_rounds"],
+            "max_elapsed_ms": 21600000,
+            "max_tokens": 1000000,
+            "token_budget_requires_observed_usage": True,
+            "foreground_execution_must_use_managed_attempt": True,
+        }
 
     assert manifest_stages["publication-proof-handoff"]["handoff_review_boundary"] == {
         "artifact_effect": "new_or_transformed_reviewable_bytes",
@@ -120,7 +133,7 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     }
 
 
-def test_publication_proof_claims_require_fresh_exact_byte_review() -> None:
+def test_publication_proof_claims_require_fresh_affected_scope_review() -> None:
     prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
         encoding="utf-8"
     )
@@ -136,7 +149,14 @@ def test_publication_proof_claims_require_fresh_exact_byte_review() -> None:
         assert "publication-proof" in text
         assert "final-export" in text
         assert "owner/export acceptance" in text
-    assert "Any regeneration invalidates the prior Review receipt" in gate
+    assert "Regeneration without semantic change does not invalidate the receipt" in gate
+    assert "Content changes fail closed" in gate
+    assert "Layout-only changes invalidate layout, export, and package" in gate
+    assert "Hash-only or non-semantic regeneration does not invalidate" in role_prompt
+    assert "artifact hashes only as locators or stale hints" in prompt
+    assert "release-integrity" in prompt
+    assert "Any regeneration invalidates the prior Review receipt" not in gate
+    assert "any regenerated PDF/export invalidates" not in role_prompt
     assert "controller-materialized Review receipt" in prompt
     assert "controller-materialized Review receipt" in gate
     assert "`route_impact.stage_quality_cycle.outcome`" in prompt
@@ -273,6 +293,14 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
     assert meta["new_execution_session_required"] is True
     assert meta["no_context_inheritance"] is True
     assert meta["max_route_back_rounds"] == 3
+    assert "review_scope_currentness_refs" in meta["required_output_ref_fields"]
+    assert "epistemic_review_scope_and_dependency_refs" in meta["input_boundary"]
+    assert meta["defect_owner_route_back"][
+        "affected_dependency_scope_invalidation_required"
+    ] is True
+    assert meta["defect_owner_route_back"][
+        "unaffected_review_scope_reuse_allowed"
+    ] is True
     assert meta["defect_owner_route_back"]["stage_refs"] == [
         "storyline-architecture",
         "chapter-production-planning",
@@ -330,7 +358,7 @@ def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
 
 def main() -> int:
     test_bookforge_declares_explicit_review_policy_for_each_stage()
-    test_publication_proof_claims_require_fresh_exact_byte_review()
+    test_publication_proof_claims_require_fresh_affected_scope_review()
     test_attempt_route_owner_and_machine_output_are_unambiguous()
     test_quality_role_prompt_routes_cross_stage_owner_before_final_budget()
     test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()

@@ -45,6 +45,7 @@
   "required_domain_pack_paths": [
     "agent/stages/manifest.json",
     "contracts/stage_quality_cycle_policy.json",
+    "contracts/epistemic_review_adoption.json",
     "agent/primary_skill/SKILL.md",
     "agent/prompts/storyline-architecture.md",
     "agent/prompts/chapter-production-planning.md",
@@ -99,7 +100,8 @@
     "source_closure_audit_source_ref": "contracts/source_closure_audit.json",
     "functional_privatization_audit_source_ref": "contracts/functional_privatization_audit.json",
     "generated_surface_handoff_source_ref": "contracts/generated_surface_handoff.json",
-    "capability_map_source_ref": "contracts/capability_map.json"
+    "capability_map_source_ref": "contracts/capability_map.json",
+    "epistemic_review_adoption_source_ref": "contracts/epistemic_review_adoption.json"
   },
   "standard_stage_pack_conformance": {
     "version": "standard-stage-pack.v2",
