@@ -14,6 +14,7 @@ from opl_framework.artifact_inspection import (
     inspect_pdf_fonts as inspect_pdf_font_inventory,
     inspect_png_visual_metrics,
 )
+from opl_framework.json_io import write_json_object_atomic
 
 HELPER_DIR = Path(__file__).resolve().parent
 if str(HELPER_DIR) not in sys.path:
@@ -103,8 +104,7 @@ def rel(path: Path, root: Path) -> str:
 def write_manifest(path: Path | None, payload: dict[str, Any]) -> None:
     if path is None:
         return
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_object_atomic(path, payload)
 
 
 def command_exists(name: str) -> bool:
@@ -731,10 +731,9 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
             )
             payload["rendered_page_inspection"] = rendered_inspection
             if args.write_rendered_page_inspection:
-                args.write_rendered_page_inspection.parent.mkdir(parents=True, exist_ok=True)
-                args.write_rendered_page_inspection.write_text(
-                    json.dumps(rendered_inspection, ensure_ascii=False, indent=2) + "\n",
-                    encoding="utf-8",
+                write_json_object_atomic(
+                    args.write_rendered_page_inspection,
+                    rendered_inspection,
                 )
                 payload["auto_rendered_page_inspection_ref"] = rel(args.write_rendered_page_inspection, root)
 

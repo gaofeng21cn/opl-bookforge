@@ -154,7 +154,6 @@ NATIVE_HELPER_PROBE_DESCRIPTORS = {
             ("render_pdf_pages", "process_spawn"),
             ("compile_pdf", "filesystem_write"),
             ("render_pdf_pages", "filesystem_write"),
-            ("write_manifest", "filesystem_write"),
         },
     },
     "runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json": {
