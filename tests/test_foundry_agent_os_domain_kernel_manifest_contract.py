@@ -53,7 +53,7 @@ def main() -> int:
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.5"
+    assert package_metadata["version"] == "0.3.6"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
     dependency_profile = descriptor["dependency_profiles"][0]
