@@ -7,12 +7,33 @@ Machine boundary: Human-readable current summary. Machine truth remains in contr
 
 Book Forge is an OPL-standard book-authoring domain package with canonical `agent_id/package_id=obf`. The repo, npm package, plugin, carrier, and domain locators may use `opl-bookforge`; they do not create a second package identity.
 
+## Package Composition Migration
+
+The accepted target is a complete `OPL Package(kind=agent)` whose
+executor-neutral identity, capabilities, book work items, typed views, stable
+entrypoints, and domain authority remain owned by Book Forge. Its owner
+independently publishes complete bytes to its own GHCR `latest-stable`; Codex
+Plugin is only the current carrier projection and Codex CLI is only the current
+executor.
+
+Ordinary dependency readiness checks identity presence and required capability
+callability only. Cross-Package version/ABI solving, lock, payload, digest,
+atomic closure, and a shared Release Set are not target readiness gates. Package
+release integrity, runtime execution receipts, and Book Forge
+manuscript/review/export/owner receipts remain separate evidence classes.
+
+This target is not implementation-complete. Current contracts and OPL readbacks
+may still expose legacy lifecycle fields, and this repo has not proved
+independent GHCR publication, complete carrier readback, or executor-neutral
+state preservation. Those compatibility facts remain readable until the
+cross-repository migration closes without functional regression.
+
 ## Current Implementation
 
 - The public domain actions are `shape-storyline` and `materialize-book`. OPL owns generated CLI, MCP, skill, product-entry, StageRun, and hosted projections.
 - The active stage graph is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`. `storyline-architecture` is the ordinary default route; `materialize-book` enters planning directly.
 - Book Forge owns manuscript and book-memory bodies, book-domain truth, style and claim rules, figure/table authority, quality/export verdict boundaries, and owner receipt bodies.
-- OPL owns generic runtime, provider attempts, queues, generated surfaces, workspace artifact-lifecycle projection, dependency maintenance, registry/discovery, and promotion mechanics.
+- OPL owns generic runtime, provider attempts, queues, generated surfaces, workspace artifact-lifecycle projection, cross-carrier readback aggregation, registry/discovery, and promotion mechanics.
 - Revision repair starts from a Book Forge-owned entrypoint decision. OPL may transport opaque route-back and blocker refs but cannot decide manuscript meaning or acceptance.
 - Review PDF, publication proof, and final export are separate accounts. Helper output and rendered-page machine checks are proof plumbing; final export remains owner-gated.
 - The image authority handler is a closed, read-only domain callable. OPL generates and materializes bitmaps; Book Forge validates the injected asset and returns a receipt candidate or quality debt.

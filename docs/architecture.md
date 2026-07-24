@@ -11,6 +11,44 @@ This repo owns book-domain truth, manuscript quality rules, style policy, figure
 
 OPL owns generated interfaces, generic runtime transport, queue, attempt ledger, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection. Codex CLI alone selects semantic stage routes; OPL has no transition runner or route oracle.
 
+## Package Composition
+
+Book Forge is a complete `OPL Package(kind=agent)`. It owns the
+executor-neutral `obf` identity, capabilities, dependency intent, book work
+items, optional typed views, stable entrypoints, and domain authority.
+
+Package, carrier, and executor are separate:
+
+- The Book Forge owner independently publishes complete Package bytes to its
+  own GHCR repository and advances only its own `latest-stable`.
+- The active carrier installs, updates, removes, and reads back the bytes it
+  actually carries. Codex Plugin is the current carrier projection; its
+  presence alone does not prove the complete Package is installed.
+- Codex CLI is the current supported executor. Replacing the executor changes
+  only its route adapter and must not reinstall Book Forge or discard book work,
+  preferences, dependency state, or typed views.
+- OPL aggregates fresh carrier readback, dependency presence/callability, and
+  executor-route readiness. It does not own a second OBF resolver, lock,
+  payload, currentness ledger, or rollback state machine.
+
+Ordinary Package dependencies require identity presence and the callability of
+the required capability. They do not require cross-Package SemVer or ABI
+solving, an exact lock or payload, a digest, an atomic closure, or a shared
+Release Set. A Release Set may still freeze exact bytes for Full, offline,
+integration-test, or QA reproduction; it does not define ordinary OBF
+currentness.
+
+Exact release refs and checksums remain valid for publication integrity.
+StageRun/Attempt receipts remain runtime evidence, and manuscript, review,
+export, and owner receipts remain Book Forge domain evidence. These three
+evidence classes are intentionally distinct and do not become Package
+composition locks.
+
+This section defines the target boundary. Current contracts and readbacks remain
+machine truth during migration and may still expose legacy lifecycle fields;
+documentation alone does not prove independent GHCR publication or complete
+carrier readback has landed.
+
 ## Implementation And Reference Boundary
 
 `contracts/pack_compiler_input.json#/implementation_profile` is the machine-readable implementation boundary. Canonical Agent and OPL Package identity is `obf`, declared by `pack_compiler_input.canonical_agent_id` and package manifest `agent_id/package_id`. Repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators remain `opl-bookforge`; they do not define a second package identity. Agent identity comes only from the Markdown/JSON Declarative Standard Agent Pack; Python is a replaceable publishing-helper implementation, not an Agent type, identity, runtime owner, or publication verdict authority.

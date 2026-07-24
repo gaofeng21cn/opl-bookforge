@@ -7,6 +7,11 @@ Machine boundary: Human-readable decision log. Machine truth remains in contract
 
 - Adopt `OPL Book Forge` as the product name and `opl-bookforge` as the repo slug, `domain_id`, and `foundry_agent_id`.
 - Use `obf` as both the canonical Agent id and OPL Package id. `contracts/pack_compiler_input.json.canonical_agent_id` and the package manifest `agent_id/package_id` must agree; repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators may remain `opl-bookforge` but must not create an alias or second package identity.
+- Treat Book Forge as `OPL Package(kind=agent)` with executor-neutral identity, capabilities, dependency intent, book work items, typed views, stable entrypoints, and domain authority.
+- Separate Package, carrier, and executor. The Book Forge owner independently advances complete bytes in its own GHCR `latest-stable`; Codex Plugin is the current carrier projection and Codex CLI is the current executor, not Package identity or complete installed truth.
+- Compose ordinary Package dependencies by identity presence and required capability callability. Do not introduce cross-Package version/ABI solving, lock, payload, digest, Release Set, or atomic closure as readiness gates.
+- Use exact refs/checksums for release integrity and reproducible snapshots only. Keep Package release proof, runtime execution receipts, and Book Forge manuscript/review/export/owner receipts as distinct evidence classes.
+- Keep current lifecycle contracts readable until the cross-repository migration has equivalent behavior and no retained consumer; this decision alone does not claim the target path is implemented.
 - Follow the OPL series repo naming style used by `opl-meta-agent`, `opl-flow`, `opl-hermes-shell`, `opl-aion-shell`, and `opl-doc`.
 - Adopt OPL standard domain-agent scaffold v1 and standard stage pack v2.
 - Keep this repo as a declarative domain pack plus minimal authority functions.

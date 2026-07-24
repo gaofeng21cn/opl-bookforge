@@ -112,7 +112,9 @@ You can start with prompts like:
 ## Current Boundary
 
 - `OPL Book Forge` is an OPL-standard Foundry Agent domain pack for book authoring.
-- In the OPL family, Book Forge is the book-authoring domain agent package: Book Forge keeps book authority, while OPL owns generic runtime, package carrier, generated wrapper, and hosted surfaces.
+- In the OPL family, Book Forge is an `OPL Package(kind=agent)`: Book Forge keeps executor-neutral identity, capabilities, book work, typed views, and book authority, while OPL owns generic runtime, generated interfaces, and hosted surfaces.
+- The Book Forge owner independently publishes complete Package bytes to its own GHCR `latest-stable`. Codex Plugin is the current carrier projection and Codex CLI is the current executor; neither defines Package identity or complete installed truth.
+- Ordinary Package dependencies require only identity presence and required capability callability. Cross-Package version/ABI solving, lock, payload, digest, Release Set, or atomic closure is not a readiness gate.
 - OPL owns generated interfaces, framework runtime projection, Agent Lab, work-order execution, registry/discovery, and promotion gates.
 - Book Forge owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 - Current evidence supports structural baseline, generated interface descriptors, OMA Agent Lab evaluation, and a real short-book pilot with export/render checks.
