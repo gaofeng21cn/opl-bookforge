@@ -142,6 +142,53 @@ You can start with prompts like:
 2. Technical readers should read [Project](./docs/project.md), [Status](./docs/status.md), [Architecture](./docs/architecture.md), [Invariants](./docs/invariants.md), and [Decisions](./docs/decisions.md).
 3. Operators should inspect `contracts/`, `agent/`, `docs/evidence/oma-agent-lab/`, and the real pilot evidence pack before making readiness or owner-acceptance claims.
 
+## For Codex / Agents
+
+`opl-bookforge` is the Codex Plugin carrier for the OPL Package whose canonical
+`agent_id/package_id` is `obf`. The carrier and Package identities are
+intentionally different.
+
+From a local clone, add this repository marketplace and install the carrier:
+
+```bash
+cd /absolute/path/to/opl-bookforge
+codex plugin marketplace add "$(pwd -P)" --json
+codex plugin marketplace list --json
+codex plugin list --marketplace opl-bookforge-local --available --json
+codex plugin add opl-bookforge@opl-bookforge-local --json
+codex plugin list --marketplace opl-bookforge-local --json
+```
+
+For Codex in the ChatGPT desktop app, restart the app after adding the
+marketplace, open **Plugins**, select **OPL Book Forge**, and install
+`opl-bookforge`. Start a new conversation before testing the bundled
+`opl-bookforge` Skill.
+
+To remove the local carrier and its configured marketplace:
+
+```bash
+codex plugin remove opl-bookforge@opl-bookforge-local --json
+codex plugin marketplace remove opl-bookforge-local --json
+```
+
+These commands prove only that Codex can discover, install, list, and remove
+the Plugin carrier. They do not prove that the complete OPL Package/runtime is
+installed, callable, current, or ready. When the OPL runtime is available, use
+its readback surfaces:
+
+```bash
+opl packages list --json
+opl packages status --package-id obf --json
+opl app state --profile fast --json
+scripts/verify.sh
+```
+
+Keep manuscript truth, quality/export verdicts, final artifact bytes,
+publication approval, and owner acceptance bound to Book Forge owner gates.
+Neither a Plugin install nor an OPL status projection grants those authorities,
+and neither should be treated as a legacy Package transaction or lifecycle
+receipt.
+
 ## Agent And Operator Quick Start
 
 <details>
