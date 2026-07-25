@@ -51,6 +51,29 @@ def main() -> int:
     assert package_manifest["agent_id"] == pack_compiler_input["canonical_agent_id"]
     assert package_manifest["package_id"] == pack_compiler_input["canonical_agent_id"]
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
+    assert package_manifest["presentation"] == {
+        "display_name_i18n": {"en-US": "OPL Book Forge"},
+        "description_i18n": {"en-US": "Book-authoring domain app for Codex."},
+        "session_routing_summary_i18n": {
+            "en-US": (
+                "Shape the book storyline, audience promise, argument arc, source map, "
+                "chapter thesis chain, tone, and editorial constraints."
+            )
+        },
+        "home_shortcuts": [
+            {
+                "shortcut_id": "shape-storyline",
+                "label_i18n": {"en-US": "Shape Storyline"},
+                "default_visible": True,
+                "user_configurable": True,
+                "route": {
+                    "route_kind": "agent_package_shortcut",
+                    "executor": "codex_cli",
+                    "codex_visible_entry": "opl-bookforge",
+                },
+            }
+        ],
+    }
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
     assert package_metadata["version"] == "0.3.6"
