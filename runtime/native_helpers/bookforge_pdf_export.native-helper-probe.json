@@ -19,7 +19,7 @@
         "slot_id": "pandoc_ast_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "image_refs_from_pandoc_ast",
-        "source_digest": "sha256:f740a6c5cc7cc57618f617e75952c9117eb623d39ba5eecc3c181fccc5a6d4b0",
+        "source_digest": "sha256:d1fec582326a63a3f3caaadf8766afe57e091c46867afc6a04081caa1a3d2229",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -30,7 +30,7 @@
         "slot_id": "pdf_compile_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "compile_pdf",
-        "source_digest": "sha256:f740a6c5cc7cc57618f617e75952c9117eb623d39ba5eecc3c181fccc5a6d4b0",
+        "source_digest": "sha256:d1fec582326a63a3f3caaadf8766afe57e091c46867afc6a04081caa1a3d2229",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -41,7 +41,7 @@
         "slot_id": "pdf_page_render_process",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "render_pdf_pages",
-        "source_digest": "sha256:f740a6c5cc7cc57618f617e75952c9117eb623d39ba5eecc3c181fccc5a6d4b0",
+        "source_digest": "sha256:d1fec582326a63a3f3caaadf8766afe57e091c46867afc6a04081caa1a3d2229",
         "effect_kind": "process_spawn",
         "target_policy": "declared_command_set",
         "allowed_targets": [
@@ -52,7 +52,7 @@
         "slot_id": "pdf_compile_artifact_write",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "compile_pdf",
-        "source_digest": "sha256:f740a6c5cc7cc57618f617e75952c9117eb623d39ba5eecc3c181fccc5a6d4b0",
+        "source_digest": "sha256:d1fec582326a63a3f3caaadf8766afe57e091c46867afc6a04081caa1a3d2229",
         "effect_kind": "filesystem_write",
         "target_policy": "declared_artifact_write_slot",
         "allowed_targets": []
@@ -61,7 +61,7 @@
         "slot_id": "pdf_page_render_artifact_write",
         "source_ref": "bookforge_pdf_export.py",
         "symbol": "render_pdf_pages",
-        "source_digest": "sha256:f740a6c5cc7cc57618f617e75952c9117eb623d39ba5eecc3c181fccc5a6d4b0",
+        "source_digest": "sha256:d1fec582326a63a3f3caaadf8766afe57e091c46867afc6a04081caa1a3d2229",
         "effect_kind": "filesystem_write",
         "target_policy": "declared_artifact_write_slot",
         "allowed_targets": []

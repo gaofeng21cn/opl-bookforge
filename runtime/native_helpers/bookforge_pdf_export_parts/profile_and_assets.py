@@ -23,6 +23,10 @@ def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
+def as_mapping(value: Any) -> dict[str, Any]:
+    return value if isinstance(value, dict) else {}
+
+
 def read_json_object(path: Path | None) -> tuple[dict[str, Any], str | None]:
     if path is None:
         return {}, None
