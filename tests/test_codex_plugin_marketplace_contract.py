@@ -16,6 +16,7 @@ def main() -> int:
     marketplace = load_json(".agents/plugins/marketplace.json")
     plugin_manifest = load_json("plugins/opl-bookforge/.codex-plugin/plugin.json")
     package_manifest = load_json("contracts/opl_agent_package_manifest.json")
+    carrier_manifest = load_json("plugins/opl-bookforge/opl-package.json")
     readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
 
     assert marketplace["name"] == "opl-bookforge-local"
@@ -42,6 +43,28 @@ def main() -> int:
     assert plugin["category"] == plugin_manifest["interface"]["category"]
     assert package_manifest["agent_id"] == package_manifest["package_id"] == "obf"
     assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
+    assert carrier_manifest == {
+        "surface_kind": package_manifest["surface_kind"],
+        "agent_id": package_manifest["agent_id"],
+        "package_id": package_manifest["package_id"],
+        "display_name": package_manifest["display_name"],
+        "presentation": package_manifest["presentation"],
+        "publisher": package_manifest["publisher"],
+        "version": package_manifest["version"],
+        "source": package_manifest["source"],
+        "carrier_source_role": package_manifest["carrier_source_role"],
+        "entrypoints": [],
+        "codex_surface": {
+            "plugin_id": package_manifest["codex_surface"]["plugin_id"],
+            "plugin_source_path": ".",
+            "required_skill_ids": package_manifest["codex_surface"][
+                "required_skill_ids"
+            ],
+        },
+        "capability_dependencies": [],
+    }
+    assert carrier_manifest["version"] == plugin_manifest["version"]
+    assert carrier_manifest["codex_surface"]["plugin_id"] == plugin_manifest["name"]
 
     required_readme_fragments = (
         "## For Codex / Agents",
