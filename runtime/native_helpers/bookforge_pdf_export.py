@@ -21,20 +21,18 @@ if str(HELPER_DIR) not in sys.path:
     sys.path.insert(0, str(HELPER_DIR))
 
 from bookforge_pdf_export_parts.profile_and_assets import (
-    BUNDLED_PROFILE_DIR,
     DEFAULT_PUBLICATION_PROFILE,
     as_mapping,
     rel,
-    figure_manifest_readiness,
-    file_refs_exist,
     image_refs_from_pandoc_document,
-    markdown_image_refs,
-    profile_list,
-    read_json_object,
-    resolve_profile_path,
-    resolve_publication_profile,
 )
 from bookforge_pdf_export_parts.artifact_gate import assess_artifact_gate
+from bookforge_pdf_export_parts.compile_phases import (
+    compile_backend,
+    finalize_gate,
+    prepare_pdf_compile,
+    render_and_inspect,
+)
 
 
 VERSION = "bookforge-pdf-export.v1"
@@ -334,160 +332,36 @@ def materialize_progress_diagnostic(payload: dict[str, Any], *, code: str, error
 
 
 def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
-    root = args.root.resolve()
-    source_md = args.source_md.resolve()
-    output_pdf = args.output_pdf.resolve()
-    render_dir = args.render_dir.resolve() if args.render_dir else None
-    if args.write_rendered_page_inspection:
-        write_rendered_page_inspection = args.write_rendered_page_inspection
-        if not write_rendered_page_inspection.is_absolute():
-            write_rendered_page_inspection = root / write_rendered_page_inspection
-        args.write_rendered_page_inspection = write_rendered_page_inspection.resolve()
-    publication_design_profile = args.publication_design_profile.resolve() if args.publication_design_profile else None
-    rendered_page_inspection = args.rendered_page_inspection.resolve() if args.rendered_page_inspection else None
-    owner_acceptance_receipt = args.owner_acceptance_receipt.resolve() if args.owner_acceptance_receipt else None
-    figure_asset_manifest = args.figure_asset_manifest.resolve() if args.figure_asset_manifest else None
-    publication_profile, publication_profile_path, profile_error = resolve_publication_profile(args.publication_profile, root)
-    profile_variables = [str(value) for value in profile_list(publication_profile, "pandoc_variables") if str(value).strip()]
-    include_headers = [
-        path
-        for path in (
-            resolve_profile_path(value, publication_profile_path, root)
-            for value in profile_list(publication_profile, "include_in_header")
-        )
-        if path is not None
-    ]
-    resource_paths = [
-        (root / path).resolve() if not path.is_absolute() else path.resolve()
-        for path in args.resource_path
-    ]
-    if not resource_paths:
-        resource_paths = [source_md.parent.resolve(), root]
-
-    payload: dict[str, Any] = {
-        "surface_kind": "bookforge_pdf_export",
-        "version": VERSION,
-        "artifact_role": artifact_role(args),
-        "requested_artifact_role": args.artifact_role,
-        "backend": args.backend,
-        "source_md": rel(source_md, root),
-        "output_pdf": rel(output_pdf, root),
-        "status": "blocked",
-        "error": None,
-        "render_status": "not_requested",
-        "render_error": None,
-        "rendered_pages": [],
-        "pdf_page_count": 0,
-        "command": [],
-        "resource_paths": [rel(path, root) for path in resource_paths],
-        "publication_profile": {
-            "requested": args.publication_profile,
-            "resolved": rel(publication_profile_path, root) if publication_profile_path else None,
-            "profile_id": publication_profile.get("profile_id"),
-            "status": "loaded" if publication_profile and not profile_error else ("disabled" if not publication_profile_path else "unreadable"),
-            "error": profile_error,
-        },
-        "include_headers": [rel(path, root) for path in include_headers],
-        "quality_boundary": {
-            "source_is_markdown": True,
-            "uses_publication_typesetting_backend": True,
-            "hand_rolled_raster_renderer": False,
-            "owner_acceptance_required_for_publication_claim": True,
-        },
-        "auto_rendered_page_inspection_ref": None,
-    }
-    args.publication_design_profile = publication_design_profile
-    args.rendered_page_inspection = rendered_page_inspection
-    args.owner_acceptance_receipt = owner_acceptance_receipt
-    args.figure_asset_manifest = figure_asset_manifest
-    args.resolved_publication_profile = publication_profile_path
-
-    publication_design, design_error = read_json_object(publication_design_profile)
-    if not publication_design:
-        publication_design = as_mapping(publication_profile.get("publication_design_profile"))
-    if profile_error:
-        design_error = design_error or profile_error
-    rendered_inspection, inspection_error = read_json_object(rendered_page_inspection)
-    owner_acceptance, owner_error = read_json_object(owner_acceptance_receipt)
-    if figure_asset_manifest:
-        figure_manifest, figure_error = read_json_object(figure_asset_manifest)
-        payload["figure_asset_manifest_status"] = "loaded" if not figure_error else "unreadable"
-        payload["figure_asset_manifest_error"] = figure_error
-        if figure_error:
-            design_error = design_error or figure_error
-    else:
-        figure_manifest = {}
-    figure_summary = figure_manifest_readiness(figure_manifest, root) if figure_manifest else {
-        "record_count": 0,
-        "required_count": 0,
-        "ready_required_count": 0,
-        "blockers": [],
-    }
-    payload["publication_design_profile"] = publication_design
-    payload["rendered_page_inspection"] = rendered_inspection
-    payload["owner_acceptance_receipt"] = owner_acceptance
-    payload["figure_asset_manifest_summary"] = figure_summary
-
-    if not source_md.exists():
-        return materialize_progress_diagnostic(
-            payload,
-            code="source_markdown_missing",
-            error=f"source Markdown not found: {source_md}",
-        )
-
-    pandoc_image_refs = image_refs_from_pandoc_ast(source_md, root)
-    payload["markdown_image_refs"] = markdown_image_refs(
-        source_md,
-        resource_paths,
-        root,
-        extracted_refs=pandoc_image_refs,
-        extraction_method="pandoc_ast" if pandoc_image_refs is not None else None,
+    prepared = prepare_pdf_compile(
+        args,
+        version=VERSION,
+        artifact_role=artifact_role,
+        image_refs_from_pandoc_ast=image_refs_from_pandoc_ast,
     )
-    if args.backend != "pandoc-xelatex":
-        return materialize_progress_diagnostic(
-            payload,
-            code="unsupported_backend",
-            error=f"unsupported backend: {args.backend}",
-        )
+    payload = prepared.payload
+    if prepared.diagnostic:
+        code, error = prepared.diagnostic
+        return materialize_progress_diagnostic(payload, code=code, error=error)
 
-    metadata_file = args.metadata_file.resolve() if args.metadata_file else None
-    if metadata_file and not metadata_file.exists():
-        return materialize_progress_diagnostic(
-            payload,
-            code="metadata_file_missing",
-            error=f"metadata file not found: {metadata_file}",
-        )
+    backend = compile_backend(prepared, pandoc_xelatex_command)
+    payload["command"] = backend.command
+    if backend.hard_stop:
+        payload["status"] = "blocked_executor_unavailable"
+        payload["error"] = backend.hard_stop
+        payload["hard_stop"] = {
+            "kind": "executor_unavailable",
+            "blocks_stage_transition": True,
+        }
+        return payload
+    if backend.diagnostic:
+        code, error = backend.diagnostic
+        return materialize_progress_diagnostic(payload, code=code, error=error)
 
-    command, blocker = pandoc_xelatex_command(
-        source_md,
-        output_pdf,
-        metadata_file,
-        profile_variables + args.variable,
-        resource_paths,
-        include_headers,
-        number_sections=args.number_sections,
-    )
-    payload["command"] = command
-    if blocker:
-        if blocker in {"pandoc not found", "xelatex not found"}:
-            payload["status"] = "blocked_executor_unavailable"
-            payload["error"] = blocker
-            payload["hard_stop"] = {
-                "kind": "executor_unavailable",
-                "blocks_stage_transition": True,
-            }
-            return payload
-        return materialize_progress_diagnostic(
-            payload,
-            code="publication_backend_input_missing",
-            error=blocker,
-        )
-
-    output_pdf.parent.mkdir(parents=True, exist_ok=True)
-    result = subprocess.run(command, cwd=root, text=True, capture_output=True, check=False)
+    prepared.output_pdf.parent.mkdir(parents=True, exist_ok=True)
+    result = subprocess.run(backend.command, cwd=prepared.root, text=True, capture_output=True, check=False)
     if result.returncode != 0:
-        if output_pdf.exists():
-            output_pdf.unlink()
+        if prepared.output_pdf.exists():
+            prepared.output_pdf.unlink()
         return materialize_progress_diagnostic(
             payload,
             code="pdf_compile_failed",
@@ -497,48 +371,16 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     payload["status"] = "generated"
     payload["error"] = None
 
-    if render_dir:
-        render_status, render_error, rendered_pages = render_pdf_pages(
-            output_pdf,
-            render_dir,
-            root,
-            args.render_prefix,
-            args.render_dpi,
-        )
-        payload["render_status"] = render_status
-        payload["render_error"] = render_error
-        payload["rendered_pages"] = rendered_pages
-        payload["pdf_page_count"] = len(rendered_pages)
-        if render_status == "rendered" and rendered_pages and not rendered_inspection:
-            rendered_inspection = auto_rendered_page_inspection(
-                rendered_pages,
-                root,
-                payload,
-                output_pdf,
-                publication_profile,
-            )
-            payload["rendered_page_inspection"] = rendered_inspection
-            if args.write_rendered_page_inspection:
-                write_json_object_atomic(
-                    args.write_rendered_page_inspection,
-                    rendered_inspection,
-                )
-                payload["auto_rendered_page_inspection_ref"] = rel(args.write_rendered_page_inspection, root)
-
-    assess_artifact_gate(
-        payload,
-        args,
-        root,
-        publication_design,
-        design_error,
-        rendered_inspection,
-        inspection_error,
-        owner_acceptance,
-        owner_error,
+    inspection_path = render_and_inspect(
+        prepared,
+        render_pdf_pages=render_pdf_pages,
+        auto_rendered_page_inspection=auto_rendered_page_inspection,
     )
-    if payload["artifact_gate"]["status"] == "quality_debt":
-        payload["status"] = "generated_with_quality_debt"
+    if inspection_path:
+        write_json_object_atomic(inspection_path, payload["rendered_page_inspection"])
+        payload["auto_rendered_page_inspection_ref"] = rel(inspection_path, prepared.root)
 
+    finalize_gate(prepared)
     return payload
 
 
