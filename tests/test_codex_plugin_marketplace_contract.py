@@ -1,15 +1,49 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+from copy import deepcopy
 import json
 from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
+CONFIGURED_CODEX_PLUGIN_CARRIER = {
+    "kind": "codex_plugin_manager",
+    "plugin_selector": "opl-bookforge@opl-bookforge",
+    "executor_route": "codex_cli",
+    "marketplace_source": "gaofeng21cn/opl-bookforge",
+    "publication_ref": (
+        "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
+    ),
+}
+
 
 def load_json(ref: str) -> dict:
     return json.loads((REPO_ROOT / ref).read_text(encoding="utf-8"))
+
+
+def assert_configured_carrier_projection(
+    package_manifest: dict, carrier_manifest: dict
+) -> None:
+    owner_carrier = package_manifest["codex_surface"].get(
+        "configured_codex_plugin_carrier"
+    )
+    projected_carrier = carrier_manifest["codex_surface"].get(
+        "configured_codex_plugin_carrier"
+    )
+    assert owner_carrier == CONFIGURED_CODEX_PLUGIN_CARRIER
+    assert projected_carrier == owner_carrier
+
+
+def assert_carrier_guard_rejects(
+    package_manifest: dict, carrier_manifest: dict, label: str
+) -> None:
+    try:
+        assert_configured_carrier_projection(package_manifest, carrier_manifest)
+    except AssertionError:
+        return
+    raise AssertionError(f"configured carrier guard accepted {label}")
 
 
 def main() -> int:
@@ -43,6 +77,7 @@ def main() -> int:
     assert plugin["category"] == plugin_manifest["interface"]["category"]
     assert package_manifest["agent_id"] == package_manifest["package_id"] == "obf"
     assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
+    assert_configured_carrier_projection(package_manifest, carrier_manifest)
     assert carrier_manifest == {
         "surface_kind": package_manifest["surface_kind"],
         "agent_id": package_manifest["agent_id"],
@@ -57,6 +92,7 @@ def main() -> int:
         "codex_surface": {
             "plugin_id": package_manifest["codex_surface"]["plugin_id"],
             "plugin_source_path": ".",
+            "configured_codex_plugin_carrier": CONFIGURED_CODEX_PLUGIN_CARRIER,
             "required_skill_ids": package_manifest["codex_surface"][
                 "required_skill_ids"
             ],
@@ -65,6 +101,30 @@ def main() -> int:
     }
     assert carrier_manifest["version"] == plugin_manifest["version"]
     assert carrier_manifest["codex_surface"]["plugin_id"] == plugin_manifest["name"]
+
+    missing_owner_carrier = deepcopy(package_manifest)
+    missing_owner_carrier["codex_surface"].pop("configured_codex_plugin_carrier")
+    assert_carrier_guard_rejects(
+        missing_owner_carrier, carrier_manifest, "missing owner carrier"
+    )
+
+    missing_projected_carrier = deepcopy(carrier_manifest)
+    missing_projected_carrier["codex_surface"].pop(
+        "configured_codex_plugin_carrier"
+    )
+    assert_carrier_guard_rejects(
+        package_manifest, missing_projected_carrier, "missing projected carrier"
+    )
+
+    mismatched_projected_carrier = deepcopy(carrier_manifest)
+    mismatched_projected_carrier["codex_surface"][
+        "configured_codex_plugin_carrier"
+    ]["publication_ref"] = (
+        "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:0.3.7"
+    )
+    assert_carrier_guard_rejects(
+        package_manifest, mismatched_projected_carrier, "mismatched carrier"
+    )
 
     required_readme_fragments = (
         "## For Codex / Agents",
