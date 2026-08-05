@@ -76,9 +76,20 @@ def main() -> int:
     }
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.7"
+    assert package_metadata["version"] == "0.3.8"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
+    assert package_manifest["codex_surface"][
+        "configured_codex_plugin_carrier"
+    ] == {
+        "kind": "codex_plugin_manager",
+        "plugin_selector": "opl-bookforge@opl-bookforge",
+        "executor_route": "codex_cli",
+        "marketplace_source": "gaofeng21cn/opl-bookforge",
+        "publication_ref": (
+            "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
+        ),
+    }
     dependency_profile = descriptor["dependency_profiles"][0]
     package_dependency_profile = package_manifest["dependency_profiles"][0]
     profile_bytes = json.dumps(
