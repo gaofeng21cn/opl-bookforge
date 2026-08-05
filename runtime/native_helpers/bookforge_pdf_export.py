@@ -24,7 +24,6 @@ from bookforge_pdf_export_parts.profile_and_assets import (
     DEFAULT_PUBLICATION_PROFILE,
     as_mapping,
     rel,
-    image_refs_from_pandoc_document,
 )
 from bookforge_pdf_export_parts.artifact_gate import assess_artifact_gate
 from bookforge_pdf_export_parts.compile_phases import (
@@ -65,25 +64,6 @@ def write_manifest(path: Path | None, payload: dict[str, Any]) -> None:
 
 def command_exists(name: str) -> bool:
     return shutil.which(name) is not None
-
-
-def image_refs_from_pandoc_ast(source_md: Path, root: Path) -> list[str] | None:
-    if not command_exists("pandoc"):
-        return None
-    result = subprocess.run(
-        ["pandoc", str(source_md), "-t", "json"],
-        cwd=root,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        return None
-    try:
-        document = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return None
-    return image_refs_from_pandoc_document(document)
 
 
 def profile_threshold(profile: dict[str, Any], key: str, default: float) -> float:
@@ -227,30 +207,6 @@ def auto_rendered_page_inspection(
     }
 
 
-def render_pdf_pages(pdf_path: Path, render_dir: Path, root: Path, prefix: str, dpi: int) -> tuple[str, str | None, list[str]]:
-    if not command_exists("pdftoppm"):
-        return "skipped_missing_pdftoppm", "pdftoppm not found", []
-
-    render_dir.mkdir(parents=True, exist_ok=True)
-    for old_page in render_dir.glob(f"{prefix}-*.png"):
-        old_page.unlink()
-
-    page_prefix = render_dir / prefix
-    result = subprocess.run(
-        ["pdftoppm", "-png", "-r", str(dpi), str(pdf_path), str(page_prefix)],
-        cwd=root,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        error = (result.stderr or result.stdout or "pdftoppm failed").strip()
-        return "failed", error[-2000:], []
-
-    rendered_pages = [rel(path, root) for path in sorted(render_dir.glob(f"{prefix}-*.png"))]
-    return "rendered", None, rendered_pages
-
-
 def pandoc_xelatex_command(
     source_md: Path,
     output_pdf: Path,
@@ -336,7 +292,6 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
         args,
         version=VERSION,
         artifact_role=artifact_role,
-        image_refs_from_pandoc_ast=image_refs_from_pandoc_ast,
     )
     payload = prepared.payload
     if prepared.diagnostic:
@@ -373,7 +328,6 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
 
     inspection_path = render_and_inspect(
         prepared,
-        render_pdf_pages=render_pdf_pages,
         auto_rendered_page_inspection=auto_rendered_page_inspection,
     )
     if inspection_path:

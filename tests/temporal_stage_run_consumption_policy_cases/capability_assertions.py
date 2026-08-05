@@ -133,10 +133,10 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
             assert {(slot["symbol"], slot["effect_kind"]) for slot in effect_slots} == expected[
                 "source_closure_effects"
             ], descriptor_ref
-            source_path = (repo / descriptor_ref).parent / descriptor["entrypoint_ref"]
-            source_digest = f"sha256:{hashlib.sha256(source_path.read_bytes()).hexdigest()}"
-            assert {slot["source_digest"] for slot in effect_slots} == {source_digest}, descriptor_ref
             for slot in effect_slots:
+                source_path = (repo / descriptor_ref).parent / slot["source_ref"]
+                source_digest = f"sha256:{hashlib.sha256(source_path.read_bytes()).hexdigest()}"
+                assert slot["source_digest"] == source_digest, slot
                 if slot["effect_kind"] == "process_spawn":
                     assert slot["target_policy"] == "declared_command_set", slot
                     assert slot["allowed_targets"], slot

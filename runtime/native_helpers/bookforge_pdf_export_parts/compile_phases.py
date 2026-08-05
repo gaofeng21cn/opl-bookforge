@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import json
+import shutil
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
@@ -9,6 +12,7 @@ from bookforge_pdf_export_parts.artifact_gate import assess_artifact_gate
 from bookforge_pdf_export_parts.profile_and_assets import (
     as_mapping,
     figure_manifest_readiness,
+    image_refs_from_pandoc_document,
     markdown_image_refs,
     profile_list,
     read_json_object,
@@ -47,12 +51,34 @@ class BackendCompile:
     hard_stop: str | None = None
 
 
+def command_exists(name: str) -> bool:
+    return shutil.which(name) is not None
+
+
+def image_refs_from_pandoc_ast(source_md: Path, root: Path) -> list[str] | None:
+    if not command_exists("pandoc"):
+        return None
+    result = subprocess.run(
+        ["pandoc", str(source_md), "-t", "json"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    try:
+        document = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return None
+    return image_refs_from_pandoc_document(document)
+
+
 def prepare_pdf_compile(
     args: argparse.Namespace,
     *,
     version: str,
     artifact_role: Callable[[argparse.Namespace], str],
-    image_refs_from_pandoc_ast: Callable[[Path, Path], list[str] | None],
 ) -> PdfCompilePreparation:
     root = args.root.resolve()
     source_md = args.source_md.resolve()
@@ -228,7 +254,6 @@ def compile_backend(
 def render_and_inspect(
     prepared: PdfCompilePreparation,
     *,
-    render_pdf_pages: Callable[..., tuple[str, str | None, list[str]]],
     auto_rendered_page_inspection: Callable[..., dict[str, Any]],
 ) -> Path | None:
     if not prepared.render_dir:
@@ -260,6 +285,39 @@ def render_and_inspect(
         if args.write_rendered_page_inspection:
             return args.write_rendered_page_inspection
     return None
+
+
+def render_pdf_pages(
+    pdf_path: Path,
+    render_dir: Path,
+    root: Path,
+    prefix: str,
+    dpi: int,
+) -> tuple[str, str | None, list[str]]:
+    if not command_exists("pdftoppm"):
+        return "skipped_missing_pdftoppm", "pdftoppm not found", []
+
+    render_dir.mkdir(parents=True, exist_ok=True)
+    for old_page in render_dir.glob(f"{prefix}-*.png"):
+        old_page.unlink()
+
+    page_prefix = render_dir / prefix
+    result = subprocess.run(
+        ["pdftoppm", "-png", "-r", str(dpi), str(pdf_path), str(page_prefix)],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        error = (result.stderr or result.stdout or "pdftoppm failed").strip()
+        return "failed", error[-2000:], []
+
+    rendered_pages = [
+        rel(path, root)
+        for path in sorted(render_dir.glob(f"{prefix}-*.png"))
+    ]
+    return "rendered", None, rendered_pages
 
 
 def finalize_gate(prepared: PdfCompilePreparation) -> None:
