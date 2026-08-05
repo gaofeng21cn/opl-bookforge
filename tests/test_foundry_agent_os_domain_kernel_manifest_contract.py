@@ -76,14 +76,14 @@ def main() -> int:
     }
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.8"
+    assert package_metadata["version"] == "0.3.9"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
     assert package_manifest["codex_surface"][
         "configured_codex_plugin_carrier"
     ] == {
         "kind": "codex_plugin_manager",
-        "plugin_selector": "opl-bookforge@opl-bookforge",
+        "plugin_selector": "opl-bookforge@opl-bookforge-local",
         "executor_route": "codex_cli",
         "marketplace_source": "gaofeng21cn/opl-bookforge",
         "publication_ref": (
