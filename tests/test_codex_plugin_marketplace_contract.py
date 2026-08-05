@@ -10,7 +10,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 CONFIGURED_CODEX_PLUGIN_CARRIER = {
     "kind": "codex_plugin_manager",
-    "plugin_selector": "opl-bookforge@opl-bookforge",
+    "plugin_selector": "opl-bookforge@opl-bookforge-local",
     "executor_route": "codex_cli",
     "marketplace_source": "gaofeng21cn/opl-bookforge",
     "publication_ref": (
@@ -74,6 +74,9 @@ def main() -> int:
     source_path = REPO_ROOT / plugin["source"]["path"]
     assert source_path.is_dir()
     assert plugin["name"] == plugin_manifest["name"] == "opl-bookforge"
+    assert CONFIGURED_CODEX_PLUGIN_CARRIER["plugin_selector"] == (
+        f"{plugin['name']}@{marketplace['name']}"
+    )
     assert plugin["category"] == plugin_manifest["interface"]["category"]
     assert package_manifest["agent_id"] == package_manifest["package_id"] == "obf"
     assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
