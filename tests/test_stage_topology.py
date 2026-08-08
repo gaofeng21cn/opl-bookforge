@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
 from pathlib import Path
 
 
@@ -37,6 +39,19 @@ STAGE_DISPLAY_NAMES = {
 ACTION_STAGE_ROUTES = {
     "shape-storyline": ["storyline-architecture"],
     "materialize-book": STAGE_SEQUENCE[1:],
+}
+ACTION_OUTPUT_SCHEMA_REFS = {
+    "shape-storyline": "contracts/schemas/shape-storyline.output.schema.json",
+    "materialize-book": "contracts/schemas/materialize-book.output.schema.json",
+}
+STAGE_ACTION_STATUSES = {
+    "completed",
+    "completed_with_quality_debt",
+    "route_back",
+    "typed_blocker",
+    "human_gate",
+    "failed",
+    "no_output",
 }
 GENERATED_STAGE_PLANE_REF = "opl_generated:product_entry_manifest#/family_stage_control_plane/stages"
 STAGE_PROJECTION_CAPABILITIES = {
@@ -80,6 +95,60 @@ LEGACY_FOUNDRY_POLICY_BODY_FIELDS = {
 
 def load_json(repo: Path, ref: str) -> dict:
     return json.loads((repo / ref).read_text(encoding="utf-8"))
+
+
+def framework_loader_module(repo: Path) -> Path:
+    candidates: list[Path] = []
+    if configured := os.environ.get("OPL_FRAMEWORK_ROOT"):
+        candidates.append(Path(configured))
+    for entry in os.environ.get("PYTHONPATH", "").split(os.pathsep):
+        if entry:
+            candidate = Path(entry)
+            candidates.append(candidate.parent if candidate.name == "python" else candidate)
+    if configured_bin := os.environ.get("OPL_BIN"):
+        candidates.append(Path(configured_bin).resolve().parent.parent)
+    candidates.extend([
+        repo.parent / "one-person-lab",
+        repo.parents[2] / "one-person-lab",
+    ])
+    for root in candidates:
+        module = root / "src/modules/runway/hosted-agent-runtime-binding.ts"
+        if module.is_file():
+            return module.resolve()
+    raise AssertionError("Framework hosted Agent runtime loader source is unavailable")
+
+
+def load_hosted_action_contracts(repo: Path) -> dict:
+    module = framework_loader_module(repo)
+    script = f"""
+import {{ readHostedAgentRuntimeActionContracts }} from {json.dumps(module.as_uri())};
+const {{ catalog, registry }} = readHostedAgentRuntimeActionContracts(
+  {json.dumps(str(repo))},
+  ["opl-bookforge"],
+);
+console.log(JSON.stringify({{
+  target_domain_id: catalog.target_domain_id,
+  actions: catalog.actions.map((action) => ({{
+    action_id: action.action_id,
+    input_schema_ref: action.input_schema_ref,
+    output_schema_ref: action.output_schema_ref,
+    execution_binding: action.execution_binding,
+  }})),
+  handler_ids: registry?.handlers.map((handler) => handler.handler_id) ?? [],
+}}));
+"""
+    completed = subprocess.run(
+        ["node", "--experimental-strip-types", "--input-type=module", "-e", script],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, {
+        "stdout": completed.stdout,
+        "stderr": completed.stderr,
+    }
+    return json.loads(completed.stdout)
 
 
 def assert_no_retired_stage_refs(repo: Path) -> None:
@@ -271,6 +340,35 @@ def main() -> int:
             "kind": "stage_binding",
             "stage_manifest_ref": "agent/stages/manifest.json",
         }
+        assert action["output_schema_ref"] == ACTION_OUTPUT_SCHEMA_REFS[action_id]
+        output_schema = load_json(repo, action["output_schema_ref"])
+        assert output_schema["type"] == "object"
+        assert output_schema["additionalProperties"] is False
+        assert output_schema["properties"]["surface_kind"]["const"] == (
+            "opl_bookforge_stage_action_result"
+        )
+        assert set(output_schema["properties"]["status"]["enum"]) == STAGE_ACTION_STATUSES
+        stage_id_schema = output_schema["properties"]["stage_id"]
+        schema_stage_ids = (
+            [stage_id_schema["const"]]
+            if "const" in stage_id_schema
+            else stage_id_schema["enum"]
+        )
+        assert schema_stage_ids == ACTION_STAGE_ROUTES[action_id]
+        authority = output_schema["properties"]["authority_boundary"]
+        for field in (
+            "domain_truth_owner",
+            "quality_verdict_owner",
+            "artifact_authority_owner",
+        ):
+            assert authority["properties"][field]["const"] == "opl-bookforge"
+        for field in (
+            "opl_can_write_domain_truth",
+            "opl_can_mutate_domain_artifact_body",
+            "opl_can_authorize_quality_or_export",
+            "provider_completion_is_domain_completion",
+        ):
+            assert authority["properties"][field]["const"] is False
         assert "source_command" not in action
         assert "stage_route_exempt" not in action
         assert "handler_binding" not in action
@@ -284,6 +382,24 @@ def main() -> int:
     assert actions["shape-storyline"]["summary"] != materialize["summary"]
     assert materialize["stage_route"]["entry_stage_ref"] == "chapter-production-planning"
     assert materialize["human_gate_ids"] == ["chapter_planning_owner_review"]
+
+    hosted_contracts = load_hosted_action_contracts(repo)
+    assert hosted_contracts == {
+        "target_domain_id": "opl-bookforge",
+        "actions": [
+            {
+                "action_id": action_id,
+                "input_schema_ref": actions[action_id]["input_schema_ref"],
+                "output_schema_ref": ACTION_OUTPUT_SCHEMA_REFS[action_id],
+                "execution_binding": {
+                    "kind": "stage_binding",
+                    "stage_manifest_ref": "agent/stages/manifest.json",
+                },
+            }
+            for action_id in ACTION_STAGE_ROUTES
+        ],
+        "handler_ids": ["obf.figure-asset-authority-evaluate"],
+    }
 
     assert golden_path["ordinary_path"]["stage_refs"] == ["storyline-architecture"]
     assert golden_path["ordinary_path"]["follow_on_stage_refs"] == STAGE_SEQUENCE[1:]
