@@ -168,11 +168,10 @@ def main() -> int:
     assert "distribution_payload" not in package_manifest
     implementation_profile = pack_compiler_input["implementation_profile"]
     assert implementation_profile == {
-        "profile_id": "opl.standard_domain_agent.v1",
-        "agent_identity": "declarative_standard_agent_pack",
-        "pack_formats": ["markdown", "json"],
+        "base_profile_ref": (
+            "contracts/opl-framework/standard-agent-implementation-profile.schema.json"
+        ),
         "helpers": {
-            "optional": True,
             "entries": [
                 {
                     "language": "python",
@@ -180,10 +179,13 @@ def main() -> int:
                     "source_roots": ["runtime/native_helpers/"],
                 },
             ],
-            "language_is_identity": False,
-            "rust_policy": "framework_hot_path_only",
         },
-        "generated_surfaces_owner": "one-person-lab",
+    }
+    assert pack_compiler_input["standard_agent_pack_abi"] == {
+        "authority_ref": (
+            "contracts/opl-framework/standard-domain-agent-skeleton-contract.json"
+            "#/agent_pack_contract/standard_agent_pack_abi"
+        ),
     }
     assert pack_compiler_input["reference_implementation"] == {
         "role": "golden_fixture_reference",
