@@ -10,7 +10,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 CONFIGURED_CODEX_PLUGIN_CARRIER = {
     "kind": "codex_plugin_manager",
-    "plugin_selector": "opl-bookforge@opl-bookforge-local",
+    "plugin_selector": "opl-bookforge@opl-bookforge",
     "executor_route": "codex_cli",
     "marketplace_source": "gaofeng21cn/opl-bookforge",
     "publication_ref": (
@@ -53,7 +53,7 @@ def main() -> int:
     carrier_manifest = load_json("plugins/opl-bookforge/opl-package.json")
     readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
 
-    assert marketplace["name"] == "opl-bookforge-local"
+    assert marketplace["name"] == "opl-bookforge"
     assert marketplace["interface"]["displayName"] == "OPL Book Forge"
     assert marketplace["plugins"] == [
         {
@@ -133,10 +133,10 @@ def main() -> int:
         "## For Codex / Agents",
         'codex plugin marketplace add "$(pwd -P)" --json',
         "codex plugin marketplace list --json",
-        "codex plugin list --marketplace opl-bookforge-local --available --json",
-        "codex plugin add opl-bookforge@opl-bookforge-local --json",
-        "codex plugin remove opl-bookforge@opl-bookforge-local --json",
-        "codex plugin marketplace remove opl-bookforge-local --json",
+        "codex plugin list --marketplace opl-bookforge --available --json",
+        "codex plugin add opl-bookforge@opl-bookforge --json",
+        "codex plugin remove opl-bookforge@opl-bookforge --json",
+        "codex plugin marketplace remove opl-bookforge --json",
         "opl packages status --package-id obf --json",
         "opl app state --profile fast --json",
         "do not prove that the complete OPL Package/runtime is",
