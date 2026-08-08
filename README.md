@@ -154,9 +154,9 @@ From a local clone, add this repository marketplace and install the carrier:
 cd /absolute/path/to/opl-bookforge
 codex plugin marketplace add "$(pwd -P)" --json
 codex plugin marketplace list --json
-codex plugin list --marketplace opl-bookforge-local --available --json
-codex plugin add opl-bookforge@opl-bookforge-local --json
-codex plugin list --marketplace opl-bookforge-local --json
+codex plugin list --marketplace opl-bookforge --available --json
+codex plugin add opl-bookforge@opl-bookforge --json
+codex plugin list --marketplace opl-bookforge --json
 ```
 
 For Codex in the ChatGPT desktop app, restart the app after adding the
@@ -167,8 +167,8 @@ marketplace, open **Plugins**, select **OPL Book Forge**, and install
 To remove the local carrier and its configured marketplace:
 
 ```bash
-codex plugin remove opl-bookforge@opl-bookforge-local --json
-codex plugin marketplace remove opl-bookforge-local --json
+codex plugin remove opl-bookforge@opl-bookforge --json
+codex plugin marketplace remove opl-bookforge --json
 ```
 
 These commands prove only that Codex can discover, install, list, and remove
