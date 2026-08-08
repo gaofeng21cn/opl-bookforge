@@ -105,6 +105,83 @@
       }
     }
   },
+  "oneOf": [
+    {
+      "properties": {
+        "status": {
+          "enum": [
+            "completed",
+            "completed_with_quality_debt"
+          ]
+        },
+        "owner_receipt_ref": {
+          "$ref": "#/$defs/typed_ref"
+        }
+      },
+      "required": [
+        "owner_receipt_ref"
+      ]
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "route_back"
+        },
+        "route_back_ref": {
+          "$ref": "#/$defs/typed_ref"
+        }
+      },
+      "required": [
+        "route_back_ref"
+      ]
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "typed_blocker"
+        },
+        "typed_blocker_ref": {
+          "$ref": "#/$defs/typed_ref"
+        }
+      },
+      "required": [
+        "typed_blocker_ref"
+      ]
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "human_gate"
+        },
+        "human_gate_ref": {
+          "$ref": "#/$defs/typed_ref"
+        }
+      },
+      "required": [
+        "human_gate_ref"
+      ]
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "failed"
+        },
+        "failed_path_refs": {
+          "$ref": "#/$defs/content_addressed_typed_refs"
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "no_output"
+        },
+        "negative_result_refs": {
+          "$ref": "#/$defs/content_addressed_typed_refs"
+        }
+      }
+    }
+  ],
   "$defs": {
     "typed_ref": {
       "oneOf": [
@@ -145,6 +222,37 @@
           "type": "null"
         }
       ]
+    },
+    "content_addressed_typed_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "ref",
+        "sha256"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "content_addressed_typed_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/content_addressed_typed_ref"
+      },
+      "uniqueItems": true
     },
     "typed_refs": {
       "type": "array",
