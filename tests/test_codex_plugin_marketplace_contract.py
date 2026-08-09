@@ -49,6 +49,7 @@ def assert_carrier_guard_rejects(
 def main() -> int:
     marketplace = load_json(".agents/plugins/marketplace.json")
     plugin_manifest = load_json("plugins/opl-bookforge/.codex-plugin/plugin.json")
+    portable_plugin_manifest = load_json("plugins/opl-bookforge/plugin.json")
     package_manifest = load_json("contracts/opl_agent_package_manifest.json")
     carrier_manifest = load_json("plugins/opl-bookforge/opl-package.json")
     readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
@@ -74,6 +75,16 @@ def main() -> int:
     source_path = REPO_ROOT / plugin["source"]["path"]
     assert source_path.is_dir()
     assert plugin["name"] == plugin_manifest["name"] == "opl-bookforge"
+    assert portable_plugin_manifest["$schema"] == (
+        "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+    )
+    assert portable_plugin_manifest["name"] == plugin_manifest["name"]
+    assert portable_plugin_manifest["version"] == plugin_manifest["version"]
+    assert portable_plugin_manifest["extensions"]["com.openai"]["interface"] == (
+        plugin_manifest["interface"]
+    )
+    assert "skills" not in portable_plugin_manifest
+    assert not (source_path / "mcp.json").exists()
     assert CONFIGURED_CODEX_PLUGIN_CARRIER["plugin_selector"] == (
         f"{plugin['name']}@{marketplace['name']}"
     )

@@ -40,7 +40,7 @@
         },
         {
           "ref_kind": "contract_ref",
-          "ref": "plugins/opl-bookforge/.codex-plugin/plugin.json",
+          "ref": "plugins/opl-bookforge/plugin.json",
           "role": "plugin_carrier_boundary"
         }
       ],

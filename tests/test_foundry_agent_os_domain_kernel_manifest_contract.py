@@ -31,6 +31,7 @@ def main() -> int:
     pack_compiler_input = load_json("contracts/pack_compiler_input.json")
     package_manifest = load_json("contracts/opl_agent_package_manifest.json")
     plugin_manifest = load_json("plugins/opl-bookforge/.codex-plugin/plugin.json")
+    portable_plugin_manifest = load_json("plugins/opl-bookforge/plugin.json")
     package_metadata = load_json("package.json")
     temporal_policy = load_json("contracts/temporal_stage_run_consumption_policy.json")
     generated_handoff = load_json("contracts/generated_surface_handoff.json")
@@ -76,8 +77,9 @@ def main() -> int:
     }
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.9"
+    assert package_metadata["version"] == "0.3.10"
     assert plugin_manifest["version"] == package_metadata["version"]
+    assert portable_plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]
     assert package_manifest["codex_surface"][
         "configured_codex_plugin_carrier"
