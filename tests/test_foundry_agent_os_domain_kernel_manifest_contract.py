@@ -53,8 +53,14 @@ def main() -> int:
     assert package_manifest["package_id"] == pack_compiler_input["canonical_agent_id"]
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert package_manifest["presentation"] == {
-        "display_name_i18n": {"en-US": "OPL Book Forge"},
-        "description_i18n": {"en-US": "Book-authoring domain app for Codex."},
+        "display_name_i18n": {
+            "zh-CN": "OPL Book Forge",
+            "en-US": "OPL Book Forge",
+        },
+        "description_i18n": {
+            "zh-CN": "长篇书稿规划、写作、修订与出版交付。",
+            "en-US": "Long-form book planning, writing, revision, and publication delivery.",
+        },
         "session_routing_summary_i18n": {
             "en-US": (
                 "Shape the book storyline, audience promise, argument arc, source map, "
@@ -77,7 +83,7 @@ def main() -> int:
     }
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.10"
+    assert package_metadata["version"] == "0.3.11"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert portable_plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]

@@ -1,7 +1,7 @@
 {
   "name": "opl-bookforge",
-  "version": "0.3.10",
-  "description": "Codex plugin carrier for the OPL Book Forge domain app.",
+  "version": "0.3.11",
+  "description": "Long-form book planning, writing, revision, and publication delivery.",
   "author": {
     "name": "Gao Feng",
     "url": "https://github.com/gaofeng21cn"
