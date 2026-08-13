@@ -119,8 +119,8 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
             "surface_kind": "opl_stage_quality_scope_budget",
             "version": "opl-stage-quality-scope-budget.v1",
             "max_attempts": policy["formal_review"]["max_repair_rounds"],
-            "max_elapsed_ms": 21600000,
-            "max_tokens": 1000000,
+            "max_elapsed_ms": None,
+            "max_tokens": None,
             "token_budget_requires_observed_usage": True,
             "foreground_execution_must_use_managed_attempt": True,
         }

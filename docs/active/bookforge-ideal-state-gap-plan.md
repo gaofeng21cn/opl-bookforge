@@ -7,6 +7,15 @@ Machine boundary: Human-readable development baton. Machine truth remains in con
 
 This is Book Forge's only Active Truth owner. It is rewritten from current repository truth and contains no execution log, closeout ledger, release claim, owner verdict, or evidence-package transcript.
 
+## Review Budget SSOT
+
+- 每个 Stage 最多 3 个 repair cycle；producer/reviewer 不计入 repair retry，因此一个正式 StageRun 最多 8 个模型 Attempt。
+- Meta Review 跨 Stage `route_back` 最多 3 次，并按 logical task/route lineage 跨新 StageRun 持久化；第四次只产生 `route_budget_exhausted` 和 quality debt，不启动新的 StageRun。
+- elapsed/token 不设隐式默认上限；只消费 owner 显式声明的预算。预算耗尽且仍有可读 manuscript/review artifact 时，继续后续 Stage 并标记 `completed_with_quality_debt`。
+- P0/P1 未解决会阻断 quality/publication/export claim，但不因为预算耗尽自动进入 `human_gate`；无产物或真实身份、权限、安全、凭据、不可逆动作、明确人工决策才 hard-stop。
+
+Route-back counter and fail-open terminalization are Framework-owned runtime behavior. Book Forge owns review findings, repair routing, manuscript artifacts, and publication verdicts; this plan records the policy boundary but does not substitute for Framework/runtime receipts.
+
 ## Ideal-State Reference
 
 Book Forge is an OPL-standard domain package for long-form book authoring. It keeps book semantics and artifact authority local while consuming OPL-owned runtime and generated surfaces. Its durable target is:
