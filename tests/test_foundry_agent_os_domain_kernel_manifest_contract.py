@@ -91,7 +91,7 @@ def main() -> int:
         "configured_codex_plugin_carrier"
     ] == {
         "kind": "codex_plugin_manager",
-        "plugin_selector": "opl-bookforge@opl-bookforge",
+        "plugin_selector": "opl-bookforge@opl-bookforge-local",
         "executor_route": "codex_cli",
         "marketplace_source": "gaofeng21cn/opl-bookforge",
         "publication_ref": (

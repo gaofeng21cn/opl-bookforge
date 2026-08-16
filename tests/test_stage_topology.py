@@ -120,8 +120,8 @@ def framework_candidate_roots(repo: Path) -> list[Path]:
 def framework_loader_module(repo: Path, candidates: list[Path] | None = None) -> Path:
     roots = candidates if candidates is not None else framework_candidate_roots(repo)
     for module_ref in (
-        "dist/modules/runway/hosted-agent-runtime-binding.js",
-        "src/modules/runway/hosted-agent-runtime-binding.ts",
+        "dist/adapters/execution/hosted-agent-runtime-binding.js",
+        "src/adapters/execution/hosted-agent-runtime-binding.ts",
     ):
         for root in roots:
             module = root / module_ref
@@ -157,10 +157,16 @@ def dist_only_framework_root(loader_module: Path):
             / f"one-person-lab-framework-{package['version']}.tar.gz"
         )
         archive_root = temporary_root / "one-person-lab"
+        current_loader_ref = (
+            "one-person-lab/dist/adapters/execution/hosted-agent-runtime-binding.js"
+        )
+        archive_current = False
         if archive.is_file():
             with tarfile.open(archive, "r:gz") as bundle:
-                bundle.extractall(temporary_root, filter="data")
-        else:
+                archive_current = current_loader_ref in bundle.getnames()
+                if archive_current:
+                    bundle.extractall(temporary_root, filter="data")
+        if not archive_current:
             archive_root.mkdir()
             os.symlink(framework_root / "dist", archive_root / "dist", target_is_directory=True)
             os.symlink(framework_root / "package.json", archive_root / "package.json")
@@ -611,11 +617,11 @@ def main() -> int:
         os.symlink(framework_root / "dist", dist_only_root / "dist", target_is_directory=True)
         preferred_module = framework_loader_module(repo, [source_only_root, dist_only_root])
         assert preferred_module == (
-            dist_only_root / "dist/modules/runway/hosted-agent-runtime-binding.js"
+            dist_only_root / "dist/adapters/execution/hosted-agent-runtime-binding.js"
         )
         fallback_module = framework_loader_module(repo, [source_only_root])
         assert fallback_module == (
-            source_only_root / "src/modules/runway/hosted-agent-runtime-binding.ts"
+            source_only_root / "src/adapters/execution/hosted-agent-runtime-binding.ts"
         )
         assert "--experimental-strip-types" in framework_node_command(fallback_module, "")
 
