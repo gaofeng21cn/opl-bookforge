@@ -70,7 +70,10 @@ def main() -> int:
         "home_shortcuts": [
             {
                 "shortcut_id": "shape-storyline",
-                "label_i18n": {"en-US": "Shape Storyline"},
+                "label_i18n": {
+                    "zh-CN": "规划书稿结构",
+                    "en-US": "Shape Storyline",
+                },
                 "default_visible": True,
                 "user_configurable": True,
                 "route": {
