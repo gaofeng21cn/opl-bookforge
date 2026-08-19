@@ -68,7 +68,7 @@ Write scope: contracts/**, agent/**, runtime/native_helpers/**, tests/**, script
 Non-goals: do not add generic OPL runtime, scheduler, queue, provider-attempt ledger, hosted shell, private workspace lifecycle, OS/TeX package manager, manuscript or memory authority outside Book Forge, retired public surfaces, or owner/publication/production claims without receipts.
 Live truth inputs: AGENTS.md, contracts/**, agent/**, runtime/native_helpers/**, tests/**, scripts/verify.sh, OPL validator/readback output, owner receipts or typed blockers when present, docs/status.md, and this plan.
 Required actions: fresh-check branch, remote, dirty worktrees, and owner write sets; build an authority-aware matrix; select a 3-7 item safe batch or return no_safe_batch_matrix; implement against the semantic owner; remove closed gaps from this plan; route live-run, long-book, visual, export, hosted-parity, and owner evidence to their evidence owners.
-Verification commands: scripts/verify.sh full for contract/source changes; the narrowest repo-native lane for docs-only changes; git diff --check; OPL Doc doctor as a read-only risk map; relative Markdown link scan.
+Verification commands: scripts/verify.sh full for contract/source changes; the narrowest repo-native lane for docs-only changes; git diff --check; the OPL Flow-bundled `$opl-doc` semantic-governance workflow; relative Markdown link scan.
 Completion gate: land verified bytes on main, push and read back the remote ref, remove task worktrees/branches, and keep runtime/release/owner/publication/production claims fail-closed without their own evidence.
 Foldback target: docs/active/bookforge-ideal-state-gap-plan.md
 ```
