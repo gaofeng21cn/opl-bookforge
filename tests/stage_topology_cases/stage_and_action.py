@@ -1,0 +1,297 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+STAGE_SEQUENCE = [
+    "storyline-architecture",
+    "chapter-production-planning",
+    "chapter-materialization",
+    "source-style-integrity-review",
+    "publication-proof-handoff",
+]
+STAGE_DISPLAY_NAMES = {
+    "storyline-architecture": {
+        "en-US": "Storyline Architecture",
+        "zh-CN": "全书叙事架构",
+    },
+    "chapter-production-planning": {
+        "en-US": "Chapter Production Planning",
+        "zh-CN": "章节写作规划",
+    },
+    "chapter-materialization": {
+        "en-US": "Chapter Materialization",
+        "zh-CN": "章节撰写",
+    },
+    "source-style-integrity-review": {
+        "en-US": "Whole-Book Meta Review And Integrity Gate",
+        "zh-CN": "全书总审与完整性检查",
+    },
+    "publication-proof-handoff": {
+        "en-US": "Publication Proof Handoff",
+        "zh-CN": "出版校样交接",
+    },
+}
+ACTION_STAGE_ROUTES = {
+    "shape-storyline": ["storyline-architecture"],
+    "materialize-book": STAGE_SEQUENCE[1:],
+}
+ACTION_OUTPUT_SCHEMA_REFS = {
+    "shape-storyline": "contracts/schemas/shape-storyline.output.schema.json",
+    "materialize-book": "contracts/schemas/materialize-book.output.schema.json",
+}
+STAGE_ACTION_STATUSES = {
+    "completed",
+    "completed_with_quality_debt",
+    "route_back",
+    "typed_blocker",
+    "human_gate",
+    "failed",
+    "no_output",
+}
+GENERATED_STAGE_PLANE_REF = "opl_generated:product_entry_manifest#/family_stage_control_plane/stages"
+STAGE_PROJECTION_CAPABILITIES = {
+    "opl-bookforge.storyline-architecture.stage_prompt": "family_stage_control_plane_prompt_refs",
+    "opl-bookforge.story-style-architect.professional_skill": "family_stage_control_plane_skill_refs",
+    "opl-bookforge.chapter-author.professional_skill": "family_stage_control_plane_skill_refs",
+    "opl-bookforge.source-reference-reviewer.professional_skill": "family_stage_control_plane_skill_refs",
+    "opl-bookforge.meta-reviewer.professional_skill": "family_stage_control_plane_skill_refs",
+    "opl-bookforge.publication-memory-curator.professional_skill": "family_stage_control_plane_skill_refs",
+    "opl-bookforge.domain-boundary.knowledge_pack": "family_stage_control_plane_knowledge_refs",
+}
+STAGE_PROMPT_SEMANTICS = {
+    "storyline-architecture": ["reader", "author/source stance", "chapter function", "owner handoff"],
+    "chapter-production-planning": ["approved storyline", "task cards", "incremental", "route-back"],
+    "chapter-materialization": ["chapter Markdown", "target extent", "integrity verdict", "route-back"],
+    "source-style-integrity-review": ["materialized manuscript", "evidence classes", "repair route", "integrity handoff"],
+    "publication-proof-handoff": ["review_pdf", "publication_proof", "final_export", "owner/export acceptance"],
+}
+FOUNDRY_SERIES_CONSUMER_REFS = {
+    "canonical_policy_export": "opl-framework/foundry-agent-series-policy",
+    "canonical_series_contract_ref": "contracts/opl-framework/foundry-agent-series-contract.json",
+    "canonical_skeleton_contract_ref": "contracts/opl-framework/standard-domain-agent-skeleton-contract.json",
+}
+FOUNDRY_POLICY_FINGERPRINT = "sha256:11dae4f01d2647ba77b5bee332ceda0004be62984daab26903abe85f61e36722"
+LEGACY_FOUNDRY_POLICY_BODY_FIELDS = {
+    "agent_membership_projection_policy",
+    "app_projection_policy",
+    "contract_version_policy",
+    "domain_adapter_policy",
+    "required_identity_fields",
+    "required_stage_packets",
+    "series_design_profile",
+    "shared_progress_projection_fields",
+    "standard_feedback_self_evolution_trigger_policy",
+    "standard_public_projection_policy",
+    "workspace_topology_profile",
+}
+
+
+def assert_stage_and_action_contracts(
+    repo: Path,
+    *,
+    stage_manifest: dict,
+    stage_operating_principles: dict,
+    stage_run_kernel_profile: dict,
+    principles: dict,
+    action_catalog: dict,
+    capability_map: dict,
+    pack_compiler_input: dict,
+    kernel_adoption: dict,
+    closeout: dict,
+    foundry_series: dict,
+    canary: dict,
+) -> dict:
+    manifest_stages = stage_manifest["stages"]
+    assert [stage["stage_id"] for stage in manifest_stages] == STAGE_SEQUENCE
+    assert {
+        stage["stage_id"]: stage["display_names"] for stage in manifest_stages
+    } == STAGE_DISPLAY_NAMES
+    assert all(
+        stage["display_names"]["en-US"] == stage["title"] for stage in manifest_stages
+    )
+    assert len({stage["goal"] for stage in manifest_stages}) == len(STAGE_SEQUENCE)
+    for stage in manifest_stages:
+        prompt = (repo / stage["prompt_ref"]).read_text(encoding="utf-8")
+        for semantic in STAGE_PROMPT_SEMANTICS[stage["stage_id"]]:
+            assert semantic.lower() in prompt.lower(), (stage["stage_id"], semantic)
+        assert "two or three" not in prompt.lower()
+    assert not (repo / "contracts/stage_control_plane.json").exists()
+    assert not (repo / "contracts/stage_native_artifact_contract.json").exists()
+    assert not (repo / "contracts/stage_native_artifacts").exists()
+    assert pack_compiler_input["standard_stage_pack_conformance"]["enforcement_ref"] == (
+        "agent/stages/manifest.json"
+    )
+    assert kernel_adoption["domain_pack_binding"]["accepted_source_refs"] == [
+        "agent/stages/manifest.json",
+        "/product_entry_manifest/family_stage_control_plane",
+        "contracts/foundry_agent_series.json",
+    ]
+    assert "contracts/stage_control_plane.json" not in json.dumps(capability_map)
+    capabilities = {entry["capability_id"]: entry for entry in capability_map["capabilities"]}
+    for capability_id, role in STAGE_PROJECTION_CAPABILITIES.items():
+        assert capabilities[capability_id]["runtime_projection_refs"] == [{
+            "ref_kind": "external_capability_ref",
+            "ref": GENERATED_STAGE_PLANE_REF,
+            "role": role,
+        }]
+    assert "stage_decomposition_pack_draft" not in closeout
+    assert "agent/stages/manifest.json" in closeout["closeout_refs"]
+    assert "opl-generated:family_stage_control_plane" in closeout["closeout_refs"]
+    assert "stage_native_artifact_contract" not in json.dumps(closeout)
+    assert foundry_series["surface_kind"] == "opl_foundry_agent_series_consumer"
+    assert foundry_series["version"] == "foundry-agent-series-consumer.v1"
+    for field, expected in FOUNDRY_SERIES_CONSUMER_REFS.items():
+        assert foundry_series[field] == expected
+    assert foundry_series["foundry_agent_id"] == "opl-bookforge"
+    assert foundry_series["stage_manifest_ref"] == "agent/stages/manifest.json"
+    assert foundry_series["stage_control_plane_ref"] == "opl-generated:family_stage_control_plane"
+    assert foundry_series["shared_policy_release"]["policy_bundle_fingerprint"] == (
+        FOUNDRY_POLICY_FINGERPRINT
+    )
+    assert not (LEGACY_FOUNDRY_POLICY_BODY_FIELDS & foundry_series.keys())
+    assert foundry_series["authority_boundary"]
+    assert all(value is False for value in foundry_series["authority_boundary"].values())
+    assert "stage_native_artifact_contract" not in json.dumps(foundry_series)
+    assert "-".join(("book", "materialization")) not in json.dumps(closeout)
+    assert principles["source_refs"]["stage_manifest_ref"] == "agent/stages/manifest.json"
+    assert principles["domain_mapping"]["domain_intake"]["domain_stage_ref"] == (
+        "agent/stages/manifest.json#/stages/0"
+    )
+    assert principles["domain_mapping"]["domain_intake"]["stage_id"] == "storyline-architecture"
+    assert principles["domain_mapping"]["domain_intake"]["prompt_ref"] == (
+        "agent/prompts/storyline-architecture.md"
+    )
+    assert not (repo / "agent/prompts/domain_intake.md").exists()
+    assert not (repo / "agent/stages/domain_intake.md").exists()
+    publication_proof = next(
+        stage for stage in manifest_stages if stage["stage_id"] == "publication-proof-handoff"
+    )
+    assert publication_proof["lane_kind"] == "variant"
+    manifest_policy = stage_manifest["progress_first_policy"]
+    operating_speed_policy = stage_operating_principles["speed_policy"]
+    kernel_route_policy = stage_run_kernel_profile["codex_semantic_route_policy"]
+    route_owner_contract = {
+        "semantic_route_decision_owner": "decisive_codex_attempt",
+        "stage_transition_materialization_owner": "opl_stage_run_controller",
+    }
+    for field, expected in route_owner_contract.items():
+        assert manifest_policy[field] == expected
+        assert operating_speed_policy[field] == expected
+        assert kernel_route_policy[field] == expected
+    assert "route_selection_owner" not in manifest_policy
+    assert "route_selection_owner" not in operating_speed_policy
+    assert "semantic_owner" not in kernel_route_policy
+    assert manifest_policy["codex_may_advance_skip_repeat_reverse_or_route_back"] is True
+    assert manifest_policy["any_declared_stage_may_start_from_any_prior_stage_result"] is True
+    assert manifest_policy["declared_requires_are_quality_context_not_launch_gates"] is True
+    assert manifest_policy["next_stage_refs_are_recommendations_not_constraints"] is True
+    assert manifest_policy["no_output_or_failure_diagnostic_advances_stage"] is True
+    for field in (
+        "codex_may_advance_skip_repeat_reverse_or_route_back",
+        "any_declared_stage_may_start_from_any_prior_stage_result",
+        "declared_requires_are_quality_context_not_launch_gates",
+        "next_stage_refs_are_recommendations_not_constraints",
+    ):
+        assert operating_speed_policy[field] == manifest_policy[field]
+    declared_stage_ids = {stage["stage_id"] for stage in manifest_stages}
+    assert all(set(stage["next_stage_refs"]) <= declared_stage_ids for stage in manifest_stages)
+
+    planning = manifest_stages[1]
+    progress_policy = planning["stage_contract"]["progress_first_policy"]
+    assert progress_policy["ordinary_gap_outcome"] == "completed_with_quality_debt_or_route_back"
+    assert progress_policy["next_forced_delta_required_for_in_progress"] is False
+    assert progress_policy["ordinary_gap_can_emit_generic_typed_blocker"] is False
+    assert progress_policy["independent_review_required_for_ordinary_transition"] is True
+    assert planning["stage_contract"]["transition_policy"]["ordinary_transition_requires_independent_review"] is True
+    planning_refs = set(planning["ensures"])
+    assert "independent-gate-receipt-ref:chapter-production-planning" in planning_refs
+    assert "owner-handoff-ref:storyline-architecture" in planning["requires"]
+    assert "storyline-admission-ref:chapter-production-planning" in planning["ensures"]
+    assert "planning-progress-ref:chapter-production-planning" in planning["ensures"]
+    assert "active-production-queue-ref:chapter-production-planning" in planning["ensures"]
+    assert "chapter-task-card-bundle-ref:chapter-production-planning" in planning["ensures"]
+    assert "independent-gate-receipt-ref:chapter-production-planning" in planning["ensures"]
+    assert "strategy_retrospective" in canary["strategy_trace"]
+    assert "meta_review_learning" not in canary["strategy_trace"]
+    assert "strategy_retrospective_ref" in canary["role_artifact_refs"]
+    assert "meta_review_ref" not in canary["role_artifact_refs"]
+
+    materialization = manifest_stages[2]
+    assert "chapter-task-card-bundle-ref:chapter-production-planning" in materialization["requires"]
+    assert "chapter-draft-bundle-ref:chapter-materialization" in materialization["ensures"]
+    assert "chapter-markdown-ref:chapter-materialization/{chapter_id}" in materialization["ensures"]
+    assert "review-pdf-eligibility-ref:chapter-materialization" in materialization["ensures"]
+
+    actions = {action["action_id"]: action for action in action_catalog["actions"]}
+    assert set(actions) == set(ACTION_STAGE_ROUTES)
+    for action_id, action in actions.items():
+        allowed_stage_refs = [
+            stage["stage_id"]
+            for stage in manifest_stages
+            if action_id in stage["allowed_action_refs"]
+        ]
+        if action["effect"] == "read_only":
+            assert "stage_route" not in action
+            assert allowed_stage_refs
+            continue
+        assert action["effect"] == "mutating"
+        required_stage_refs = ACTION_STAGE_ROUTES[action_id]
+        assert allowed_stage_refs == required_stage_refs
+        assert action["stage_route"] == {
+            "entry_stage_ref": required_stage_refs[0],
+            "required_stage_refs": required_stage_refs,
+            "optional_stage_refs": [],
+            "terminal_stage_refs": [required_stage_refs[-1]],
+            "route_policy": "ai_selected_progress_route",
+        }
+        assert action["execution_binding"] == {
+            "kind": "stage_binding",
+            "stage_manifest_ref": "agent/stages/manifest.json",
+        }
+        assert action["output_schema_ref"] == ACTION_OUTPUT_SCHEMA_REFS[action_id]
+        output_schema = json.loads(
+            (repo / action["output_schema_ref"]).read_text(encoding="utf-8")
+        )
+        assert output_schema["type"] == "object"
+        assert output_schema["additionalProperties"] is False
+        assert output_schema["properties"]["surface_kind"]["const"] == (
+            "opl_bookforge_stage_action_result"
+        )
+        assert set(output_schema["properties"]["status"]["enum"]) == STAGE_ACTION_STATUSES
+        stage_id_schema = output_schema["properties"]["stage_id"]
+        schema_stage_ids = (
+            [stage_id_schema["const"]]
+            if "const" in stage_id_schema
+            else stage_id_schema["enum"]
+        )
+        assert schema_stage_ids == ACTION_STAGE_ROUTES[action_id]
+        authority = output_schema["properties"]["authority_boundary"]
+        for field in (
+            "domain_truth_owner",
+            "quality_verdict_owner",
+            "artifact_authority_owner",
+        ):
+            assert authority["properties"][field]["const"] == "opl-bookforge"
+        for field in (
+            "opl_can_write_domain_truth",
+            "opl_can_mutate_domain_artifact_body",
+            "opl_can_authorize_quality_or_export",
+            "provider_completion_is_domain_completion",
+        ):
+            assert authority["properties"][field]["const"] is False
+        assert "source_command" not in action
+        assert "stage_route_exempt" not in action
+        assert "handler_binding" not in action
+        for surface in action["supported_surfaces"].values():
+            assert "command" not in surface
+            assert "surface_kind" not in surface
+
+    materialize = actions["materialize-book"]
+    assert "natural_language_intent" not in actions["shape-storyline"]
+    assert "natural_language_intent" not in materialize
+    assert actions["shape-storyline"]["summary"] != materialize["summary"]
+    assert materialize["stage_route"]["entry_stage_ref"] == "chapter-production-planning"
+    assert materialize["human_gate_ids"] == ["chapter_planning_owner_review"]
+    return actions
