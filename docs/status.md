@@ -7,6 +7,13 @@ Machine boundary: Human-readable current summary. Machine truth remains in contr
 
 Book Forge is an OPL-standard book-authoring domain package with canonical `agent_id/package_id=obf`. The repo, npm package, plugin, carrier, and domain locators may use `opl-bookforge`; they do not create a second package identity.
 
+Source release `0.3.12` records the Astra Skill compatibility audit. The primary
+route and all five professional Skills retain accepted storyline/source refs,
+task-scoped memory, bounded review, and affected-dimension revalidation. Existing
+source, rights, rendered-proof, final-export, and owner-acceptance boundaries
+remain intact. This version adds no ScholarSkills dependency and does not claim
+publication, installed currentness, or a completed book workflow.
+
 ## Package Composition Migration
 
 The accepted target is a complete `OPL Package(kind=agent)` whose
