@@ -4,7 +4,7 @@
   "owner": "OPL Book Forge",
   "state": "domain_handler_registered",
   "host_binding_status": "bound_to_domain_handler_registry_v1",
-  "machine_boundary": "OPL generates the bitmap and injects immutable attempt/output refs plus the workspace-relative bitmap ref and digest. OPL Book Forge only validates the contained bitmap and returns a figure-authority receipt candidate or quality debt.",
+  "machine_boundary": "OPL generates the bitmap and injects immutable attempt/output refs plus the workspace-relative bitmap ref and digest. Framework provides contained file reads and bounded bitmap structure inspection. OPL Book Forge applies declared digest, format and dimension requirements and returns a figure-authority receipt candidate or quality debt.",
   "domain_handler": {
     "handler_ref": "handler:obf.figure-asset-authority-evaluate",
     "registry_entry_ref": "contracts/domain_handler_registry.json#/handlers/0",
@@ -19,14 +19,16 @@
     "attempt_and_output_refs",
     "workspace_output_slot",
     "bitmap_materialization",
+    "contained_regular_file_inspection_primitive",
+    "bitmap_format_dimension_and_integrity_inspection_primitive",
     "candidate_persistence",
     "asset_manifest_persistence"
   ],
   "bookforge_owned": [
     "figure_metadata",
-    "workspace_containment_validation",
-    "regular_file_and_symlink_validation",
-    "bitmap_format_and_dimension_validation",
+    "workspace_containment_requirement",
+    "regular_file_and_symlink_requirement",
+    "bitmap_format_and_dimension_requirements",
     "bitmap_digest_validation",
     "figure_authority_receipt_candidate",
     "image_asset_quality_debt",

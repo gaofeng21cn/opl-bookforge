@@ -143,6 +143,7 @@ def test_publication_proof_claims_require_fresh_affected_scope_review() -> None:
     role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(
         encoding="utf-8"
     )
+    role_prompt = " ".join(role_prompt.split())
 
     for text in (prompt, gate, role_prompt):
         assert "`review_pending`" in text
@@ -164,16 +165,10 @@ def test_publication_proof_claims_require_fresh_affected_scope_review() -> None:
     assert "verdict terminalizes" not in prompt
     assert "producer cannot close publication-proof" in role_prompt
     assert "repairer cannot close publication-proof" in role_prompt
-    assert "Do not create a Review receipt or repair map" in role_prompt
-    assert "OPL StageRun controller materializes" in role_prompt
-    assert "Do not create the controller-owned Review receipt" in role_prompt
     assert "reviewed final-export candidate may be handed downstream pending acceptance" in gate
 
 
 def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
-    role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(
-        encoding="utf-8"
-    )
     meta_prompt = " ".join(
         (ROOT / "agent/prompts/source-style-integrity-review.md")
         .read_text(encoding="utf-8")
@@ -184,24 +179,6 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
     )
     profile = read_json("contracts/stage_quality_cycle_policy.json")
 
-    assert "`route_impact.stage_route_decision`" in role_prompt
-    assert "`route_impact.stage_route_recommendation`" in role_prompt
-    assert "`route_impact.stage_quality_cycle.outcome`" in role_prompt
-    for outcome in ("pass", "repair_required", "quality_debt", "blocked", "human_gate"):
-        assert f"`{outcome}`" in role_prompt
-    assert "`hard_stop` is never an Attempt outcome" in role_prompt
-    assert "`hard_stop` is not an Attempt outcome" in role_prompt
-    assert "to its identically named receipt verdict" not in role_prompt
-    assert "identical string values do not merge the Attempt outcome and receipt verdict" in role_prompt
-    assert "receipt-only `verdict=pass|repair_required|quality_debt`" in role_prompt
-    assert "producer is decisive only for a progress-terminal result" in role_prompt
-    assert "repairer never makes a terminal route decision" in role_prompt
-    assert "current Stage is the narrowest repair owner" in role_prompt
-    reviewer_fragment = role_prompt.split("## Reviewer", 1)[1].split("## Repairer", 1)[0]
-    re_reviewer_fragment = role_prompt.split("## Re Reviewer", 1)[1]
-    for fragment in (reviewer_fragment, re_reviewer_fragment):
-        assert "`same_stage_repair_required`" in fragment
-        assert "`cross_stage_route_back_before_budget_exhaustion`" in fragment
     assert "decisive cross-Stage route owner" in meta_prompt
     assert "decisive reviewer or re-reviewer" in proof_prompt
     assert profile["meta_review_policy"]["terminal_route_output"] == (
@@ -213,48 +190,7 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
     ]
 
 
-def test_quality_role_prompt_routes_cross_stage_owner_before_final_budget() -> None:
-    roles = " ".join(
-        (ROOT / "agent/prompts/stage-quality-cycle-roles.md")
-        .read_text(encoding="utf-8")
-        .split()
-    )
-
-    assert "`same_stage_repair_required`" in roles
-    assert "another repair round remains" in roles
-    assert "returns outcome `repair_required`" in roles
-    assert "controller creates the next fresh repairer Attempt" in roles
-    assert "This branch is non-terminal" in roles
-
-    assert "`cross_stage_route_back_before_budget_exhaustion`" in roles
-    assert "narrowest owner of required work is a different declared Stage" in roles
-    assert "exactly one `route_impact.stage_route_decision`" in roles
-    assert "`decision_kind=route_back`" in roles
-    assert "`target_stage_id` different from the current Stage" in roles
-    assert "non-empty `evidence_refs` bound to the finding and owner diagnosis" in roles
-    assert "only terminal route allowed for `repair_required` before budget exhaustion" in roles
-    assert "Do not use `advance`, `skip`, `repeat`, `reverse`, or `complete`" in roles
-
-    assert "`final_budget_consumable`" in roles
-    assert "no repair round remains" in roles
-    assert "keep outcome `repair_required`" in roles
-    assert "do not relabel them `quality_debt`" in roles
-    assert "exactly one `route_impact.stage_route_decision`" in roles
-    assert "remaining required finding refs and quality-debt refs" in roles
-    assert "classifies this branch as `terminal_quality_debt`" in roles
-    assert "projects `completed_with_quality_debt`" in roles
-    assert "`quality_debt` only when no required finding remains" in roles
-
-    assert "`hard_boundary_or_zero_artifact`" in roles
-    assert "literal zero consumable exact artifact is not a Stage-routing judgment" in roles
-    assert "returns neither `route_impact.stage_route_decision` nor" in roles
-    assert "`route_impact.stage_route_recommendation`" in roles
-    assert "Literal zero consumable artifact uses `blocked`" in roles
-    assert "terminalizes the StageRun as blocked or human-gated" in roles
-    assert "A hard-boundary reviewer returns no route output" in roles
-    assert "A hard-boundary re-reviewer returns no route output" in roles
-    assert "A repairer never makes a terminal route decision" in roles
-
+def test_publication_prompts_preserve_declared_owner_and_hard_boundaries() -> None:
     meta_prompt = (ROOT / "agent/prompts/source-style-integrity-review.md").read_text(
         encoding="utf-8"
     )
@@ -318,17 +254,6 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
     assert "author-thread self-check is only `in_thread_refinement`" in planning_gate
     assert "The independent Review Attempt is required" in planning_gate
     assert "`route_impact.stage_quality_cycle.outcome=pass` is not a hard transition prerequisite" in planning_gate
-    role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(encoding="utf-8")
-    for semantic in (
-        "stable `finding_id`",
-        "`repair_expectation`",
-        "repair map keyed by every accepted `finding_id`",
-        "`changed_artifact_refs`",
-        "`repair_regression`",
-        "`critical_new_finding`",
-        "`optional_observation` or quality debt without reopening the loop",
-    ):
-        assert semantic in role_prompt
 
 
 def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
@@ -360,7 +285,7 @@ def main() -> int:
     test_bookforge_declares_explicit_review_policy_for_each_stage()
     test_publication_proof_claims_require_fresh_affected_scope_review()
     test_attempt_route_owner_and_machine_output_are_unambiguous()
-    test_quality_role_prompt_routes_cross_stage_owner_before_final_budget()
+    test_publication_prompts_preserve_declared_owner_and_hard_boundaries()
     test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()
     test_quality_policy_does_not_define_nested_stage_or_owner_graphs()
     print(json.dumps({"status": "passed", "contract": "stage_quality_cycle_policy"}))

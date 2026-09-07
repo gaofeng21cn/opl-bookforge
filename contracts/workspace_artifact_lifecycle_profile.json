@@ -1,0 +1,19 @@
+{
+  "surface_kind": "opl_workspace_artifact_lifecycle_profile",
+  "version": "workspace-artifact-lifecycle-profile.v1",
+  "owner": "opl-bookforge",
+  "output_groups": [
+    { "ref": "artifacts/manuscript", "role": "manuscript_artifact" },
+    { "ref": "artifacts/review", "role": "review_artifact" },
+    { "ref": "artifacts/figures", "role": "figure_artifact" },
+    { "ref": "artifacts/stage_outputs", "role": "stage_output_artifact" },
+    { "ref": "quality", "role": "quality_report" },
+    { "ref": "receipts", "role": "owner_or_blocker_receipt" },
+    { "ref": "archive", "role": "retired_artifact" }
+  ],
+  "authority_boundary": {
+    "profile_is_refs_only": true,
+    "opl_can_write_domain_truth": false,
+    "opl_can_mutate_artifact_body": false
+  }
+}
