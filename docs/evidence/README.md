@@ -9,9 +9,9 @@ This directory stores historical and support evidence for OPL BookForge. It is
 not the active truth owner for current gaps, production readiness, publication
 approval, final export readiness, hosted runtime parity, or owner acceptance.
 Current status and unproven acceptance claims stay in `docs/status.md`.
-Historical process foldback and external-learning provenance stay in
-`docs/history/README.md`; evidence package payloads should not be copied there
-except as compressed topic-level provenance.
+External source attribution stays in `docs/history/README.md`. Completed
+implementation narratives and audit seeds belong in Git history, not an
+evidence package merely because they were labeled historical.
 
 ## SSOT And Foldback
 
@@ -26,6 +26,17 @@ headers. Markdown leaves under package `inputs/`, `artifacts/`, `stage_outputs/`
 active docs truth owners. Do not rewrite those payload bodies just to add
 lifecycle headers; promote a payload into a governed document only after a new
 semantic owner is chosen.
+
+Retention requires an inspectable relationship to a source, artifact, or receipt.
+The pilot inputs, manuscript, figures, stage manifests, exported bytes, rendered
+pages, and original generation/export/verification source reconstruct its
+recorded output. Its owner blockers and verification receipts remain referenced
+by `contracts/production_acceptance/bookforge-production-acceptance.json`.
+The original OMA suites, critiques, candidates, and receipts preserve the
+design/evaluation inputs and result lineage, including the two baseline refs in
+`contracts/live_stage_run_progress_evidence.json`. They are historical outputs
+of the retired OMA protocol, not executable work orders, migration tasks, or
+current Foundry acceptance. A pending candidate gate is not treated as accepted.
 
 Add or change rows here only when a tracked evidence package is introduced,
 retired, or reclassified. Do not copy package file lists, verifier transcripts,

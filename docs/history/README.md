@@ -1,32 +1,17 @@
-# OPL Book Forge History
+# Design Source Attribution
 
-Owner: `opl-bookforge`
-Purpose: `history_index`
-State: `historical_archive_index`
-Machine boundary: Human-readable provenance navigation. Current machine truth remains in contracts, agent pack files, source, tests, OPL validator/readback output, runtime receipts, owner receipts, and typed blockers.
+This page preserves external source identity for the rationale in
+[Decisions](../decisions.md). It contains no implementation plan or acceptance
+claim. Former landing reports and execution-retirement narratives are retained
+in Git history; their current rules belong to the linked methods.
 
-History explains how a decision, external lesson, evidence package, or retirement arose. It is not current status, an active gap plan, a proof ledger, publication approval, final-export acceptance, hosted parity, owner acceptance, or production readiness.
-
-## Areas
-
-| Area | Role | Current owner for durable conclusions |
-| --- | --- | --- |
-| `external-learning/revision-routing-2026-06-20.md` | Higher-order repair and opaque handoff learning provenance | revision skill, architecture, invariants, and current handoff reference |
-| `external-learning/kami-publication-proof-2026-06-20.md` | Publication-proof design learning provenance | publication skill, proof helper/profile, invariants, and decisions |
-| `image-asset-private-execution-retirement-2026-07-13.md` | No-resurrection record for repo-local image execution and historical hygiene implementation | image handoff/handler contracts and source |
-
-## Current Owner Map
-
-| Theme | Owner surface |
+| Source | Adopted idea and current owner |
 | --- | --- |
-| Current status and claim boundary | `docs/status.md` |
-| Documentation navigation and lifecycle roles | `docs/README.md` |
-| Evidence package names and boundaries | `docs/evidence/README.md` |
-| OPL revision-routing handoff | `docs/references/opl-base-revision-routing-handoff.md` |
-| Runtime/domain executable truth | contracts, agent files, source, tests, OPL readbacks, receipts, and blockers |
+| [Kami at commit `818dfb431c19156bbe2245577cc66478b72baed9`](https://github.com/tw93/kami/tree/818dfb431c19156bbe2245577cc66478b72baed9/plugins/kami/skills/kami) | Design tokens, component inventory, loaded-font evidence, and rendered-page inspection informed [publication design](../../agent/skills/publication-design.md). Its visual identity, WeasyPrint runtime, font downloader, and package updater were not adopted. |
+| [Purdue higher/lower order concerns](https://owl.purdue.edu/owl/general_writing/mechanics/hocs_and_locs.html), [business-writing priorities](https://owl.purdue.edu/owl/subject_specific_writing/professional_technical_writing/prioritizing_your_concerns_for_effective_business_writing/index.html), [UNC reorganizing drafts](https://writingcenter.unc.edu/tips-and-tools/reorganizing-drafts/), [UNC reverse outlining](https://writingcenter.unc.edu/tips-and-tools/flow/), [IPEd editing levels](https://www.iped-editors.org/about-editing/types-of-editing/) | Higher-order repair and reverse outlining informed [revision routing](../../agent/skills/revision-entrypoint-router.md). |
+| [SEI architecture tradeoffs](https://www.sei.cmu.edu/library/architecture-tradeoff-analysis-method-collection/), [C4](https://c4model.com/) and [its abstractions](https://c4model.com/abstractions), [Fowler architectural conversation](https://martinfowler.com/articles/scaling-architecture-conversationally.html) | Explicit repair levels and risks informed the same revision method; these sources do not own Book Forge architecture. |
+| [SRE postmortem practice](https://sre.google/workbook/postmortem-culture/), [NASA systems-engineering handbook](https://www.nasa.gov/wp-content/uploads/2018/09/nasa_systems_engineering_handbook_0.pdf) | Root-cause attribution and requirement/design/verification traceability informed review findings and opaque handoff refs. |
 
-## Foldback Rule
-
-Durable current rules must be rewritten into their current owner before they can be treated as truth. Do not append dated tranche logs, worktree or commit receipts, verifier transcripts, rendered-page lists, package file lists, or pilot closeout ledgers here. Exact process detail remains in evidence packages or Git history.
-
-Historical material cannot upgrade scaffold validation, generated descriptors, helper plumbing, pilot exports, rendered pages, or evidence payloads into Book Forge readiness or owner acceptance.
+These are source attributions from the original learning record, not newly
+verified versions of those external publications. Book Forge's own contracts,
+methods, and owner evidence determine current behavior and acceptance.

@@ -42,7 +42,7 @@ or design refs before repair is claimed. Sentence polish cannot repair a wrong
 book target or argument. Stronger references and serious critique become
 reusable domain constraints while preserving evidence classes, primary readers,
 reasoning density, and the author's stance. The [revision method](../agent/skills/revision-entrypoint-router.md)
-owns the hierarchy; [external-learning history](./history/README.md) preserves
+owns the hierarchy; [source attribution](./history/README.md) preserves
 its provenance. Methods, examples, model counts, and rhetorical techniques are
 editorial judgments rather than universal numeric or phrase rules.
 
@@ -66,8 +66,8 @@ proof reliability, while human visual judgment and owner/export receipts retain
 their own authority. Missing proof dependencies block that claim, not unrelated
 writing. [Publication design](../agent/skills/publication-design.md) owns the
 rules and [Native helpers](../runtime/native_helpers/README.md) owns operator detail.
-The [Kami record](./history/external-learning/kami-publication-proof-2026-06-20.md)
-preserves why proof discipline was adopted without its branding or runtime.
+The [source attribution](./history/README.md) preserves the exact Kami source
+for proof discipline; its branding and private runtime were not adopted.
 
 ## Reuse Framework Execution And Lifecycle
 
@@ -76,5 +76,6 @@ Framework executes attempts and transports opaque refs, including lifecycle and
 revision handoff. This avoids a private scheduler, package manager, hidden
 memory store, or second currentness system. Figure generation/materialization
 is Framework work; Book Forge's contained-bitmap handler only evaluates the
-injected asset and returns candidates. The [retirement record](./history/image-asset-private-execution-retirement-2026-07-13.md)
-preserves the removed private execution path and why it must not return.
+injected asset and returns candidates. The former repo-local image executor and
+project-hygiene implementation were removed; their source is available in Git
+history, with no compatibility or resume path.

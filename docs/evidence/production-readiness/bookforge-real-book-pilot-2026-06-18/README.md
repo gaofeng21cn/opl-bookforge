@@ -22,6 +22,12 @@ Current design boundary:
 - Its generator embedded prose in code for a bounded pilot; that pattern is superseded.
 - Current BookForge materialization is Markdown-first and chapter-sharded: substantial prose belongs in per-chapter Markdown refs, while scripts only assemble, count, validate, export, and report.
 
+The scripts under `tools/` are the original source of the generation, export,
+and verification records, not supported current commands. Historical reproduction
+belongs at the original Git revision so it cannot overwrite retained evidence
+or restore retired implementation plans. The former plan-completion audit seed
+contained targets only and is not retained as execution or acceptance evidence.
+
 Claim boundary:
 
 - The package may support: historical two-stage pilot run evidence, manuscript artifact evidence, figure/table planning evidence, quality gate evidence, and export/render evidence after verification.

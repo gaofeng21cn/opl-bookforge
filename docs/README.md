@@ -17,7 +17,7 @@ Machine boundary: Navigation and editorial lifecycle only. Contracts, executable
 | [Decisions](./decisions.md) | Rationale and consequences of durable design choices |
 | [Revision handoff](./references/opl-base-revision-routing-handoff.md) | Cross-repository revision-ref transport boundary |
 | [Evidence](./evidence/README.md) | Retained evidence packages and their scope |
-| [History](./history/README.md) | External-learning and retirement provenance |
+| [Source attribution](./history/README.md) | Original external source identities supporting current design rationale |
 
 The [agent pack](../agent/README.md) owns executable domain guidance. Its primary
 Skill routes work, professional Skills carry methods, policy refs carry focused
