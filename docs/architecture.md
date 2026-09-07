@@ -15,7 +15,7 @@ only when that project has no lifecycle Profile, and the shared artifact invento
 declarations. Existing project Profiles remain authoritative; undeclared outputs retain generic
 inventory coverage without a publication or quality verdict.
 
-OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns agent evaluation; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
+OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns Agent-engineering semantics and Foundry owns evaluation execution; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
 
 ## Package Composition
 
