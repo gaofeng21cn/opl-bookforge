@@ -11,7 +11,9 @@ from pathlib import Path
 from typing import Any
 
 from opl_framework.artifact_inspection import (
+    BitmapInspectionError,
     ContainedFileReadError,
+    inspect_bitmap,
     read_contained_regular_file as framework_read_contained_regular_file,
     sha256_bytes,
 )
@@ -23,7 +25,6 @@ RESULT_KIND = "opl_bookforge_figure_asset_evaluation"
 RECEIPT_KIND = "bookforge_figure_authority_receipt_candidate.v1"
 MAX_BITMAP_BYTES = 64 * 1024 * 1024
 MAX_PNG_DECOMPRESSED_BYTES = 256 * 1024 * 1024
-PNG_DECOMPRESS_CHUNK_BYTES = 1024 * 1024
 ALLOWED_FORMATS = {"png", "jpeg", "jpg", "webp"}
 ALLOWED_MEDIA_TYPES = {"image/png", "image/jpeg", "image/webp"}
 
@@ -77,170 +78,13 @@ def normalize_format(value: str) -> str:
     return "jpeg" if normalized == "jpg" else normalized
 
 
-def validate_png_idat_stream(payloads: list[bytes]) -> None:
-    decompressor = zlib.decompressobj()
-    decoded_bytes = 0
-    try:
-        for payload in payloads:
-            pending = payload
-            while pending:
-                remaining = MAX_PNG_DECOMPRESSED_BYTES - decoded_bytes
-                if remaining <= 0:
-                    raise AssetValidationError(
-                        "bitmap_decoded_size_exceeded",
-                        f"PNG decompressed payload exceeds {MAX_PNG_DECOMPRESSED_BYTES} bytes",
-                    )
-                chunk = decompressor.decompress(
-                    pending,
-                    min(PNG_DECOMPRESS_CHUNK_BYTES, remaining + 1),
-                )
-                decoded_bytes += len(chunk)
-                if decoded_bytes > MAX_PNG_DECOMPRESSED_BYTES:
-                    raise AssetValidationError(
-                        "bitmap_decoded_size_exceeded",
-                        f"PNG decompressed payload exceeds {MAX_PNG_DECOMPRESSED_BYTES} bytes",
-                    )
-                pending = decompressor.unconsumed_tail
-        if not decompressor.eof or decompressor.unused_data:
-            raise AssetValidationError("bitmap_structure_invalid", "PNG IDAT stream is incomplete or has trailing data")
-    except zlib.error as error:
-        raise AssetValidationError("bitmap_structure_invalid", f"PNG IDAT payload is invalid: {error}") from error
-
-
-def png_info(data: bytes) -> tuple[int, int] | None:
-    if not data.startswith(b"\x89PNG\r\n\x1a\n"):
-        return None
-    if len(data) < 33 or data[8:12] != b"\x00\x00\x00\x0d" or data[12:16] != b"IHDR":
-        raise AssetValidationError("bitmap_structure_invalid", "PNG has no valid IHDR chunk")
-    width = int.from_bytes(data[16:20], "big")
-    height = int.from_bytes(data[20:24], "big")
-    offset = 8
-    idat_payloads: list[bytes] = []
-    saw_idat = False
-    saw_iend = False
-    while offset + 12 <= len(data):
-        chunk_size = int.from_bytes(data[offset:offset + 4], "big")
-        chunk_end = offset + 12 + chunk_size
-        if chunk_end > len(data):
-            raise AssetValidationError("bitmap_structure_invalid", "PNG contains a truncated chunk")
-        kind = data[offset + 4:offset + 8]
-        payload = data[offset + 8:offset + 8 + chunk_size]
-        expected_crc = int.from_bytes(data[offset + 8 + chunk_size:chunk_end], "big")
-        observed_crc = zlib.crc32(kind + payload) & 0xFFFFFFFF
-        if expected_crc != observed_crc:
-            raise AssetValidationError("bitmap_structure_invalid", f"PNG {kind!r} chunk CRC mismatch")
-        saw_idat = saw_idat or kind == b"IDAT"
-        if kind == b"IDAT":
-            idat_payloads.append(payload)
-        saw_iend = saw_iend or kind == b"IEND"
-        offset = chunk_end
-        if saw_iend:
-            break
-    if not saw_idat or not saw_iend:
-        raise AssetValidationError("bitmap_structure_invalid", "PNG must contain IDAT and IEND chunks")
-    validate_png_idat_stream(idat_payloads)
-    return width, height
-
-
-def jpeg_info(data: bytes) -> tuple[int, int] | None:
-    if not data.startswith(b"\xff\xd8"):
-        return None
-    offset = 2
-    start_of_frame = {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}
-    while offset < len(data):
-        while offset < len(data) and data[offset] != 0xFF:
-            offset += 1
-        while offset < len(data) and data[offset] == 0xFF:
-            offset += 1
-        if offset >= len(data):
-            break
-        marker = data[offset]
-        offset += 1
-        if marker in {0x01, *range(0xD0, 0xD8)}:
-            continue
-        if marker in {0xD9, 0xDA}:
-            break
-        if offset + 2 > len(data):
-            break
-        segment_length = int.from_bytes(data[offset:offset + 2], "big")
-        if segment_length < 2 or offset + segment_length > len(data):
-            raise AssetValidationError("bitmap_structure_invalid", "JPEG contains a truncated segment")
-        if marker in start_of_frame:
-            if segment_length < 7:
-                raise AssetValidationError("bitmap_structure_invalid", "JPEG SOF segment is too short")
-            height = int.from_bytes(data[offset + 3:offset + 5], "big")
-            width = int.from_bytes(data[offset + 5:offset + 7], "big")
-            remainder = data[offset + segment_length:]
-            if b"\xff\xda" not in remainder:
-                raise AssetValidationError("bitmap_structure_invalid", "JPEG has no SOS marker")
-            if b"\xff\xd9" not in remainder:
-                raise AssetValidationError("bitmap_structure_invalid", "JPEG has no EOI marker")
-            return width, height
-        offset += segment_length
-    raise AssetValidationError("bitmap_dimensions_missing", "JPEG has no supported SOF dimensions")
-
-
-def webp_info(data: bytes) -> tuple[int, int] | None:
-    if len(data) < 12 or data[:4] != b"RIFF" or data[8:12] != b"WEBP":
-        return None
-    declared_size = int.from_bytes(data[4:8], "little") + 8
-    if declared_size > len(data):
-        raise AssetValidationError("bitmap_structure_invalid", "WebP RIFF payload is truncated")
-    offset = 12
-    while offset + 8 <= len(data):
-        chunk_kind = data[offset:offset + 4]
-        chunk_size = int.from_bytes(data[offset + 4:offset + 8], "little")
-        payload_start = offset + 8
-        payload_end = payload_start + chunk_size
-        if payload_end > len(data):
-            raise AssetValidationError("bitmap_structure_invalid", "WebP contains a truncated chunk")
-        payload = data[payload_start:payload_end]
-        if chunk_kind == b"VP8X" and len(payload) >= 10:
-            width = 1 + int.from_bytes(payload[4:7], "little")
-            height = 1 + int.from_bytes(payload[7:10], "little")
-            return width, height
-        if chunk_kind == b"VP8L" and len(payload) >= 5 and payload[0] == 0x2F:
-            dimensions = int.from_bytes(payload[1:5], "little")
-            return 1 + (dimensions & 0x3FFF), 1 + ((dimensions >> 14) & 0x3FFF)
-        if chunk_kind == b"VP8 " and len(payload) >= 10 and payload[3:6] == b"\x9d\x01\x2a":
-            width = int.from_bytes(payload[6:8], "little") & 0x3FFF
-            height = int.from_bytes(payload[8:10], "little") & 0x3FFF
-            return width, height
-        offset = payload_end + (chunk_size % 2)
-    raise AssetValidationError("bitmap_dimensions_missing", "WebP has no supported dimension chunk")
-
-
 def image_info(data: bytes, path: Path) -> dict[str, Any]:
-    if not data:
-        raise AssetValidationError("bitmap_empty", "bitmap is empty")
-    detected: tuple[str, str, tuple[int, int] | None] = (
-        "png",
-        "image/png",
-        png_info(data),
-    )
-    if detected[2] is None:
-        detected = ("jpeg", "image/jpeg", jpeg_info(data))
-    if detected[2] is None:
-        detected = ("webp", "image/webp", webp_info(data))
-    if detected[2] is None:
-        raise AssetValidationError("bitmap_format_unsupported", "asset is not PNG, JPEG, or WebP")
-    kind, media_type, dimensions = detected
-    if dimensions is None or dimensions[0] <= 0 or dimensions[1] <= 0:
-        raise AssetValidationError("bitmap_dimensions_invalid", "bitmap dimensions must be positive")
-    suffix = normalize_format(path.suffix)
-    if suffix != kind:
-        raise AssetValidationError(
-            "bitmap_extension_mismatch",
-            f"bitmap bytes are {kind} but the file extension is {path.suffix or '<none>'}",
+    try:
+        return inspect_bitmap(
+            data, path, max_png_decompressed_bytes=MAX_PNG_DECOMPRESSED_BYTES,
         )
-    return {
-        "format": kind,
-        "media_type": media_type,
-        "width": dimensions[0],
-        "height": dimensions[1],
-        "bytes": len(data),
-        "sha256": sha256_bytes(data),
-    }
+    except BitmapInspectionError as error:
+        raise AssetValidationError(error.code, error.detail) from error
 
 
 def read_contained_regular_file(root_value: str, ref_value: str) -> tuple[Path, Path, bytes]:

@@ -9,6 +9,12 @@ Machine boundary: Human-readable architecture boundary. Machine truth remains in
 
 This repo owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 
+The descriptor's [artifact lifecycle Profile](../contracts/workspace_artifact_lifecycle_profile.json)
+declares book output directories and roles. Framework `workspace init/ensure` copies it into a project
+only when that project has no lifecycle Profile, and the shared artifact inventory consumes those
+declarations. Existing project Profiles remain authoritative; undeclared outputs retain generic
+inventory coverage without a publication or quality verdict.
+
 OPL owns generated interfaces, generic runtime transport, queue, attempt ledger, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection. Codex CLI alone selects semantic stage routes; OPL has no transition runner or route oracle.
 
 ## Package Composition
