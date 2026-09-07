@@ -7,7 +7,6 @@ from pathlib import Path
 
 from temporal_stage_run_consumption_policy_cases.capability_assertions import (
     assert_capability_map_standard_kinds,
-    assert_legacy_professional_skill_redirects,
     assert_opl_default_hygiene_and_probe_consumption,
     assert_private_platform_retirement_matrix,
 )
@@ -63,7 +62,6 @@ def main() -> int:
     assert_generated_handoff_ledger_projection(generated_handoff)
     assert_private_platform_retirement_matrix(functional_audit, generated_handoff)
     assert_capability_map_standard_kinds(repo, capability_map)
-    assert_legacy_professional_skill_redirects(repo, capability_map)
     assert_stage_run_profile(stage_run_profile)
     assert_live_stage_run_progress_evidence(live_stage_run_progress)
     assert_production_acceptance_tail(production_acceptance)

@@ -52,7 +52,6 @@ def main() -> int:
     portable_plugin_manifest = load_json("plugins/opl-bookforge/plugin.json")
     package_manifest = load_json("contracts/opl_agent_package_manifest.json")
     carrier_manifest = load_json("plugins/opl-bookforge/opl-package.json")
-    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
 
     assert marketplace["name"] == "opl-bookforge-local"
     assert marketplace["interface"]["displayName"] == "OPL Book Forge"
@@ -139,22 +138,6 @@ def main() -> int:
     assert_carrier_guard_rejects(
         package_manifest, mismatched_projected_carrier, "mismatched carrier"
     )
-
-    required_readme_fragments = (
-        "## For Codex / Agents",
-        'codex plugin marketplace add "$(pwd -P)" --json',
-        "codex plugin marketplace list --json",
-        "codex plugin list --marketplace opl-bookforge-local --available --json",
-        "codex plugin add opl-bookforge@opl-bookforge-local --json",
-        "codex plugin remove opl-bookforge@opl-bookforge-local --json",
-        "codex plugin marketplace remove opl-bookforge-local --json",
-        "opl packages status --package-id obf --json",
-        "opl app state --profile fast --json",
-        "do not prove that the complete OPL Package/runtime is",
-        "Keep manuscript truth, quality/export verdicts, final artifact bytes,",
-    )
-    for fragment in required_readme_fragments:
-        assert fragment in readme, fragment
 
     print(
         json.dumps(

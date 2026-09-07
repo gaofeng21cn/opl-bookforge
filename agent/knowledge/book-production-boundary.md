@@ -2,7 +2,7 @@
 
 Book production covers chapter text, illustration and table planning, style consistency, wording revision, layout QC, and owner handoff.
 
-Chapter prose is judged against the book's reader-style contract, not a generic naturalness ideal. The contract should define the target readers, reading situation, prior knowledge, emotional temperature, example density, jargon boundary, sentence rhythm, and forbidden voice patterns. If the contract is missing or unresolved, book-length drafting should stop for owner clarification.
+Chapter prose is judged against the book's reader-style contract, not a generic naturalness ideal. The contract should define the target readers, reading situation, prior knowledge, emotional temperature, example density, jargon boundary, sentence rhythm, and forbidden voice patterns. Missing or unresolved reader/style decisions keep formal chapter-ready claims closed and produce an owner question or route-back; useful exploratory work may continue under the primary Skill's quality-debt policy.
 
 Manuscript prose is domain artifact body, not generator code. Book Forge materialization should keep author-facing prose in Markdown chapter files and use scripts only for deterministic assembly, metrics, validation, export, and reports. Large blocks of manuscript text embedded in Python, TypeScript, shell, JSON string literals, or other generator code are a design smell and should be migrated to chapter Markdown refs.
 

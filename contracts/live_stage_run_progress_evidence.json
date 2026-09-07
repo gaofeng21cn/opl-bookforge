@@ -31,7 +31,7 @@
     ],
     "doc_refs": [
       "docs/status.md#live-stage-progress-evidence",
-      "docs/active/bookforge-ideal-state-gap-plan.md#current-completion-progress"
+      "docs/status.md#production-acceptance-tail"
     ],
     "next_verification_command_refs": [
       "python3 tests/test_stage_topology.py",

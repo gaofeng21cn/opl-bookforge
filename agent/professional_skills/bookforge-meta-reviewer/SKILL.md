@@ -54,9 +54,9 @@ Run independent whole-manuscript review and route serious findings before prose 
 - `source-style-integrity-review` must not self-approve a full manuscript by summarizing the drafting stage's own quality claims.
 - This skill does not replace owner review, source-material completion, publication-proof inspection, or final-export acceptance.
 
-## Legacy Coverage
+## Method Composition
 
-This workflow-level skill covers the retired `meta-review-loop`, `revision-entrypoint-router`, and `fast-track-revision` entries named in the purpose. Keep independent review, owner critique absorption, complete-version comparison, topmost repair routing, and iteration control together; do not restore the retired fine-grained skill directories.
+The focused policies named in Purpose remain active source refs under `agent/skills/`. This workflow method combines independent review, owner critique absorption, complete-version comparison, topmost repair routing, and iteration control.
 
 ## Blockers And Repair Targets
 

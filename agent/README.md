@@ -18,5 +18,4 @@ Boundary:
 - `agent/primary_skill/SKILL.md` is the default Codex-facing Book Forge source entry.
 - `agent/professional_skills/*/SKILL.md` contains repo-local workflow methods for book writing.
 - `agent/skills/*.md` contains domain skill declarations and policy refs consumed by OPL-generated surfaces.
-- Legacy fine-grained professional skill names are redirect metadata in `contracts/capability_map.json#legacy_professional_skill_redirects`, not physical entrypoints.
 - No file under `agent/` authorizes manuscript quality, publication readiness, final export readiness, production readiness, memory acceptance, owner acceptance, runtime queues, provider attempts, owner receipts, or typed blockers.

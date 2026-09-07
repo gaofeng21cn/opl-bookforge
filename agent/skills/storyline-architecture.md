@@ -9,7 +9,7 @@ Working policy:
 - Convert the intent into a stable premise, argument path, chapter thesis chain, and evidence map.
 - Create a chapter function contract for book-length nonfiction: each chapter gets one primary job, one new movement in the argument, explicit adjacent-chapter handoffs, and a short list of claims it must not re-argue.
 - Establish an early concept map for recurring core terms. Concepts such as problem, task, demand, value, responsibility, evidence, or quality gate should be defined or foreshadowed before readers depend on them for several chapters.
-- Select two to three whole-book core models before drafting. Record where each model is introduced, where it is applied to cases or chapters, and where it is recovered in the conclusion or handoff.
+- Select whole-book core models when they help the reader follow the argument; the appropriate number is an editorial judgment. Record where each selected model is introduced, applied, and recovered in the conclusion or handoff.
 - Build a case evidence ladder for major examples: constructed scene, typical scenario, documented process evidence, authorized interview/material, outcome or impact evidence. Keep each case's usable level explicit so drafting does not overclaim.
 - Preserve a single style contract across later chapters.
 - Identify where evidence is thin, duplicated, or misordered.

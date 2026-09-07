@@ -53,9 +53,9 @@ Define the book's durable storyline and style architecture before formal chapter
 - Use before `bookforge-chapter-author` when reader promise, chapter function, source stance, concept map, core models, case stance, or reusable style rules are missing.
 - This skill does not draft manuscript bodies, run source integrity, run publication proof, approve final quality, or sign owner acceptance.
 
-## Legacy Coverage
+## Method Composition
 
-This workflow-level skill covers the retired `bookforge-story-architect`, `bookforge-reader-style-designer`, and `bookforge-style-editor` entries. Keep storyline, reader contract, chapter function, author/source stance, owner critique absorption, complete-version comparison, and reusable style architecture together before drafting or broad repair; do not restore the retired fine-grained skill directories.
+Keep storyline, reader contract, chapter function, author/source stance, owner critique absorption, complete-version comparison, and reusable style architecture together before drafting or broad repair.
 
 ## Blockers And Repair Targets
 

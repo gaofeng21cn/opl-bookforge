@@ -172,7 +172,7 @@ def assert_production_acceptance_tail(payload: dict[str, Any]) -> None:
         refs["doc_refs"],
         {
             "docs/status.md#claim-boundary",
-            "docs/active/bookforge-ideal-state-gap-plan.md#current-completion-progress",
+            "docs/status.md#production-acceptance-tail",
         },
         "production acceptance docs",
     )

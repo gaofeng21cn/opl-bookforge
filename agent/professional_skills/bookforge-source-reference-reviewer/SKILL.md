@@ -52,9 +52,9 @@ Protect nonfiction truth while converting stronger references into reusable prod
 - Use before strengthening claims, after major rewrites, at chapter/assembly boundaries, and before affected drafting when the owner says a reference version is stronger.
 - This skill does not prove whole-book completion, publication proof, final export, owner acceptance, or source authority beyond recorded refs.
 
-## Legacy Coverage
+## Method Composition
 
-This workflow-level skill covers the retired `bookforge-reference-absorber` and `bookforge-source-claim-reviewer` entries. Keep reference absorption, claim integrity, evidence-class assignment, unsupported-gap triage, asset/right/source freshness, source-memory route-back, and anti-leakage review together; do not restore the retired fine-grained skill directories.
+Keep reference absorption, claim integrity, evidence-class assignment, unsupported-gap triage, asset/right/source freshness, source-memory route-back, and anti-leakage review together in this workflow method.
 
 ## Blockers And Repair Targets
 

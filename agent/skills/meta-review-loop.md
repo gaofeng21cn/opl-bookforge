@@ -33,7 +33,7 @@ Review rubric:
 - Whole-book logic: chapters advance in a natural order and each chapter adds a new movement.
 - Concept handling: recurring terms are oriented early, defined clearly, reused consistently, and not overloaded.
 - Evidence and cases: constructed scenes, documented process cases, practice-involved cases, and outcome claims stay within their evidence level.
-- Red Bird or other practice-involved cases: author-team voice sounds like responsible design/reflection, not detached public-source observation or unsupported self-praise.
+- Practice-involved cases: author-team voice sounds like responsible design/reflection, not detached public-source observation or unsupported self-praise.
 - Modelization: whole-book models are named, interpreted, applied, and recovered rather than appearing as isolated figures.
 - Prose quality: expression is fluent, affirmative, concrete, reader-facing, and free of visible production scaffolding or obvious AI-flavor patterns.
 - Publication handoff boundary: review PDF, publication proof, final export, owner acceptance, and source evidence blockers remain distinct.

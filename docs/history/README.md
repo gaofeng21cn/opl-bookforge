@@ -20,7 +20,6 @@ History explains how a decision, external lesson, evidence package, or retiremen
 | Theme | Owner surface |
 | --- | --- |
 | Current status and claim boundary | `docs/status.md` |
-| Current state, gaps, next prompt, coverage | `docs/active/bookforge-ideal-state-gap-plan.md` |
 | Documentation navigation and lifecycle roles | `docs/README.md` |
 | Evidence package names and boundaries | `docs/evidence/README.md` |
 | OPL revision-routing handoff | `docs/references/opl-base-revision-routing-handoff.md` |

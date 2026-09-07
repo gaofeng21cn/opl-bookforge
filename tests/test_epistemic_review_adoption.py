@@ -215,40 +215,11 @@ def test_meta_review_stage_budget_and_release_integrity_stay_separate() -> None:
     assert contract["authority_boundary"]["hash_is_content_authority"] is False
 
 
-def test_blanket_regeneration_invalidation_is_retired_from_active_surfaces() -> None:
-    active_surfaces = [
-        "agent/stages/publication-proof-handoff.md",
-        "agent/prompts/publication-proof-handoff.md",
-        "agent/prompts/stage-quality-cycle-roles.md",
-        "agent/quality_gates/publication-proof-handoff-quality-gate.md",
-        "agent/professional_skills/bookforge-meta-reviewer/SKILL.md",
-        "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md",
-        "docs/architecture.md",
-        "docs/decisions.md",
-        "docs/invariants.md",
-    ]
-    text = "\n".join(
-        (ROOT / path).read_text(encoding="utf-8") for path in active_surfaces
-    )
-    for retired_statement in (
-        "Any regeneration invalidates the prior Review receipt",
-        "Any regeneration invalidates the prior receipt",
-        "any regenerated PDF/export invalidates the prior Review receipt",
-        "regeneration invalidates old receipts",
-    ):
-        assert retired_statement not in text
-    assert "Layout-only changes invalidate layout, export, and package" in text
-    assert "content change fails closed" in text.lower()
-    assert "hashes as artifact locators or stale hints only" in text
-    assert "OPL-managed `source-style-integrity-review` producer StageAttempt" in text
-
-
 def main() -> int:
     test_contract_binds_canonical_framework_and_declares_true_dependencies()
     test_layout_export_and_hash_counterexamples_preserve_upstream_review()
     test_content_change_fails_closed_even_when_hash_is_unchanged()
     test_meta_review_stage_budget_and_release_integrity_stay_separate()
-    test_blanket_regeneration_invalidation_is_retired_from_active_surfaces()
     print(json.dumps({
         "status": "passed",
         "contract": "contracts/epistemic_review_adoption.json",

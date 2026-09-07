@@ -68,31 +68,6 @@ STANDARD_CAPABILITY_KINDS = {
     "contract_module",
 }
 
-LEGACY_PROFESSIONAL_SKILL_REDIRECTS = {
-    "legacy-professional-skill:bookforge-story-architect": (
-        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
-    ),
-    "legacy-professional-skill:bookforge-reader-style-designer": (
-        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
-    ),
-    "legacy-professional-skill:bookforge-style-editor": (
-        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
-    ),
-    "legacy-professional-skill:bookforge-reference-absorber": (
-        "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md"
-    ),
-    "legacy-professional-skill:bookforge-source-claim-reviewer": (
-        "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md"
-    ),
-    "legacy-professional-skill:bookforge-book-memory-curator": (
-        "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md"
-    ),
-    "legacy-professional-skill:bookforge-publication-designer": (
-        "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md"
-    ),
-}
-
-
 def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
     workspace_policy = load_json(repo, "contracts/workspace_lifecycle_policy.json")
     guard = workspace_policy["byproduct_policy"]["repo_source_byproduct_guard"]
@@ -240,39 +215,3 @@ def assert_capability_map_standard_kinds(repo: Path, capability_map: dict[str, A
         (repo / "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md").read_text()
         == (repo / "agent/primary_skill/SKILL.md").read_text()
     )
-
-
-def assert_legacy_professional_skill_redirects(repo: Path, capability_map: dict[str, Any]) -> None:
-    professional_capabilities = {
-        capability["capability_id"]: capability
-        for capability in capability_map["capabilities"]
-        if capability["surface_role"] == "professional_skill"
-    }
-    skill_paths = {
-        str(path.relative_to(repo))
-        for path in (repo / "agent/professional_skills").glob("*/SKILL.md")
-    }
-    redirects = capability_map["legacy_professional_skill_redirects"]
-
-    assert {
-        entry["legacy_ref"]: entry["covered_by_skill_ref"]
-        for entry in redirects
-    } == LEGACY_PROFESSIONAL_SKILL_REDIRECTS
-
-    for entry in redirects:
-        legacy_skill_id = entry["legacy_ref"].removeprefix("legacy-professional-skill:")
-        legacy_root = repo / "agent/professional_skills" / legacy_skill_id
-        assert entry["state"] == "legacy_redirect", entry["legacy_ref"]
-        assert entry["capability_kind"] == "legacy_professional_skill_redirect", entry["legacy_ref"]
-        assert entry["capability_preserved"] is True, entry["legacy_ref"]
-        assert entry["default_codex_exposure"] is False, entry["legacy_ref"]
-        assert entry["covered_by_skill_ref"] in skill_paths, entry["legacy_ref"]
-        assert entry["covered_by_capability_id"] in professional_capabilities, entry["legacy_ref"]
-        assert (
-            professional_capabilities[entry["covered_by_capability_id"]]["physical_source_ref"]["ref"]
-            == entry["covered_by_skill_ref"]
-        ), entry["legacy_ref"]
-        assert not (legacy_root / "SKILL.md").exists(), entry["legacy_ref"]
-        assert not (legacy_root / "TOMBSTONE.md").exists(), entry["legacy_ref"]
-        if legacy_root.exists():
-            assert not any(legacy_root.iterdir()), entry["legacy_ref"]

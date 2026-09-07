@@ -21,6 +21,6 @@ Quality-debt and claim-closed conditions:
 - A below-target coverage skeleton is labeled as completed materialization.
 - Planning creates or depends on a private queue, scheduler, session store, attempt ledger, runtime state, owner receipt, typed blocker body, or publication authority.
 - An independent Review pass is treated as a hard transition prerequisite even when a readable plan exists and only quality debt remains.
-- Review is claimed from an author-thread self-check, a resumed producer thread, or a receipt without exact artifact hashes and `no_context_inheritance=true`.
+- Review is claimed from an author-thread self-check, a resumed producer thread, or a receipt without declared artifact/dependency refs and `no_context_inheritance=true`; optional hashes locate artifacts but do not establish review authority.
 
 The independent Review Attempt is required, but `route_impact.stage_quality_cycle.outcome=pass` is not a hard transition prerequisite. None of these conditions lets a validator stop another declared stage when a readable plan or diagnostic exists.

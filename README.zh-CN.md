@@ -6,166 +6,97 @@
   <a href="./README.md">English</a> | <a href="./README.zh-CN.md"><strong>中文</strong></a>
 </p>
 
-<h1 align="center">OPL Book Forge</h1>
+# OPL Book Forge
 
-<p align="center"><strong>把故事线推进到完整书稿包的 OPL 标准写书智能体</strong></p>
-<p align="center">故事线梳理 · 章节写作 · 插图和表格 · 风格控制 · 导出交接</p>
+OPL 书籍写作领域包，负责故事线设计、章节生产、来源与风格审查、图表、
+出版校样和导出交接。Book Forge 持有书籍语义、产物、质量、记忆和接受边界；
+OPL Framework 提供共享执行与生成接口。
 
-<!--
-Owner: `opl-bookforge`
-Purpose: `public_repository_entry`
-State: `public_entry`
-Machine boundary: 人读公开入口。机器真相继续归 `contracts/`、`agent/`、OPL 校验输出、OMA Agent Lab 证据、试运行导出、负责人签收记录、结构化阻塞和未来运行时回执。
--->
+规范 Agent 和 Package id 为 `obf`；仓库、domain 与 Codex Plugin 使用
+`opl-bookforge` 作为定位符。
 
-写书是长线交付工作。真正的难点在于让读者承诺、章节逻辑、材料依据、叙述声音、插图、表格、排版和负责人审阅沿着同一本书持续推进，直到书稿能够交接。
+![OPL Book Forge 总览](assets/branding/opl-bookforge-overview-v2.png)
 
-`OPL Book Forge` 围绕这件事设计：
+## 开始一本书
 
-- 明确这本书的读者承诺、目标读者、论证弧线和章节论点链。
-- 追踪每章、每张图、每张表和关键表达背后的材料依据。
-- 让多轮写作和修订后的章节保持同一种声音。
-- 用直接、肯定、具体的人工编辑口吻打磨文字。
-- 让 DOCX/PDF 导出、插图计划、表格计划、风格报告和签收门保持可追踪。
+提供书籍说明、目标读者、材料包、声音要求、目标篇幅和交接目标。例如：
 
-Book Forge 以 stage-led 路线推进写书：先梳理故事线，再通过聚焦的 materialization stages 进入章节规划、章节写作、来源/风格审查和 proof/export 交接，并把质量检查和交接证据绑定在同一个书籍项目上。
+- “用这批材料梳理故事线，定义读者承诺和章节论点链，交给负责人审阅。”
+- “把已确认故事线写成逐章 Markdown，包含图表、来源与风格审查，以及审阅 PDF。”
+- “审查整本书，判断返修应从故事线、章节功能、证据、出版设计还是局部文字开始。”
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <strong>服务对象</strong><br/>
-      作者、专家、研究者、教师，以及需要把材料写成一本书的专业操作者
-    </td>
-    <td width="33%" valign="top">
-      <strong>组织内容</strong><br/>
-      故事线、章节论点链、正文、插图和表格计划、风格契约、质量报告、导出文件和签收门
-    </td>
-    <td width="33%" valign="top">
-      <strong>开始方式</strong><br/>
-      提供书籍简要说明、读者对象、材料包、声音要求和目标导出交接方式
-    </td>
-  </tr>
-</table>
+`shape-storyline` 到故事线交接结束。已有接受的故事线 refs 后，
+`materialize-book` 进入生产规划，再推进章节写作、来源与风格完整性审查、
+出版校样交接。审阅 PDF、出版校样和最终导出有各自的证据与负责人接受要求。
+[架构](docs/architecture.md) 说明阶段模型，[状态](docs/status.md) 说明当前证据边界。
+保留的短书试运行是带负责人阻塞的历史证据，不能证明当前五阶段执行、
+独立 Package 发布或生产可用。
 
-<p align="center">
-  <img src="assets/branding/opl-bookforge-overview-v2.png" alt="OPL Book Forge 总览" width="100%" />
-</p>
+## 安装 Codex Carrier
 
-## 核心亮点
-
-**故事线优先**<br/>
-Book Forge 先建立前提、读者承诺、材料地图、论证弧线、章节论点链和风格契约，再进入章节写作。
-
-**Materialization 拆成聚焦阶段**<br/>
-故事线通过后，`materialize-book` 直接进入 `chapter-production-planning`。该 stage 同时完成 storyline refs 准入与生产规划；章节写作、来源/风格审查、proof/export 交接继续由独立顶层 stage 承担。
-
-**声音和风格可检查**<br/>
-风格契约随书籍项目推进。检查重点包括术语一致、表达具体、肯定式编辑口吻，以及容易让文字显得模板化的重复模式。
-
-**插图、表格和排版进入主流程**<br/>
-Book Forge 把图、表、标题、导出形态、渲染页面和版式检查视为书籍交付面的一部分。
-
-**出版级 proof 有独立质量门**<br/>
-review PDF 继续作为进度优先的阅读检查点。publication proof 额外要求出版设计 tokens、组件清单、字体实际加载/回读、渲染页面 QA、前置页和目录清洁度、页面节奏/密度/孤行检查、素材覆盖和 pre-ship proof review。final export 仍需要负责人/导出接受回执。
-
-**Meta Review 先路由返修层级**<br/>
-整书审阅或严肃批评之后，Book Forge 会先判断返修应从目标产物、故事线、大纲顺序、章节功能、证据/模型、出版设计、局部文字，还是 owner/source blocker 开始，再进入改稿。
-
-**出版边界由负责人签收**<br/>
-Book Forge 可以产出证据、草稿、导出文件和结构化阻塞。出版批准、负责人接受和生产可用声明必须依赖相应签收记录和运行时证据。
-
-**通过 OMA 和 Agent Lab 打磨**<br/>
-当前基线已经包含 OPL Meta Agent 接管测试证据、独立 AI 评审证据和外部套件自进化记录。新建智能体交付必须经过这条闭环，不能停在脚手架通过。
-
-## 一句话启动
-
-可以这样开始：
-
-- “用这批材料先梳理一本书的故事线，定义读者承诺、章节论点链和风格契约，然后停在负责人审阅。”
-- “把已确认的故事线写成短书稿，包含章节草稿、插图计划、表格计划、风格检查、排版质检和 DOCX/PDF 导出交接。”
-- “对整本书做 Meta Review，并判断返修应从故事线、大纲、章节功能、证据/模型、出版设计还是局部文字开始。”
-
-## 适合处理
-
-- 把笔记、材料包、讲义、报告或研究材料整理成书籍故事线。
-- 让章节逻辑、依据引用、声音和编辑约束在整本书中保持一致。
-- 在导出前规划插图、表格、图表说明和放置意图。
-- 把风格一致性、AI 味措辞、用词、排版和导出检查纳入写书路线。
-- 用交接证据区分生成草稿、质量报告、负责人阻塞和可接受出版材料。
-
-## 当前交付重点
-
-- `storyline-architecture`：前提、读者承诺、论证弧线、材料地图、章节论点链、风格契约和负责人交接。
-- `chapter-production-planning`：`materialize-book` 直接入口、storyline refs 准入、route-back、目标篇幅、章节预算、生产队列、章节任务卡、context plan 和书籍记忆 refs。
-- `chapter-materialization`：章节 context pack、reader-entry plan、逐章 Markdown 草稿 refs、章节 QC 和可复用返修回写。
-- `source-style-integrity-review`：claim/source integrity、风格一致性、AI 味扫描、独立 meta-review 路由和返修入口 refs。
-- `publication-proof-handoff`：review/proof/export 交接 refs、图表 readiness、需要时的渲染页 QA refs、负责人决策、阻塞和 artifact-role 边界。
-- `OMA Agent Lab`：基线接管测试套件、AI 评审、机制提案引用、外部套件自进化和无补丁工单回执。
-- `真实短书试运行`：已经产出故事线材料、正文、两张 PNG 插图、表格计划、DOCX/HTML/PDF 导出、PDF 渲染页、质量回执和结构化负责人阻塞。
-
-## 当前边界
-
-- `OPL Book Forge` 是用于书籍写作的 OPL 标准领域智能体包。
-- 在 OPL family 中，Book Forge 是 `OPL Package(kind=agent)`：Book Forge 保留 executor-neutral identity、capabilities、书籍业务任务、typed views 与领域 authority；OPL 持有通用 runtime、generated interfaces 和 hosted surface。
-- Book Forge owner 将完整 Package bytes 独立发布到自己的 GHCR `latest-stable`。Codex Plugin 只是当前 carrier projection，Codex CLI 只是当前 executor；二者都不定义 Package identity 或完整 installed truth。
-- 普通 Package 依赖只要求 identity 存在且所需 capability 可调用；跨包 version/ABI 求解、lock、payload、digest、Release Set 或原子闭包都不是 readiness 门禁。
-- OPL 负责生成接口、框架运行时投影、Agent Lab、工单执行、注册/发现和晋级门。
-- Book Forge 负责书籍领域真相、书稿质量规则、风格政策、图表规划、导出/出版裁决边界、产物权威、记忆正文和负责人签收记录。
-- 当前证据支持标准结构基线、生成接口描述符、OMA Agent Lab 评估，以及带导出/渲染检查的真实短书试运行。
-- 当前证据不能授权真实出书生产可用声明。试运行仍是 `passed_with_owner_gate_blocker` / `production_ready_claim_allowed=false`，需要人类负责人接受，以及 live OPL StageRun 或托管产物交接等价证据才能升级。
-
-<details>
-  <summary><strong>技术 OPL / 操作者边界</strong></summary>
-
-- 本包暴露 `shape-storyline` 和 `materialize-book` 动作合同；当前生成的 MCP/OpenAI/AI SDK 描述符只是描述符，后续运行时表面需要单独证明可执行。
-- `scripts/verify.sh` 是快速 policy lane；`structural` 增加 OPL 脚手架、生成接口和 source-hygiene readback，`helpers` 验证 native helper 与 adapter，`pdf` 执行两条真实 PDF 编译/渲染 E2E。
-- OMA 证据位于 `docs/evidence/oma-agent-lab/`。
-- 真实试运行证据位于 `docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/`。
-- 试运行导出包含 DOCX、HTML、PDF、渲染页面、生成插图、质量回执和结构化负责人阻塞。这些是证据产物，不是负责人出版接受。
-- Kami-inspired publication proof 规则作为 Book Forge 领域合同和 helper machine-baseline proof plumbing 吸收；不引入 Kami 视觉语言、WeasyPrint 运行路线、字体安装器、更新检查器或第二套 proof 真相源，也不替代人工出版设计审阅、final export 接受或 owner proof readiness 证据。
-- 脚手架校验、生成接口就绪、OMA 接管证据、外部套件无补丁回执、试运行导出文件或渲染页面，都不能单独升级为负责人签收、出版批准、生产可用或托管运行时等价。
-
-</details>
-
-## 如何阅读本仓
-
-1. 潜在用户先读本页，再读 [文档导览](./docs/README.md)。
-2. 技术读者继续读 [项目概览](./docs/project.md)、[状态](./docs/status.md)、[架构](./docs/architecture.md)、[不变量](./docs/invariants.md) 和 [决策](./docs/decisions.md)。
-3. 操作者在声明就绪或负责人接受前，应检查 `contracts/`、`agent/`、`docs/evidence/oma-agent-lab/` 和真实试运行证据包。
-
-## 智能体和操作者快速入口
-
-<details>
-  <summary><strong>把本仓交给 Codex 或其他智能体时从这里开始</strong></summary>
-
-- 克隆本仓不会安装 OPL 框架，也不会安装托管 Book Forge 运行时。需要托管执行时，先准备当前 `one-person-lab` 检出仓库或发布包。
-- 修改前先读本 README、[文档导览](./docs/README.md)、[状态](./docs/status.md) 和 `AGENTS.md`。
-- 把 `OPL Book Forge` 视为书籍领域负责人，把 OPL 视为生成接口和运行时表面的负责人。
-- 评估基线时读取 OMA / Agent Lab 证据。新建智能体交付不能停在脚手架通过或接口校验通过。
-- 出版、导出接受和生产可用声明默认拒绝升级，直到负责人签收记录和运行时等价证据到位。
-
-</details>
-
-## 命令
+从本地克隆仓库执行：
 
 ```bash
-scripts/verify.sh
-scripts/verify.sh structural
-scripts/verify.sh helpers
-scripts/verify.sh pdf
-scripts/verify.sh full
+cd /absolute/path/to/opl-bookforge
+codex plugin marketplace add "$(pwd -P)" --json
+codex plugin marketplace list --json
+codex plugin list --marketplace opl-bookforge-local --available --json
+codex plugin add opl-bookforge@opl-bookforge-local --json
+codex plugin list --marketplace opl-bookforge-local --json
+```
+
+在 ChatGPT 桌面应用中，添加 marketplace 后重启，打开 **Plugins**，安装
+**OPL Book Forge**，再启动新对话测试随包提供的 `opl-bookforge` Skill。
+
+移除该 carrier 和 marketplace：
+
+```bash
+codex plugin remove opl-bookforge@opl-bookforge-local --json
+codex plugin marketplace remove opl-bookforge-local --json
+```
+
+Plugin 安装只证明 carrier 的发现与安装，不证明完整 Package 已安装、运行时可调用、
+已经发布或书稿已接受。OPL runtime 可用时，检查当前投影：
+
+```bash
+opl packages list --json
+opl packages status --package-id obf --json
+opl app state --profile fast --json
+```
+
+## 验证
+
+修改前阅读 [AGENTS.md](AGENTS.md)，通过[文档导览](docs/README.md) 找到主题负责人。
+克隆本仓不等于安装 Framework 或托管运行时。验证脚本默认使用同级 Framework
+检出目录；使用其他位置时设置 `OPL_BIN` 和 `OPL_FRAMEWORK_ROOT`。
+
+| 命令 | 执行的检查 |
+| --- | --- |
+| `scripts/verify.sh` | 本地快速政策与合同检查 |
+| `scripts/verify.sh structural` | 政策检查加 Framework agent check 和 source-hygiene 回读 |
+| `scripts/verify.sh helpers` | Native helper probe、adapter 和图像 authority handler |
+| `scripts/verify.sh pdf` | 真实审阅 PDF 与出版校样的编译、渲染路径 |
+| `scripts/verify.sh full-local` | 本地政策、helper、PDF、handler 并集 |
+| `scripts/verify.sh full` | 本地并集加 Framework 结构回读 |
+
+PDF 执行需要 Pandoc、XeLaTeX、声明的渲染工具，以及当前 Python 环境中的 Pillow
+用于机器页面检查。`uv run --with pillow scripts/verify.sh full-local` 可提供独立
+验证环境，无需向源码检出目录添加依赖。
+[Native helpers](runtime/native_helpers/README.md) 说明依赖诊断、参数、产物角色和
+handler 限制。PDF 门禁负例直接调用规范 gate，避免重复编译。
+
+历史试运行可以独立检查：
+
+```bash
 python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
 ```
 
-`scripts/verify.sh` 默认只运行快速 policy 检查；`full` 是各 lane 的去重并集。PDF lane 只保留 review PDF 与 publication proof 两次真实编译，负例直接验证 canonical artifact gate。以上测试都不构成出版批准、最终导出就绪或负责人接受。试运行验证器检查现有证据包、导出文件、渲染页面、风格扫描、插图和负责人签收门阻塞。
+每个命令只证明其实际检查的层面。书籍、出版或导出接受仍需要对应的领域产物和
+负责人回执。
 
-## 继续阅读
+## 参考入口
 
-- [English README](./README.md)
-- [文档导览](./docs/README.md)
-- [项目概览](./docs/project.md)
-- [状态](./docs/status.md)
-- [架构](./docs/architecture.md)
-- [不变量](./docs/invariants.md)
-- [决策](./docs/decisions.md)
-- [合同](./contracts/)
+- [文档职责与生命周期](docs/README.md)
+- [Agent 入口与方法](agent/README.md)
+- [合同](contracts/)
+- [证据包](docs/evidence/README.md)

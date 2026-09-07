@@ -8,8 +8,7 @@ Machine boundary: Human-readable index for tracked evidence packages. Machine tr
 This directory stores historical and support evidence for OPL BookForge. It is
 not the active truth owner for current gaps, production readiness, publication
 approval, final export readiness, hosted runtime parity, or owner acceptance.
-Current status stays in `docs/status.md`; current gaps and next work stay in
-`docs/active/bookforge-ideal-state-gap-plan.md`.
+Current status and unproven acceptance claims stay in `docs/status.md`.
 Historical process foldback and external-learning provenance stay in
 `docs/history/README.md`; evidence package payloads should not be copied there
 except as compressed topic-level provenance.
@@ -31,8 +30,8 @@ semantic owner is chosen.
 Add or change rows here only when a tracked evidence package is introduced,
 retired, or reclassified. Do not copy package file lists, verifier transcripts,
 rendered-page paths, receipt ids, or pilot closeout logs into `docs/status.md`
-or the active plan. Durable rules and current claims fold back to status,
-the active plan, core docs, contracts, agent pack files, validators, runtime
+or an implementation plan. Durable rules and current claims fold back to status,
+core docs, contracts, agent pack files, validators, runtime
 receipts, owner receipts, or typed blockers; package payload detail stays in
 the package directory or git history.
 
@@ -48,5 +47,5 @@ the package directory or git history.
 Evidence leaves under this directory may include manuscript excerpts, stage
 outputs, generated artifacts, historical receipts, or verifier tools. Read them
 as package payloads, not as long-lived current governance documents. Durable
-rules and current claims must fold back to the active plan, status, core docs,
+rules and current claims must fold back to status, core docs,
 contracts, agent pack files, validators, or owner receipts.

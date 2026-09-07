@@ -10,12 +10,8 @@ Revision skills must preserve the Book Forge repair hierarchy. Independent meta-
 
 Repo-local Codex professional skills live under `agent/professional_skills/*/SKILL.md`. They are the execution-facing layer for professional writing methods that used to be spread across the long stage prompt and these policy refs.
 
-Routing:
-
-- `bookforge-story-style-architect`: storyline, reader contract, chapter function, author/source stance, and reusable prose style.
-- `bookforge-chapter-author`: chapter context pack, task card, reader-entry plan, chapter Markdown drafting/repair, QC, review-PDF eligibility.
-- `bookforge-source-reference-reviewer`: claim ledger, source locator, evidence boundary, unsupported gaps, anti-leakage, and stronger reference absorption.
-- `bookforge-meta-reviewer`: independent meta-review, revision entrypoint routing, fast-track eligibility, review-repair caps.
-- `bookforge-publication-memory-curator`: book memory, review PDF / publication proof / final export separation, design tokens, figure/table layout, rendered-page QA.
+The [professional Skill index](../professional_skills/README.md) owns workflow
+routing. The focused policy files in this directory remain active method inputs;
+their names are not retired aliases for the professional Skills.
 
 Stage prompts define target refs and accepted handoff shapes. Professional skills carry method. Tool catalogs describe affordances and forbidden authority. None of these skills authorize production readiness, publication readiness, final export, owner acceptance, or OPL runtime ownership.

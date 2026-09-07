@@ -54,9 +54,9 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 - This skill writes or repairs chapter Markdown only inside an authorized book workspace, not in this repo's professional skill pack.
 - This skill cannot claim book readiness, publication proof, final export, or owner acceptance by itself.
 
-## Legacy Coverage
+## Method Composition
 
-This workflow-level skill covers the retired `book-production`, `chapter-context-compiler`, `chapter-runtime`, `reader-facing-draft`, and `book-memory` chapter-production entries named in the purpose. Keep context compilation, chapter drafting, reader-facing repair, production queue state, owner critique absorption, and memory-aware chapter handoff together; do not restore the retired fine-grained skill directories.
+The focused policies named in Purpose remain active source refs under `agent/skills/`. This workflow method combines context compilation, chapter drafting, reader-facing repair, production queue state, owner critique absorption, and memory-aware chapter handoff.
 
 ## Blockers And Repair Targets
 

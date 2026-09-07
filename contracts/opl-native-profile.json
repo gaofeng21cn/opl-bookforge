@@ -1,5 +1,5 @@
 {
-  "active_truth_owner": "docs/active/bookforge-ideal-state-gap-plan.md",
+  "active_truth_owner": "docs/status.md",
   "canonical_docs": [
     {
       "path": "README.md",
@@ -38,22 +38,23 @@
   "flow_profile": "tooling_repo",
   "machine_truth_surfaces": [
     "contracts",
+    "agent",
+    "runtime",
     "tests",
     "package.json"
   ],
   "owned_by_repo": [
     "contracts/**",
-    "src/**",
+    "agent/**",
+    "runtime/**",
     "tests/**",
-    "docs/status.md",
-    "docs/active/bookforge-ideal-state-gap-plan.md"
+    "docs/status.md"
   ],
   "plugin_native_status": "profile_declared",
   "repo_id": "opl-bookforge",
   "repo_profile": "tooling_repo",
   "schema": "opl_native_profile.v1",
   "taxonomy_dirs": [
-    "docs/active",
     "docs/references",
     "docs/history"
   ],

@@ -86,7 +86,7 @@ OPL boundary:
 
 - OPL may transport and display the router output as opaque `revision-entrypoint-decision-ref`, `route-back-ref`, `repair-plan-ref`, `typed-blocker-ref`, and `owner-decision-ref`.
 - OPL must not decide the repair level, rewrite manuscript body, update book memory body, authorize quality/export, or sign owner receipts.
-- A future OPL generic review-repair transport should support route-back refs, current-owner projection, iteration caps, and freshness gates without reading or owning Book Forge manuscript semantics.
+- The OPL revision handoff transports route-back refs, current-owner projection, iteration caps, and freshness gates under `contracts/artifact_lifecycle_handoff.json`; it does not read or own Book Forge manuscript semantics.
 
 Quality-debt and claim-closed conditions:
 

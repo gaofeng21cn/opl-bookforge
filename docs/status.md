@@ -1,78 +1,58 @@
 # OPL Book Forge Status
 
 Owner: `opl-bookforge`
-Purpose: `current_status`
+Purpose: `current_status_and_evidence_boundary`
 State: `active_truth`
-Machine boundary: Human-readable current summary. Machine truth remains in contracts, agent pack files, source, tests, OPL validator/readback output, runtime receipts, owner receipts, and typed blockers.
+Machine boundary: Source and retained evidence summary; installed, published, runtime, and domain acceptance require their own fresh readback.
 
-Book Forge is an OPL-standard book-authoring domain package with canonical `agent_id/package_id=obf`. The repo, npm package, plugin, carrier, and domain locators may use `opl-bookforge`; they do not create a second package identity.
+## Source State
 
-Source release `0.3.12` records the Astra Skill compatibility audit. The primary
-route and all five professional Skills retain accepted storyline/source refs,
-task-scoped memory, bounded review, and affected-dimension revalidation. Existing
-source, rights, rendered-proof, final-export, and owner-acceptance boundaries
-remain intact. This version adds no ScholarSkills dependency and does not claim
-publication, installed currentness, or a completed book workflow.
+`package.json` and `contracts/opl_agent_package_manifest.json` declare source
+version `0.3.12` and Package identity `obf`. Version metadata is not a release or
+installed-state receipt.
 
-## Package Composition Migration
+The action catalog exposes `shape-storyline` and `materialize-book`. The current
+five-stage graph, isolated Review adoption, refs-only handoffs, PDF helper, and
+read-only figure authority handler are represented in contracts and source;
+their ownership and mechanisms are described in [Architecture](./architecture.md).
 
-The accepted target is a complete `OPL Package(kind=agent)` whose
-executor-neutral identity, capabilities, book work items, typed views, stable
-entrypoints, and domain authority remain owned by Book Forge. Its owner
-independently publishes complete bytes to its own GHCR `latest-stable`; Codex
-Plugin is only the current carrier projection and Codex CLI is only the current
-executor.
+The manifest declares
+`ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable` as the configured
+carrier publication locator. Shared tooling may generate refs, digests, and
+channels without taking Book Forge's publication decision or Package authority.
+The locator and source metadata alone do not establish published or installed
+currentness; neither the namespace nor the absence of a repo-local publishing
+workflow establishes a migration requirement.
 
-Ordinary dependency readiness checks identity presence and required capability
-callability only. Cross-Package version/ABI solving, lock, payload, digest,
-atomic closure, and a shared Release Set are not target readiness gates. Package
-release integrity, runtime execution receipts, and Book Forge
-manuscript/review/export/owner receipts remain separate evidence classes.
-
-This target is not implementation-complete. Current contracts and OPL readbacks
-may still expose legacy lifecycle fields, and this repo has not proved
-independent GHCR publication, complete carrier readback, or executor-neutral
-state preservation. Those compatibility facts remain readable until the
-cross-repository migration closes without functional regression.
-
-## Current Implementation
-
-- The public domain actions are `shape-storyline` and `materialize-book`. OPL owns generated CLI, MCP, skill, product-entry, StageRun, and hosted projections.
-- The active stage graph is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`. `storyline-architecture` is the ordinary default route; `materialize-book` enters planning directly.
-- Book Forge owns manuscript and book-memory bodies, book-domain truth, style and claim rules, figure/table authority, quality/export verdict boundaries, and owner receipt bodies.
-- OPL owns generic runtime, provider attempts, queues, generated surfaces, workspace artifact-lifecycle projection, cross-carrier readback aggregation, registry/discovery, and promotion mechanics.
-- Revision repair starts from a Book Forge-owned entrypoint decision. OPL may transport opaque route-back and blocker refs but cannot decide manuscript meaning or acceptance.
-- Review PDF, publication proof, and final export are separate accounts. Helper output and rendered-page machine checks are proof plumbing; final export remains owner-gated.
-- The image authority handler is a closed, read-only domain callable. OPL generates and materializes bitmaps; Book Forge validates the injected asset and returns a receipt candidate or quality debt.
-- OPL Ledger registration is refs-only. It may index artifact and receipt refs but cannot store manuscript bodies, sign owner receipts, or authorize publication/export verdicts.
-
-## Verification Surface
-
-- `scripts/verify.sh`: fast policy and contract lane.
-- `scripts/verify.sh structural`: adds OPL scaffold, interface, and source-hygiene readback.
-- `scripts/verify.sh helpers`: checks native-helper descriptors and adapters.
-- `scripts/verify.sh pdf`: runs the two real review/proof compile-render paths.
-- `scripts/verify.sh full-local`: runs the repo-owned policy, helper, PDF, and handler union.
-- `scripts/verify.sh full`: adds current OPL structural readback to the local union.
-
-These checks prove only the surfaces they execute. They do not establish a live StageRun, book quality, publication approval, final-export acceptance, owner acceptance, release, hosted parity, or production readiness.
-
-<a id="live-stage-progress-evidence"></a>
 ## Live Stage Progress Evidence
 
-`contracts/live_stage_run_progress_evidence.json` is `owner_evidence_required` and contains no accepted current-topology live evidence refs. The retained short-book pilot used the superseded two-stage topology and remains historical provenance. Current five-stage execution, a real long-book run, hosted parity, final-export acceptance, and owner acceptance remain unproven.
+`contracts/live_stage_run_progress_evidence.json` is `owner_evidence_required`
+with no accepted current-topology live refs. The short-book pilot used the older
+two-stage topology; its artifacts cannot be remapped into five-stage evidence.
 
-<a id="production-acceptance-tail"></a>
 ## Production Acceptance Tail
 
-`contracts/production_acceptance/bookforge-production-acceptance.json` exposes the historical pilot's domain-owned typed blocker through the contract expected by OPL conformance. This closes the missing contract surface only. It does not close owner acceptance, final export, publication approval, domain readiness, or production readiness.
+`contracts/production_acceptance/bookforge-production-acceptance.json` exposes
+the historical pilot's typed owner blockers to conformance. It closes the
+required contract surface, not the acceptance it describes.
 
-## Evidence Packages
+| Evidence still required | Owner and closure evidence |
+| --- | --- |
+| Current five-stage execution | Framework runtime and Book Forge: actual StageRun/Attempt, review, route-back, and closeout refs |
+| Real long-book workflow | Book project owner: a chapter-sharded run and inspectable manuscript/review artifacts |
+| Publication-proof visual acceptance | Publication reviewer: inspection of exact proof bytes with required design, asset, and page refs |
+| Final export and owner acceptance | Book/export owner: explicit acceptance receipts or a specific unresolved decision |
+| Hosted artifact-handoff parity | Runtime/release owner: fresh hosted execution and artifact/receipt parity |
 
-[The evidence index](./evidence/README.md) owns package names, roles, and claim boundaries. OMA Agent Lab material and the historical short-book pilot are retained evidence packages. Payload Markdown under the pilot is evidence body, not current documentation truth, and is intentionally left in its historical topology and vocabulary.
+The [evidence index](./evidence/README.md) locates retained OMA Agent Lab material
+and the historical owner-blocked pilot. They remain evidence of their original
+scope, not a continuously refreshed test result.
 
 ## Claim Boundary
 
-Current repository evidence supports the OPL-standard structural package, current action/stage contracts, generated-surface ownership boundaries, helper plumbing, OMA evidence, and a historical owner-blocked pilot. It does not support production-ready book writing, publication approval, final-export readiness, owner acceptance, live five-stage execution, hosted artifact-handoff parity, real workspace lifecycle apply, or physical delete authorization.
-
-Current gaps and the next executable baton live only in [the Active Truth plan](./active/bookforge-ideal-state-gap-plan.md).
+Repository validation establishes only the contract, helper, or structural
+surface actually checked. It does not establish book quality, publication
+approval, final-export readiness, owner acceptance, current live execution,
+hosted parity, workspace lifecycle apply, physical deletion authority, or
+production readiness. Run the [verification commands](../README.md#verification)
+for new changes and read the relevant owner receipts for wider claims.

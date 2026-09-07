@@ -5,7 +5,7 @@
 - Book Forge 持有书稿 truth、质量、导出/出版 verdict、领域记忆和 owner receipts；Framework 只提供通用 runtime、transport 与 generated interfaces。
 - `agent/primary_skill/SKILL.md` 是主路由；carrier、executor 和运行 receipt 不取得书稿或出版 authority。
 - Package release integrity、execution evidence 与书稿/出版 owner receipt 是不同证据面，互不替代。
-- 当前兼容字段与迁移目标留在 `README.md`、contracts 和 active plans；根规则不声明其已完成。
+- 文档职责与生命周期归 `docs/README.md`；当前证据归 `docs/status.md`。仅为已证实的未完成实现创建有明确结束条件的计划，完成后移除。已退役且无调用者的入口和兼容清单直接删除，不保留别名。
 - 默认验证运行 `scripts/verify.sh`；书稿或出版交付还须验证最终 artifact bytes 和 owner gate。
 
 <!-- CODEGRAPH_START -->

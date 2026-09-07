@@ -1,79 +1,81 @@
 # OPL Book Forge Invariants
 
 Owner: `opl-bookforge`
-Purpose: `invariants`
+Purpose: `cross_cutting_domain_constraints`
 State: `active_truth`
-Machine boundary: Human-readable hard constraints. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, owner receipts, and typed blockers.
+Machine boundary: Maintainer constraints and policy navigation; contracts, agent policy inputs, artifact bytes, and owner/runtime receipts remain authoritative.
 
-- Do not store runtime artifacts in repo source.
-- Do not implement generic OPL runtime primitives in this domain repo.
-- Keep canonical Agent and OPL Package identity explicit: `pack_compiler_input.canonical_agent_id=obf` and package manifest `agent_id/package_id=obf`. Repo, `domain_id`, `foundry_agent_id`, npm package, Codex plugin, and distribution carrier locators may remain `opl-bookforge`, but they must not be inferred as a second package identity.
-- Do not let OPL write domain truth, memory body, or quality/export verdicts.
-- Live Evidence deferred is a core Book Forge development rule. Functional/structural lanes include scaffold/interface shape, golden-path route shape, stage pack refs, generated/hosted surface consumption, PDF/proof helper plumbing, revision-entrypoint routing, workspace artifact-lifecycle handoff refs, default-caller structural gates, no-active-caller/tombstone/provenance cleanup, and no-second-truth guards. These lanes may close before owner acceptance, real long-book project evidence, final export acceptance, publication-proof visual acceptance, live OPL StageRun / hosted parity evidence, physical delete authorization, or production-ready claims. Those later items remain mandatory evidence lanes for publication, export, owner acceptance, runtime parity, or production claims; scaffold validation, interface descriptors, OMA evidence, pilot exports, rendered pages, docs, or helper proof plumbing cannot replace them.
-- Do not claim production-ready book writing, publication approval, owner acceptance, or export acceptance from scaffold validation, interface descriptors, OMA evidence, pilot exports, or rendered pages alone.
-- Keep `storyline-architecture` as the only ordinary default route. `materialize-book` must enter `chapter-production-planning` directly, followed by `chapter-materialization`, `source-style-integrity-review`, and `publication-proof-handoff`. Planning owns storyline-ref admission and route-back. Its StageRun must launch an independent reviewer Attempt, while a reviewer `pass` is not a hard transition prerequisite when a readable plan closes with explicit quality debt. Do not restore a pure-routing stage or collapse planning, drafting, integrity review, and proof/export handoff into one giant closeout unless a future owner-reviewed decision records a stronger model.
-- Require a reader-style contract before a formal chapter-ready claim. Exploratory prose may inform the contract, but cannot replace it. The contract must identify target readers, reader priority, reading situation, natural-expression rules, and owner-review status; if Book Forge cannot infer these with high confidence, it keeps readiness closed and returns an owner question or human gate while preserving any consumable architecture.
-- Preserve reader priority across materialization. Primary readers define the writing target. Secondary readers may only add compatible accessibility constraints unless the owner explicitly promotes them to co-primary readers; they must not silently create separate chapter obligations, explanatory detours, lower-density exposition, difficulty downgrades, or voice targets.
-- Record author/source stance for major cases in the reader-style contract or evidence map before chapter-ready or publication claims. If the author team designed, executed, or directly participated in a case, Book Forge must use a practice-involved design/reflection stance rather than defaulting to third-party public-source observation.
-- Keep practice-involved cases evidence-bounded: active author-team voice may explain anticipation, design choices, execution mechanisms, and reflective limits, but missing authorization, interviews, user feedback, learning outcomes, process materials, or metrics remain explicit typed evidence gaps.
-- Keep writing-quality checks focused on style consistency, concrete language, affirmative editorial phrasing, evidence grounding, figure/table completeness, layout, and handoff readiness.
-- Treat independent meta-review and serious critique as routed repair inputs. Before editing, Book Forge must choose the topmost repair entrypoint: artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker.
-- Do not use local prose edits, fast-track audits, or wording passes to mask unresolved storyline, outline, chapter-function, evidence/model, publication-design, artifact-target, or owner/source defects.
-- Make first visible chapter drafts reader-facing by default. Production metadata such as chapter task, core question, thesis, target budgets, source refs, figure asset status, QC notes, blockers, and reader-entry plans must live in briefs, drafting notes, manifests, reports, comments, or handoff refs, not in manuscript prose. If a chapter needs a routine late reader-facing rewrite to stop reading like a memo or instruction manual, the first-draft gate failed and the chapter-production pattern must be corrected before continuing production.
-- Keep book prose Markdown-first: per-chapter Markdown refs own manuscript body for book-length work; scripts may assemble, count, validate, export, and report but must not be the source of truth for substantial prose.
-- Keep book-length drafting chapter-sharded by default: chapter brief, chapter draft, chapter QC, merged manuscript, whole-book pass. A monolithic creative source file requires explicit owner approval.
-- Convert owner/source target extent into chapter budgets and an active production queue before drafting body prose for book-length work.
-- Treat chapter target budgets as completion gates. Below-target chapter prose is in progress, not drafted/done, and below-target full-book assemblies are preview artifacts, not final `book.md`.
-- Treat all-chapter short coverage as seed material only. It is not completed materialization unless each chapter meets its target gate or remains visibly queued as in-progress work.
-- Refresh a completed-contiguous owner-review PDF after chapter text-readiness or full readiness changes; it must include the reviewable reader sequence from the beginning of the book, stop at the first below-target required unit, label text-ready-but-asset-blocked chapters honestly, surface review-continuity blockers instead of silently skipping earlier units, and must not be presented as final export readiness.
-- If a manuscript already carries its own Chinese chapter numbers, figure numbers, or caption labels, the review-PDF export path must disable backend automatic section/caption numbering or otherwise prevent doubled labels such as `第七章 第五章` or `图 7.1: 图 5-1`.
-- Treat publication PDF generation as a first-class export backend concern owned by Book Forge. Project scripts may call the Book Forge PDF export helper, but the normal path is Pandoc/XeLaTeX or equivalent Quarto/Typst-style typesetting backends, not ad-hoc raster page drawing.
-- Distinguish review PDF, publication proof PDF, and final export. Publication proof requires an explicit publication design profile and rendered-page inspection; final export requires owner acceptance.
-- Publication proof requires Book Forge-owned proof refs for publication design tokens, template/component inventory, font actual-load/readback when available, rendered-page QA checklist, front matter/TOC cleanliness, page rhythm/density/orphan checks, material/asset coverage, and pre-ship proof review.
-- Treat review PDFs, HTML previews, export command success, or uninspected rendered pages as insufficient evidence for publication proof or final export.
-- Require a publication design profile and real typesetting backend for publication proof and final export; hand-rolled raster text drawing is not the normal Book Forge publication path.
-- Keep local publication-proof dependency diagnosis and maintenance on the OPL system route: `opl system dependency-doctor --profile bookforge-publication-proof --json` and `opl system dependency-maintenance --profile bookforge-publication-proof --json`. Book Forge must not grow a private OS package manager or TeX installer.
-- Treat required proof-backend dependency failures as blockers for `publication_proof` and `final_export` claims only. They must not stop unrelated writing progress when a narrower stage action remains truthful and available.
-- Do not treat unstyled Pandoc/default backend output as publication-proof quality. Publication proof must use the bundled Book Forge publication profile or an owner-approved equivalent and must show deliberate page geometry, typography hierarchy, figures, tables, callouts, captions, headers/footers, page numbers, and visual rhythm.
-- Require backend resource paths or equivalent asset resolution configuration when Markdown references project-local figures, so generated PDFs cannot silently drop images.
-- Require PDF helper evidence for Markdown image-ref resolution and required figure-asset-manifest readiness before any publication-proof or final-export claim; missing project-local bitmap assets remain blockers even when the PDF command compiles.
-- Treat helper-generated rendered-page machine-baseline inspection as proof plumbing evidence only. It can support nonblank page and asset-resolution gates, but it cannot replace human visual review or owner final-export acceptance.
-- Require caption, callout, table, figure, cross-reference, header/footer, page-number, overflow, and visual-rhythm inspection before any publication-proof claim.
-- Require owner/export acceptance receipts before any final-export claim.
-- Preserve progress priority for export gates. Missing publication-proof evidence must block `publication_proof` and `final_export` claims, but it must not block narrower honest work such as chapter drafting, source-claim integrity, style calibration, chapter QC, or ordinary review-PDF refreshes.
-- Treat external publication systems such as Kami as learning inputs only. Book Forge must not import a foreign visual identity, runtime, font installer, update checker, or second source of truth for publication readiness.
-- Retire invalid compact/sample drafts when the owner requires a book-length restart; do not expand an invalid compact draft in place as the active workflow.
-- Retired drafts inside the active book workspace should be tombstone refs, not full searchable obsolete manuscript text. If full obsolete text is needed as evidence, keep it outside active manuscript/search surfaces or label it as non-source evidence with an explicit owner decision.
-- Keep long-form materialization auditable with a pipeline contract that names chapter packages, chapter QC refs, figure asset manifest, table plan, whole-book review, export refs, blockers, and retired drafts.
-- Compile an owner-inspectable chapter context pack before chapter drafting, repair, or resume. Context packs must carry selected refs, rule stack, protected/compressible context, trace, budget, evidence boundaries, and next action, but they cannot claim chapter/book readiness by themselves.
-- Preserve progress priority while compiling context. Missing artifact/export evidence should block the wider readiness claim, not unrelated text progress, when a narrower honest chapter action remains available.
-- Keep book memory owner-inspectable and domain-owned: working memory, episodic memory, and semantic memory must be refs or artifacts inside the book project, not hidden provider state.
-- For OPL-indexed book workspaces, lifecycle/currentness management for inputs, source passport, memory refs, output refs, current refs, and retention health must go through OPL `workspace artifact-lifecycle` refs-only projections. Book Forge owns the artifact bodies; OPL owns the lifecycle projection. Book Forge must not implement a private lifecycle page, hidden memory store, private scheduler, or second truth source for those lifecycle facts.
-- Book Forge artifact-lifecycle handoff claims must be gated by `contracts/artifact_lifecycle_handoff.json` and an OPL `workspace artifact-lifecycle` readback. Book Forge must not reintroduce a repo-local project-hygiene or lifecycle executable; domain-specific voice/style rules belong in skills and quality gates, while generic source/lifecycle projection belongs in OPL. The contract can prove the structural split, required refs, readback command, and false-ready guard; it cannot prove real workspace apply, manuscript quality, publication proof, final export readiness, owner acceptance, or production readiness.
-- Keep chapter runtime expressed through OPL stage refs, chapter task cards, QC refs, repair reports, memory updates, and owner gates; do not add a domain-private scheduler, queue, attempt ledger, session store, or app shell.
-- Keep revision routing expressed through Book Forge-owned entrypoint decisions, route-back refs, repair plans, typed blockers, and owner decisions. OPL may transport and project these refs but must not own the repair-level decision or manuscript body.
-- Route revision, publication/final-export, and production-acceptance default entries through the OPL StageRun account/current-owner boundary. Book Forge returns owner receipts, typed blockers, human gates, route-back refs, repair-plan refs, or owner-decision refs; evidence packages are outputs/refs only and must not become a direct default entry or owner-boundary bypass.
-- Keep style engine assets explicit: voice principles, terminology policy, rhythm rules, analogy policy, sample passages, forbidden patterns, accepted repairs, and style drift findings must be reviewable.
-- Keep claim integrity owner-inspectable for nonfiction: claim ledgers, source locators, evidence classes, unsupported gaps, truth deltas, and anti-leakage notes must support material claims, including table, figure, caption, callout, and case-box claims.
-- Do not strengthen claim language beyond the evidence class. Outcome, impact, validation, learning-effect, adoption, scale, and performance claims require outcome/impact evidence.
-- Keep style calibration evidence-backed. Reference or owner samples may produce transferable rules, fatigue scans, and accepted exceptions, but cannot be copied as prose or used to hide source gaps, lower primary-reader density, or claim final editorial approval.
-- When an owner-supplied reference version or comparable draft is used to improve manuscript quality, keep the reference absorption owner-inspectable. Transferable strengths must be written into style engine refs, chapter task cards, reader-entry plans, QC gates, evidence maps, or publication design profiles; they must not remain a private prompt memory or one-off patch list.
-- Keep transparent prompt bundles with source slices, memory refs, style constraints, and quality-gate prompts for major drafting/review/repair/proofing passes.
-- Run or maintain a deterministic project hygiene check for known concrete regressions: stale README/handoff status after metrics change, forbidden case-stance phrases in active refs, and retired full-text drafts that can be mistaken for current manuscript source.
-- Run OPL `workspace source-hygiene --source-root <repo> --json` before and after repo verification. `.gitignore` is only a fallback safety net; `.venv`, `__pycache__`, `.pytest_cache`, `*.pyc`, `*.pyo`, `*.egg-info`, `dist`, `coverage`, and `node_modules` must be absent from active source checkout scans.
-- For book-length OPL workspaces, project hygiene must be able to require a passed OPL artifact-lifecycle readback before lifecycle/currentness, owner-review package completeness, handoff quality, publication proof, or final-export claims.
-- Preserve owner/source-declared target extent during materialization; compact/sample drafts require explicit owner approval or a typed extent blocker.
-- Treat final book-bound artwork as `imagegen`-generated bitmap assets by default; SVG, local-script diagrams, and placeholders are planning aids only unless the owner explicitly requests deterministic vector output.
-- Treat chat previews or generated artwork without an exposed, project-local file path as image-asset blockers, not as completed figure evidence.
-- OPL owns `image_generation` activation, executor selection/transport, bitmap materialization, workspace output allocation, attempt/output refs, and candidate persistence. Book Forge owns figure metadata, contained regular-bitmap validation, figure-authority receipt candidates, image quality debt, and publication/delivery authority. The Book Forge handler must only consume host-injected attempt/output refs, relative bitmap ref, SHA-256, and figure metadata, and may read only that referenced bitmap; it must not build execution requests, spawn OPL/Codex, inspect provider state, generate/copy bitmap bytes, write receipts/manifests, or call provider APIs directly.
-- Route missing human acceptance as owner receipt blockers or typed blockers, not as silent success.
-- Treat generated MCP/OpenAI/AI SDK surfaces as descriptors until live OPL StageRun or hosted execution evidence exists.
-- A formal Stage Review must use a new OPL StageAttempt and executor session. Producer self-checks, same-thread resumes, or receipts without declared artifact/dependency refs and `no_context_inheritance=true` are not Review. Artifact hashes are optional locators or stale hints, not content authority.
-- Reviewer and re-reviewer Attempts return only `route_impact.stage_quality_cycle.outcome=pass|repair_required|quality_debt|blocked|human_gate`, never a receipt `verdict`. The StageRun controller maps the first three outcomes directly and maps `blocked|human_gate` to receipt `hard_stop`.
-- A `repair_required` reviewer or re-reviewer with budget remaining continues the current Stage quality loop when that Stage is the narrowest repair owner. When the narrowest canonical owner is a different declared Stage, it may instead terminally return exactly one evidence-bound `route_back` decision to that different Stage. This is the only terminal route allowed for `repair_required` before budget exhaustion; producer and repairer Attempts remain recommendation-only, and hard-stop or literal-zero-artifact outcomes return no route.
-- Initial Review owns stable findings and repair expectations; Repair owns the per-finding repair map, changed artifact refs, semantic-change dimensions, and affected dependency scopes; Re-review owns finding closure against those affected scopes. Only an unclosed required finding, repair regression, or critical new finding may consume another repair round. Ordinary new suggestions remain optional observations or quality debt and must not reopen the loop.
-- `source-style-integrity-review` is a context-isolated whole-book Meta Review. It diagnoses and routes defects to the earliest owning Stage; it must not inherit author/repair conversations or edit manuscript artifacts inline.
-- Keep `source-style-integrity-review` and `publication-proof-handoff` as separate StageRuns. The former owns whole-book content/editorial/reference judgment; the latter owns display/layout/export/package proof and handoff judgment.
-- Review currentness follows declared semantic dependencies, not whole-package regeneration. Content changes invalidate content, editorial, reference, display, layout, export, and package review; layout-only changes invalidate layout/export/package, and export-only changes invalidate export/package.
-- Hash-only, governance-metadata, or Review-receipt changes do not invalidate epistemic review. Exact-byte release integrity is a separate contract and neither it nor epistemic review can substitute for the other.
-- The three-round quality cap, elapsed-time budget, and observed-token budget reuse OPL StageAttempts. Book Forge skills and prompts must not create a parallel review counter, scheduler, or foreground budget bypass.
+## Identity And Authority
+
+Canonical Agent and Package identity is `obf`; repository/domain/carrier locators
+do not create another Package identity. Book Forge owns manuscript, source and
+memory bodies, book quality, publication/export decisions, and owner receipts.
+Framework owns generic execution, generated interfaces, and refs-only lifecycle
+projection. Carrier installation, generated descriptors, provider completion,
+StageRun status, hashes, and validator success cannot substitute for domain
+judgment or owner acceptance.
+
+Use the [declared stage graph](../agent/stages/manifest.json) and
+[public action catalog](../contracts/action_catalog.json). Do not add private
+runtime, scheduler, queue, attempt ledger, session store, lifecycle page,
+provider discovery, OS package manager, TeX installer, or per-surface entry wrapper.
+Source byproducts stay outside the checkout under the
+[workspace policy](../contracts/workspace_lifecycle_policy.json).
+
+## Writing And Evidence
+
+Substantial book prose lives in chapter Markdown; scripts assemble, measure,
+validate, and export it. Preserve owner-declared extent and reader priority.
+Below-target chapters stay in progress and assemblies stay clearly labeled
+previews. Primary-reader, author/source stance, and claim-evidence boundaries
+cannot be weakened to make a draft look complete. Retired full-text drafts
+must not remain searchable as current manuscript source.
+
+| Constraint owner | Scope |
+| --- | --- |
+| [Book production](../agent/skills/book-production.md) | Chapter packages, budgets, contiguous review output, and production hygiene |
+| [Reader style](../agent/skills/reader-style-contract.md) | Reader priority, inference, owner review, and author/source stance |
+| [Reader-facing draft](../agent/skills/reader-facing-draft.md) | Separate manuscript prose from production metadata |
+| [Claim integrity](../agent/skills/source-claim-integrity.md) | Locators, evidence classes, unsupported outcomes, and anti-leakage |
+| [Context compiler](../agent/skills/chapter-context-compiler.md) | Inspectable selected refs, budgets, protected context, and next action |
+| [Book memory](../agent/skills/book-memory.md) | Domain-owned working, episodic, and semantic memory |
+| [Style calibration](../agent/skills/style-calibration.md) and [style engine](../agent/skills/style-engine.md) | Evidence-backed style assets, source preservation, and accepted exceptions |
+| [Reference absorption](../agent/skills/reference-draft-absorption.md) | Reusable editorial improvements without copying authority or losing reasoning |
+
+## Review And Handoff
+
+The decisive Codex Attempt owns semantic routing; Framework validates and
+materializes the transition. Formal Review uses new isolated StageAttempts.
+Producer/repairer recommendations do not replace decisive reviewer/re-reviewer
+decisions. Whole-book Meta Review diagnoses and routes without inline repair.
+Only affected semantic dimensions and their dependencies lose review currentness;
+hash or governance-only changes do not invalidate epistemic review.
+
+Use [Review policy](../contracts/stage_quality_cycle_policy.json),
+[epistemic dependencies](../contracts/epistemic_review_adoption.json), and
+[revision routing](../agent/skills/revision-entrypoint-router.md) for exact rules.
+Budgets belong to OPL StageAttempts, never a parallel domain counter. Exhaustion
+preserves readable work and quality debt; real authority, safety, identity,
+executor, irreversible-action, or explicit human-decision boundaries still stop
+the affected action.
+
+## Publication And Assets
+
+`review_pdf`, `publication_proof`, and `final_export` remain distinct.
+[Publication design](../agent/skills/publication-design.md) owns proof evidence;
+[the proof gate](../agent/quality_gates/publication-proof-handoff-quality-gate.md)
+owns acceptance requirements. Successful compilation or a machine nonblank-page
+check cannot replace human visual review or final-export owner acceptance.
+Proof-only gaps must not block narrower truthful writing or review work.
+
+Final figures default to host-generated, project-bound bitmap assets unless the
+owner chooses deterministic vectors. Chat previews and placeholders cannot prove
+figure readiness. The [image handoff](../contracts/image_asset_host_handoff.json)
+allows Book Forge to read and validate only the injected contained bitmap and
+return receipt/manifest candidates; it cannot generate, copy, or persist assets,
+discover providers, or spawn executors. Framework persists candidates.
+
+Use [artifact-lifecycle handoff](../contracts/artifact_lifecycle_handoff.json)
+and [Temporal consumption](../contracts/temporal_stage_run_consumption_policy.json)
+for refs-only currentness and default entry. Evidence packages are output refs,
+never execution shortcuts. Current claim limits belong to [Status](./status.md).

@@ -9,18 +9,19 @@ Machine boundary: Human-readable architecture boundary. Machine truth remains in
 
 This repo owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 
-OPL owns generated interfaces, generic runtime transport, queue, attempt ledger, memory locator transport, artifact lifecycle shell, workbench, Agent Lab, work-order execution, registry/discovery, promotion gates, and observability projection. Codex CLI alone selects semantic stage routes; OPL has no transition runner or route oracle.
+OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns agent evaluation; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
 
 ## Package Composition
 
-Book Forge is a complete `OPL Package(kind=agent)`. It owns the
+Book Forge declares an `OPL Package(kind=agent)`. It owns the
 executor-neutral `obf` identity, capabilities, dependency intent, book work
 items, optional typed views, stable entrypoints, and domain authority.
 
 Package, carrier, and executor are separate:
 
-- The Book Forge owner independently publishes complete Package bytes to its
-  own GHCR repository and advances only its own `latest-stable`.
+- Book Forge owns descriptor, version, and publication decisions. Shared
+  publication tooling may materialize complete bytes, refs, digests, and channels
+  without taking domain or ordinary Package currentness authority.
 - The active carrier installs, updates, removes, and reads back the bytes it
   actually carries. Codex Plugin is the current carrier projection; its
   presence alone does not prove the complete Package is installed.
@@ -44,10 +45,9 @@ export, and owner receipts remain Book Forge domain evidence. These three
 evidence classes are intentionally distinct and do not become Package
 composition locks.
 
-This section defines the target boundary. Current contracts and readbacks remain
-machine truth during migration and may still expose legacy lifecycle fields;
-documentation alone does not prove independent GHCR publication or complete
-carrier readback has landed.
+The publication namespace is a locator, not a second owner. Published bytes and
+complete carrier currentness require actual receipts; [Status](./status.md)
+records the source/evidence boundary.
 
 ## Implementation And Reference Boundary
 
@@ -85,7 +85,7 @@ The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is
 
 Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture`, `chapter-production-planning`, `chapter-materialization`, `source-style-integrity-review`, and `publication-proof-handoff`.
 
-Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md` carry workflow-level book-writing methods: storyline/style architecture, chapter authoring, source/reference review, meta-review, and publication/memory curation. They absorb and route the existing `agent/skills/*.md` policy refs without creating a private runtime, memory-body authority, owner acceptance, or readiness verdict. Legacy fine-grained skill entries are contract-only redirects in `contracts/capability_map.json#legacy_professional_skill_redirects`; no legacy physical `SKILL.md` or `TOMBSTONE.md` is retained for them.
+Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md` carry workflow-level book-writing methods: storyline/style architecture, chapter authoring, source/reference review, meta-review, and publication/memory curation. They consume focused `agent/skills/*.md` policy refs without creating a private runtime, memory-body authority, owner acceptance, or readiness verdict. `contracts/capability_map.json` locates only the current capabilities.
 
 Tool catalogs under `agent/tools/` describe affordances, write scope, side effects, credentials, and forbidden authority. Tools do not prescribe executor strategy, own manuscript truth, or grant readiness verdicts.
 
@@ -116,10 +116,6 @@ Scaffold validation and generated interface readiness prove the domain pack can 
 
 Generated status/readback surfaces may project the Temporal StageRun policy flags, including `provider_completion_is_domain_completion=false` and `generated_surface_ready_counts_as_domain_ready=false`. Domain completion still requires a Book Forge owner receipt, typed blocker, human gate, or route-back ref; provider completion and StageRun readiness are transport evidence only.
 
-## Evidence Flow
-
-OMA / Agent Lab evidence evaluates the agent baseline and improvement loop. Pilot evidence evaluates a real short-book project. Owner receipts and runtime receipts remain separate gates.
-
 ## Independent Stage Review And Whole-Book Meta Review
 
 Book Forge binds `official_high_value_knowledge_deliverable.v1`, while formal Review is an explicit per-Stage risk decision rather than a blanket rule. `storyline-architecture`, `chapter-production-planning`, and `chapter-materialization` use isolated producer, reviewer, repairer, and re-reviewer Attempts because they create open judgments or manuscript bytes. `source-style-integrity-review` is already the independent Meta Review StageRun and does not recursively review itself. `publication-proof-handoff` retains the full Review loop because it generates or transforms final PDF/export bytes, freezes their canonical identity, and can support publication/export/ready claims. Same-thread checking is only `in_thread_refinement`; a protocol closeout resume cannot produce a Review receipt.
@@ -141,6 +137,16 @@ Machine output is `route_impact.stage_route_decision` or
 validation and materialization; it does not rewrite Book Forge editorial or
 publication semantics.
 
-`source-style-integrity-review` keeps its stable ID and acts as the independent whole-book Meta Review and integrity gate. It consumes manuscript/artifact refs, optional locator hashes, declared content/editorial/reference dependencies, Stage Review receipts, source/reader-style/rubric refs, and necessary lineage only. It routes defects to the earliest owning storyline, planning, or materialization Stage and never edits manuscript artifacts inside the Meta Review Stage. Three exhausted repair/route-back rounds, each represented by its own OPL-managed producer StageAttempt, produce quality debt when a readable manuscript remains; that debt still closes publication/export/ready claims.
+`source-style-integrity-review` keeps its stable ID and acts as the independent whole-book Meta Review and integrity gate. It consumes manuscript/artifact refs, optional locator hashes, declared content/editorial/reference dependencies, Stage Review receipts, source/reader-style/rubric refs, and necessary lineage only. It routes defects to the earliest owning storyline, planning, or materialization Stage and never edits manuscript artifacts inside the Meta Review Stage.
 
-Within a formal Stage Review cycle, the initial reviewer creates stable findings and repair expectations but does not create the repair map. The repairer returns the per-finding repair map, changed artifact refs, semantic-change dimensions, and affected dependency scopes. A fresh re-reviewer closes each prior finding against those affected scopes; only an unclosed required finding, repair regression, or critical new finding can consume another repair round. Ordinary new suggestions remain optional observations or quality debt and cannot restart the loop. The three-round attempt, elapsed-time, and observed-token budget is carried by OPL StageAttempts rather than a Book Forge scheduler.
+Within a formal Stage Review cycle, the initial reviewer creates stable findings and repair expectations but does not create the repair map. The repairer returns the per-finding repair map, changed artifact refs, semantic-change dimensions, and affected dependency scopes. A fresh re-reviewer closes each prior finding against those affected scopes; only an unclosed required finding, repair regression, or critical new finding can consume another repair round. Ordinary new suggestions remain optional observations or quality debt and cannot restart the loop.
+
+`contracts/stage_quality_cycle_policy.json` owns budget declarations: formal
+Review permits three repair cycles after the producer/initial reviewer, at most
+eight model Attempts. Meta Review permits three cross-Stage route-back rounds
+within the logical task lineage. Framework persists and enforces these counters;
+Book Forge does not create a parallel counter. Elapsed/token limits are absent
+unless explicitly supplied. Exhaustion with consumable work closes the run with
+quality debt, preserves unresolved findings, and keeps unsupported publication,
+export, or ready claims closed. A real authority, safety, identity, executor,
+irreversible-action, or explicit human-decision boundary retains its hard stop.

@@ -1,70 +1,80 @@
-# OPL Book Forge Decisions
+# OPL Book Forge Design Decisions
 
 Owner: `opl-bookforge`
-Purpose: `decisions`
+Purpose: `durable_design_rationale`
 State: `active_truth`
-Machine boundary: Human-readable decision log. Machine truth remains in contracts, agent pack files, OPL validator output, OMA evidence, pilot evidence, runtime receipts, owner receipts, and typed blockers.
+Machine boundary: Accepted design choices and their reasons; contracts/source establish implementation and receipts establish acceptance.
 
-- Adopt `OPL Book Forge` as the product name and `opl-bookforge` as the repo slug, `domain_id`, and `foundry_agent_id`.
-- Use `obf` as both the canonical Agent id and OPL Package id. `contracts/pack_compiler_input.json.canonical_agent_id` and the package manifest `agent_id/package_id` must agree; repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators may remain `opl-bookforge` but must not create an alias or second package identity.
-- Treat Book Forge as `OPL Package(kind=agent)` with executor-neutral identity, capabilities, dependency intent, book work items, typed views, stable entrypoints, and domain authority.
-- Separate Package, carrier, and executor. The Book Forge owner independently advances complete bytes in its own GHCR `latest-stable`; Codex Plugin is the current carrier projection and Codex CLI is the current executor, not Package identity or complete installed truth.
-- Compose ordinary Package dependencies by identity presence and required capability callability. Do not introduce cross-Package version/ABI solving, lock, payload, digest, Release Set, or atomic closure as readiness gates.
-- Use exact refs/checksums for release integrity and reproducible snapshots only. Keep Package release proof, runtime execution receipts, and Book Forge manuscript/review/export/owner receipts as distinct evidence classes.
-- Keep current lifecycle contracts readable until the cross-repository migration has equivalent behavior and no retained consumer; this decision alone does not claim the target path is implemented.
-- Follow the OPL series repo naming style used by `opl-meta-agent`, `opl-flow`, `opl-hermes-shell`, `opl-aion-shell`, and `opl-doc`.
-- Adopt OPL standard domain-agent scaffold v1 and standard stage pack v2.
-- Keep this repo as a declarative domain pack plus minimal authority functions.
-- Keep `storyline-architecture` as the book design/storyline stage. Delete the pure-routing materialization stage: `materialize-book` enters `chapter-production-planning` directly, and the canonical sequence is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`.
-- Keep that sequence as a professional dependency and claim boundary, not as a universal model-thought recipe. Approved current refs may be reused; planning and drafting discoveries may route back; chapter-sharded work may run safely in parallel; changed manuscript/proof bytes must receive fresh downstream review.
-- Give each active Stage a local goal. Action intent names only the route it actually starts: `shape-storyline` stops at storyline handoff, while `materialize-book` starts from admitted storyline refs and owns the planning-to-proof route. The former `domain_intake` files and capability locator were orphan surfaces; intake now belongs to the active `storyline-architecture` entry.
-- Reader identity, author/source stance, evidence class, and chapter function gate formal chapter-ready or publication claims. Exploratory prose may help discover them. Reusable model count and opening/prose technique are domain judgments, not fixed numeric or rhetorical recipes.
-- Storyline-ref admission and route-back belong to `chapter-production-planning`. Its StageRun must launch an independent reviewer Attempt, but a reviewer `pass` is not a hard prerequisite for the ordinary planning transition when a readable plan can close with explicit quality debt. Typed blockers and human gates remain reserved for authority or inputs that cannot be repaired safely.
-- The stage-size landing is not a new runtime, controller, queue, scheduler, attempt ledger, or generated-surface owner. It removes a route-only stage while continuing to reuse the existing `materialize-book` domain action and repo-local professional skills as the method layer.
-- Use the Hosted Runtime v2 action ABI: `shape-storyline` and `materialize-book` are public stage actions whose sole execution declaration is `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}`; their entry/required stages remain in `stage_route`. OPL generates the canonical CLI and hosted surface kinds; Book Forge must not retain `source_command`, per-surface command copies, action handler ids/refs, or a private entry wrapper. The image authority callable is independently registered as `handler:obf.figure-asset-authority-evaluate`, not a third public action or a stage executor.
-- Keep reader and natural-expression decisions inside `storyline-architecture` as a required reader-style contract, not as an implicit taste note during drafting. Missing or low-confidence audience/style information becomes a quality debt and owner question while exploratory work advances; it becomes a human gate only when the next requested action truly requires that explicit decision.
-- Record reader priority in the reader-style contract. Secondary readers are read-along or accessibility constraints by default; Book Forge must not write chapters for them as hidden co-primary audiences, lower-density exposition targets, or competing voice targets unless the owner explicitly changes the audience contract.
-- Record major-case author/source stance during storyline architecture. If the author team is an executor, designer, participant, evaluator, or advocate in a case, Book Forge must not default the initial chapter draft to outside observation of public materials; it should use the owner-approved practice-involved stance while keeping unsupported outcomes as evidence gaps.
-- Make reader-facing chapter prose a first-draft target inside `chapter-materialization`. Production scaffolding and reader-entry plans belong in briefs, manifests, QC reports, drafting notes, and handoff refs; they must not leak into manuscript openings and headings that the owner reads as book text. A routine late reader-facing rewrite is not the normal quality path; memo-like first drafts are drafting-gate failures that require improving the chapter-production pattern.
-- Treat structural validation as L4 baseline evidence only; do not use it as book quality, production readiness, publication readiness, or owner acceptance evidence.
-- Use OMA Agent Lab takeover, independent AI reviewer evaluation, and external-suite self-evolution as required new-agent baseline evidence. Scaffold/interface readiness alone is not a delivered-agent claim.
-- Treat the 2026-06-18 real short-book pilot as historical evidence for the older two-stage workflow execution, manuscript/export generation, quality checks, and owner-gate blocker handling. It does not authorize a production-ready claim and does not override the current focused materialization stage model.
-- Supersede the pilot generator's prose-in-code pattern for future work. Current Book Forge materialization is Markdown-first and chapter-sharded; scripts may assemble, count, validate, export, and report, but substantial book prose must live in chapter Markdown refs.
-- For book-length targets, use a RCA-like chapter package workflow: detailed chapter plan, per-chapter draft, figure/table production, chapter QC, whole-book review, and final assembly. Invalid compact drafts are retired instead of expanded in place.
-- Require chapter budget allocation and an active production queue before body drafting. The workflow must start from target extent -> per-chapter budgets -> named next chapter package, not from a whole-book skim followed by after-the-fact metrics.
-- Treat chapter extent as a production gate. Book Forge must not complete all chapters and then discover the book is short; it must keep below-target chapters in the active production queue and emit only named preview assemblies until all chapter minimums pass.
-- Produce a cumulative completed-contiguous review PDF after chapter text-readiness or full readiness changes. This gives the owner an inspectable book-like artifact during chapter-by-chapter production while preventing a later ready chapter from hiding an unfinished preface, introduction, or earlier chapter. Text-ready-but-missing-asset chapters may be shown for reading, but remain blocked from full readiness.
-- Make publication PDF generation a Book Forge export backend, not project-local renderer code. The current native helper is `runtime/native_helpers/bookforge_pdf_export.py`, defaulting to Pandoc with XeLaTeX when available and accepting optional metadata/variable profile inputs; Quarto book rendering and Typst are valid future backends for richer book projects.
-- Add a publication design profile before publication-grade proof output. Review PDF, publication proof PDF, and final export are separate artifact levels; readable review output does not imply publication-quality design.
-- Distinguish `review_pdf`, `publication_proof`, and `final_export` in the Book Forge PDF export helper. A successful PDF compile is not enough for publication proof; proof evidence requires design profile, resource-path-backed asset resolution, rendered pages, rendered-page inspection, and element gates. Final export additionally requires owner/export acceptance receipts.
-- Add the bundled `bookforge-zh-publication-proof` PDF profile as the default publication-proof style for Chinese nonfiction e-books. It is a Book Forge-owned Pandoc/XeLaTeX profile, not a project-private renderer, and it raises proof output above unstyled backend defaults through page geometry, Chinese typography, headings, captions, table/callout treatment, headers/footers, page numbers, and visual-rhythm inspection.
-- Make proof plumbing evidence executable: the PDF export helper scans Markdown image refs against backend resource paths, checks required figure-asset-manifest readiness, and can write a rendered-page machine-baseline inspection JSON. This supports publication-proof gates for asset resolution and nonblank rendered pages, while final design judgment and final export still require human/owner evidence.
-- Track required `imagegen` outputs through a figure asset manifest. A chat preview without a project-local bitmap path is `preview_only` or blocked evidence, not a completed figure asset.
-- Use OPL-hosted image generation for final manuscript figures. OPL owns generation transport, output allocation/materialization, attempt/output refs, and persistence. Book Forge receives a host-injected relative bitmap ref plus SHA-256 and figure metadata, validates the contained bitmap, and returns a figure-authority receipt candidate or quality debt. The domain handler has no execution-request, process-spawn, provider-discovery, bitmap-write, or manifest-write path.
-- Adopt long-form writing lessons as OPL stage refs rather than a new private controller: book memory, chapter runtime, style engine, and transparent prompt bundles live in skills, prompts, quality gates, contracts, receipts, and project artifacts.
-- Map nonfiction memory into three layers: working memory for active chapter context, episodic memory for chapter/owner/revision history, and semantic memory for durable thesis, source canon, glossary, style assets, and evidence rules.
-- Treat chapter task cards plus chapter QC and repair refs as the chapter-runtime surface. They are not a scheduler, queue, attempt ledger, session store, or second source of truth.
-- Treat style engine assets as reusable writing constraints and review inputs, not as authority to claim final quality or publication acceptance.
-- Adopt reference-draft absorption as a first-class Book Forge materialization skill. When an owner says a prior/reference version is better, Book Forge must compare it, extract transferable book-prose strengths, and update durable domain refs such as style engine, chapter task cards, reader-entry plans, QC gates, evidence maps, or publication design profiles. This stays inside OPL Book Forge's domain pack and does not create a private controller or OPL runtime surface.
-- Keep reference/style memory, reference-draft absorption, and publication-design lessons advisory-by-default. They become hard gates only for the claim they are meant to protect: owner-supplied reference comparison / absorption closure, `publication_proof`, `final_export`, copied-reference authority, primary-reader drift, or proof/export readiness. They do not globally block ordinary chapter drafting, local prose repair, context compilation, claim-integrity work, chapter QC, or review-only PDF refresh.
-- Land `agent/primary_skill/SKILL.md` as the repo-owned rich primary Codex skill source. `plugins/opl-bookforge/skills/opl-bookforge/SKILL.md` is the materialized Codex carrier full copy, but the repo source remains the standard Book Forge entry contract and the carrier remains transport only.
-- Land repo-local Codex professional skills as the Book Forge method layer. Stage prompts stay short and route to five workflow-level skills under `agent/professional_skills/*/SKILL.md`: storyline/style architecture, chapter authoring, source/reference review, meta-review, and publication/memory curation. Ordinary skill policy refs in `agent/skills/*.md` remain domain policies and source material for the professional skills; old fine-grained professional skill entries are contract-only redirects in `contracts/capability_map.json#legacy_professional_skill_redirects`, with no legacy physical `SKILL.md` or `TOMBSTONE.md`. Tool catalogs stay affordance/authority boundaries. Professional skills remain repo-internal and on-demand from the primary skill or stage runtime, not the default Codex entry. This implements primary skill / stage prompt / professional skill / tool separation without adding runtime, queue, manuscript-body, PDF/export authority, or verdict authority.
+## Package Composition
 
-## Durable Decision Themes
+Book Forge owns one executor-neutral `obf` Package identity, descriptor, version,
+and publication decisions. Shared tooling can publish complete bytes and generate
+refs/digests without acquiring Package currentness authority. Carrier and executor
+are separate replaceable routes, so changing either must preserve book work,
+preferences, and dependency state. Ordinary dependencies use identity presence
+and required capability callability. Exact checksums remain appropriate for
+release integrity and reproducible offline/QA snapshots, not a cross-Package
+version solver, lock, or ordinary readiness gate. Registry namespace does not
+determine publication ownership or require a separate per-repository publisher.
 
-Historical pilot notes, reference comparisons, external-learning details, and proof transcripts stay in `docs/history/**`, `docs/evidence/**`, runtime receipts, or git history. This active decision log keeps the current SSOT decisions by semantic theme.
+## Stages Follow Independent Judgments
 
-| Theme | Current decision | Boundary / provenance |
-| --- | --- | --- |
-| Project hygiene and case stance | Retired invalid compact drafts and misclassified coverage skeletons must not remain as searchable book prose in active workspace archives. Practice-involved cases require stance-aware phrase scans when a concrete regression has been found, and README / owner-handoff refs must be refreshed from current metrics or treated as stale blockers. | Active workspace hygiene is a Book Forge domain guard; App/default exposure waits for App-owned contracts and product owner decision. |
-| First-draft quality | First-draft quality is a workflow property. Reader-style contract, author/source stance, chapter budget, production queue, reader-entry plan, figure/table obligations, and anti-AI-flavor rules shape chapter prompts before visible prose is drafted. | Review / publication PDFs need freshness and asset-resolution evidence; readable output is not publication proof or owner acceptance. |
-| Nonfiction structure and critique absorption | Serious owner/reviewer critique updates storyline, chapter, evidence, style, QC, or publication-design refs before manuscript repair is claimed. Book-length nonfiction requires chapter function contracts, concept maps, core model maps, and case evidence ladders where relevant. | Character budget, local prose polish, or table presence is insufficient for chapter readiness or modelization claims. |
-| Practice-case and citation workflow | A direct Codex workbench book project showed that strong long-form revision depends on prioritizing a few complete spine cases, routing reviewer comments before editing, separating practice-involved voice from external-source voice, using book-style short notes with full locators in back/control refs, and keeping photos/figures/case boxes as distinct artifact classes. | These lessons are absorbed into professional skills only. They do not add a scheduler, private controller, manuscript-body source, or publication/owner authority. Provenance: local thread `019edac6-2cdc-7942-97b8-2b108ea49351` and the inspected book workspace control refs. |
-| Reference and complete-version absorption | Better reference drafts or full-book PDFs become reusable editorial actions, style/QC rules, reader-entry plans, chapter function updates, or publication-design refs. Complete-version absorption compares reader-entry path, scope language, chapter decomposition, explanation density, practice methodization, conclusion action path, PDF/TOC hierarchy, and active-manuscript strengths. | Absorption must avoid over-compression, loss of reasoning, primary-reader drift, merge artifacts, and inflated imitation. `target_artifact_choice` is required when concise review and formal publication routes diverge. |
-| Stage Review, Meta-review and fast-track revision | Formal Review is decided explicitly per Stage: storyline, planning, and materialization review their new judgments/bytes; `source-style-integrity-review` is a separate whole-book Meta Review StageRun and does not recursively review itself; `publication-proof-handoff` retains Review because it creates/finalizes reviewable PDF/export artifacts and claim evidence. The primary-only Meta Review producer is decisive; formal-Review producer/repairer Attempts only recommend, and a decisive reviewer/re-reviewer selects the declared next Stage. With budget remaining, same-Stage repairs continue the quality loop; a required finding owned by a different declared Stage may immediately return the sole pre-exhaustion terminal branch, `repair_required + route_back`, to that narrowest owner. `semantic_route_decision_owner=decisive_codex_attempt`; `stage_transition_materialization_owner=opl_stage_run_controller`. Structural findings route to the earliest owning Stage before a new generation; fast-track is allowed only for local, evidence-bounded repairs after a manuscript or review PDF exists. | Review/repair/re-review use new OPL StageAttempts and sessions under the canonical three-round scope budget. Proof/export producer and repairer outputs mark only changed content/editorial/reference/display/layout/export/package scopes and their declared dependents `review_pending`; layout- or export-only regeneration does not invalidate content/editorial/reference review, while content changes fail closed downstream. Hashes are locator hints, release integrity and owner/export acceptance stay separate, and the OPL controller does not own editorial routing. Three exhausted rounds with a readable artifact preserve `repair_required` at the decisive final Attempt and project quality debt rather than a transition blocker. |
-| External writing-agent learning | Useful external writing-agent patterns are absorbed as Book Forge domain refs: chapter context compiler, source-claim integrity, style calibration, Markdown chapter packages, owner-inspectable refs, and bounded skills/gates. | Do not import external runtimes, generic orchestrators, private vector stores, hidden schedulers, or second truth sources. OPL keeps runtime/projection ownership; Book Forge keeps manuscript, evidence, memory, quality, export, and owner-gate truth. |
-| OPL-owned publication proof dependency route | Publication proof depends on Pandoc, XeLaTeX, Poppler, and TeX Live availability, but diagnosis and maintenance belong to OPL system dependency routes. Dependency failures block `publication_proof` and `final_export`, not ordinary writing progress that does not require the proof backend. | Canonical reads go through `opl system dependency-doctor --profile bookforge-publication-proof --json`; Book Forge must not implement a private OS package manager, TeX installer, scheduler, or dependency truth source. |
-| OPL artifact lifecycle for book workspaces | Book Forge keeps manuscript, source-map bodies, memory bodies, figures, exports, quality reports, typed blockers, and owner receipts as domain-owned workspace refs. OPL owns refs-only lifecycle projection through `opl workspace artifact-lifecycle`; Book Forge consumes it for lifecycle/currentness and handoff-readiness checks. | OPL lifecycle insufficiency is repaired in OPL first. Repo-source byproduct hygiene proves only checkout cleanliness, not workspace apply, book delivery, publication readiness, or owner acceptance. |
-| Temporal StageRun consumption | Temporal is an OPL-owned durable execution substrate. Book Forge consumes StageRun, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`. | Provider completion, workflow completion, StageRun status, generated-surface readiness, read-model cleanliness, or file presence cannot close Book Forge completion. Domain closeout requires owner receipt, typed blocker, human gate, or route-back refs. |
-| Completion account split | `review_pdf`, `publication_proof`, `final_export`, and `owner_acceptance` are separate Book Forge completion accounts. Review PDFs need review artifact refs; publication proofs need design, asset-resolution, rendered-page inspection refs; final export needs owner/export acceptance. | The real short-book pilot is historical evidence and acceptance tail, not production closure or final export acceptance. |
-| Publication-proof design discipline | External publication-proof lessons are absorbed as Book Forge-owned proof refs: design tokens, template/component inventory, font actual-load/readback, rendered-page QA, page rhythm/density/orphan checks, material coverage, and pre-ship proof review. | Do not copy external visual language, HTML templates, WeasyPrint route, font downloader, plugin updater, or private proof truth. Missing proof tokens block only `publication_proof` / `final_export`, not ordinary drafting or review-only refresh. Provenance: `docs/history/external-learning/kami-publication-proof-2026-06-20.md`. |
+Storyline, production planning, chapter drafting, whole-book integrity review,
+and proof/export handoff require different inputs and decisions. The five-stage
+graph makes those responsibilities inspectable. Planning owns storyline-ref
+admission; an extra routing-only stage would add no domain judgment. The graph
+expresses dependencies and claim boundaries, not a mandatory recipe for every
+model thought: current accepted refs may be reused and findings may route back.
+
+## Manuscript Body Stays In Chapter Markdown
+
+Chapter packages preserve target extent, chapter function, evidence, memory,
+and local review without making generator code the authoring source. Assembly
+and export consume those packages. A thin all-chapter sample is a preview; it
+cannot silently replace a requested full book. Cumulative contiguous review
+PDFs expose progress without hiding unfinished earlier chapters. Detailed
+production policy belongs to [Book production](../agent/skills/book-production.md).
+
+## Revision Changes Its Owning Layer
+
+Higher-order defects must update storyline, chapter function, evidence, style,
+or design refs before repair is claimed. Sentence polish cannot repair a wrong
+book target or argument. Stronger references and serious critique become
+reusable domain constraints while preserving evidence classes, primary readers,
+reasoning density, and the author's stance. The [revision method](../agent/skills/revision-entrypoint-router.md)
+owns the hierarchy; [external-learning history](./history/README.md) preserves
+its provenance. Methods, examples, model counts, and rhetorical techniques are
+editorial judgments rather than universal numeric or phrase rules.
+
+## Review Has Bounded, Specific Effects
+
+Independent Stage Review checks new judgments or artifact bytes; the separate
+whole-book Meta Review does not recursively review itself or edit the manuscript.
+Fresh attempts review explicit refs without author conversation inheritance.
+Review currentness follows semantic dependencies, so layout/export regeneration
+does not invalidate unrelated content judgments. Quality budgets preserve the
+best readable artifact with debt; they cannot grant publication or acceptance.
+The [architecture](./architecture.md#independent-stage-review-and-whole-book-meta-review)
+explains role and transition mechanics; machine policy lives in
+`contracts/stage_quality_cycle_policy.json` and `contracts/epistemic_review_adoption.json`.
+
+## Proof And Acceptance Are Separate
+
+Review PDF, publication proof, final export, and owner acceptance answer different
+questions. A real typesetting backend and inspected asset/page evidence improve
+proof reliability, while human visual judgment and owner/export receipts retain
+their own authority. Missing proof dependencies block that claim, not unrelated
+writing. [Publication design](../agent/skills/publication-design.md) owns the
+rules and [Native helpers](../runtime/native_helpers/README.md) owns operator detail.
+The [Kami record](./history/external-learning/kami-publication-proof-2026-06-20.md)
+preserves why proof discipline was adopted without its branding or runtime.
+
+## Reuse Framework Execution And Lifecycle
+
+Book Forge keeps manuscript, source, memory, quality, and acceptance bodies.
+Framework executes attempts and transports opaque refs, including lifecycle and
+revision handoff. This avoids a private scheduler, package manager, hidden
+memory store, or second currentness system. Figure generation/materialization
+is Framework work; Book Forge's contained-bitmap handler only evaluates the
+injected asset and returns candidates. The [retirement record](./history/image-asset-private-execution-retirement-2026-07-13.md)
+preserves the removed private execution path and why it must not return.
