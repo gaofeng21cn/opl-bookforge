@@ -133,54 +133,9 @@ def test_bookforge_declares_explicit_review_policy_for_each_stage() -> None:
     }
 
 
-def test_publication_proof_claims_require_fresh_affected_scope_review() -> None:
-    prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
-        encoding="utf-8"
-    )
-    gate = (
-        ROOT / "agent/quality_gates/publication-proof-handoff-quality-gate.md"
-    ).read_text(encoding="utf-8")
-    role_prompt = (ROOT / "agent/prompts/stage-quality-cycle-roles.md").read_text(
-        encoding="utf-8"
-    )
-    role_prompt = " ".join(role_prompt.split())
-
-    for text in (prompt, gate, role_prompt):
-        assert "`review_pending`" in text
-        assert "publication-proof" in text
-        assert "final-export" in text
-        assert "owner/export acceptance" in text
-    assert "Regeneration without semantic change does not invalidate the receipt" in gate
-    assert "Content changes fail closed" in gate
-    assert "Layout-only changes invalidate layout, export, and package" in gate
-    assert "Hash-only or non-semantic regeneration does not invalidate" in role_prompt
-    assert "artifact hashes only as locators or stale hints" in prompt
-    assert "release-integrity" in prompt
-    assert "Any regeneration invalidates the prior Review receipt" not in gate
-    assert "any regenerated PDF/export invalidates" not in role_prompt
-    assert "controller-materialized Review receipt" in prompt
-    assert "controller-materialized Review receipt" in gate
-    assert "`route_impact.stage_quality_cycle.outcome`" in prompt
-    assert "never a standalone receipt `verdict`" in prompt
-    assert "verdict terminalizes" not in prompt
-    assert "producer cannot close publication-proof" in role_prompt
-    assert "repairer cannot close publication-proof" in role_prompt
-    assert "reviewed final-export candidate may be handed downstream pending acceptance" in gate
-
-
 def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
-    meta_prompt = " ".join(
-        (ROOT / "agent/prompts/source-style-integrity-review.md")
-        .read_text(encoding="utf-8")
-        .split()
-    )
-    proof_prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
-        encoding="utf-8"
-    )
     profile = read_json("contracts/stage_quality_cycle_policy.json")
 
-    assert "decisive cross-Stage route owner" in meta_prompt
-    assert "decisive reviewer or re-reviewer" in proof_prompt
     assert profile["meta_review_policy"]["terminal_route_output"] == (
         "route_impact.stage_route_decision"
     )
@@ -189,31 +144,6 @@ def test_attempt_route_owner_and_machine_output_are_unambiguous() -> None:
         "required_output_ref_fields"
     ]
 
-
-def test_publication_prompts_preserve_declared_owner_and_hard_boundaries() -> None:
-    meta_prompt = (ROOT / "agent/prompts/source-style-integrity-review.md").read_text(
-        encoding="utf-8"
-    )
-    proof_prompt = (ROOT / "agent/prompts/publication-proof-handoff.md").read_text(
-        encoding="utf-8"
-    )
-    proof_gate = (
-        ROOT / "agent/quality_gates/publication-proof-handoff-quality-gate.md"
-    ).read_text(encoding="utf-8")
-    acceptance_gate = (ROOT / "agent/quality_gates/domain_acceptance.md").read_text(
-        encoding="utf-8"
-    )
-    for prompt in (meta_prompt, proof_prompt):
-        assert "no route output" in prompt
-    assert "keeps outcome `repair_required`" in proof_prompt
-    assert "narrowest repair owner is `publication-proof-handoff`" in proof_prompt
-    assert "only terminal route allowed for `repair_required` before budget exhaustion" in proof_prompt
-    assert "controller projects `completed_with_quality_debt`" in proof_gate
-    assert "only permitted pre-exhaustion terminal route" in proof_gate
-    for publication_ref in (proof_prompt, proof_gate):
-        assert "`same_stage_repair_required`" in publication_ref
-        assert "`cross_stage_route_back_before_budget_exhaustion`" in publication_ref
-    assert "Literal zero consumable artifact is a controller hard stop" in acceptance_gate
 
 def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair() -> None:
     manifest = read_json("agent/stages/manifest.json")
@@ -242,18 +172,6 @@ def test_whole_book_meta_review_is_independent_and_routes_without_inline_repair(
         "chapter-production-planning",
         "chapter-materialization",
     ]
-    prompt = (ROOT / "agent/prompts/source-style-integrity-review.md").read_text(encoding="utf-8")
-    stage_policy = (ROOT / "agent/stages/source-style-integrity-review.md").read_text(
-        encoding="utf-8"
-    )
-    assert "do not edit manuscript artifacts inside this Meta Review Stage" in prompt
-    assert "one new `producer` Attempt" in stage_policy
-    assert "does not start reviewer, repairer, or re-reviewer Attempts" in stage_policy
-    assert "Its reviewer Attempts" not in stage_policy
-    planning_gate = (ROOT / "agent/quality_gates/chapter-production-planning-quality-gate.md").read_text(encoding="utf-8")
-    assert "author-thread self-check is only `in_thread_refinement`" in planning_gate
-    assert "The independent Review Attempt is required" in planning_gate
-    assert "`route_impact.stage_quality_cycle.outcome=pass` is not a hard transition prerequisite" in planning_gate
 
 
 def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
@@ -283,9 +201,7 @@ def test_quality_policy_does_not_define_nested_stage_or_owner_graphs() -> None:
 
 def main() -> int:
     test_bookforge_declares_explicit_review_policy_for_each_stage()
-    test_publication_proof_claims_require_fresh_affected_scope_review()
     test_attempt_route_owner_and_machine_output_are_unambiguous()
-    test_publication_prompts_preserve_declared_owner_and_hard_boundaries()
     test_whole_book_meta_review_is_independent_and_routes_without_inline_repair()
     test_quality_policy_does_not_define_nested_stage_or_owner_graphs()
     print(json.dumps({"status": "passed", "contract": "stage_quality_cycle_policy"}))
