@@ -1,23 +1,30 @@
 ---
 name: bookforge-chapter-author
-description: Use when OPL Book Forge must draft, expand, or repair chapter Markdown from approved storyline, reader-style, source, memory, and chapter task refs.
+description: Use when OPL Book Forge must plan chapter production or draft, expand, and repair chapter Markdown from admitted storyline, reader-style, and source context.
 ---
 
 # Book Forge Chapter Author
 
 ## Purpose
 
-Produce reader-facing chapter prose through the existing Book Forge chapter package workflow. This skill combines the operative parts of `book-production`, `chapter-context-compiler`, `chapter-runtime`, `reader-facing-draft`, and `book-memory`.
+Plan chapter production or produce reader-facing chapter prose according to the
+current Stage main prompt. This skill combines the operative parts of
+`book-production`, `chapter-context-compiler`, `chapter-runtime`,
+`reader-facing-draft`, and `book-memory`.
 
 ## Inputs
 
 - Approved storyline/style architecture refs, reader-style contract, chapter function contract, concept map, core model map, and case evidence ladder.
-- Chapter task card, chapter context pack, source refs, memory refs, style refs, target extent, figure/table obligations, and current chapter state.
+- Source refs, memory refs, style refs, target extent, figure/table obligations,
+  and current chapter state. Planning creates missing chapter task cards and
+  context packs; materialization consumes the admitted cards and context.
 - Case priority map, reusable case motifs, public/authorization boundary, and chapter-specific case role when the chapter uses practice material.
 - Owner/reviewer critique, complete-version comparison refs, proof/design memory refs, asset/right/source freshness refs, or accepted revision-entrypoint decision when the task is a repair.
 
 ## Outputs
 
+- For production planning: chapter budgets, task cards, context and memory plan,
+  dependencies, next production units, and unresolved source or owner needs.
 - Chapter context pack or refreshed context trace.
 - Chapter brief, reader-entry plan, chapter Markdown draft or repair, chapter QC notes, repair log, and memory updates.
 - Owner critique absorption log for chapter-level concerns, non-local route-backs, accepted no-change decisions, and downstream freshness obligations.
@@ -33,7 +40,27 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 - Obey accepted revision-entrypoint routing. Draft or repair chapter Markdown only when the topmost defect is local chapter prose; route back when the defect is structural, source/reference, memory, proof/artifact, or owner-decision level.
 - Reuse proof/design memory and complete-version comparison only as constraints on local chapter prose; route broad style, asset, rights, source, or publication-design changes to the owning skill/ref.
 
-## Execution Rules
+## Production Planning Method
+
+Apply this method in `chapter-production-planning`; do not start drafting merely
+because this Skill also supports chapter authoring. Translate each admitted
+chapter function into the argument, evidence, cases, and reader transition the
+chapter must deliver. Allocate extent according to that work and the book's
+target, rather than equal word counts or padding.
+
+Build a task card and select a bounded context pack for each next useful unit.
+Include the reader promise, chapter job, source and claim limits, relevant prior
+decisions, continuity obligations, assets, and a meaningful completion criterion.
+Reuse current cards and context; identify the specific delta when they need
+repair. Do not demand a completed card as input to the task that creates it.
+
+Choose production order from chapter dependencies and usable source material.
+Separate units only when their writing and acceptance can remain coherent with
+clear ownership. Carry evidence or asset gaps explicitly, distinguish units ready
+for prose from units needing preparation, and hand the usable plan to chapter
+materialization. A queue entry alone does not explain how to write the chapter.
+
+## Drafting And Repair Method
 
 - Start with the earliest unfinished required unit unless the owner explicitly approves a non-contiguous exploration pass.
 - Compile context before drafting or repair; protect reader promise, owner decisions, source canon, evidence boundaries, target extent, author/source stance, and chapter function.
@@ -50,7 +77,10 @@ Produce reader-facing chapter prose through the existing Book Forge chapter pack
 
 ## Stage Prompt Boundary
 
-- `chapter-production-planning` states admitted target refs and task-card shape; `chapter-materialization` carries the authorized drafting route, and this skill provides the chapter writing method.
+- `chapter-production-planning` owns the planning task and accepted handoff;
+  `chapter-materialization` owns the drafting or repair task and chapter result.
+  Their main prompts select the relevant method here. Planning produces context
+  and task cards without manuscript prose; materialization uses them to write.
 - This skill writes or repairs chapter Markdown only inside an authorized book workspace, not in this repo's professional skill pack.
 - This skill cannot claim book readiness, publication proof, final export, or owner acceptance by itself.
 

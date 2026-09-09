@@ -16,6 +16,11 @@ Stable entrypoints:
 Boundary:
 
 - `agent/primary_skill/SKILL.md` is the default Codex-facing Book Forge source entry.
-- `agent/professional_skills/*/SKILL.md` contains repo-local workflow methods for book writing.
+- `agent/prompts/*.md` carries each Stage's complete task: objective, relevant
+  context, substantive work, professional dependencies, accepted result, and
+  continuation judgment.
+- `agent/professional_skills/*/SKILL.md` contains reusable methods selected by
+  that task. The chapter-author Skill supports both production planning and
+  manuscript writing, with each method scoped to its calling Stage.
 - `agent/skills/*.md` contains domain skill declarations and policy refs consumed by OPL-generated surfaces.
 - No file under `agent/` authorizes manuscript quality, publication readiness, final export readiness, production readiness, memory acceptance, owner acceptance, runtime queues, provider attempts, owner receipts, or typed blockers.
