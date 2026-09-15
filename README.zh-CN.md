@@ -32,37 +32,18 @@ OPL Framework 提供共享执行与生成接口。
 保留的短书试运行是带负责人阻塞的历史证据，不能证明当前五阶段执行、
 独立 Package 发布或生产可用。
 
-## 安装 Codex Carrier
+## 安装
 
-从本地克隆仓库执行：
-
-```bash
-cd /absolute/path/to/opl-bookforge
-codex plugin marketplace add "$(pwd -P)" --json
-codex plugin marketplace list --json
-codex plugin list --marketplace opl-bookforge-local --available --json
-codex plugin add opl-bookforge@opl-bookforge-local --json
-codex plugin list --marketplace opl-bookforge-local --json
-```
-
-在 ChatGPT 桌面应用中，添加 marketplace 后重启，打开 **Plugins**，安装
-**OPL Book Forge**，再启动新对话测试随包提供的 `opl-bookforge` Skill。
-
-移除该 carrier 和 marketplace：
+通过 OPL 的标准软件包入口安装：
 
 ```bash
-codex plugin remove opl-bookforge@opl-bookforge-local --json
-codex plugin marketplace remove opl-bookforge-local --json
-```
-
-Plugin 安装只证明 carrier 的发现与安装，不证明完整 Package 已安装、运行时可调用、
-已经发布或书稿已接受。OPL runtime 可用时，检查当前投影：
-
-```bash
-opl packages list --json
+opl packages install obf --json
 opl packages status --package-id obf --json
-opl app state --profile fast --json
 ```
+
+正式发布渠道为 `ghcr.io/gaofeng21cn/one-person-lab-packages/obf`，不可变版本用于精确引用，`latest-stable` 指向当前版本。OPL 与原生插件管理器负责安装和更新；不通过独立 GitHub Release 页面或附件分发。
+
+安装后新建任务以加载专业技能。软件包安装、运行可用性和领域验收分别记录；具体边界见[当前状态](./docs/status.md)。
 
 ## 验证
 

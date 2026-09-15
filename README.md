@@ -36,39 +36,18 @@ requirements. See [Architecture](docs/architecture.md) for the stage model and
 pilot is historical and owner-blocked; it does not prove current five-stage
 execution, independent Package publication, or production readiness.
 
-## Install The Codex Carrier
+## Installation
 
-From a local clone:
-
-```bash
-cd /absolute/path/to/opl-bookforge
-codex plugin marketplace add "$(pwd -P)" --json
-codex plugin marketplace list --json
-codex plugin list --marketplace opl-bookforge-local --available --json
-codex plugin add opl-bookforge@opl-bookforge-local --json
-codex plugin list --marketplace opl-bookforge-local --json
-```
-
-In the ChatGPT desktop app, restart after adding the marketplace, open
-**Plugins**, install **OPL Book Forge**, and start a new conversation before
-testing the bundled `opl-bookforge` Skill.
-
-To remove this carrier and marketplace:
+Install through the standard OPL Package entry:
 
 ```bash
-codex plugin remove opl-bookforge@opl-bookforge-local --json
-codex plugin marketplace remove opl-bookforge-local --json
-```
-
-Plugin installation proves carrier discovery and installation only. It does
-not establish complete Package installation, runtime callability, publication,
-or book acceptance. With an OPL runtime available, inspect its current view:
-
-```bash
-opl packages list --json
+opl packages install obf --json
 opl packages status --package-id obf --json
-opl app state --profile fast --json
 ```
+
+The publication channel is `ghcr.io/gaofeng21cn/one-person-lab-packages/obf`. Immutable versions identify exact releases; `latest-stable` selects the current version. OPL and the native plugin manager handle installation and updates. Separate GitHub Release pages and attachments are not used for distribution.
+
+Start a new task after installation to load the professional skills. Package installation, runtime callability, and domain acceptance remain separate; see [Current Status](./docs/status.md).
 
 ## Verification
 
