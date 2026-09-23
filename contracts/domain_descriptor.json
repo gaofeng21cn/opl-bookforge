@@ -39,6 +39,11 @@
     "workspace_binding": {
       "locator_surface_kind": "opl_bookforge_workspace",
       "default_profile_id": "one_off",
+      "shared_resources": [
+        { "path": "shared/sources", "role": "source_intake" },
+        { "path": "shared/memory", "role": "memory_root" },
+        { "path": "shared/style_system", "role": "style_system" }
+      ],
       "workspace_kind": "book_authoring_workspace",
       "project_kind": "book_project",
       "project_collection_label": "books",
