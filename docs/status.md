@@ -8,7 +8,7 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 ## Source State
 
 `package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.3.12` and Package identity `obf`. Version metadata is not a release or
+version `0.3.15` and Package identity `obf`. Version metadata is not a release or
 installed-state receipt.
 
 The action catalog exposes `shape-storyline` and `materialize-book`. The current
