@@ -1,0 +1,57 @@
+{
+  "surface_kind": "opl_agent_package_manifest.v1",
+  "agent_id": "obf",
+  "package_id": "obf",
+  "display_name": "OPL Book Forge",
+  "presentation": {
+    "display_name_i18n": {
+      "zh-CN": "OPL Book Forge",
+      "en-US": "OPL Book Forge"
+    },
+    "description_i18n": {
+      "zh-CN": "长篇书稿规划、写作、修订与出版交付。",
+      "en-US": "Long-form book planning, writing, revision, and publication delivery."
+    },
+    "session_routing_summary_i18n": {
+      "en-US": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints."
+    },
+    "home_shortcuts": [
+      {
+        "shortcut_id": "shape-storyline",
+        "label_i18n": {
+          "zh-CN": "规划书稿结构",
+          "en-US": "Shape Storyline"
+        },
+        "default_visible": true,
+        "user_configurable": true,
+        "route": {
+          "route_kind": "agent_package_shortcut",
+          "executor": "codex_cli",
+          "codex_visible_entry": "opl-bookforge"
+        }
+      }
+    ]
+  },
+  "publisher": "one-person-lab",
+  "version": "0.3.16",
+  "domain_descriptor_ref": "contracts/domain_descriptor.json",
+  "source": "first_party_repo_local",
+  "carrier_source_role": "codex_plugin_default_carrier_not_package_truth",
+  "schema_ref": "one-person-lab/contracts/opl-framework/agent-package-manifest.schema.json",
+  "machine_boundary": "This repo-local sidecar declares OPL Agent Package identity and carrier locators. OPL release authority generates published artifact refs, digests, channels, and receipts and projects the Codex carrier from contracts; this repo keeps book-domain truth and owner authority.",
+  "codex_surface": {
+    "plugin_id": "opl-bookforge",
+    "plugin_source_path": ".",
+    "configured_codex_plugin_carrier": {
+      "kind": "codex_plugin_manager",
+      "plugin_selector": "opl-bookforge@opl-bookforge-local",
+      "executor_route": "codex_cli",
+      "marketplace_source": "gaofeng21cn/opl-bookforge",
+      "publication_ref": "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
+    },
+    "required_skill_ids": [
+      "opl-bookforge"
+    ]
+  },
+  "capability_dependencies": []
+}
