@@ -51,6 +51,8 @@ def main() -> int:
     assert pack_compiler_input["domain_id"] == "opl-bookforge"
     assert package_manifest["agent_id"] == pack_compiler_input["canonical_agent_id"]
     assert package_manifest["package_id"] == pack_compiler_input["canonical_agent_id"]
+    assert package_manifest["domain_descriptor_ref"] == "contracts/domain_descriptor.json"
+    assert (REPO_ROOT / package_manifest["domain_descriptor_ref"]).is_file()
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert package_manifest["presentation"] == {
         "display_name_i18n": {

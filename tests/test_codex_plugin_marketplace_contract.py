@@ -89,6 +89,7 @@ def main() -> int:
     )
     assert plugin["category"] == plugin_manifest["interface"]["category"]
     assert package_manifest["agent_id"] == package_manifest["package_id"] == "obf"
+    assert package_manifest["domain_descriptor_ref"] == "contracts/domain_descriptor.json"
     assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
     assert_configured_carrier_projection(package_manifest, carrier_manifest)
     assert carrier_manifest == {
@@ -99,6 +100,7 @@ def main() -> int:
         "presentation": package_manifest["presentation"],
         "publisher": package_manifest["publisher"],
         "version": package_manifest["version"],
+        "domain_descriptor_ref": package_manifest["domain_descriptor_ref"],
         "source": package_manifest["source"],
         "carrier_source_role": package_manifest["carrier_source_role"],
         "entrypoints": [],
