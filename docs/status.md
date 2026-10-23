@@ -8,8 +8,22 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 ## Source State
 
 `package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.3.16` and Package identity `obf`. Version metadata is not a release or
+version `0.3.17` and Package identity `obf`. Version metadata is not a release or
 installed-state receipt.
+
+The source includes a standard dual-format publication helper and a bundled
+Chinese A4 Word/PDF design. It exports both formats from one manuscript,
+retains selected template bytes, checks content/asset/metadata integrity and
+PDF fonts, and renders every page for visual review. Source/style guidance
+follows each book's accepted sample and explains scope through research facts;
+teaching scenes and anticipatory disclaimers are not generic requirements.
+Long-form planning records one extent unit and counting scope from target
+through chapter QC; quantitative prose retains study design and analysis units,
+and numeric citations receive order/list reconciliation. These editorial checks
+remain distinct from Word/PDF pagination and extraction-coverage scores.
+These source changes require a new Package release before the installed stable
+carrier can advertise them; a local successful chapter export proves the helper
+path, not installed or published currentness.
 
 The action catalog exposes `shape-storyline` and `materialize-book`. The current
 five-stage graph, isolated Review adoption, refs-only handoffs, PDF helper, and

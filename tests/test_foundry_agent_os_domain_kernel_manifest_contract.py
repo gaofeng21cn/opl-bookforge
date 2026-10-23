@@ -89,7 +89,7 @@ def main() -> int:
     }
     assert plugin_manifest["name"] == "opl-bookforge"
     assert package_metadata["name"] == "opl-bookforge"
-    assert package_metadata["version"] == "0.3.16"
+    assert package_metadata["version"] == "0.3.17"
     assert plugin_manifest["version"] == package_metadata["version"]
     assert portable_plugin_manifest["version"] == package_metadata["version"]
     assert package_manifest["version"] == package_metadata["version"]

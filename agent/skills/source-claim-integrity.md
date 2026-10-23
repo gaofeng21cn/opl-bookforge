@@ -92,6 +92,21 @@ Drafting and repair rules:
   typical scene; documented process material reads as documented process;
   owner practice involvement reads as practice-involved design/reflection;
   outcome language requires outcome/impact evidence.
+- For quantitative research, retain the study details that determine how a
+  result can be read: analysis unit and denominator, design, training/internal
+  or external validation cohort, data-collection timepoint, reference standard,
+  endpoint, and the metric being reported. Keep separate denominators separate
+  and explain their roles; do not merge patient-, lesion-, examination-,
+  image-, or frame-level counts into one implied sample size.
+- Draft source-supported claims with their source-map or house-style citation
+  linkage. Before handoff, reconcile citations against the reference list; when
+  the book uses numeric citations, check first-appearance order, and check that
+  every listed reference is used. The reader-facing citation format may be
+  concise while full source locators remain in the source map.
+- When synthesizing several studies, compare results only after checking that
+  their populations, inputs, timepoints, reference standards, endpoints, and
+  validation designs are sufficiently aligned. Describe differences through
+  those study facts rather than generic cautionary language.
 - For practice-involved cases, active author-team voice may explain design
   judgment, operational choice, and reflective limits. It must not claim
   unprovided outcomes, user validation, interviews, authorization, learning

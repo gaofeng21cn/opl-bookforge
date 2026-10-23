@@ -102,6 +102,24 @@
           "purpose": "Poppler page rendering for proof page inspection and nonblank checks."
         },
         {
+          "dependency_id": "soffice",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Render the editable Word companion for publication-bundle page inspection; prefer the host bundled runtime."
+        },
+        {
+          "dependency_id": "pdftotext",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Extract PDF text for source-content coverage checks."
+        },
+        {
+          "dependency_id": "pdffonts",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Embedded-font readback for PDF proofs and publication bundles."
+        },
+        {
           "dependency_id": "quarto",
           "kind": "executable",
           "required_level": "optional",

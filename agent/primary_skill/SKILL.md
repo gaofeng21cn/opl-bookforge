@@ -29,8 +29,10 @@ For a new end-to-end book request, run `shape-storyline` first, obtain the owner
 2. Convert approved storyline refs into chapter task cards, reader-entry plans, target extents, figure/table obligations, source refs, and style constraints.
 3. Materialize substantial manuscript body in author-facing Markdown. Scripts may assemble, validate, and export, but must not hide manuscript prose in code or JSON literals.
 4. Review source/claim integrity, reader/style consistency, chapter continuity, figures, tables, captions, and higher-level structural defects before proof/export claims.
-5. Keep `review_pdf`, `publication_proof`, and `final_export` distinct. Publication proof requires a real typesetting backend plus rendered-page evidence; final export additionally requires owner/export acceptance.
-6. Route focused work to the relevant professional Skill: `bookforge-story-style-architect`, `bookforge-chapter-author`, `bookforge-source-reference-reviewer`, `bookforge-meta-reviewer`, or `bookforge-publication-memory-curator`.
+   Follow the owner-approved style contract and supplied samples for narrative form; do not introduce teaching scenarios or other devices from a generic textbook template. State evidence scope through study population, design, endpoint, validation stage, and intended use, and remove preventive disclaimers and generalized caveats from reader-facing prose.
+5. When the owner requests a Word and PDF delivery, use `runtime/native_helpers/bookforge_publication_bundle.py` under `materialize-book` / `publication-proof-handoff` and `contracts/publication_bundle_contract.json`: generate both files from the same Markdown source, metadata, figures, tables, and design profile, then write a bundle manifest with SHA-256, page counts, font readback, content-parity checks, and rendered-page refs. The fast path shortens orchestration; it does not skip source, asset, font, or page-render checks.
+6. Keep `review_pdf`, `publication_proof`, `publication_bundle`, and `final_export` distinct. A publication bundle can be ready for owner review after both formats pass the shared-source and rendered-page checks; publication proof still requires a real typesetting backend and design evidence, and final export additionally requires owner/export acceptance.
+7. Route focused work to the relevant professional Skill: `bookforge-story-style-architect`, `bookforge-chapter-author`, `bookforge-source-reference-reviewer`, `bookforge-meta-reviewer`, or `bookforge-publication-memory-curator`.
 
 ## Quality And Hard Stops
 

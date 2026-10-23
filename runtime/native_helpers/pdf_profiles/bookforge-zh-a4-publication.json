@@ -1,0 +1,50 @@
+{
+  "profile_id": "bookforge-zh-a4-publication",
+  "profile_label": "Book Forge Chinese A4 publication manuscript",
+  "backend": "pandoc-xelatex",
+  "pandoc_variables": [
+    "documentclass=ctexart",
+    "fontsize=11pt",
+    "colorlinks=true",
+    "linkcolor=black",
+    "urlcolor=black"
+  ],
+  "include_in_header": [
+    "bookforge-zh-a4-publication-header.tex"
+  ],
+  "publication_design_profile": {
+    "page_geometry": "A4 portrait; 1.25 inch side margins and 1 inch top/bottom margins for an editable manuscript companion and a PDF proof.",
+    "typography_hierarchy": "Songti body with restrained black headings; PDF falls back to TeX-distributed Fandol when macOS typefaces are unavailable.",
+    "caption_style": "Centered Chinese figure and table labels with compact spacing; captions stay with their objects.",
+    "figure_treatment": "Centered figures constrained to the text width, with the figure label and image kept together where possible.",
+    "table_treatment": "Booktabs tables constrained to the text width with column wrapping.",
+    "callout_style": "Follow the book reader/style contract; no callout, case, or teaching-scene structure is added by this profile.",
+    "headers_footers": "Centered Arabic page number in the footer.",
+    "page_numbering": "Arabic page numbers in the center footer.",
+    "visual_rhythm": "Continuous scholarly prose with readable leading, compact section spacing, centered figures, and booktabs tables.",
+    "rendered_page_inspection_plan": "Inspect every rendered page of both formats, including title/byline/date, dense prose, figures, table wrapping and page breaks, references, page numbers, and the closing page."
+  },
+  "visual_qa_expectations": {
+    "min_render_dpi": 180,
+    "min_machine_page_fill_ratio": 0.01,
+    "max_trailing_whitespace_ratio": 0.4,
+    "require_embedded_fonts_when_pdffonts_available": true,
+    "sample_page_roles": [
+      "front_matter",
+      "chapter_opening",
+      "dense_body",
+      "figure_or_table",
+      "closing_page"
+    ],
+    "checklist_refs": [
+      "nonblank_pages",
+      "embedded_fonts",
+      "rendered_page_size",
+      "caption_proximity",
+      "figure_table_rendering",
+      "page_number",
+      "trailing_whitespace"
+    ]
+  },
+  "word_reference_doc": "bookforge-zh-a4-publication-reference.docx"
+}

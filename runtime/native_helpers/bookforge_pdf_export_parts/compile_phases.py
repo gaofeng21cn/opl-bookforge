@@ -239,6 +239,7 @@ def compile_backend(
         prepared.resource_paths,
         prepared.include_headers,
         number_sections=args.number_sections,
+        include_toc=getattr(args, "toc", True),
     )
     if blocker:
         if blocker in {"pandoc not found", "xelatex not found"}:

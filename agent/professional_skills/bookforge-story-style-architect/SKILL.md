@@ -17,7 +17,7 @@ Define the book's durable storyline and style architecture before formal chapter
 
 ## Outputs
 
-- Premise, reader promise, argument path, chapter thesis chain, chapter function contract, concept map, core model map, and case evidence ladder.
+- Premise, reader promise, argument path, chapter thesis chain, chapter function contract, concept map, and core model map; add a case evidence ladder when the approved style and chapter functions use cases.
 - Reader-style contract with primary/secondary/excluded readers, reading situation, natural-expression rules, and author/source stance map.
 - Style profile with adoption/rejection rules, terminology map, fatigue scan targets, accepted exceptions, and reusable prose rules.
 - Owner critique absorption and complete-version comparison map identifying transferable storyline/style lessons, non-transferable preferences, retained active-manuscript strengths, and route-back targets.
@@ -35,10 +35,10 @@ Define the book's durable storyline and style architecture before formal chapter
 
 - Establish primary readers, reader priority, author/source stance, and artifact route before visible body drafting.
 - Give each chapter one primary job, one new argument movement, adjacent handoffs, and non-repeat claims.
-- For long books, repair part arc, chapter sequence, target extent, recurring models, case ladder, and inter-chapter handoffs before asking the chapter author to rewrite local prose.
+- For long books, repair part arc, chapter sequence, target extent, recurring models, applicable case ladder, and inter-chapter handoffs before asking the chapter author to rewrite local prose.
 - Define or foreshadow recurring terms before readers must rely on them.
 - Select the core models the argument can genuinely reuse, and state where they are introduced, applied, and recovered; do not impose a fixed count.
-- Prefer a small number of complete spine cases over shallow one-off examples when nonfiction practice material supports the book.
+- Choose case or example structure only when the approved style contract, samples, and available source material support it. A teaching or textbook purpose alone does not create a required case or scenario.
 - Extract transferable craft rules from samples and references; do not copy protected prose, claims, examples, or voice.
 - Absorb owner critique by classifying each point as storyline spine, reader-style contract, chapter function, source stance, proof/design memory, owner decision, or not adopted; do not treat critique as direct manuscript authority.
 - When a complete prior or stronger version exists, compare whole-version argument movement, reader promise, chapter sequence, source stance, and style profile before local rewrites.
@@ -65,7 +65,6 @@ Keep storyline, reader contract, chapter function, author/source stance, owner c
 - `chapter_function_conflict`: repair chapter thesis chain and function contract before prose edits.
 - `owner_critique_route_missing`: classify critique by owning repair layer before changing storyline or style rules.
 - `complete_version_comparison_missing`: compare active and supplied complete versions before adopting broad structure/style changes.
-- `spine_case_missing`: define the minimum case set or return an owner/source blocker before evidence-backed central-argument claims.
 - `style_profile_conflicts_with_primary_reader`: repair reader contract or reject imported pattern.
 - `proof_design_memory_stale`: refresh or route design memory before layout-sensitive style rules affect drafting.
 - `style_repair_hides_source_gap`: route to `bookforge-source-reference-reviewer`.

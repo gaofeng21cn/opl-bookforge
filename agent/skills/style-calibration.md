@@ -64,17 +64,24 @@ Workflow:
    irreversible-action, identity/currentness, or human resolution.
 2. Classify each input as owner voice, reference draft, comparable work, house
    style, prior chapter, critique, or QC finding.
-3. Extract style signals: sentence length, cadence, paragraph entry and exit,
-   transition shape, example density, theory-to-practice ratio, term reuse, case
-   voice, claim restraint, and visual/table prose integration.
-4. Build the style profile as an owner-inspectable ref. Include what to adopt,
-   what to reject, and why each rule fits the primary readers.
-5. Build the fatigue list from repeated empty turns, generic intensifiers,
+3. Read supplied samples as both prose and artifacts. Extract voice, paragraph
+   movement, explanation-to-evidence rhythm, terminology, transitions, and
+   section hierarchy from the reader-visible text; inspect typography and page
+   treatment separately. Distinguish intended style from incidental direct
+   formatting, inconsistent heading styles, source-era conventions, and
+   conversion defects. Do not copy those defects into a new template.
+4. Extract reusable style signals: sentence length, cadence, paragraph entry
+   and exit, transition shape, example density, theory-to-practice ratio, term
+   reuse, case voice, claim restraint, and visual/table prose integration.
+5. Build the style profile as an owner-inspectable ref. Include what to adopt,
+   what to reject, what the sample cannot establish, and why each rule fits the
+   primary readers and this book's purpose.
+6. Build the fatigue list from repeated empty turns, generic intensifiers,
    formulaic negation, outline scaffolds, status language, and project-specific
    phrases that make prose sound generated or workflow-facing.
-6. Run a scan over the active chapter or manuscript refs. Record locations,
+7. Run a scan over the active chapter or manuscript refs. Record locations,
    counts, repair actions, and accepted exceptions.
-7. Back-propagate reusable findings into the style engine, terminology map,
+8. Back-propagate reusable findings into the style engine, terminology map,
    chapter task cards, reader-entry plans, QC reports, or semantic memory. Do
    not only patch local prose when the defect is systemic.
 

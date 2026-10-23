@@ -8,6 +8,36 @@ Place domain-specific helper implementations here only when they cannot be repre
 
 `bookforge_pdf_export.py` is the Book Forge-owned Markdown-to-PDF export helper for owner-review PDFs and publication-layout candidates. It keeps manuscript prose in Markdown and delegates PDF layout to a real publication/typesetting backend.
 
+## Publication Bundle
+
+For a Word plus PDF handoff, use the same Markdown, metadata, resource paths, and publication design profile for both writers. Pandoc's DOCX writer produces the editable Word companion; `bookforge_pdf_export.py` produces and renders the PDF. The Book Forge bundle receipt must record the shared source hash, both output hashes, title/byline/date equality, normalized text parity, table and figure counts, PDF font readback, page counts, and rendered-page refs. A pair of files without that receipt remains an ordinary export pair.
+
+`bookforge_publication_bundle.py` provides the standard fast path. Its default
+`bookforge-zh-a4-publication` profile ships both a neutral Word reference and an
+A4 XeLaTeX design; it needs no project-local builder or sample document. The
+Word reference was constructed from Pandoc's clean reference document and
+contains no book text, author identity, or sample-document metadata. Explicit
+`--reference-doc` overrides the profile's `word_reference_doc`, resolved relative
+to the profile file. A custom PDF profile without a Word reference uses the
+bundled neutral Word reference. Retained template bytes and their hash are
+written to the bundle evidence. Follow a supplied book/publisher template and
+the current reader/style contract when selecting or adapting a profile.
+
+```sh
+python3 runtime/native_helpers/bookforge_publication_bundle.py \
+  --root /absolute/book-project --source-md chapters/chapter.md \
+  --output-dir exports --basename chapter \
+  --title 'Chapter title' --author 'Author' --date '2026-10-23' \
+  --soffice /absolute/bundled-runtime/soffice
+```
+
+This performs both exports, source/metadata/asset checks, font inspection and
+full-page rendering in one invocation. Inspect every rendered page before
+delivery. Text equality is diagnostic because PDF line order, ligatures and
+page furniture differ; source coverage and object counts check extraction
+integrity and do not replace semantic or visual review. Chapter numbering and
+TOC are opt-in for the bundle; both writers receive the same options.
+
 Current backend:
 
 - `pandoc-xelatex`: Pandoc standalone Markdown input, XeLaTeX PDF engine, optional Poppler page rendering through `pdftoppm`.

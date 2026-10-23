@@ -58,7 +58,7 @@ The compiled chapter context pack should include:
   state transition, and the downstream refs that must be refreshed after the
   chapter action.
 - `budget_and_missing_extent`: target minimum, current measured extent, missing
-  extent, required section development, case/example obligations, and figure or
+  extent, required section development, chosen case/example devices and their source needs, and figure or
   table interpretation obligations.
 - `evidence_boundaries`: source claim levels, unsupported claims, missing
   source permissions, missing owner decisions, source freshness limits, and

@@ -2,7 +2,8 @@
 
 Pass conditions:
 
-- The handoff classifies the artifact as `review_pdf`, `publication_proof`, or `final_export`, and records what each role can and cannot prove.
+- The handoff classifies the artifact as `review_pdf`, `publication_proof`, `publication_bundle`, or `final_export`, and records what each role can and cannot prove.
+- A requested Word/PDF pair uses `contracts/publication_bundle_contract.json`: the shared-source helper, persistent build evidence, source coverage, identity and asset checks, font readback, and rendered pages for both formats. Inspect the full pair visually; bundle technical success is not owner acceptance.
 - Review PDF output is labeled as owner/editor review artifact only.
 - Publication proof evidence includes publication design profile, concrete design tokens, template/component inventory, resource-path-backed figure resolution, Markdown image-ref checks, figure asset manifest readiness, rendered-page refs, rendered-page inspection, and pre-ship proof review.
 - Every producer or repairer marks semantically changed review dimensions and their declared dependents as `review_pending`; it cannot itself close publication-proof, final-export, export-ready, or ready claims.

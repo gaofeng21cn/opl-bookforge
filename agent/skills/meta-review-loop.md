@@ -6,7 +6,7 @@ Working policy:
 
 - Treat meta-review as an independent editorial quality loop, not as ordinary chapter QC. The reviewer should approach the assembled book as a new reader/editor and judge the whole manuscript, not only the changed chapter.
 - The meta-reviewer must run as a new OPL StageAttempt with a fresh Codex thread. It receives only manuscript/artifact refs, optional locator hashes, declared content/editorial/reference dependencies, source and quality-contract refs, Stage Review receipts, and necessary lineage; it must not inherit or resume the drafting/repair conversation, rationale, or author self-evaluation. Hashes do not establish content authority or review currentness.
-- A valid meta-review reads the assembled manuscript plus only the minimum quality contracts needed to judge it: reader-style contract, chapter function contract, core model map, case evidence ladder, source/evidence boundaries, and current metrics. It should not read hidden drafting notes unless those are the object of review.
+- A valid meta-review reads the assembled manuscript plus only the minimum quality contracts needed to judge it: reader-style contract, chapter function contract, core model map, case evidence ladder when the book uses case material, source/evidence boundaries, and current metrics. It should not read hidden drafting notes unless those are the object of review.
 - The reviewer must produce a durable `meta-review/round-N.md` or equivalent ref with:
   - round number and date;
   - reviewed manuscript ref and metrics ref;

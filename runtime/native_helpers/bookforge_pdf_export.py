@@ -216,6 +216,7 @@ def pandoc_xelatex_command(
     include_headers: list[Path],
     *,
     number_sections: bool,
+    include_toc: bool = True,
 ) -> tuple[list[str], str | None]:
     if not command_exists("pandoc"):
         return [], "pandoc not found"
@@ -226,12 +227,16 @@ def pandoc_xelatex_command(
         str(source_md),
         "-s",
         "--pdf-engine=xelatex",
-        "--toc",
         "--metadata",
         "link-citations=true",
         "-o",
         str(output_pdf),
     ]
+    if include_toc:
+        command.append("--toc")
+    table_width_filter = Path(__file__).resolve().parent / "bookforge_table_widths.lua"
+    if table_width_filter.is_file():
+        command.extend(["--lua-filter", str(table_width_filter)])
     if number_sections:
         command.append("--number-sections")
     if metadata_file:
@@ -363,6 +368,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         action="store_false",
         help="Disable Pandoc automatic section numbering for pre-numbered manuscripts or cumulative review PDFs.",
     )
+    parser.add_argument("--toc", dest="toc", action="store_true", default=True,
+                        help="Include a table of contents (enabled by default).")
+    parser.add_argument("--no-toc", dest="toc", action="store_false",
+                        help="Omit the table of contents for a standalone chapter or short owner-review bundle.")
     parser.add_argument(
         "--publication-profile",
         default=DEFAULT_PUBLICATION_PROFILE,

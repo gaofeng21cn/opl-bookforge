@@ -1,0 +1,35 @@
+\usepackage{fontspec}
+\usepackage{xeCJK}
+% Unicode Roman numerals occur beside both Latin study names and Chinese text.
+% Keep them in the CJK font, which supplies these glyphs in every context.
+\xeCJKDeclareCharClass{CJK}{"2160 -> "217F}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+\IfFontExistsTF{Songti SC}{\setCJKmainfont{Songti SC}}{\setCJKmainfont{FandolSong-Regular}}
+\IfFontExistsTF{PingFang SC}{\setCJKsansfont{PingFang SC}}{\setCJKsansfont{FandolHei-Regular}}
+\IfFontExistsTF{PingFang SC}{\setCJKmonofont{PingFang SC}}{\setCJKmonofont{FandolFang-Regular}}
+\usepackage{geometry}
+\geometry{a4paper,top=1in,bottom=1in,left=1.25in,right=1.25in}
+\usepackage{setspace}
+\setstretch{1.24}
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\bfseries\zihao{4}}{\thesection}{0.7em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.5em}
+\titleformat{\subsection}{\normalfont\bfseries\zihao{-4}}{\thesubsection}{0.7em}{}
+\titlespacing*{\subsection}{0pt}{0.9em}{0.35em}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.2em}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage{caption}
+\captionsetup{labelformat=empty,font=small,skip=6pt}
+\pagestyle{plain}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\usepackage{etoolbox}
+\AtBeginEnvironment{enumerate}{\small\setstretch{1.08}\interlinepenalty=10000}

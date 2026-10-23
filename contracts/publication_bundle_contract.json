@@ -1,0 +1,80 @@
+{
+  "surface_kind": "opl_bookforge_publication_bundle_contract.v1",
+  "contract_version": 1,
+  "artifact_role": "publication_bundle",
+  "owner": "opl-bookforge",
+  "purpose": "Produce an editable Word companion and a rendered PDF from one Markdown manuscript and one metadata/design profile.",
+  "required_inputs": [
+    "source_markdown",
+    "metadata",
+    "publication_design_profile",
+    "resource_paths"
+  ],
+  "required_outputs": [
+    "docx",
+    "pdf",
+    "bundle_manifest"
+  ],
+  "shared_source_requirements": [
+    "title",
+    "author",
+    "date",
+    "body_text",
+    "figures",
+    "tables",
+    "references"
+  ],
+  "manifest_requirements": [
+    "source_sha256",
+    "docx_sha256",
+    "pdf_sha256",
+    "figure_count_parity",
+    "table_count_parity",
+    "title_byline_date_equality",
+    "pdf_font_readback",
+    "docx_page_count",
+    "pdf_page_count",
+    "docx_rendered_page_refs",
+    "pdf_rendered_page_refs",
+    "source_coverage_docx",
+    "source_coverage_pdf",
+    "source_coverage_threshold",
+    "source_coverage_method",
+    "build_evidence_refs",
+    "source_coverage_docx_render",
+    "docx_render_title_byline_date_present"
+  ],
+  "quality_boundary": {
+    "fast_path_is_orchestration_only": true,
+    "publication_bundle_is_publication_approval": false,
+    "publication_bundle_is_final_export": false,
+    "owner_acceptance_required_for_final_export": true
+  },
+  "backends": {
+    "docx": "pandoc_docx_writer",
+    "pdf": "bookforge_publication_typesetting_backend"
+  },
+  "entrypoint_ref": "runtime/native_helpers/bookforge_publication_bundle.py",
+  "table_width_filter_ref": "runtime/native_helpers/bookforge_table_widths.lua",
+  "owning_action": "materialize-book",
+  "owning_stage": "publication-proof-handoff",
+  "content_integrity": {
+    "method": "nfkc_cjk_character_latin_word_multiset",
+    "minimum_source_coverage": 0.985,
+    "source": "Pandoc AST visible body text, excluding image alt text and link destinations",
+    "normalized_text_equality": "diagnostic_only",
+    "requires_rendered_page_review": true,
+    "rendered_docx_text_readback_required": true
+  },
+  "required_commands": [
+    "pandoc",
+    "xelatex",
+    "soffice",
+    "pdftoppm",
+    "pdftotext",
+    "pdffonts"
+  ],
+  "fontconfig_policy": "Explicit --fontconfig-file or FONTCONFIG_FILE; on macOS discover system/library/user font dirs and persist configuration in build-inputs.",
+  "default_publication_profile": "bookforge-zh-a4-publication",
+  "word_reference_policy": "Explicit --reference-doc takes precedence, then profile-relative word_reference_doc, then the bundled neutral Chinese A4 reference. Retain and hash selected template bytes in build inputs."
+}

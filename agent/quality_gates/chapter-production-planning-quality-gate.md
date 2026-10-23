@@ -6,8 +6,10 @@ Pass conditions:
 
 - The consumed storyline refs include the storyline map, chapter thesis chain, reader-style contract, author/source stance map, source/evidence refs, target extent, and owner decisions, or the stage records an exact in-progress delta or route-back repair ref.
 - Target extent is converted into chapter-level budgets before body drafting starts.
+- The selected extent unit and inclusion scope are recorded with the target so planning, manuscript checks, and later chapter budgets use one stable measure; Word/PDF pagination remains a separate layout result.
 - The active production queue names each required unit's target minimum, current measured state, missing extent, next action, review-PDF eligibility, and typed blocker state.
 - Every planned production chapter has a chapter task card with reader promise, chapter job, thesis movement, source refs, figure/table obligations, active memory refs, style constraints, QC state, and blockers.
+- Source-dependent chapter claims have usable source locators, and numeric-citation books include a reference-reconciliation action in the production plan.
 - Planning consumes the reader-style contract, author/source stance map, chapter function contract, early concept map, core model map, and case evidence ladder from `storyline-architecture` when relevant.
 - The chapter context compiler plan separates protected context from compressible context and names the first concrete chapter action.
 - Book memory refs are owner-inspectable working, episodic, and semantic refs, not a private scheduler or second truth source.
