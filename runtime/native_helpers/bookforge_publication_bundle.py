@@ -152,22 +152,90 @@ def count_nodes(value: Any, node_type: str) -> int:
 
 
 def docx_body_readback(path: Path) -> dict[str, Any]:
+    note_parts: dict[str, dict[str, ET.Element]] = {}
     with ZipFile(path) as archive:
         root = ET.fromstring(archive.read("word/document.xml"))
+        for kind in ("footnote", "endnote"):
+            part = f"word/{kind}s.xml"
+            definitions: dict[str, ET.Element] = {}
+            if part in archive.namelist():
+                for note in ET.fromstring(archive.read(part)):
+                    if note.tag != f"{{{W_NS}}}{kind}":
+                        continue
+                    if note.get(f"{{{W_NS}}}type", "normal") != "normal":
+                        continue
+                    note_id = note.get(f"{{{W_NS}}}id")
+                    if note_id is None or note_id in definitions:
+                        raise BundleError(f"DOCX {kind} has missing or duplicate id: {note_id}")
+                    definitions[note_id] = note
+            note_parts[kind] = definitions
     body = root.find("w:body", NS)
     if body is None:
         raise BundleError("DOCX has no document body")
     blocks: list[str] = []
     table_count = 0
     drawing_count = 0
+    notes: list[dict[str, str]] = []
+    used: dict[str, set[str]] = {kind: set() for kind in note_parts}
+    text_tag = f"{{{W_NS}}}t"
+    reference_tags = {f"{{{W_NS}}}{kind}Reference": kind for kind in note_parts}
     for child in body:
         if child.tag == f"{{{W_NS}}}sectPr":
             continue
-        if child.tag == f"{{{W_NS}}}tbl":
-            table_count += 1
+        table_count += sum(1 for node in child.iter() if node.tag == f"{{{W_NS}}}tbl")
         drawing_count += sum(1 for node in child.iter() if node.tag == f"{{{W_NS}}}drawing")
-        blocks.append("".join(node.text or "" for node in child.iter() if node.tag == f"{{{W_NS}}}t"))
-    return {"text": "\n".join(blocks), "table_count": table_count, "figure_count": drawing_count}
+        text: list[str] = []
+        for node in child.iter():
+            if node.tag == text_tag:
+                text.append(node.text or "")
+            elif node.tag in reference_tags:
+                kind = reference_tags[node.tag]
+                note_id = node.get(f"{{{W_NS}}}id")
+                note = note_parts[kind].get(note_id)
+                if note is None:
+                    raise BundleError(f"DOCX {kind} reference has no definition: {note_id}")
+                if any(item.tag in reference_tags for item in note.iter()):
+                    raise BundleError(f"DOCX nested note reference is unsupported: {kind} {note_id}")
+                note_text = "".join(item.text or "" for item in note.iter() if item.tag == text_tag)
+                notes.append({"kind": kind, "id": note_id, "text": note_text})
+                text.append(f"\n{note_text}\n")
+                used[kind].add(note_id)
+                table_count += sum(1 for item in note.iter() if item.tag == f"{{{W_NS}}}tbl")
+                drawing_count += sum(1 for item in note.iter() if item.tag == f"{{{W_NS}}}drawing")
+        blocks.append("".join(text))
+    for kind, definitions in note_parts.items():
+        orphaned = set(definitions) - used[kind]
+        if orphaned:
+            raise BundleError(f"DOCX {kind} definitions have no reference: {', '.join(sorted(orphaned))}")
+    return {"text": "\n".join(blocks), "table_count": table_count,
+            "figure_count": drawing_count, "notes": notes}
+
+
+def note_integrity(ast: Any, readback: dict[str, Any]) -> dict[str, Any]:
+    """Compare notes in anchor order so a global coverage score cannot hide loss or swaps."""
+    expected: list[str] = []
+
+    def collect(value: Any) -> None:
+        if isinstance(value, dict):
+            if value.get("t") == "Note":
+                expected.append(visible_ast_text(value["c"]))
+            else:
+                for item in value.values():
+                    collect(item)
+        elif isinstance(value, list):
+            for item in value:
+                collect(item)
+
+    collect(ast)
+    actual = readback["notes"]
+    mismatches = []
+    for index, (source, note) in enumerate(zip(expected, actual), 1):
+        if normalized_text(source) != normalized_text(note["text"]):
+            mismatches.append({"ordinal": index, "kind": note["kind"], "id": note["id"]})
+    return {"source_count": len(expected), "docx_count": len(actual),
+            "count_parity": len(expected) == len(actual),
+            "text_parity": len(expected) == len(actual) and not mismatches,
+            "mismatches": mismatches}
 
 
 def keep_docx_table_rows(path: Path) -> None:
@@ -437,6 +505,7 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
 
         visible_source = visible_ast_text(ast["blocks"])
         docx_readback = docx_body_readback(docx)
+        notes = note_integrity(ast["blocks"], docx_readback)
         pdf_body_text = pdf_text_readback(pdf, cwd=root)
         docx_body_text = docx_readback["text"]
         norm_docx = normalized_text(docx_body_text)
@@ -470,6 +539,8 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
             "source_coverage_method": "nfkc_cjk_character_latin_word_multiset",
             "normalized_text_similarity": round(similarity, 6),
             "table_count_parity": table_count == docx_readback["table_count"],
+            "note_count_parity": notes["count_parity"],
+            "note_text_parity": notes["text_parity"],
             "figure_count_parity": (
                 image_count == docx_readback["figure_count"]
                 and image_count == image_refs.get("total", -1)
@@ -484,7 +555,8 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
             "pdf_font_readback": font_inspection.get("status", "missing"),
             "embedded_pdf_font_count": font_inspection.get("embedded_font_count", 0),
         }
-        errors = [key for key in ("title_byline_date_equality", "table_count_parity", "figure_count_parity") if not parity[key]]
+        errors = [key for key in ("title_byline_date_equality", "table_count_parity", "figure_count_parity",
+                                  "note_count_parity", "note_text_parity") if not parity[key]]
         if coverage_docx < MIN_SOURCE_COVERAGE:
             errors.append("docx_source_coverage_below_threshold")
         if coverage_pdf < MIN_SOURCE_COVERAGE:
@@ -517,6 +589,7 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
             "pdf_export_status": pdf_payload.get("status"),
             "pdf_artifact_gate": pdf_payload.get("artifact_gate", {}).get("status"),
             "parity": parity,
+            "note_integrity": notes,
             "build_evidence_refs": {
                 "compiled_markdown": relative_ref(compiled_source, root),
                 "metadata": relative_ref(metadata, root),

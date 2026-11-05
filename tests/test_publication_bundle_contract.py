@@ -157,10 +157,102 @@ def test_default_resources_and_chinese_byline() -> None:
         assert "甲机构~张三" in output and "乙机构~李四" in output
 
 
+def test_docx_notes_follow_source_anchors() -> None:
+    sys.path.insert(0, str(REPO / "runtime/native_helpers"))
+    from bookforge_publication_bundle import (
+        BundleError, docx_body_readback, note_integrity, source_coverage, visible_ast_text,
+    )
+    source = ("长篇正文。" * 1000) + "甲。[^a]乙。[^b]\n\n[^a]: 甲机构，**项目记录**，2024。\n\n[^b]: 乙机构，[结果](https://example.org/b)，2025。\n"
+    ast = json.loads(subprocess.run(["pandoc", "-f", "gfm", "-t", "json"], input=source,
+                                    text=True, capture_output=True, check=True).stdout)
+    ns = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
+    w = "{" + ns["w"] + "}"
+    with tempfile.TemporaryDirectory() as tmp:
+        target = Path(tmp) / "notes.docx"
+        subprocess.run(["pandoc", "-f", "gfm", "-t", "docx", "-o", str(target)],
+                       input=source, text=True, capture_output=True, check=True)
+        with ZipFile(target) as archive:
+            original = {name: archive.read(name) for name in archive.namelist()}
+
+        def write_variant(parts: dict[str, bytes]) -> None:
+            with ZipFile(target, "w") as archive:
+                for name, data in parts.items():
+                    archive.writestr(name, data)
+
+        def expect_error(parts: dict[str, bytes], message: str) -> None:
+            write_variant(parts)
+            try:
+                docx_body_readback(target)
+            except BundleError as exc:
+                assert message in str(exc), str(exc)
+            else:
+                raise AssertionError(f"corrupt notes accepted: {message}")
+
+        intact = docx_body_readback(target)
+        assert len(intact["notes"]) == 2  # Pandoc's separator records are excluded.
+        assert "项目记录" in intact["text"] and "结果" in intact["text"]
+        assert source_coverage(visible_ast_text(ast["blocks"]), intact["text"]) == 1.0
+        assert note_integrity(ast["blocks"], intact)["text_parity"]
+
+        # Swapping anchors keeps every word and the global coverage score intact.
+        document = ET.fromstring(original["word/document.xml"])
+        anchors = document.findall(".//w:footnoteReference", ns)
+        first_id, second_id = [node.get(w + "id") for node in anchors]
+        anchors[0].set(w + "id", second_id)
+        anchors[1].set(w + "id", first_id)
+        write_variant({**original, "word/document.xml": ET.tostring(document)})
+        swapped = docx_body_readback(target)
+        assert source_coverage(visible_ast_text(ast["blocks"]), swapped["text"]) == 1.0
+        assert note_integrity(ast["blocks"], swapped)["mismatches"] == [
+            {"ordinal": 1, "kind": "footnote", "id": second_id},
+            {"ordinal": 2, "kind": "footnote", "id": first_id},
+        ]
+
+        notes = ET.fromstring(original["word/footnotes.xml"])
+        normal = [node for node in notes if node.get(w + "type", "normal") == "normal"]
+        normal[0].find(".//w:t", ns).text = "丢失"
+        write_variant({**original, "word/footnotes.xml": ET.tostring(notes)})
+        damaged = docx_body_readback(target)
+        assert source_coverage(visible_ast_text(ast["blocks"]), damaged["text"]) > 0.985
+        assert not note_integrity(ast["blocks"], damaged)["text_parity"]
+
+        missing_part = {name: data for name, data in original.items() if name != "word/footnotes.xml"}
+        expect_error(missing_part, "reference has no definition")
+        document = ET.fromstring(original["word/document.xml"])
+        for parent in document.iter():
+            for node in list(parent):
+                if node.tag == w + "footnoteReference":
+                    parent.remove(node)
+        expect_error({**original, "word/document.xml": ET.tostring(document)}, "definitions have no reference")
+        write_variant({**missing_part, "word/document.xml": ET.tostring(document)})
+        assert not note_integrity(ast["blocks"], docx_body_readback(target))["count_parity"]
+
+        notes = ET.fromstring(original["word/footnotes.xml"])
+        notes.append(ET.fromstring(ET.tostring(normal[0])))
+        expect_error({**original, "word/footnotes.xml": ET.tostring(notes)}, "duplicate id")
+
+        # The reader also follows endnote anchors, which Word stores separately.
+        document = ET.fromstring(original["word/document.xml"])
+        for node in document.findall(".//w:footnoteReference", ns):
+            node.tag = w + "endnoteReference"
+        notes = ET.fromstring(original["word/footnotes.xml"])
+        notes.tag = w + "endnotes"
+        for node in notes:
+            node.tag = w + "endnote"
+            for marker in node.findall(".//w:footnoteRef", ns):
+                marker.tag = w + "endnoteRef"
+        write_variant({**missing_part, "word/document.xml": ET.tostring(document),
+                       "word/endnotes.xml": ET.tostring(notes)})
+        endnotes = docx_body_readback(target)
+        assert all(note["kind"] == "endnote" for note in endnotes["notes"])
+        assert note_integrity(ast["blocks"], endnotes)["text_parity"]
+
+
 if __name__ == "__main__":
     test_publication_bundle_contract()
     test_extraction_integrity()
     test_caption_and_list_writer_behavior()
     test_docx_table_rows_keep_content_and_headers()
     test_default_resources_and_chinese_byline()
+    test_docx_notes_follow_source_anchors()
     print('{"status":"passed","test":"publication_bundle_contract"}')

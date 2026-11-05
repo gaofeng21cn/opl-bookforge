@@ -8,7 +8,7 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 ## Source State
 
 `package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.3.17` and Package identity `obf`. Version metadata is not a release or
+version `0.3.18` and Package identity `obf`. Version metadata is not a release or
 installed-state receipt.
 
 The source includes a standard dual-format publication helper and a bundled
@@ -19,11 +19,17 @@ follows each book's accepted sample and explains scope through research facts;
 teaching scenes and anticipatory disclaimers are not generic requirements.
 Long-form planning records one extent unit and counting scope from target
 through chapter QC; quantitative prose retains study design and analysis units,
-and numeric citations receive order/list reconciliation. These editorial checks
+and numeric citations receive order/list reconciliation. Case selection separates
+argument fit, source support, and author relationship; context selection carries
+the active delivery boundary and prioritized evidence gaps. Style review judges
+actual workflow leakage while retaining useful navigation and external attribution.
+Word readback follows footnote and endnote anchors, verifies definitions, and
+compares note text in source order independently of global text coverage.
+These editorial checks
 remain distinct from Word/PDF pagination and extraction-coverage scores.
-These source changes require a new Package release before the installed stable
-carrier can advertise them; a local successful chapter export proves the helper
-path, not installed or published currentness.
+The 0.3.18 source includes these changes and reserves space before PDF quotation
+blocks so a case heading can stay with its opening text. Package publication
+and installed carrier currentness are verified through their own receipts.
 
 The action catalog exposes `shape-storyline` and `materialize-book`. The current
 five-stage graph, isolated Review adoption, refs-only handoffs, PDF helper, and

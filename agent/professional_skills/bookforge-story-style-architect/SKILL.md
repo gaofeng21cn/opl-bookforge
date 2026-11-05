@@ -39,6 +39,7 @@ Define the book's durable storyline and style architecture before formal chapter
 - Define or foreshadow recurring terms before readers must rely on them.
 - Select the core models the argument can genuinely reuse, and state where they are introduced, applied, and recovered; do not impose a fixed count.
 - Choose case or example structure only when the approved style contract, samples, and available source material support it. A teaching or textbook purpose alone does not create a required case or scenario.
+- Select cases for their contribution to a chapter's argument, separately from their authenticity, ownership, and narrative detail. A real author-owned tool demonstration may establish workflow capability without supporting a claim about learning outcomes. Record the selection or rejection and the intended chapter role in the existing case map or chapter function contract. Reused cases need a different evidential or explanatory contribution in each chapter.
 - Extract transferable craft rules from samples and references; do not copy protected prose, claims, examples, or voice.
 - Absorb owner critique by classifying each point as storyline spine, reader-style contract, chapter function, source stance, proof/design memory, owner decision, or not adopted; do not treat critique as direct manuscript authority.
 - When a complete prior or stronger version exists, compare whole-version argument movement, reader promise, chapter sequence, source stance, and style profile before local rewrites.

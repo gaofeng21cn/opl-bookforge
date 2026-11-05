@@ -79,6 +79,13 @@ Workflow:
 6. Build the fatigue list from repeated empty turns, generic intensifiers,
    formulaic negation, outline scaffolds, status language, and project-specific
    phrases that make prose sound generated or workflow-facing.
+   Treat matches as review locations, not automatic failures. Prefer direct
+   affirmative statements while preserving negation that carries a necessary
+   distinction. For example, replace a production summary such as "this chapter
+   advances the previous chapter" with the new explanation the reader needs.
+   Attribute an external study to its authors; describe a source-supported
+   decision by the author's own team in the approved participant voice. The
+   source channel alone does not determine that voice.
 7. Run a scan over the active chapter or manuscript refs. Record locations,
    counts, repair actions, and accepted exceptions.
 8. Back-propagate reusable findings into the style engine, terminology map,

@@ -38,6 +38,14 @@ page furniture differ; source coverage and object counts check extraction
 integrity and do not replace semantic or visual review. Chapter numbering and
 TOC are opt-in for the bundle; both writers receive the same options.
 
+Word readback includes footnotes and endnotes at their document anchors. It
+rejects dangling references, duplicate or orphan definitions, and checks each
+note against the Markdown source in anchor order. `note_integrity` records
+counts and mismatched note locations independently of total text coverage.
+The book design selects note numbering; inspect numbering and placement on
+rendered pages, including the Word rendering, rather than inferring them from
+XML linkage.
+
 Current backend:
 
 - `pandoc-xelatex`: Pandoc standalone Markdown input, XeLaTeX PDF engine, optional Poppler page rendering through `pdftoppm`.

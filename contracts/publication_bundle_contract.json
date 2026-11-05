@@ -42,7 +42,10 @@
     "source_coverage_method",
     "build_evidence_refs",
     "source_coverage_docx_render",
-    "docx_render_title_byline_date_present"
+    "docx_render_title_byline_date_present",
+    "note_integrity",
+    "note_count_parity",
+    "note_text_parity"
   ],
   "quality_boundary": {
     "fast_path_is_orchestration_only": true,
@@ -64,7 +67,9 @@
     "source": "Pandoc AST visible body text, excluding image alt text and link destinations",
     "normalized_text_equality": "diagnostic_only",
     "requires_rendered_page_review": true,
-    "rendered_docx_text_readback_required": true
+    "rendered_docx_text_readback_required": true,
+    "docx_notes": "Read footnotes and endnotes through document anchors, exclude separator records, reject missing, duplicate or orphan definitions, and compare each note with its source in anchor order independently of total coverage.",
+    "note_numbering": "The book design chooses continuous or page-based numbering; rendered-page review checks numbering and placement separately from source linkage."
   },
   "required_commands": [
     "pandoc",

@@ -10,6 +10,7 @@ Admit an approved storyline closeout and turn it into an owner-inspectable, incr
 - defines chapter budgets, task cards, context packs, memory refs, figure/table obligations, and the next useful production units;
 - supports chapter-sharded or otherwise safe parallel work when source, write-set, and owner boundaries permit it;
 - makes every incomplete unit's current state, missing delta, and next action visible;
+- identifies the current baseline, authorized production scope, deliverables, checks, and stopping condition in existing plan/task-card refs, with evidence requests prioritized against material already available;
 - hands only ready units to `chapter-materialization` and routes structural defects to their owning refs.
 
 Use `bookforge-chapter-author` for task-card, context, budget, and production-queue judgment. Use `bookforge-story-style-architect` only when the admitted storyline itself needs repair.

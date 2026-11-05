@@ -54,6 +54,15 @@ decisions, continuity obligations, assets, and a meaningful completion criterion
 Reuse current cards and context; identify the specific delta when they need
 repair. Do not demand a completed card as input to the task that creates it.
 
+Bind the current manuscript baseline, authorized units, deliverables, checks,
+and stopping condition in the existing plan or task cards. Inspect available
+sources before requesting more. Prioritize gaps by the argument they affect:
+essential support for a central claim, support with a usable alternative, or
+optional narrative detail. Name what is already supported and the exact missing
+material; close or narrow the request once supplied material serves that use.
+Keep completed units current and finish the agreed delivery without silently
+expanding it into another whole-book refinement cycle.
+
 Choose production order from chapter dependencies and usable source material.
 Separate units only when their writing and acceptance can remain coherent with
 clear ownership. Carry evidence or asset gaps explicitly, distinguish units ready
@@ -69,6 +78,7 @@ materialization. A queue entry alone does not explain how to write the chapter.
 - Follow the owner-approved style contract and supplied samples for narrative form. Do not add teaching scenarios, classroom framing, case boxes, or other devices merely because the work is a textbook or educational book; use them only when the style contract or an explicit owner decision calls for them. Remove preventive disclaimers and broad caveats from reader-facing prose; state boundaries through the study population, design, reference standard, endpoint, validation stage, or intended use. Prefer direct paragraph endings and keep negation for essential distinctions, conditions, and safety facts.
 - For evidence-dense chapters, synthesize findings around the chapter's reader question or decision path. Preserve each study's analysis unit, denominators, cohort design, input timepoint, reference standard, endpoint, and validation setting; explain differences before comparing performance, rather than writing disconnected paper summaries.
 - When replacing generic examples with practice cases, first bind the case to the chapter's job: which misconception it corrects, which turn or feedback changed the problem, and what evidence is allowed in reader-facing prose. Do not leave material-collection notes, public-source caveats, version labels, or author TODOs in the manuscript.
+- Develop cases through supported particulars: the people or objects involved, constraints, choices, actions, feedback, and consequences that explain the chapter's point. Use the particulars actually available; a case need not contain a mistake, reversal, mentor dialogue, or successful ending. Author participation permits the approved team voice, not invented scenes, motives, chronology, or results. Put unresolved material requests in control refs or clearly separate author-review annotations.
 - Absorb owner critique only after routing each point to local prose, chapter function, source/reference, memory, proof/design, asset/rights, or owner decision; do not let local prose repair hide a higher-layer defect.
 - Reuse a spine case across chapters only by changing the reader function of the scene, not by repeating the same summary. Record the reuse in the chapter task card or case map.
 - Keep case boxes, figures, photos, and reviewer notes separate: a case box is prose evidence, a figure/photo is a visual asset with its own manifest entry, and reviewer notes stay outside publication prose.

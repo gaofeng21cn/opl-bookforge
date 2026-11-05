@@ -12,6 +12,8 @@ Pass conditions:
 - When several studies are compared, their relevant populations, inputs, timepoints, endpoints, and designs are made explicit enough for the comparison; the manuscript does not collapse different analysis units or denominators.
 - Source-supported claims retain traceable source linkage; where numeric citations are used, in-text order and reference-list use are reconciled before handoff.
 - Style QC reviews paragraph endings for repeated defensive negation; precise category distinctions, methodological conditions, and safety facts remain.
+- Case review checks argument fit, source-supported specificity, and author relationship separately. Reused cases contribute new evidence or explanation in each chapter; participant voice does not invent dialogue, chronology, motives, or outcomes.
+- Style findings cite passages and explain the reader-facing defect. Valid external attribution and useful navigation survive review; keyword counts and the absence of negation cannot establish prose quality.
 - Below-target prose is labeled `seed_in_progress` or `draft_in_progress`, not `chapter_draft_ready`, done, complete, or final.
 - Chapter repair updates reusable durable refs when a finding is systemic, and keeps local prose edits local when the repair is bounded.
 - Markdown chapter refs remain the manuscript source of truth; assemblies are generated refs, not the only creative working file.

@@ -32,4 +32,7 @@
 \displaywidowpenalty=10000
 
 \usepackage{etoolbox}
+\usepackage{needspace}
+% Keep a supplied quote/callout opening with the first lines of its content.
+\BeforeBeginEnvironment{quote}{\Needspace{4\baselineskip}}
 \AtBeginEnvironment{enumerate}{\small\setstretch{1.08}\interlinepenalty=10000}

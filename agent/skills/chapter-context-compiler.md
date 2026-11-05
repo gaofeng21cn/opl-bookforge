@@ -30,6 +30,11 @@ Working policy:
   boundaries are sufficient.
 - Compile only the context needed for the active chapter and adjacent handoffs.
   Do not dump the whole book memory into every prompt.
+- Select the current decision and supporting source slice for each chapter
+  action. Include a superseded decision only when it explains a live conflict;
+  do not let an old draft or collection request override admitted material.
+  Carry the task card's delivery boundary, stopping condition, prioritized
+  evidence gaps, and the distinct role of any reused case into the pack.
 - Keep visible manuscript prose separate from production context. Context packs,
   task fields, blockers, budgets, and traces belong in owner-inspectable refs,
   not in the reader-facing chapter body.
