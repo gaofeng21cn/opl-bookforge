@@ -15,7 +15,7 @@
     "contracts/temporal_stage_run_consumption_policy.json",
     "contracts/opl_ledger_artifact_registration.json",
     "contracts/artifact_locator_contract.json",
-    "contracts/memory_descriptor.json",
+    "contracts/durable_knowledge_catalog.json",
     "contracts/owner_receipt_contract.json"
   ],
   "default_read_root": {

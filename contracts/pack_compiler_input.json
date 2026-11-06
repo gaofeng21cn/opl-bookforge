@@ -70,7 +70,6 @@
     "agent/skills/book-production.md",
     "agent/skills/publication-design.md",
     "agent/tools/domain_affordances.md",
-    "agent/knowledge/domain_boundary.md",
     "agent/knowledge/book-authority-boundary.md",
     "agent/knowledge/book-production-boundary.md",
     "agent/quality_gates/domain_acceptance.md",

@@ -587,7 +587,7 @@
       "canonical_owner": "opl-bookforge",
       "physical_source_ref": {
         "ref_kind": "repo_path",
-        "ref": "agent/knowledge/domain_boundary.md",
+        "ref": "agent/knowledge/book-authority-boundary.md",
         "role": "domain_knowledge_pack"
       },
       "runtime_projection_refs": [
@@ -615,7 +615,7 @@
         "reference_pack"
       ],
       "canonical_target_paths": [
-        "agent/knowledge/domain_boundary.md"
+        "agent/knowledge/book-authority-boundary.md"
       ],
       "verification_refs": [
         "scripts/verify.sh",
