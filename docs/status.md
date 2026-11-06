@@ -8,7 +8,7 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 ## Source State
 
 `package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.3.18` and Package identity `obf`. Version metadata is not a release or
+version `0.3.19` and Package identity `obf`. Version metadata is not a release or
 installed-state receipt.
 
 The source includes a standard dual-format publication helper and a bundled
@@ -27,7 +27,7 @@ Word readback follows footnote and endnote anchors, verifies definitions, and
 compares note text in source order independently of global text coverage.
 These editorial checks
 remain distinct from Word/PDF pagination and extraction-coverage scores.
-The 0.3.18 source includes these changes and reserves space before PDF quotation
+The 0.3.19 source includes these changes and reserves space before PDF quotation
 blocks so a case heading can stay with its opening text. Package publication
 and installed carrier currentness are verified through their own receipts.
 
