@@ -78,7 +78,9 @@
     "agent/quality_gates/chapter-production-planning-quality-gate.md",
     "agent/quality_gates/chapter-materialization-quality-gate.md",
     "agent/quality_gates/source-style-integrity-review-quality-gate.md",
-    "agent/quality_gates/publication-proof-handoff-quality-gate.md"
+    "agent/quality_gates/publication-proof-handoff-quality-gate.md",
+    "agent/policies/book-authority-policy.md",
+    "contracts/durable_knowledge_catalog.json"
   ],
   "source_refs": {
     "primary_skill_source_ref": "agent/primary_skill/SKILL.md",

@@ -9,7 +9,10 @@
     "semantic_route_decision_owner": "decisive_codex_attempt",
     "stage_transition_materialization_owner": "opl_stage_run_controller",
     "primary_only_decisive_attempt_role": "producer",
-    "formal_review_decisive_attempt_roles": ["reviewer", "re_reviewer"],
+    "formal_review_decisive_attempt_roles": [
+      "reviewer",
+      "re_reviewer"
+    ],
     "repairer_can_be_decisive_attempt": false,
     "codex_may_advance_skip_repeat_reverse_or_route_back": true,
     "any_declared_stage_may_start_from_any_prior_stage_result": true,
@@ -101,7 +104,10 @@
       "next_stage_refs": [
         "chapter-production-planning"
       ],
-      "trust_lane": "domain_agent"
+      "trust_lane": "domain_agent",
+      "policy_refs": [
+        "agent/policies/book-authority-policy.md"
+      ]
     },
     {
       "stage_id": "chapter-production-planning",
@@ -200,7 +206,10 @@
         "transition_policy": {
           "ordinary_transition_requires_independent_review": true
         }
-      }
+      },
+      "policy_refs": [
+        "agent/policies/book-authority-policy.md"
+      ]
     },
     {
       "stage_id": "chapter-materialization",
@@ -281,7 +290,10 @@
       "next_stage_refs": [
         "source-style-integrity-review"
       ],
-      "trust_lane": "domain_agent"
+      "trust_lane": "domain_agent",
+      "policy_refs": [
+        "agent/policies/book-authority-policy.md"
+      ]
     },
     {
       "stage_id": "source-style-integrity-review",
@@ -364,7 +376,10 @@
       "next_stage_refs": [
         "publication-proof-handoff"
       ],
-      "trust_lane": "domain_agent"
+      "trust_lane": "domain_agent",
+      "policy_refs": [
+        "agent/policies/book-authority-policy.md"
+      ]
     },
     {
       "stage_id": "publication-proof-handoff",
@@ -444,7 +459,10 @@
         "final-export-handoff-ref:publication-proof-handoff"
       ],
       "next_stage_refs": [],
-      "trust_lane": "domain_agent"
+      "trust_lane": "domain_agent",
+      "policy_refs": [
+        "agent/policies/book-authority-policy.md"
+      ]
     }
   ],
   "authority_boundary": {
