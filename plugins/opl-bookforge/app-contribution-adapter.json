@@ -1,0 +1,42 @@
+{
+  "schema_version": "opl-package-app-contribution-adapter.v1",
+  "reads": {
+    "obf.workspace.v1#status": {
+      "kind": "json_file",
+      "root": "profile",
+      "path": "${input.status_path}",
+      "transform": "runtime_detail",
+      "input_schema": {
+        "type": "object",
+        "required": ["status_path"],
+        "properties": {
+          "status_path": {
+            "type": "string",
+            "title": "Book project status",
+            "description": "Workspace-relative path to the current Book Forge project status or stage index JSON."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "obf.workspace.v1#artifacts": {
+      "kind": "json_file",
+      "root": "profile",
+      "path": "${input.manifest_path}",
+      "transform": "artifact_status",
+      "input_schema": {
+        "type": "object",
+        "required": ["manifest_path"],
+        "properties": {
+          "manifest_path": {
+            "type": "string",
+            "title": "Stage outputs manifest",
+            "description": "Workspace-relative path to the Book Forge stage outputs manifest."
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "actions": {}
+}

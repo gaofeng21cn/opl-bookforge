@@ -92,6 +92,17 @@ def main() -> int:
     assert package_manifest["domain_descriptor_ref"] == "contracts/domain_descriptor.json"
     assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
     assert_configured_carrier_projection(package_manifest, carrier_manifest)
+    adapter = load_json("app-contribution-adapter.json")
+    carrier_adapter = load_json("plugins/opl-bookforge/app-contribution-adapter.json")
+    assert adapter == carrier_adapter
+    assert package_manifest["app_contributions"] == carrier_manifest["app_contributions"]
+    assert package_manifest["codex_surface"]["app_contribution_abi"] == (
+        carrier_manifest["codex_surface"]["app_contribution_abi"]
+    )
+    assert package_manifest["codex_surface"]["app_contribution_adapter"] == (
+        carrier_manifest["codex_surface"]["app_contribution_adapter"]
+    )
+    assert not adapter["actions"]
     assert carrier_manifest == {
         "surface_kind": package_manifest["surface_kind"],
         "agent_id": package_manifest["agent_id"],
@@ -111,7 +122,14 @@ def main() -> int:
             "required_skill_ids": package_manifest["codex_surface"][
                 "required_skill_ids"
             ],
+            "app_contribution_abi": package_manifest["codex_surface"][
+                "app_contribution_abi"
+            ],
+            "app_contribution_adapter": package_manifest["codex_surface"][
+                "app_contribution_adapter"
+            ],
         },
+        "app_contributions": package_manifest["app_contributions"],
         "capability_dependencies": [],
     }
     assert carrier_manifest["version"] == plugin_manifest["version"]
