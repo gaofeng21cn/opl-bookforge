@@ -15,6 +15,22 @@ only when that project has no lifecycle Profile, and the shared artifact invento
 declarations. Existing project Profiles remain authoritative; undeclared outputs retain generic
 inventory coverage without a publication or quality verdict.
 
+The Mini App uses the Framework shared progress and artifact views for the
+selected registered workspace and exact book task. Its declarative
+`app-contribution-adapter.json` selects `runtime_context` rather than asking for
+status or manifest filenames. `workspace_index.json#/projects` supplies book
+identity and project roots through the standard inventory projection. When more
+than one book is available, the user selects the book explicitly; no newest-file
+or newest-project heuristic defines current work.
+
+Framework reads execution progress and project artifact references through its
+existing runtime and workspace lifecycle surfaces. Book Forge still owns the
+manuscript, chapter structure, quality debt, and publication/export decisions.
+Starting or continuing writing uses the current Framework task action, while
+manuscript editing and publication proof remain domain operations. The shared
+interaction model is defined in the Framework
+[MCP Apps specification](https://github.com/gaofeng21cn/one-person-lab/blob/main/docs/mcp-apps/SPEC.md).
+
 OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns Agent-engineering semantics and Foundry owns evaluation execution; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
 
 The publication helper uses Framework's `publication_package.sha256_file` for

@@ -78,8 +78,8 @@
         "data_ref": "obf.workspace.v1#status",
         "command_ids": [],
         "empty_state_i18n": {
-          "zh-CN": "选择书稿状态文件后读取当前阶段",
-          "en-US": "Select a book status file to inspect the current stage"
+          "zh-CN": "选择当前书稿任务以查看进度与产物",
+          "en-US": "Select the current book task to inspect progress and artifacts"
         }
       },
       {
@@ -92,8 +92,8 @@
         "data_ref": "obf.workspace.v1#artifacts",
         "command_ids": [],
         "empty_state_i18n": {
-          "zh-CN": "选择阶段产物清单后读取书稿产物",
-          "en-US": "Select a stage outputs manifest to inspect artifacts"
+          "zh-CN": "选择当前书稿任务以查看进度与产物",
+          "en-US": "Select the current book task to inspect progress and artifacts"
         }
       }
     ],
@@ -111,10 +111,10 @@
       },
       {
         "contribution_id": "obf.workspace.artifacts",
-        "slot": "settings.section",
+        "slot": "runtime.detail",
         "contribution_kind": "view",
         "trust_tier": "declarative",
-        "scope": "root",
+        "scope": "work_item",
         "sort_order": 511,
         "view_id": "obf.workspace.artifacts"
       }
