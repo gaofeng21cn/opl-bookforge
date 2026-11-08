@@ -252,17 +252,6 @@ def pandoc_xelatex_command(
     return command, None
 
 
-def artifact_role(args: argparse.Namespace) -> str:
-    role = args.artifact_role.strip()
-    aliases = {
-        "owner_review_only_not_final_export": "review_pdf",
-        "verify_smoke_not_publication": "review_pdf",
-        "publication_proof_pdf": "publication_proof",
-        "final_publication_export": "final_export",
-    }
-    return aliases.get(role, role)
-
-
 def materialize_progress_diagnostic(payload: dict[str, Any], *, code: str, error: str) -> dict[str, Any]:
     payload["status"] = "completed_with_quality_debt"
     payload["error"] = error
@@ -296,7 +285,6 @@ def compile_pdf(args: argparse.Namespace) -> dict[str, Any]:
     prepared = prepare_pdf_compile(
         args,
         version=VERSION,
-        artifact_role=artifact_role,
     )
     payload = prepared.payload
     if prepared.diagnostic:

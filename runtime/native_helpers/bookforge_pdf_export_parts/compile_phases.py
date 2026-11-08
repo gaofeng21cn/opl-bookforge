@@ -78,7 +78,6 @@ def prepare_pdf_compile(
     args: argparse.Namespace,
     *,
     version: str,
-    artifact_role: Callable[[argparse.Namespace], str],
 ) -> PdfCompilePreparation:
     root = args.root.resolve()
     source_md = args.source_md.resolve()
@@ -113,7 +112,7 @@ def prepare_pdf_compile(
     payload: dict[str, Any] = {
         "surface_kind": "bookforge_pdf_export",
         "version": version,
-        "artifact_role": artifact_role(args),
+        "artifact_role": args.artifact_role.strip(),
         "requested_artifact_role": args.artifact_role,
         "backend": args.backend,
         "source_md": rel(source_md, root),

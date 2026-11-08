@@ -4,7 +4,7 @@ Use this skill when a manuscript needs to move beyond readable review output tow
 
 Working policy:
 
-- Keep a strict distinction between `review_pdf`, `publication_proof_pdf`, and `final_export`.
+- Keep a strict distinction between `review_pdf`, `publication_proof`, and `final_export`.
 - Treat `publication_bundle` as a paired owner-review artifact containing an editable DOCX and a rendered PDF produced from the same Markdown source. The bundle is a delivery convenience and consistency checkpoint; it does not by itself grant publication approval or final-export acceptance.
 - A review PDF is a cumulative owner reading checkpoint. It can use a simpler layout profile, but it must render text, tables, captions, and any ready figures correctly, and it must label itself as review-only.
 - A publication proof PDF is the first artifact that should be judged for book-like visual quality. It requires a publication design profile, not just a default PDF backend.
