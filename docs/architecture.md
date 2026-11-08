@@ -17,6 +17,10 @@ inventory coverage without a publication or quality verdict.
 
 OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns Agent-engineering semantics and Foundry owns evaluation execution; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
 
+The publication helper uses Framework's `publication_package.sha256_file` for
+exact file digests, alongside its existing artifact inspection and JSON I/O
+helpers. Book Forge retains the publication manifest and quality verdict.
+
 ## Package Composition
 
 Book Forge declares an `OPL Package(kind=agent)`. It owns the

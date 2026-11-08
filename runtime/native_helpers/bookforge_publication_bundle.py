@@ -41,6 +41,8 @@ except ModuleNotFoundError as exc:
     from bookforge_pdf_export import write_manifest as write_pdf_manifest
 
 
+from opl_framework.publication_package import sha256_file
+
 VERSION = "bookforge-publication-bundle.v1"
 MIN_SOURCE_COVERAGE = 0.985
 TABLE_WIDTH_FILTER = Path(__file__).resolve().parent / "bookforge_table_widths.lua"
@@ -50,14 +52,6 @@ NS = {"w": W_NS}
 
 class BundleError(RuntimeError):
     pass
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
 
 
 def normalized_text(value: str) -> str:
