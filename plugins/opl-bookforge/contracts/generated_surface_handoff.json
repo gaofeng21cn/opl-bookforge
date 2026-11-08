@@ -1,0 +1,155 @@
+{
+  "surface_kind": "opl_generated_surface_handoff_delta",
+  "schema_version": 1,
+  "defaults_profile": "opl.standard-generated-surface-handoff.v1",
+  "domain_id": "opl-bookforge",
+  "generated_surface_owner": "one-person-lab",
+  "domain_repo_can_own_generated_surface": false,
+  "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
+  "opl_ledger_artifact_registration_contract_ref": "contracts/opl_ledger_artifact_registration.json",
+  "private_platform_retirement_projection": {
+    "owner": "one-person-lab",
+    "domain_owner": "OPL Book Forge",
+    "source_contract_ref": "contracts/functional_privatization_audit.json#bookforge_private_platform_retirement_matrix",
+    "projection_role": "OPL generated/hosted surface refs for Book Forge private platform tail retirement",
+    "surfaces": [
+      {
+        "surface_id": "publication_and_export_helper",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "domain_specific_native_helper",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      },
+      {
+        "surface_id": "image_asset_helper",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "read_only_figure_authority_handler",
+        "host_handoff_contract_ref": "contracts/image_asset_host_handoff.json",
+        "handler_registry_ref": "contracts/domain_handler_registry.json",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      },
+      {
+        "surface_id": "runtime_session_update_absence",
+        "generated_or_hosted_owner": "one-person-lab",
+        "domain_retained_role": "no_active_private_platform_surface",
+        "default_runtime_surface": false,
+        "ready_claim_authorized": false
+      }
+    ],
+    "forbidden_projection_claims": {
+      "counts_as_owner_acceptance": false,
+      "counts_as_domain_ready": false,
+      "counts_as_publication_ready": false,
+      "counts_as_final_export_ready": false,
+      "authorizes_physical_delete": false
+    }
+  },
+  "opl_ledger_artifact_registration_projection": {
+    "owner": "one-person-lab",
+    "ledger_owner": "one-person-lab",
+    "domain_owner": "OPL Book Forge",
+    "domain_id": "opl-bookforge",
+    "projection_role": "OPL Ledger refs-only registration projection for Book Forge deliverable artifact refs",
+    "contract_ref": "contracts/opl_ledger_artifact_registration.json",
+    "payload_root": "opl_ledger_artifact_registration",
+    "readback_command_ref": "opl ledger bundle inspect --artifact <artifact_ref> --json",
+    "registration_command_ref": "opl ledger bundle record --bundle <bundle.json> --domain opl-bookforge --artifact <artifact_ref> --json",
+    "registered_field_kinds": [
+      "ref",
+      "hash",
+      "index_ref",
+      "review_ref",
+      "receipt_ref"
+    ],
+    "refs_only": true,
+    "bookforge_can_write_ledger_entries": false,
+    "bookforge_can_mutate_artifact_body": false,
+    "ledger_entry_counts_as_domain_ready": false,
+    "ledger_entry_counts_as_owner_acceptance": false,
+    "ledger_entry_counts_as_publication_or_final_export_verdict": false,
+    "ledger_entry_counts_as_runtime_queue_or_provider_attempt": false
+  },
+  "temporal_stage_run_projection": {
+    "owner": "one-person-lab",
+    "projection_role": "OPL-hosted Temporal StageRun and provider attempt refs only",
+    "default_entry_routing_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "direct_domain_cli_is_default_entry": false,
+    "evidence_package_can_be_default_entry": false,
+    "provider_completion_is_domain_completion": false,
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "domain_repo_can_own_temporal_runtime": false,
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "bookforge_can_write_opl_stage_attempts": false,
+    "domain_completion_ref_fields": [
+      "owner_receipt_ref",
+      "typed_blocker_ref",
+      "human_gate_ref",
+      "route_back_ref"
+    ],
+    "bookforge_exposed_domain_surfaces": [
+      "book_domain_action_contract_ref",
+      "chapter_task_card_ref",
+      "manuscript_authority_ref",
+      "style_authority_ref",
+      "artifact_authority_ref",
+      "owner_gated_publication_decision_ref",
+      "owner_gated_export_decision_ref",
+      "typed_blocker_ref",
+      "owner_receipt_ref"
+    ],
+    "forbidden_runtime_surface_exports": [
+      "private_temporal_wrapper",
+      "private_stage_run_wrapper",
+      "private_scheduler",
+      "private_queue",
+      "private_session_store",
+      "private_provider_completion_store",
+      "private_attempt_ledger",
+      "runtime_status_read_model"
+    ]
+  },
+  "source_contract_ref": "contracts/pack_compiler_input.json",
+  "generated_surface_overrides": [
+    {
+      "surface_id": "cli",
+      "domain_policy": "generated_cli_routes_default_actions_through_opl_stage_run_attempt_request"
+    },
+    {
+      "surface_id": "product_entry_manifest",
+      "domain_policy": "generated_product_entry_routes_default_actions_through_opl_stage_run_attempt_request"
+    },
+    {
+      "surface_id": "status_read_model",
+      "domain_policy": "domain_repo_returns_receipts_refs_and_typed_blockers_and_consumes_temporal_stage_run_refs_only"
+    }
+  ],
+  "handoff_surface_overrides": [
+    {
+      "surface_id": "cli",
+      "current_paths": [],
+      "current_role": "generated_descriptor_only_no_repo_local_handler",
+      "generated_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces/cli"
+    },
+    {
+      "surface_id": "mcp",
+      "current_paths": [],
+      "current_role": "generated_descriptor_only_no_repo_local_handler",
+      "generated_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces/mcp"
+    },
+    {
+      "surface_id": "product_entry_manifest",
+      "current_paths": [],
+      "current_role": "generated_descriptor_only_no_repo_local_handler",
+      "generated_surface_ref": "contracts/generated_surface_handoff.json#/generated_surfaces/product_entry_manifest"
+    },
+    {
+      "surface_id": "domain_handler",
+      "current_paths": [
+        "runtime/authority_functions/README.md"
+      ]
+    }
+  ],
+  "marker": "generated_by_opl_standard_domain_agent_scaffold_v1"
+}

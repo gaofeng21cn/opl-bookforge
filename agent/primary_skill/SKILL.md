@@ -7,6 +7,8 @@ description: Use when Codex needs OPL Book Forge to shape or materially produce 
 
 This is the canonical Book Forge routing Skill. OPL materializes it into the Codex plugin carrier; repo-internal professional Skills provide focused methods and do not replace this entry.
 
+All source paths below resolve from the installed plugin root, two directories above this Skill. The carrier includes the domain descriptor, professional Skills, contracts, and publishing helpers; use that root as `<agent-root>` without requiring a source checkout. OPL Framework remains the external runtime and Python support dependency.
+
 ## Admission
 
 - Admit Book Forge when the requested outcome is a book or a chapter, figure, table, proof, or revision that belongs to an identifiable book project.

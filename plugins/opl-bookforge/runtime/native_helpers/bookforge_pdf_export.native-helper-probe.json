@@ -1,0 +1,81 @@
+{
+  "surface_kind": "opl_pack_native_helper_probe_descriptor",
+  "schema_version": 1,
+  "helper_id": "opl-bookforge.pdf-export",
+  "owner": "opl-bookforge",
+  "entrypoint_ref": "bookforge_pdf_export.py",
+  "runtime_command": "python3",
+  "required_commands": [
+    "pandoc",
+    "xelatex",
+    "pdftoppm",
+    "pdffonts"
+  ],
+  "source_closure": {
+    "surface_kind": "opl_native_helper_source_closure",
+    "version": "opl-native-helper-source-closure.v1",
+    "effect_slots": [
+      {
+        "slot_id": "pandoc_ast_process",
+        "source_ref": "bookforge_pdf_export_parts/compile_phases.py",
+        "symbol": "image_refs_from_pandoc_ast",
+        "source_digest": "sha256:2373172715b8e384cdbc9066403961c08f73e426373ec08b3397c697679ed132",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pandoc"
+        ]
+      },
+      {
+        "slot_id": "pdf_compile_process",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "compile_pdf",
+        "source_digest": "sha256:c77aa6b5cab9a7b1b1dcab2f1419ed22a452f7bf3f8a1e224cda3d2d6b5f3e6e",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pandoc"
+        ]
+      },
+      {
+        "slot_id": "pdf_page_render_process",
+        "source_ref": "bookforge_pdf_export_parts/compile_phases.py",
+        "symbol": "render_pdf_pages",
+        "source_digest": "sha256:2373172715b8e384cdbc9066403961c08f73e426373ec08b3397c697679ed132",
+        "effect_kind": "process_spawn",
+        "target_policy": "declared_command_set",
+        "allowed_targets": [
+          "pdftoppm"
+        ]
+      },
+      {
+        "slot_id": "pdf_compile_artifact_write",
+        "source_ref": "bookforge_pdf_export.py",
+        "symbol": "compile_pdf",
+        "source_digest": "sha256:c77aa6b5cab9a7b1b1dcab2f1419ed22a452f7bf3f8a1e224cda3d2d6b5f3e6e",
+        "effect_kind": "filesystem_write",
+        "target_policy": "declared_artifact_write_slot",
+        "allowed_targets": []
+      },
+      {
+        "slot_id": "pdf_page_render_artifact_write",
+        "source_ref": "bookforge_pdf_export_parts/compile_phases.py",
+        "symbol": "render_pdf_pages",
+        "source_digest": "sha256:2373172715b8e384cdbc9066403961c08f73e426373ec08b3397c697679ed132",
+        "effect_kind": "filesystem_write",
+        "target_policy": "declared_artifact_write_slot",
+        "allowed_targets": []
+      }
+    ]
+  },
+  "authority_boundary": {
+    "can_write_domain_truth": false,
+    "can_mutate_artifact_body": false,
+    "can_sign_owner_receipt": false,
+    "can_create_typed_blocker": false,
+    "can_authorize_quality_verdict": false,
+    "can_authorize_export_readiness": false,
+    "can_claim_domain_ready": false,
+    "can_claim_production_ready": false
+  }
+}

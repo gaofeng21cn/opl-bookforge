@@ -1,0 +1,65 @@
+{
+  "active_truth_owner": "docs/status.md",
+  "canonical_docs": [
+    {
+      "path": "README.md",
+      "role": "root_entry"
+    },
+    {
+      "path": "AGENTS.md",
+      "role": "repo_agent_working_rules"
+    },
+    {
+      "path": "docs/README.md",
+      "role": "docs_entry"
+    },
+    {
+      "path": "docs/project.md",
+      "role": "project_positioning"
+    },
+    {
+      "path": "docs/status.md",
+      "role": "current_status"
+    },
+    {
+      "path": "docs/architecture.md",
+      "role": "architecture_boundary"
+    },
+    {
+      "path": "docs/invariants.md",
+      "role": "hard_constraints"
+    },
+    {
+      "path": "docs/decisions.md",
+      "role": "active_decision_record"
+    }
+  ],
+  "doc_profile": "tooling_repo",
+  "flow_profile": "tooling_repo",
+  "machine_truth_surfaces": [
+    "contracts",
+    "agent",
+    "runtime",
+    "tests",
+    "package.json"
+  ],
+  "owned_by_repo": [
+    "contracts/**",
+    "agent/**",
+    "runtime/**",
+    "tests/**",
+    "docs/status.md"
+  ],
+  "plugin_native_status": "profile_declared",
+  "repo_id": "opl-bookforge",
+  "repo_profile": "tooling_repo",
+  "schema": "opl_native_profile.v1",
+  "taxonomy_dirs": [
+    "docs/references",
+    "docs/history"
+  ],
+  "verification_commands": [
+    "scripts/verify.sh",
+    "package.json:scripts.verify"
+  ]
+}

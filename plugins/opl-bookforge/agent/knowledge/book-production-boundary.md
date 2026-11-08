@@ -1,0 +1,47 @@
+# Book Production Boundary
+
+Book production covers chapter text, illustration and table planning, style consistency, wording revision, layout QC, and owner handoff.
+
+Chapter prose is judged against the book's reader-style contract, not a generic naturalness ideal. The contract should define the target readers, reading situation, prior knowledge, emotional temperature, example density, jargon boundary, sentence rhythm, and forbidden voice patterns. Missing or unresolved reader/style decisions keep formal chapter-ready claims closed and produce an owner question or route-back; useful exploratory work may continue under the primary Skill's quality-debt policy.
+
+Manuscript prose is domain artifact body, not generator code. Book Forge materialization should keep author-facing prose in Markdown chapter files and use scripts only for deterministic assembly, metrics, validation, export, and reports. Large blocks of manuscript text embedded in Python, TypeScript, shell, JSON string literals, or other generator code are a design smell and should be migrated to chapter Markdown refs.
+
+Book-length materialization is chapter-sharded by default. A complete draft should progress through chapter briefs, per-chapter Markdown drafts, chapter-level quality checks, merge assembly, and whole-book review. A single `book.md` is the assembled/export manuscript ref, not the primary writing surface for a long book unless the owner explicitly requests a one-file manuscript workflow.
+
+Target budgets are gates, not post-hoc metrics. A chapter that has 2,000 characters against a 13,000-character target is not a completed chapter draft; it is a seed or in-progress chapter package. Below-target full-book assemblies must be named previews and must not occupy the final `book.md` slot unless the owner explicitly defines `book.md` as preview-only for that run.
+
+First-draft quality is a workflow property. The reader-style contract, author/source stance, chapter budget, active production queue, reader-entry plan, figure/table obligations, and anti-AI-flavor rules must shape the chapter prompt before visible prose is written. A workflow that writes all chapters thinly and only later discovers a 200-page target miss has already failed the materialization process.
+
+High-quality nonfiction needs book-level argument contracts before drafting. Storyline shaping should produce a chapter function contract, early concept map, and whole-book core model map. Add a case evidence ladder when the approved style contract and chapter functions use cases or examples; these refs then clarify evidence level and prevent typicalized examples from reading as documented process evidence.
+
+Owner or reviewer critique is workflow input when it identifies systemic book-quality defects. Book Forge should absorb critique into storyline refs, chapter task cards, style rules, evidence maps, figure/table plans, quality gates, or publication design refs before revising prose. A polished manuscript that leaves the workflow unable to prevent the same defect has not fully absorbed the critique.
+
+When an owner asks for a fast Word and PDF handoff, Book Forge should assemble a publication bundle from one Markdown source and one metadata/design profile. The DOCX remains the editable companion; the PDF remains the rendered reading artifact. Both outputs must carry the same title, author, date, body, figures, tables, and references, and the bundle manifest must record source/output hashes, normalized text parity, asset and font checks, page counts, and rendered-page refs. Speed changes orchestration, while source closure and quality evidence remain required.
+
+Meta-review is not a sentence-polish queue. It is a whole-book diagnostic that must be followed by a revision entrypoint decision whenever required findings touch higher-order concerns. The decision should classify whether repair begins at artifact target, storyline architecture, outline sequence, chapter function, evidence/model, publication design, local prose, or owner/source blocker. Local edits are allowed only after the higher layer is stable or explicitly routed.
+
+Reader-facing prose should not expose Book Forge operations. Terms about current version state, final export readiness, source-of-truth mechanics, QC, blockers, manifests, backend workflow, or public-source observation of a practice-involved case belong in briefs, manifests, reports, and handoff refs, not in the book body. Known recurring phrases should be added to deterministic hygiene scans once observed.
+
+If an earlier pass produced a compact or sample draft against a book-length target, that draft is historical evidence, not the active seed for completion. Retire it to an archive/tombstone ref and restart the active manuscript from chapter packages, briefs, drafts, QC refs, and final assembly.
+
+Target extent is part of book truth. If the owner brief, source plan, publisher brief, or storyline map declares a page count, word count, chapter count, or series volume, materialization must preserve that target or record non-blocking extent quality debt and continue with the best readable artifact. A compact draft, sample chapter, or synopsis remains a different deliverable; it cannot be relabeled complete without an explicit owner decision.
+
+PDF export is a Book Forge capability boundary. Project-local scripts may assemble chapter refs and invoke the Book Forge PDF export helper, but they should not own publication layout engines or hand-roll page rendering. The normal path is Markdown or chapter sources into a Book Forge-owned backend adapter for Pandoc/XeLaTeX, Quarto, Typst, or an equivalent publication/typesetting system, followed by rendered-page inspection and an export manifest.
+
+Illustrations and tables must carry purpose, source, placement, and review criteria. Decorative assets, unsourced tables, invented data, and generic filler weaken the manuscript and should become revision items or typed blockers.
+
+When a real manuscript needs new visual artwork, final figures default to Codex `imagegen` skill outputs saved as project-bound bitmap assets. SVG, local script diagrams, placeholders, chat previews, or generated images without exposed file paths can support planning, but they do not satisfy final illustration evidence unless the owner explicitly chooses deterministic vector output. Long-form projects should keep a figure asset manifest so missing local bitmaps remain visible.
+
+Book memory is a domain artifact contract, not a new control plane. For nonfiction manuscripts, working memory covers the active chapter brief, local source notes, current reader promise, terminology decisions, unresolved claims, and near-term style constraints. Episodic memory covers prior chapter QC results, owner comments, revision receipts, style drift incidents, figure/table decisions, and route-back history. Semantic memory covers durable thesis, audience model, source canon, glossary, style asset bundle, structural principles, claim taxonomy, and evidence rules.
+
+Chapter runtime is expressed as owner-inspectable chapter task cards, chapter QC refs, repair reports, memory updates, review-PDF refs, and OPL stage receipts. It must not become a Book Forge-private scheduler, queue, attempt ledger, session store, or generic runtime.
+
+Freshness is part of readiness. Assembly metrics, hygiene scans, PDF receipts, image-resolution checks, and owner handoff refs must be generated after the source refs they inspect, or carry digest evidence tying them to those refs. Older reports can guide repair, but they cannot support a new readiness claim.
+
+Style engine means reusable writing assets: voice principles, sentence rhythm, terminology policy, analogy policy, sample passages, forbidden patterns, accepted repair rules, and style drift findings. It guides prompts and review gates but does not authorize quality, export, or publication acceptance.
+
+Transparent prompt bundles preserve the prompt refs, source slices, memory refs, style constraints, and quality-gate prompts used for storyline shaping, chapter drafting, review, repair, export proofing, and handoff. They are review surfaces for owner trust and reproducibility, not hidden provider state.
+
+The AI-flavor check favors confident human editing: direct sentence openings, concrete causal links, stable terminology, varied rhythm, and precise transitions. The check flags hedging, inflated abstractions, repetitive framing, and contrast formulas that make the prose feel machine-generated.
+
+Final quality, export readiness, print readiness, and publication approval require owner receipts.

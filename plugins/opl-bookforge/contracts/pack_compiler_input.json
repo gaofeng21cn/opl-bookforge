@@ -1,0 +1,148 @@
+{
+  "surface_kind": "opl_domain_pack_compiler_input",
+  "implementation_profile": {
+    "base_profile_ref": "contracts/opl-framework/standard-agent-implementation-profile.schema.json",
+    "helpers": {
+      "entries": [
+        {
+          "language": "python",
+          "role": "native_helper",
+          "source_roots": [
+            "runtime/native_helpers/"
+          ]
+        }
+      ]
+    }
+  },
+  "reference_implementation": {
+    "role": "golden_fixture_reference",
+    "is_standard_owner": false,
+    "standard_owner": "one-person-lab",
+    "can_define_standard_agent_identity": false,
+    "can_define_framework_contract": false,
+    "default_runtime_caller": false,
+    "golden_fixture_refs": [
+      "tests/",
+      "docs/evidence/"
+    ],
+    "golden_fixture_is_second_standard_source": false
+  },
+  "schema_version": 1,
+  "domain_id": "opl-bookforge",
+  "canonical_agent_id": "obf",
+  "domain_pack_owner": "opl-bookforge",
+  "canonical_semantic_pack_root": "agent/",
+  "canonical_semantic_pack_role": "repo_source_declarative_domain_pack",
+  "required_domain_pack_paths": [
+    "agent/stages/manifest.json",
+    "contracts/stage_quality_cycle_policy.json",
+    "contracts/epistemic_review_adoption.json",
+    "agent/primary_skill/SKILL.md",
+    "agent/prompts/storyline-architecture.md",
+    "agent/prompts/chapter-production-planning.md",
+    "agent/prompts/chapter-materialization.md",
+    "agent/prompts/source-style-integrity-review.md",
+    "agent/prompts/publication-proof-handoff.md",
+    "agent/prompts/stage-quality-cycle-roles.md",
+    "agent/stages/storyline-architecture.md",
+    "agent/stages/chapter-production-planning.md",
+    "agent/stages/chapter-materialization.md",
+    "agent/stages/source-style-integrity-review.md",
+    "agent/stages/publication-proof-handoff.md",
+    "agent/professional_skills/bookforge-story-style-architect/SKILL.md",
+    "agent/professional_skills/bookforge-chapter-author/SKILL.md",
+    "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md",
+    "agent/professional_skills/bookforge-meta-reviewer/SKILL.md",
+    "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md",
+    "agent/skills/domain_execution.md",
+    "agent/skills/storyline-architecture.md",
+    "agent/skills/reader-style-contract.md",
+    "agent/skills/reader-facing-draft.md",
+    "agent/skills/reference-draft-absorption.md",
+    "agent/skills/meta-review-loop.md",
+    "agent/skills/fast-track-revision.md",
+    "agent/skills/chapter-context-compiler.md",
+    "agent/skills/source-claim-integrity.md",
+    "agent/skills/style-calibration.md",
+    "agent/skills/style-engine.md",
+    "agent/skills/chapter-runtime.md",
+    "agent/skills/book-memory.md",
+    "agent/skills/book-production.md",
+    "agent/skills/publication-design.md",
+    "agent/tools/domain_affordances.md",
+    "agent/knowledge/book-authority-boundary.md",
+    "agent/knowledge/book-production-boundary.md",
+    "agent/quality_gates/domain_acceptance.md",
+    "agent/quality_gates/storyline-architecture-quality-gate.md",
+    "agent/quality_gates/chapter-production-planning-quality-gate.md",
+    "agent/quality_gates/chapter-materialization-quality-gate.md",
+    "agent/quality_gates/source-style-integrity-review-quality-gate.md",
+    "agent/quality_gates/publication-proof-handoff-quality-gate.md",
+    "agent/policies/book-authority-policy.md",
+    "contracts/durable_knowledge_catalog.json"
+  ],
+  "source_refs": {
+    "primary_skill_source_ref": "agent/primary_skill/SKILL.md",
+    "stage_graph_source_ref": "agent/stages/manifest.json",
+    "quality_gate_source_ref": "agent/quality_gates/storyline-architecture-quality-gate.md",
+    "executor_policy_source_ref": "agent/stages/manifest.json#/stages/*/trust_lane",
+    "owner_receipt_schema_source_ref": "contracts/owner_receipt_contract.json",
+    "authority_functions_source_ref": "runtime/authority_functions/README.md",
+    "domain_handler_registry_source_ref": "contracts/domain_handler_registry.json",
+    "source_closure_audit_source_ref": "contracts/source_closure_audit.json",
+    "functional_privatization_audit_source_ref": "contracts/functional_privatization_audit.json",
+    "generated_surface_handoff_source_ref": "contracts/generated_surface_handoff.json",
+    "capability_map_source_ref": "contracts/capability_map.json",
+    "epistemic_review_adoption_source_ref": "contracts/epistemic_review_adoption.json"
+  },
+  "standard_stage_pack_conformance": {
+    "version": "standard-stage-pack.v2",
+    "required": true,
+    "enforcement_ref": "agent/stages/manifest.json"
+  },
+  "standard_agent_pack_abi": {
+    "authority_ref": "contracts/opl-framework/standard-domain-agent-skeleton-contract.json#/agent_pack_contract/standard_agent_pack_abi"
+  },
+  "generated_surface_owner": "one-person-lab",
+  "declarative_domain_pack": [
+    "domain_truth_schema",
+    "stage_descriptors",
+    "transition_table",
+    "action_metadata",
+    "knowledge_refs",
+    "prompt_refs",
+    "skill_refs",
+    "policy_tables",
+    "quality_rubric_refs",
+    "artifact_authority_contract",
+    "memory_policy",
+    "owner_receipt_schema",
+    "domain_fixtures"
+  ],
+  "minimal_authority_functions": [
+    "quality_or_export_verdict_authorizer",
+    "artifact_mutation_authorizer",
+    "memory_accept_reject_decider",
+    "source_readiness_verdict",
+    "owner_receipt_signer",
+    "domain_specific_native_helper_implementation"
+  ],
+  "generated_surfaces_requested": [
+    "cli",
+    "mcp",
+    "skill",
+    "product_entry_manifest",
+    "domain_handler",
+    "status_read_model",
+    "workbench_drilldown"
+  ],
+  "domain_repo_can_own_generated_surface": false,
+  "marker": "generated_by_opl_standard_domain_agent_scaffold_v1",
+  "authority_boundary": {
+    "opl_can_write_domain_truth": false,
+    "opl_can_write_memory_body": false,
+    "opl_can_authorize_quality_or_export": false,
+    "domain_can_claim_generated_surface_owner": false
+  },
+  "capability_map_ref": "contracts/capability_map.json"
+}

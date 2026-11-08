@@ -1,0 +1,247 @@
+{
+  "surface_kind": "domain_agent_descriptor",
+  "schema_version": 1,
+  "dispatch_evidence_projection": {
+    "work_item_id_field": "book_id",
+    "result_collections": []
+  },
+  "domain_id": "opl-bookforge",
+  "domain_label": "OPL Book Forge",
+  "marker": "generated_by_opl_standard_domain_agent_scaffold_v1",
+  "standard_contract_refs": {
+    "artifact_lifecycle_profile": "contracts/workspace_artifact_lifecycle_profile.json",
+    "foundry_agent_series": "contracts/foundry_agent_series.json",
+    "foundry_agent_series_policy_release": "contracts/opl-framework/foundry-agent-series-policy-release.json",
+    "stage_manifest": "agent/stages/manifest.json",
+    "pack_compiler_input": "contracts/pack_compiler_input.json",
+    "generated_surface_handoff": "contracts/generated_surface_handoff.json",
+    "domain_handler_registry": "contracts/domain_handler_registry.json",
+    "source_closure_audit": "contracts/source_closure_audit.json"
+  },
+  "authority_boundary": {
+    "opl_can_write_domain_truth": false,
+    "opl_can_write_memory_body": false,
+    "opl_can_authorize_quality_or_export": false,
+    "domain_owns_truth_quality_artifact_memory_and_receipts": true
+  },
+  "standard_agent_interface": {
+    "version": "opl_standard_agent_interface.v1",
+    "inventory_projection": {
+      "source_kind": "workspace_relative_json",
+      "relative_path": "workspace_index.json",
+      "items_pointer": "/projects",
+      "field_map": {
+        "work_item_id": "project_id",
+        "work_item_root": "project_root",
+        "business_status": "business_status",
+        "current_stage_id": "current_stage_id",
+        "current_stage_status": "current_stage_status",
+        "package_status": "package_status",
+        "lifecycle_ref": "lifecycle_ref"
+      }
+    },
+    "stage_catalog": {
+      "source_kind": "agent_repo_relative_json",
+      "relative_path": "agent/stages/manifest.json",
+      "items_pointer": "/stages",
+      "field_map": {
+        "stage_id": "stage_id",
+        "display_name": "title",
+        "display_names": "display_names"
+      }
+    },
+    "workspace_binding": {
+      "locator_surface_kind": "opl_bookforge_workspace",
+      "default_profile_id": "one_off",
+      "shared_resources": [
+        { "path": "shared/sources", "role": "source_intake" },
+        { "path": "shared/memory", "role": "memory_root" },
+        { "path": "shared/style_system", "role": "style_system" }
+      ],
+      "workspace_kind": "book_authoring_workspace",
+      "project_kind": "book_project",
+      "project_collection_label": "books",
+      "default_workspace_id": "bookforge-workspace",
+      "default_project_id": "book-001",
+      "required_locator_fields": ["workspace_root"],
+      "optional_locator_fields": []
+    },
+    "runtime": {
+      "runtime_domain_id": "opl-bookforge",
+      "registration_ref": "contracts/foundry-agent-os-domain-kernel-manifest.json"
+    },
+    "progress": {
+      "deliverable_delta_aliases": ["book_manuscript_progress_delta"],
+      "platform_delta_aliases": ["platform_repair_delta"]
+    },
+    "routing": {
+      "explicit_aliases": ["obf", "opl-bookforge", "bookforge", "book"],
+      "workstream_ids": [],
+      "intent_signals": ["book_authoring", "manuscript_materialization", "publication_proof"],
+      "ambiguity_policy": "require_explicit_book_authoring_intent"
+    }
+  },
+  "delivery_domain": "book_authoring",
+  "target_brief": "Create an OPL-compatible book authoring Foundry Agent that turns source material into a coherent book. The workflow starts with storyline architecture, then enters chapter production planning directly before chapter materialization, source/style integrity review, and publication proof handoff. The agent must preserve content consistency, writing style consistency, evidence grounding, affirmative human prose, illustration and table planning, proof/export boundary checks, and owner-gated publication decisions.",
+  "dependency_profiles": [
+    {
+      "profile_id": "bookforge-publication-proof",
+      "profile_kind": "domain_dependency_profile",
+      "profile_owner": "opl-bookforge",
+      "domain_id": "opl-bookforge",
+      "domain_truth_owner": "opl-bookforge",
+      "source": {
+        "source_kind": "domain_profile_ref",
+        "profile_ref": "bookforge-zh-publication-proof",
+        "helper_ref": "runtime/native_helpers/bookforge_pdf_export.py"
+      },
+      "opl_role": "dependency_environment_check",
+      "dependencies": [
+        {
+          "dependency_id": "pandoc",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Markdown to standalone TeX/PDF conversion for Book Forge proof exports."
+        },
+        {
+          "dependency_id": "xelatex",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "XeLaTeX engine used by the bundled Chinese publication proof profile."
+        },
+        {
+          "dependency_id": "pdftoppm",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Poppler page rendering for proof page inspection and nonblank checks."
+        },
+        {
+          "dependency_id": "soffice",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Render the editable Word companion for publication-bundle page inspection; prefer the host bundled runtime."
+        },
+        {
+          "dependency_id": "pdftotext",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Extract PDF text for source-content coverage checks."
+        },
+        {
+          "dependency_id": "pdffonts",
+          "kind": "executable",
+          "required_level": "required",
+          "purpose": "Embedded-font readback for PDF proofs and publication bundles."
+        },
+        {
+          "dependency_id": "quarto",
+          "kind": "executable",
+          "required_level": "optional",
+          "purpose": "Optional future book-rendering backend for richer projects."
+        },
+        {
+          "dependency_id": "typst",
+          "kind": "executable",
+          "required_level": "optional",
+          "purpose": "Optional future typesetting backend for proof/export experiments."
+        },
+        {
+          "dependency_id": "xcolor.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "xcolor",
+          "purpose": "Book Forge color palette."
+        },
+        {
+          "dependency_id": "fancyhdr.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fancyhdr",
+          "purpose": "Running headers and page numbers."
+        },
+        {
+          "dependency_id": "titlesec.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "titlesec",
+          "purpose": "Chapter and section hierarchy."
+        },
+        {
+          "dependency_id": "caption.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "caption",
+          "purpose": "Caption style and spacing."
+        },
+        {
+          "dependency_id": "booktabs.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "booktabs",
+          "purpose": "Publication-grade table rules."
+        },
+        {
+          "dependency_id": "colortbl.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "colortbl",
+          "purpose": "Table rule color support."
+        },
+        {
+          "dependency_id": "etoolbox.sty",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "etoolbox",
+          "purpose": "Environment hooks used by the proof profile."
+        },
+        {
+          "dependency_id": "ctexbook.cls",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "ctex",
+          "purpose": "Chinese book document class."
+        },
+        {
+          "dependency_id": "FandolSong-Regular.otf",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fandol",
+          "purpose": "Portable Chinese serif body font supplied by the TeX Live CTEX distribution."
+        },
+        {
+          "dependency_id": "FandolHei-Regular.otf",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fandol",
+          "purpose": "Portable Chinese sans-serif heading font supplied by the TeX Live CTEX distribution."
+        },
+        {
+          "dependency_id": "FandolFang-Regular.otf",
+          "kind": "latex_package",
+          "required_level": "required",
+          "install_target": "fandol",
+          "purpose": "Portable Chinese monospaced font supplied by the TeX Live CTEX distribution."
+        },
+        {
+          "dependency_id": "titling.sty",
+          "kind": "latex_package",
+          "required_level": "legacy_not_required",
+          "purpose": "Previously used title-page helper; no longer required by the Book Forge proof profile."
+        },
+        {
+          "dependency_id": "tocloft.sty",
+          "kind": "latex_package",
+          "required_level": "legacy_not_required",
+          "purpose": "Previously used TOC style helper; no longer required by the Book Forge proof profile."
+        }
+      ],
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_artifact_body": false,
+        "can_authorize_publication_readiness": false,
+        "can_authorize_final_export": false,
+        "can_issue_owner_receipt": false
+      }
+    }
+  ]
+}

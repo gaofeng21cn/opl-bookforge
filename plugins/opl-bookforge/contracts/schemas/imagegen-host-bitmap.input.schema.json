@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://one-person-lab.local/opl-bookforge/imagegen-host-bitmap.input.schema.json",
+  "title": "OPL Book Forge hosted bitmap validation request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "surface_kind",
+    "schema_version",
+    "host_context",
+    "bitmap",
+    "figure"
+  ],
+  "properties": {
+    "surface_kind": {
+      "const": "opl_bookforge_host_bitmap_validation_request"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "host_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace_root",
+        "attempt_ref",
+        "output_ref"
+      ],
+      "properties": {
+        "workspace_root": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^/"
+        },
+        "attempt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "bitmap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bitmap_ref",
+        "sha256"
+      ],
+      "properties": {
+        "bitmap_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*//).+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^(?:sha256:)?[0-9a-fA-F]{64}$"
+        },
+        "format": {
+          "enum": [
+            "png",
+            "jpeg",
+            "jpg",
+            "webp"
+          ]
+        },
+        "media_type": {
+          "enum": [
+            "image/png",
+            "image/jpeg",
+            "image/webp"
+          ]
+        }
+      }
+    },
+    "figure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "figure_id",
+        "title",
+        "artifact_role"
+      ],
+      "properties": {
+        "figure_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_sha256": {
+          "type": "string",
+          "pattern": "^(?:sha256:)?[0-9a-fA-F]{64}$"
+        },
+        "style_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "placement_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "caption_intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_boundary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "review_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "minimum_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "minimum_height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

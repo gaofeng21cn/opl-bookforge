@@ -1,0 +1,869 @@
+{
+  "surface_kind": "opl_standard_agent_capability_map",
+  "schema_version": "standard-agent-capability-map.v1",
+  "domain_id": "opl-bookforge",
+  "domain_label": "OPL Book Forge",
+  "owner": "opl-bookforge",
+  "state": "active_contract",
+  "schema_ref": "contracts/opl-framework/standard-agent-capability-map.schema.json",
+  "map_ref": "contracts/capability_map.json",
+  "resolver_policy": "resolver_index_only_no_domain_truth",
+  "capability_map_role": "single_source_locator_index_for_stage_prompt_skill_tool_knowledge_gate_eval_refs",
+  "capability_pack": {
+    "pack_id": "opl-bookforge.capability_pack.v1",
+    "pack_root_ref": "agent/",
+    "map_ref": "contracts/capability_map.json",
+    "pack_role": "declarative_domain_capability_pack",
+    "capability_pack_can_claim_domain_ready": false
+  },
+  "capabilities": [
+    {
+      "capability_id": "opl-bookforge.primary_skill",
+      "surface_role": "primary_skill",
+      "capability_kind": "primary_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/primary_skill/SKILL.md",
+        "role": "repo_owned_primary_codex_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "contract_ref",
+          "ref": "contracts/pack_compiler_input.json",
+          "role": "opl_materializer_primary_skill_input"
+        },
+        {
+          "ref_kind": "repo_path",
+          "ref": "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md",
+          "role": "codex_plugin_carrier_compat_mirror"
+        },
+        {
+          "ref_kind": "contract_ref",
+          "ref": "plugins/opl-bookforge/plugin.json",
+          "role": "plugin_carrier_boundary"
+        }
+      ],
+      "carrier_projection_contract": {
+        "canonical_source": "agent/primary_skill/SKILL.md",
+        "carrier_skill_ref": "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md",
+        "carrier_materialization": "materialized_full_skill_copy",
+        "codex_install_requires_real_skill_md": true,
+        "plugin_skill_must_remain_real_file": true,
+        "carrier_role": "transport_install_detail_not_agent_membership_or_status",
+        "authority": false,
+        "carrier_can_override_canonical_source": false,
+        "carrier_can_claim_agent_membership_or_status": false,
+        "carrier_is_domain_truth_source": false
+      },
+      "sync_policy": "repo_local_standard_primary_skill_with_plugin_carrier_compat",
+      "externalization_reason": "repo-owned rich primary skill source for the default Codex entry; the repo-local plugin skill is a materialized full-copy Codex carrier without taking Book Forge domain truth or readiness authority",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.primary_skill",
+        "primary_skill",
+        "codex_default_entry",
+        "rich_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/primary_skill/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "default_codex_entry",
+      "codex_default_exposure": true,
+      "allowed_exposure_scopes": [
+        "codex_default_entry",
+        "opl_generated_codex_carrier"
+      ],
+      "professional_skill_policy": {
+        "professional_skills_remain_repo_internal": true,
+        "professional_skills_codex_default_exposure": false,
+        "professional_skills_exposure": "on_demand_from_primary_skill_or_stage_runtime"
+      },
+      "exposure_owner": "opl-bookforge"
+    },
+    {
+      "capability_id": "opl-bookforge.storyline-architecture.stage_prompt",
+      "surface_role": "stage_prompt",
+      "capability_kind": "stage_prompt",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/prompts/storyline-architecture.md",
+        "role": "stage_prompt_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_prompt_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.storyline-architecture.stage_prompt",
+        "stage_prompt",
+        "stage_prompt"
+      ],
+      "canonical_target_paths": [
+        "agent/prompts/storyline-architecture.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      }
+    },
+    {
+      "capability_id": "opl-bookforge.story-style-architect.professional_skill",
+      "surface_role": "professional_skill",
+      "capability_kind": "professional_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/professional_skills/bookforge-story-style-architect/SKILL.md",
+        "role": "professional_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_skill_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.story-style-architect.professional_skill",
+        "bookforge-story-style-architect",
+        "storyline_style_architecture",
+        "reader_style_contract",
+        "style_architecture",
+        "professional_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/professional_skills/bookforge-story-style-architect/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
+    },
+    {
+      "capability_id": "opl-bookforge.chapter-author.professional_skill",
+      "surface_role": "professional_skill",
+      "capability_kind": "professional_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/professional_skills/bookforge-chapter-author/SKILL.md",
+        "role": "professional_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_skill_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.chapter-author.professional_skill",
+        "bookforge-chapter-author",
+        "chapter_authoring",
+        "chapter_markdown",
+        "professional_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/professional_skills/bookforge-chapter-author/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
+    },
+    {
+      "capability_id": "opl-bookforge.source-reference-reviewer.professional_skill",
+      "surface_role": "professional_skill",
+      "capability_kind": "professional_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md",
+        "role": "professional_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_skill_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.source-reference-reviewer.professional_skill",
+        "bookforge-source-reference-reviewer",
+        "source_reference_review",
+        "claim_integrity",
+        "reference_absorption",
+        "professional_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/professional_skills/bookforge-source-reference-reviewer/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
+    },
+    {
+      "capability_id": "opl-bookforge.meta-reviewer.professional_skill",
+      "surface_role": "professional_skill",
+      "capability_kind": "professional_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/professional_skills/bookforge-meta-reviewer/SKILL.md",
+        "role": "professional_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_skill_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.meta-reviewer.professional_skill",
+        "bookforge-meta-reviewer",
+        "meta_review",
+        "revision_routing",
+        "professional_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/professional_skills/bookforge-meta-reviewer/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
+    },
+    {
+      "capability_id": "opl-bookforge.publication-memory-curator.professional_skill",
+      "surface_role": "professional_skill",
+      "capability_kind": "professional_skill",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md",
+        "role": "professional_skill_source"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_skill_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.publication-memory-curator.professional_skill",
+        "bookforge-publication-memory-curator",
+        "publication_memory_curation",
+        "review_pdf",
+        "publication_proof_boundary",
+        "professional_skill"
+      ],
+      "canonical_target_paths": [
+        "agent/professional_skills/bookforge-publication-memory-curator/SKILL.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      },
+      "exposure_layer": "repo_internal_professional_skill",
+      "codex_default_exposure": false,
+      "allowed_exposure_scopes": [
+        "domain_runtime_stage"
+      ],
+      "codex_visibility_policy": "not_registered_as_global_codex_skill",
+      "exposure_owner": "opl-bookforge"
+    },
+    {
+      "capability_id": "opl-bookforge.domain-affordances.tool_connector",
+      "surface_role": "tool_connector",
+      "capability_kind": "tool_connector",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/tools/domain_affordances.md",
+        "role": "tool_affordance_catalog"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "contract_ref",
+          "ref": "contracts/action_catalog.json",
+          "role": "bookforge_action_catalog"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_or_opl_connect_when_externalized",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-affordances.tool_connector",
+        "tool_connector",
+        "tool_connector"
+      ],
+      "canonical_target_paths": [
+        "agent/tools/domain_affordances.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      }
+    },
+    {
+      "capability_id": "opl-bookforge.domain-boundary.knowledge_pack",
+      "surface_role": "knowledge_pack",
+      "capability_kind": "reference_pack",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/knowledge/book-authority-boundary.md",
+        "role": "domain_knowledge_pack"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "external_capability_ref",
+          "ref": "opl_generated:product_entry_manifest#/family_stage_control_plane/stages",
+          "role": "family_stage_control_plane_knowledge_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-boundary.knowledge_pack",
+        "knowledge_pack",
+        "reference_pack"
+      ],
+      "canonical_target_paths": [
+        "agent/knowledge/book-authority-boundary.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      }
+    },
+    {
+      "capability_id": "opl-bookforge.domain-acceptance.quality_gate",
+      "surface_role": "quality_gate",
+      "capability_kind": "reference_pack",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/quality_gates/domain_acceptance.md",
+        "role": "quality_gate_ref"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "contract_ref",
+          "ref": "contracts/live_stage_run_progress_evidence.json",
+          "role": "domain_owner_evidence_refs"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.domain-acceptance.quality_gate",
+        "quality_gate",
+        "reference_pack"
+      ],
+      "canonical_target_paths": [
+        "agent/quality_gates/domain_acceptance.md"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      }
+    },
+    {
+      "capability_id": "opl-bookforge.live-evidence.eval_suite",
+      "surface_role": "eval_suite",
+      "capability_kind": "contract_module",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "contracts/live_stage_run_progress_evidence.json",
+        "role": "eval_suite_contract"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "contract_ref",
+          "ref": "contracts/live_stage_run_progress_evidence.json",
+          "role": "refs_only_live_evidence_contract"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "repo-owned standard OPL agent capability locator; resolver metadata only, not domain truth or readiness evidence",
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "improvement_tokens": [
+        "opl-bookforge.live-evidence.eval_suite",
+        "eval_suite",
+        "contract_module"
+      ],
+      "canonical_target_paths": [
+        "contracts/live_stage_run_progress_evidence.json"
+      ],
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "runtime_queue_or_provider_attempt",
+        "domain_ready_claim",
+        "publication_or_final_export_ready_claim"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false
+      }
+    },
+    {
+      "capability_id": "opl-bookforge.authority.policy_pack",
+      "surface_role": "policy_pack",
+      "capability_kind": "reference_pack",
+      "canonical_owner": "opl-bookforge",
+      "physical_source_ref": {
+        "ref_kind": "repo_path",
+        "ref": "agent/policies/book-authority-policy.md",
+        "role": "domain_policy_pack"
+      },
+      "runtime_projection_refs": [
+        {
+          "ref_kind": "repo_path",
+          "ref": "agent/policies/book-authority-policy.md",
+          "role": "policy_pack"
+        }
+      ],
+      "sync_policy": "domain_agent_builtin_refs_only",
+      "externalization_reason": "domain_agent_builtin",
+      "canonical_target_paths": [
+        "agent/policies/book-authority-policy.md"
+      ],
+      "improvement_tokens": [
+        "policy_pack_quality",
+        "authority_boundary_traceability"
+      ],
+      "stage_refs": [
+        "storyline-architecture",
+        "chapter-production-planning",
+        "chapter-materialization",
+        "source-style-integrity-review",
+        "publication-proof-handoff"
+      ],
+      "authority_boundary": {
+        "can_write_domain_truth": false,
+        "can_write_memory_body": false,
+        "can_mutate_artifact_body": false,
+        "can_sign_owner_receipt": false,
+        "can_create_typed_blocker": false,
+        "can_authorize_quality_or_export": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      },
+      "verification_refs": [
+        "scripts/verify.sh",
+        "opl agents check --repo <repo-dir> --json"
+      ],
+      "forbidden_surfaces": [
+        "domain_truth",
+        "memory_body",
+        "artifact_body",
+        "owner_receipt_body",
+        "typed_blocker_body",
+        "quality_or_export_verdict"
+      ],
+      "owner_closeout_boundary": {
+        "owner": "opl-bookforge",
+        "required_return_shapes": [
+          "owner_receipt_ref",
+          "typed_blocker_ref",
+          "human_gate_ref",
+          "route_back_ref"
+        ],
+        "can_write_owner_receipt_body": false,
+        "can_create_typed_blocker": false,
+        "can_write_domain_truth": false,
+        "can_claim_domain_ready": false,
+        "can_claim_production_ready": false
+      }
+    }
+  ],
+  "resolver_index": {
+    "primary_skill_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=primary_skill"
+    ],
+    "stage_prompt_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=stage_prompt"
+    ],
+    "professional_skill_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=professional_skill"
+    ],
+    "tool_connector_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=tool_connector"
+    ],
+    "knowledge_pack_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=knowledge_pack"
+    ],
+    "quality_gate_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=quality_gate"
+    ],
+    "eval_suite_refs": [
+      "contracts/capability_map.json#/capabilities?surface_role=eval_suite"
+    ]
+  },
+  "authority_boundary": {
+    "can_write_domain_truth": false,
+    "can_write_memory_body": false,
+    "can_mutate_artifact_body": false,
+    "can_sign_owner_receipt": false,
+    "can_create_typed_blocker": false,
+    "can_authorize_quality_or_export": false,
+    "can_claim_domain_ready": false,
+    "can_claim_production_ready": false,
+    "map_is_resolver_index_only": true,
+    "map_can_be_used_as_domain_truth": false
+  }
+}

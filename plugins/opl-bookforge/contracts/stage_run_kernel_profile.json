@@ -1,0 +1,135 @@
+{
+  "surface_kind": "opl_stage_run_kernel_profile",
+  "version": "stage-run-kernel-profile.v1",
+  "state": "active_contract",
+  "kernel_contract_ref": "contracts/opl-framework/stage-run-kernel-contract.json",
+  "stage_manifest_schema_ref": "contracts/opl-framework/stage-manifest.schema.json",
+  "role_artifact_ref_schema_ref": "contracts/opl-framework/role-artifact-ref.schema.json",
+  "owner_receipt_schema_ref": "contracts/opl-framework/stage-owner-receipt.schema.json",
+  "typed_blocker_schema_ref": "contracts/opl-framework/stage-typed-blocker.schema.json",
+  "kernel_role": "minimal_state_shell_not_domain_controller_system",
+  "temporal_stage_run_consumption_policy_ref": "contracts/temporal_stage_run_consumption_policy.json",
+  "temporal_stage_run_consumption_policy": {
+    "temporal_runtime_owner": "one-person-lab",
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "provider_attempt_owner": "one-person-lab",
+    "default_entry_routing_ref": "contracts/temporal_stage_run_consumption_policy.json#default_entry_routing",
+    "default_entry_surface_kind": "opl_stage_run_attempt_request",
+    "direct_domain_cli_is_default_entry": false,
+    "evidence_package_can_be_default_entry": false,
+    "domain_repo_can_own_temporal_runtime": false,
+    "bookforge_can_write_opl_stage_attempts": false,
+    "provider_completion_is_domain_completion": false,
+    "domain_completion_ref_fields": [
+      "owner_receipt_ref",
+      "typed_blocker_ref",
+      "human_gate_ref",
+      "route_back_ref"
+    ],
+    "bookforge_exposed_domain_surfaces": [
+      "book_domain_action_contract_ref",
+      "chapter_task_card_ref",
+      "manuscript_authority_ref",
+      "style_authority_ref",
+      "artifact_authority_ref",
+      "owner_gated_publication_decision_ref",
+      "owner_gated_export_decision_ref",
+      "typed_blocker_ref",
+      "owner_receipt_ref"
+    ],
+    "forbidden_runtime_surface_exports": [
+      "private_temporal_wrapper",
+      "private_stage_run_wrapper",
+      "private_scheduler",
+      "private_queue",
+      "private_session_store",
+      "private_provider_completion_store",
+      "private_attempt_ledger",
+      "runtime_status_read_model"
+    ]
+  },
+  "stage_native_unit": [
+    "stage_folder",
+    "stage_manifest",
+    "role_artifacts",
+    "progress_receipt_or_owner_answer_or_hard_stop"
+  ],
+  "required_object_models": [
+    "StageRun",
+    "RoleArtifactRef",
+    "ProgressDeltaReceipt",
+    "OwnerReceipt",
+    "TypedBlocker",
+    "ReadModel"
+  ],
+  "stage_run_state_machine": {
+    "provider_completion_counts_as_domain_accepted": false,
+    "provider_completion_is_domain_completion": false,
+    "domain_repo_can_own_temporal_runtime": false,
+    "file_presence_counts_as_stage_complete": false,
+    "latest_json_counts_as_domain_accepted": false,
+    "read_model_can_select_semantic_route": false,
+    "readable_artifact_counts_as_progress_input": true,
+    "codex_can_route_to_any_declared_stage": true,
+    "quality_debt_counts_as_quality_acceptance": false
+  },
+  "stage_context_policy": {
+    "hard_blockers": [
+      "identity",
+      "owner",
+      "scope",
+      "selected_executor",
+      "authority_boundary",
+      "forbidden_write",
+      "currentness",
+      "permission_or_credential",
+      "irreversible_action",
+      "explicit_human_gate"
+    ],
+    "advisory_refs": [
+      "prompt_refs",
+      "skill_refs",
+      "tool_affordance_refs",
+      "knowledge_refs",
+      "rubric_refs",
+      "evaluation_refs"
+    ],
+    "advisory_refs_can_block_launch": false
+  },
+  "default_read_surface": {
+    "root": "stage_run_current_owner_delta",
+    "raw_worklist_default": false,
+    "readiness_default": false,
+    "replay_packet_default": false,
+    "evidence_package_default": false
+  },
+  "codex_semantic_route_policy": {
+    "semantic_route_decision_owner": "decisive_codex_attempt",
+    "stage_transition_materialization_owner": "opl_stage_run_controller",
+    "readable_artifact_allows_any_declared_stage": true,
+    "no_output_diagnostic_allows_any_declared_stage": true,
+    "provider_completion_is_route_decision": false,
+    "file_presence_without_readability_is_progress": false,
+    "quality_budget_exhaustion_blocks_route": false,
+    "owner_receipt_required_for_quality_or_ready_claim": true,
+    "framework_can_accept_reject_rank_or_override_route": false
+  },
+  "authority_boundary": {
+    "opl_can_write_domain_truth": false,
+    "opl_can_mutate_artifact_body": false,
+    "opl_can_sign_domain_owner_receipt": false,
+    "opl_can_create_typed_blocker": false,
+    "opl_can_authorize_quality_or_export": false,
+    "provider_completion_counts_as_domain_accepted": false,
+    "read_model_can_be_truth_source": false,
+    "temporal_attempt_ledger_owner": "one-person-lab",
+    "domain_repo_can_own_temporal_runtime": false,
+    "bookforge_can_write_opl_stage_attempts": false,
+    "generated_surface_ready_counts_as_domain_ready": false,
+    "domain_repo_can_export_private_temporal_wrapper": false,
+    "domain_repo_can_export_private_stage_run_wrapper": false
+  },
+  "owner": "opl-bookforge",
+  "domain_id": "opl-bookforge",
+  "marker": "generated_by_opl_standard_domain_agent_scaffold_v1"
+}

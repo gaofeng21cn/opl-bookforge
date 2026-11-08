@@ -1,0 +1,14 @@
+{
+  "surface_kind": "domain_handler_registry",
+  "version": "domain-handler-registry.v1",
+  "handlers": [
+    {
+      "handler_id": "obf.figure-asset-authority-evaluate",
+      "binding": {
+        "kind": "python_callable",
+        "module": "runtime.native_helpers.bookforge_imagegen_asset",
+        "callable": "evaluate_host_bitmap"
+      }
+    }
+  ]
+}

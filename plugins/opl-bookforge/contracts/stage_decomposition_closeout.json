@@ -1,0 +1,40 @@
+{
+  "surface_kind": "stage_attempt_closeout_packet",
+  "version": "stage-attempt-closeout-packet.v1",
+  "stage_id": "stage-decomposition",
+  "closeout_id": "stage-decomposition-closeout:opl-bookforge",
+  "closeout_refs": [
+    "receipt:opl-meta-agent/opl-bookforge/stage-decomposition-pack-draft",
+    "agent/stages/manifest.json",
+    "opl-generated:family_stage_control_plane"
+  ],
+  "consumed_refs": [
+    "stage-packet:opl-meta-agent/opl-bookforge/stage-decomposition-input"
+  ],
+  "consumed_memory_refs": [],
+  "writeback_receipt_refs": [],
+  "rejected_writes": [],
+  "next_owner": "opl-meta-agent",
+  "domain_ready_verdict": "domain_gate_pending",
+  "route_impact": {
+    "next_owner": "opl-meta-agent",
+    "materialization_required": true,
+    "target_owner_gate_required": true
+  },
+  "user_stage_log": {
+    "stage_name": "stage-decomposition",
+    "outcome": "source_manifest_handoff_recorded",
+    "changed_stage_surfaces": [
+      "agent/stages/manifest.json",
+      "contracts/action_catalog.json"
+    ],
+    "remaining_blockers": [
+      "target_owner_gate_required"
+    ]
+  },
+  "authority_boundary": {
+    "opl": "stage_attempt_closeout_transport_only",
+    "oma": "pack_draft_authoring_refs_only",
+    "target_domain": "truth_quality_artifact_gate_owner"
+  }
+}

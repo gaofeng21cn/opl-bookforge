@@ -75,6 +75,8 @@ The publication namespace is a locator, not a second owner. Published bytes and
 complete carrier currentness require actual receipts; [Status](./status.md)
 records the source/evidence boundary.
 
+The native carrier is generated with `python3 scripts/project-carrier.py` and checked with `--check`. It includes the current `agent/`, `contracts/`, `runtime/` and support documentation at plugin-root-relative paths, plus the primary Skill and Mini App adapter. Historical pilot artifacts remain repository evidence rather than executable package dependencies. Published payload selection uses the complete committed carrier; it must include the domain descriptor and its resources as well as the visible Skill.
+
 ## Implementation And Reference Boundary
 
 `contracts/pack_compiler_input.json#/implementation_profile` is the machine-readable implementation boundary. Canonical Agent and OPL Package identity is `obf`, declared by `pack_compiler_input.canonical_agent_id` and package manifest `agent_id/package_id`. Repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators remain `opl-bookforge`; they do not define a second package identity. Agent identity comes only from the Markdown/JSON Declarative Standard Agent Pack; Python is a replaceable publishing-helper implementation, not an Agent type, identity, runtime owner, or publication verdict authority.

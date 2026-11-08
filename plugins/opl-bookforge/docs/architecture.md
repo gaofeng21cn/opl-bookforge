@@ -1,0 +1,180 @@
+# OPL Book Forge Architecture
+
+Owner: `opl-bookforge`
+Purpose: `architecture`
+State: `active_truth`
+Machine boundary: Human-readable architecture boundary. Machine truth remains in contracts, agent pack files, OPL validator output, runtime receipts, OMA evidence, pilot evidence, owner receipts, and typed blockers.
+
+## Ownership Split
+
+This repo owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
+
+The descriptor's [artifact lifecycle Profile](../contracts/workspace_artifact_lifecycle_profile.json)
+declares book output directories and roles. Framework `workspace init/ensure` copies it into a project
+only when that project has no lifecycle Profile, and the shared artifact inventory consumes those
+declarations. Existing project Profiles remain authoritative; undeclared outputs retain generic
+inventory coverage without a publication or quality verdict.
+
+The Mini App uses the Framework shared progress and artifact views for the
+selected registered workspace and exact book task. Its declarative
+`app-contribution-adapter.json` selects `runtime_context` rather than asking for
+status or manifest filenames. `workspace_index.json#/projects` supplies book
+identity and project roots through the standard inventory projection. When more
+than one book is available, the user selects the book explicitly; no newest-file
+or newest-project heuristic defines current work.
+
+Framework reads execution progress and project artifact references through its
+existing runtime and workspace lifecycle surfaces. Book Forge still owns the
+manuscript, chapter structure, quality debt, and publication/export decisions.
+Starting or continuing writing uses the current Framework task action, while
+manuscript editing and publication proof remain domain operations. The shared
+interaction model is defined in the Framework
+[MCP Apps specification](https://github.com/gaofeng21cn/one-person-lab/blob/main/docs/mcp-apps/SPEC.md).
+
+OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns Agent-engineering semantics and Foundry owns evaluation execution; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
+
+The publication helper uses Framework's `publication_package.sha256_file` for
+exact file digests, alongside its existing artifact inspection and JSON I/O
+helpers. Book Forge retains the publication manifest and quality verdict.
+
+## Package Composition
+
+Book Forge declares an `OPL Package(kind=agent)`. It owns the
+executor-neutral `obf` identity, capabilities, dependency intent, book work
+items, optional typed views, stable entrypoints, and domain authority.
+
+Package, carrier, and executor are separate:
+
+- Book Forge owns descriptor, version, and publication decisions. Shared
+  publication tooling may materialize complete bytes, refs, digests, and channels
+  without taking domain or ordinary Package currentness authority.
+- The active carrier installs, updates, removes, and reads back the bytes it
+  actually carries. Codex Plugin is the current carrier projection; its
+  presence alone does not prove the complete Package is installed.
+- Codex CLI is the current supported executor. Replacing the executor changes
+  only its route adapter and must not reinstall Book Forge or discard book work,
+  preferences, dependency state, or typed views.
+- OPL aggregates fresh carrier readback, dependency presence/callability, and
+  executor-route readiness. It does not own a second OBF resolver, lock,
+  payload, currentness ledger, or rollback state machine.
+
+Ordinary Package dependencies require identity presence and the callability of
+the required capability. They do not require cross-Package SemVer or ABI
+solving, an exact lock or payload, a digest, an atomic closure, or a shared
+Release Set. A Release Set may still freeze exact bytes for Full, offline,
+integration-test, or QA reproduction; it does not define ordinary OBF
+currentness.
+
+Exact release refs and checksums remain valid for publication integrity.
+StageRun/Attempt receipts remain runtime evidence, and manuscript, review,
+export, and owner receipts remain Book Forge domain evidence. These three
+evidence classes are intentionally distinct and do not become Package
+composition locks.
+
+The publication namespace is a locator, not a second owner. Published bytes and
+complete carrier currentness require actual receipts; [Status](./status.md)
+records the source/evidence boundary.
+
+The native carrier is generated with `python3 scripts/project-carrier.py` and checked with `--check`. It includes the current `agent/`, `contracts/`, `runtime/` and support documentation at plugin-root-relative paths, plus the primary Skill and Mini App adapter. Historical pilot artifacts remain repository evidence rather than executable package dependencies. Published payload selection uses the complete committed carrier; it must include the domain descriptor and its resources as well as the visible Skill.
+
+## Implementation And Reference Boundary
+
+`contracts/pack_compiler_input.json#/implementation_profile` is the machine-readable implementation boundary. Canonical Agent and OPL Package identity is `obf`, declared by `pack_compiler_input.canonical_agent_id` and package manifest `agent_id/package_id`. Repo, domain, Foundry consumer, npm package, Codex plugin, and existing distribution carrier locators remain `opl-bookforge`; they do not define a second package identity. Agent identity comes only from the Markdown/JSON Declarative Standard Agent Pack; Python is a replaceable publishing-helper implementation, not an Agent type, identity, runtime owner, or publication verdict authority.
+
+The declared helper lane is:
+
+| helper | language | allowed role | source refs |
+| --- | --- | --- | --- |
+| publishing helper family | Python | PDF/publication-proof materialization, rendered-page evidence, and project-local figure assets | `runtime/native_helpers/` |
+
+`implementation_profile.helpers` keeps the helper optional, language-neutral at the Agent identity layer, and excludes Rust from domain-agent implementations. OPL owns helper execution transport, executor discovery, generated surfaces, and generic runtime. `generic_runtime`, `generic_cli`, and `generic_workbench` remain forbidden through the existing functional privatization/source-purity gates even if a checkout contains scripts or diagnostic residue. The top-level `reference_implementation` contract marks Book Forge as a golden-fixture/reference role only: it is not the standard owner, cannot define Framework identity/contracts, and cannot become a second standard source.
+
+Temporal-backed StageRun execution belongs to that OPL-owned runtime layer. Book Forge consumes StageRun, Temporal workflow, provider attempt, attempt ledger, current pointer, owner receipt, typed blocker, human gate, and route-back refs through `contracts/temporal_stage_run_consumption_policy.json`; it must not create a private Temporal runtime, StageRun wrapper, queue, provider completion store, scheduler, session store, or attempt ledger.
+
+The same policy is also the positive export boundary for OPL generated surfaces: Book Forge exposes book-domain action contracts, chapter task card refs, manuscript/style/artifact authority refs, owner-gated publication/export decision refs, typed blocker refs, and owner receipt refs. It does not expose runtime status read models, private Temporal wrappers, private StageRun wrappers, private queues, private schedulers, private session stores, private provider completion stores, or private attempt ledgers.
+
+## Stage Model
+
+Book Forge uses a storyline default stage plus focused materialization stages:
+
+- `storyline-architecture`: build the premise, reader promise, argument arc, source map, chapter thesis chain, style contract, and owner handoff.
+- `chapter-production-planning`: direct `materialize-book` entry; admit the approved storyline closeout, route ordinary gaps back or keep them in progress, then produce target extent, chapter budgets, production queue, chapter task cards, context plan, and memory refs.
+- `chapter-materialization`: produce chapter context packs, reader-entry plans, per-chapter Markdown draft refs, chapter QC, and repair back-propagation refs.
+- `source-style-integrity-review`: run source/claim integrity, style consistency, AI-flavor/internal-language scan, meta-review routing, and repair entrypoint judgment.
+- `publication-proof-handoff`: package review/proof/export handoff refs, figure/table readiness, rendered-page QA refs when claimed, owner decisions, blockers, and artifact-role boundaries.
+
+The sequence is `storyline-architecture` -> `chapter-production-planning` -> `chapter-materialization` -> `source-style-integrity-review` -> `publication-proof-handoff`. Planning owns storyline-ref admission and route-back. The planning StageRun launches an independent reviewer Attempt, but a reviewer `pass` is not a hard transition prerequisite: ordinary gaps may route back or close as explicit quality debt when a readable plan exists.
+
+The stage split follows the OMA-derived sizing rule: one top-level stage should own one major open judgment. Deterministic file generation, validators, helper receipts, and professional-skill method work remain inside the relevant stage; independent judgments such as planning, drafting, integrity review, and proof/export handoff are separated.
+
+## Prompt / Professional Skill / Tool Split
+
+The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is the standard default Codex entry for OPL Book Forge: it carries the book-level operating contract, routes to stage prompts and professional skills, and keeps the authority boundary visible to Codex users. `plugins/opl-bookforge/skills/opl-bookforge/SKILL.md` is the materialized Codex plugin carrier full copy; the carrier is transport, not the Book Forge truth owner.
+
+Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture`, `chapter-production-planning`, `chapter-materialization`, `source-style-integrity-review`, and `publication-proof-handoff`.
+
+Repo-local Codex professional skills under `agent/professional_skills/*/SKILL.md` carry workflow-level book-writing methods: storyline/style architecture, chapter authoring, source/reference review, meta-review, and publication/memory curation. They consume focused `agent/skills/*.md` policy refs without creating a private runtime, memory-body authority, owner acceptance, or readiness verdict. `contracts/capability_map.json` locates only the current capabilities.
+
+Tool catalogs under `agent/tools/` describe affordances, write scope, side effects, credentials, and forbidden authority. Tools do not prescribe executor strategy, own manuscript truth, or grant readiness verdicts.
+
+Image generation follows the same framework/domain split. OPL owns capability activation, executor selection and transport, the workspace output slot, bitmap materialization, attempt/output refs, and candidate persistence. The Book Forge handler registered as `handler:obf.figure-asset-authority-evaluate` consumes only the host-injected relative bitmap ref, SHA-256 digest, attempt/output refs, and figure metadata. It validates containment, regular-file identity, bitmap structure, format, dimensions, and digest, then returns either a figure-authority receipt candidate or quality debt. It does not create execution requests, spawn OPL/Codex, generate or copy bitmap bytes, or persist receipts/manifests. Publication, final-export, and owner-acceptance authority remain in Book Forge.
+
+## Revision Architecture
+
+Book Forge treats serious critique and independent meta-review as a routed repair system, not a local prose queue. After a full-manuscript meta-review, complete-version comparison, or serious owner/reviewer critique, the domain pack first records a revision entrypoint decision.
+
+The repair hierarchy is:
+
+- artifact target: decide whether the manuscript is a concise review edition, internal trial reading edition, formal publication manuscript, or another owner-approved target.
+- storyline architecture: repair reader promise, primary audience, central thesis, argument arc, source map, author/source stance, or evidence burden.
+- outline sequence: repair chapter order, split/merge, part structure, front matter, conclusion path, and handoffs.
+- chapter function: repair a chapter's primary job, new movement, adjacent handoff, and non-repeat claims.
+- evidence/model: repair claim ledgers, source locators, case evidence ladder, concept map, core model map, figures, and tables.
+- publication design: repair proof target, TOC/front matter, figure stance, page profile, and rendered-page inspection plan.
+- local prose: repair sentence rhythm, paragraph movement, terminology clarity, transitions, and AI-flavor residue.
+- owner/source gap: preserve any manuscript or diagnostic, record quality debt, and let Codex continue or route back when source material, outcome evidence, publication acceptance, final export acceptance, or readable bytes are missing. Use a typed blocker only for protected-material authorization, real authority/safety/permission, wrong-target identity/currentness, irreversible action, executor unavailability, or an explicit owner decision that must occur before the requested action.
+
+This hierarchy preserves owner routing while using the focused stage graph. Structural route-back goes to the owning Book Forge refs, especially `storyline-architecture` when top-level design changes; chapter-package issues route to `chapter-production-planning` or `chapter-materialization`; source/style/meta-review issues route to `source-style-integrity-review`; proof/export issues route to `publication-proof-handoff`. OPL only transports opaque route refs, blockers, receipts, and current-owner projections; it does not decide manuscript semantics or quality.
+
+## Generated Surface Boundary
+
+The `family-action-catalog.v2` catalog exposes `shape-storyline` and `materialize-book` as public stage actions. Each action declares only `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}`; the action's own `stage_route` keeps its entry and required stage refs. The domain pack does not carry a `source_command`, action-level handler id/ref, or surface-specific command; OPL generates the canonical `opl agents run --domain opl-bookforge --action <action_id> --workspace <absolute_path>` entry and hosted surface kinds. Generated MCP/OpenAI/AI SDK descriptors remain interface descriptors unless a runtime surface provides execution evidence.
+
+Scaffold validation and generated interface readiness prove the domain pack can be read by OPL. They do not prove manuscript quality, export acceptance, publication readiness, owner acceptance, or hosted runtime parity.
+
+Generated status/readback surfaces may project the Temporal StageRun policy flags, including `provider_completion_is_domain_completion=false` and `generated_surface_ready_counts_as_domain_ready=false`. Domain completion still requires a Book Forge owner receipt, typed blocker, human gate, or route-back ref; provider completion and StageRun readiness are transport evidence only.
+
+## Independent Stage Review And Whole-Book Meta Review
+
+Book Forge binds `official_high_value_knowledge_deliverable.v1`, while formal Review is an explicit per-Stage risk decision rather than a blanket rule. `storyline-architecture`, `chapter-production-planning`, and `chapter-materialization` use isolated producer, reviewer, repairer, and re-reviewer Attempts because they create open judgments or manuscript bytes. `source-style-integrity-review` is already the independent Meta Review StageRun and does not recursively review itself. `publication-proof-handoff` retains the full Review loop because it generates or transforms final PDF/export bytes, freezes their canonical identity, and can support publication/export/ready claims. Same-thread checking is only `in_thread_refinement`; a protocol closeout resume cannot produce a Review receipt.
+
+Within `publication-proof-handoff`, producer and repairer outputs mark only semantically changed review dimensions and their declared dependents as `review_pending`. Book Forge declares content -> editorial/reference/display -> layout -> export -> package dependencies in `contracts/epistemic_review_adoption.json`; the OPL Framework evaluates generic scope currentness. Layout- or export-only regeneration leaves content, editorial, and reference receipts current, while a content change fails closed across all downstream dimensions. Hashes are optional locators or stale hints, not review authority. Exact-byte release integrity and downstream owner/export acceptance remain separate contracts and authorities.
+
+Cross-Stage routing remains a Codex domain judgment. The semantic owner is the
+single `decisive_codex_attempt`: the producer for a primary-only StageRun,
+otherwise the terminal reviewer or re-reviewer. Producer and repairer Attempts
+inside formal Review can only recommend a route. A reviewer or re-reviewer with
+`repair_required` continues the local loop while budget remains when the current
+Stage is the narrowest repair owner. If a different declared Stage is the
+narrowest owner, it may instead decisively route back to that Stage before
+budget exhaustion; this is the only permitted pre-exhaustion terminal route for
+`repair_required`. A final-budget reviewer or re-reviewer with consumable bytes
+remains decisive while preserving outcome `repair_required`.
+Machine output is `route_impact.stage_route_decision` or
+`stage_route_recommendation`. The OPL StageRun controller owns only transition
+validation and materialization; it does not rewrite Book Forge editorial or
+publication semantics.
+
+`source-style-integrity-review` keeps its stable ID and acts as the independent whole-book Meta Review and integrity gate. It consumes manuscript/artifact refs, optional locator hashes, declared content/editorial/reference dependencies, Stage Review receipts, source/reader-style/rubric refs, and necessary lineage only. It routes defects to the earliest owning storyline, planning, or materialization Stage and never edits manuscript artifacts inside the Meta Review Stage.
+
+Within a formal Stage Review cycle, the initial reviewer creates stable findings and repair expectations but does not create the repair map. The repairer returns the per-finding repair map, changed artifact refs, semantic-change dimensions, and affected dependency scopes. A fresh re-reviewer closes each prior finding against those affected scopes; only an unclosed required finding, repair regression, or critical new finding can consume another repair round. Ordinary new suggestions remain optional observations or quality debt and cannot restart the loop.
+
+`contracts/stage_quality_cycle_policy.json` owns budget declarations: formal
+Review permits three repair cycles after the producer/initial reviewer, at most
+eight model Attempts. Meta Review permits three cross-Stage route-back rounds
+within the logical task lineage. Framework persists and enforces these counters;
+Book Forge does not create a parallel counter. Elapsed/token limits are absent
+unless explicitly supplied. Exhaustion with consumable work closes the run with
+quality debt, preserves unresolved findings, and keeps unsupported publication,
+export, or ready claims closed. A real authority, safety, identity, executor,
+irreversible-action, or explicit human-decision boundary retains its hard stop.

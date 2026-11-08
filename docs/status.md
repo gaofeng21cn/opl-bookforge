@@ -8,7 +8,7 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 ## Source State
 
 `package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.3.20` and Package identity `obf`. Version metadata is not a release or
+version `0.3.21` and Package identity `obf`. Version metadata is not a release or
 installed-state receipt.
 
 The source includes a standard dual-format publication helper and a bundled
@@ -28,7 +28,7 @@ compares note text in source order independently of global text coverage.
 These editorial checks
 remain distinct from Word/PDF pagination and extraction-coverage scores.
 The source reserves space before PDF quotation blocks so a case heading can
-stay with its opening text. Version 0.3.20 reuses Framework file hashing and
+stay with its opening text. The helper reuses Framework file hashing and
 accepts only the current PDF roles: `review_pdf`, `publication_proof`, and
 `final_export`. Package publication and installed carrier currentness are
 verified through their own receipts.

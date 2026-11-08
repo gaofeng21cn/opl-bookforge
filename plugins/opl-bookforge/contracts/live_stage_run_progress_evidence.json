@@ -1,0 +1,107 @@
+{
+  "surface_kind": "domain_live_stage_run_progress_evidence",
+  "schema_ref": "contracts/opl-framework/domain-live-stage-run-progress-evidence.schema.json",
+  "schema_version": 1,
+  "domain_id": "opl-bookforge",
+  "domain_agent_id": "obf",
+  "owner": "OPL Book Forge",
+  "status": "owner_evidence_required",
+  "evidence_contract_status": "standard_contract_resolved_without_accepted_refs",
+  "topology_state": "historical_two_stage_evidence_superseded_by_current_five_stage_topology",
+  "summary": "The retained pilot evidence predates the current five-stage topology and is provenance only. Current-topology Live StageRun evidence is deferred; this contract records no ready claim, owner acceptance, final export acceptance, or synthesized current-stage evidence.",
+  "active_stage_sequence": [
+    "storyline-architecture",
+    "chapter-production-planning",
+    "chapter-materialization",
+    "source-style-integrity-review",
+    "publication-proof-handoff"
+  ],
+  "refs": {
+    "typed_blocker_refs": [],
+    "quality_or_export_receipt_refs": [],
+    "superseded_topology_provenance_refs": [
+      "docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/README.md",
+      "docs/evidence/oma-agent-lab/provenance/baseline_delivery_receipt.json",
+      "docs/evidence/oma-agent-lab/provenance/stage_decomposition_attempt_receipt.json"
+    ],
+    "topology_guard_refs": [
+      "agent/stages/manifest.json",
+      "contracts/temporal_stage_run_consumption_policy.json#completion_boundary",
+      "contracts/temporal_stage_run_consumption_policy.json#completion_audit.acceptance_tail"
+    ],
+    "doc_refs": [
+      "docs/status.md#live-stage-progress-evidence",
+      "docs/status.md#production-acceptance-tail"
+    ],
+    "next_verification_command_refs": [
+      "python3 tests/test_stage_topology.py",
+      "python3 tests/test_temporal_stage_run_consumption_policy.py",
+      "./scripts/verify.sh"
+    ]
+  },
+  "deferred_stage_evidence_items": [
+    {
+      "stage_id": "storyline-architecture",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "No current-topology Live StageRun evidence or ready claim is recorded."
+    },
+    {
+      "stage_id": "chapter-production-planning",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "Historical planning evidence is provenance only and is not remapped into current evidence."
+    },
+    {
+      "stage_id": "chapter-materialization",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "Historical draft output is provenance only and is not remapped into current evidence."
+    },
+    {
+      "stage_id": "source-style-integrity-review",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "No current-topology integrity review evidence or ready claim is recorded."
+    },
+    {
+      "stage_id": "publication-proof-handoff",
+      "result_shape": "live_evidence_deferred",
+      "status": "deferred_topology_superseded_no_current_live_evidence",
+      "claim_boundary": "No current-topology publication proof, final export, or owner acceptance evidence is recorded."
+    }
+  ],
+  "evidence_gap_kind": "current_topology_live_evidence_required",
+  "open_tail": {
+    "owner_acceptance_open": true,
+    "final_export_acceptance_open": true,
+    "live_stage_run_evidence_tail_open": true,
+    "real_long_book_run_evidence_open": true,
+    "direct_runtime_cli_or_hosted_parity_evidence_open": true
+  },
+  "authority_boundary": {
+    "refs_only": true,
+    "domain_ready_claimed": false,
+    "production_ready_claimed": false,
+    "quality_or_export_ready_claimed": false,
+    "owner_acceptance_claimed": false,
+    "final_export_acceptance_claimed": false,
+    "live_stage_run_progress_complete_claimed": false,
+    "opl_can_sign_owner_receipt": false,
+    "opl_can_create_typed_blocker": false,
+    "opl_can_claim_domain_ready": false,
+    "opl_can_claim_production_ready": false,
+    "bookforge_contract_can_synthesize_owner_receipt_body": false,
+    "bookforge_contract_can_write_runtime_queue_or_provider_attempt": false
+  },
+  "forbidden_claims": [
+    "live_domain_progress_complete",
+    "domain_ready",
+    "production_ready",
+    "quality_or_export_ready",
+    "final_export_ready",
+    "owner_acceptance",
+    "owner_receipt_signed_by_opl",
+    "typed_blocker_created_by_opl"
+  ]
+}

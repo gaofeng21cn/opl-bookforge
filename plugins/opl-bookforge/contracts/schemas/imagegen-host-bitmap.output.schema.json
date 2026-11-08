@@ -1,0 +1,476 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://one-person-lab.local/opl-bookforge/imagegen-host-bitmap.output.schema.json",
+  "title": "OPL Book Forge figure asset evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "surface_kind",
+    "schema_version",
+    "status",
+    "figure_authority_receipt_candidate",
+    "quality_debt",
+    "error",
+    "authority_boundary"
+  ],
+  "properties": {
+    "surface_kind": {
+      "const": "opl_bookforge_figure_asset_evaluation"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "figure_authority_receipt_candidate",
+        "completed_with_quality_debt",
+        "invalid_host_input"
+      ]
+    },
+    "figure_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "host_refs": {
+      "$ref": "#/$defs/host_refs"
+    },
+    "figure_authority_receipt_candidate": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/authority_candidate"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "quality_debt": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/quality_debt"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/error"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "authority_boundary": {
+      "$ref": "#/$defs/authority_boundary"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "figure_id",
+        "host_refs"
+      ],
+      "properties": {
+        "figure_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host_refs": {
+          "$ref": "#/$defs/host_refs"
+        },
+        "status": {
+          "const": "figure_authority_receipt_candidate"
+        },
+        "figure_authority_receipt_candidate": {
+          "$ref": "#/$defs/authority_candidate"
+        },
+        "quality_debt": {
+          "type": "null"
+        },
+        "error": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "required": [
+        "figure_id",
+        "host_refs"
+      ],
+      "properties": {
+        "figure_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host_refs": {
+          "$ref": "#/$defs/host_refs"
+        },
+        "status": {
+          "const": "completed_with_quality_debt"
+        },
+        "figure_authority_receipt_candidate": {
+          "type": "null"
+        },
+        "quality_debt": {
+          "$ref": "#/$defs/quality_debt"
+        },
+        "error": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "figure_id": false,
+        "host_refs": false,
+        "status": {
+          "const": "invalid_host_input"
+        },
+        "figure_authority_receipt_candidate": {
+          "type": "null"
+        },
+        "quality_debt": {
+          "type": "null"
+        },
+        "error": {
+          "$ref": "#/$defs/error"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "host_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_ref",
+        "output_ref"
+      ],
+      "properties": {
+        "attempt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "media_type",
+        "width",
+        "height",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "enum": [
+            "png",
+            "jpeg",
+            "webp"
+          ]
+        },
+        "media_type": {
+          "enum": [
+            "image/png",
+            "image/jpeg",
+            "image/webp"
+          ]
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "figure_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "style_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "placement_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "caption_intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_boundary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "review_criteria": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "asset_with_path": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/asset"
+        },
+        {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "asset_manifest_entry_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "artifact_role",
+        "asset_status",
+        "project_local_path",
+        "asset",
+        "source_attempt_ref",
+        "source_output_ref"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "asset_status": {
+          "const": "bitmap_validated_pending_visual_review"
+        },
+        "project_local_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "asset": {
+          "$ref": "#/$defs/asset"
+        },
+        "source_attempt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_output_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "authority_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_kind",
+        "candidate_only",
+        "owner",
+        "figure_id",
+        "title",
+        "artifact_role",
+        "prompt_sha256",
+        "asset",
+        "host_refs",
+        "figure_metadata",
+        "asset_manifest_entry_candidate",
+        "authority_boundary"
+      ],
+      "properties": {
+        "receipt_kind": {
+          "const": "bookforge_figure_authority_receipt_candidate.v1"
+        },
+        "candidate_only": {
+          "const": true
+        },
+        "owner": {
+          "const": "OPL Book Forge"
+        },
+        "figure_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_sha256": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asset": {
+          "$ref": "#/$defs/asset_with_path"
+        },
+        "host_refs": {
+          "$ref": "#/$defs/host_refs"
+        },
+        "figure_metadata": {
+          "$ref": "#/$defs/figure_metadata"
+        },
+        "asset_manifest_entry_candidate": {
+          "$ref": "#/$defs/asset_manifest_entry_candidate"
+        },
+        "authority_boundary": {
+          "$ref": "#/$defs/authority_boundary"
+        }
+      }
+    },
+    "quality_debt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "detail",
+        "bitmap_ref",
+        "blocks_stage_transition",
+        "blocks_figure_ready_or_export_claims",
+        "next_stage_may_start"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bitmap_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocks_stage_transition": {
+          "const": false
+        },
+        "blocks_figure_ready_or_export_claims": {
+          "const": true
+        },
+        "next_stage_may_start": {
+          "const": true
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "detail"
+      ],
+      "properties": {
+        "code": {
+          "const": "host_input_schema_invalid"
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_requires_opl_persistence",
+        "visual_review_still_required",
+        "authorizes_publication_proof",
+        "authorizes_final_export",
+        "counts_as_owner_acceptance",
+        "counts_as_domain_ready",
+        "counts_as_production_ready"
+      ],
+      "properties": {
+        "candidate_requires_opl_persistence": {
+          "const": true
+        },
+        "visual_review_still_required": {
+          "const": true
+        },
+        "authorizes_publication_proof": {
+          "const": false
+        },
+        "authorizes_final_export": {
+          "const": false
+        },
+        "counts_as_owner_acceptance": {
+          "const": false
+        },
+        "counts_as_domain_ready": {
+          "const": false
+        },
+        "counts_as_production_ready": {
+          "const": false
+        }
+      }
+    }
+  }
+}

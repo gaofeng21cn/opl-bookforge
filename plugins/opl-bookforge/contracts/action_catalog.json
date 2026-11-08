@@ -1,0 +1,149 @@
+{
+  "surface_kind": "family_action_catalog",
+  "version": "family-action-catalog.v2",
+  "catalog_id": "opl_bookforge_action_catalog",
+  "target_domain_id": "opl-bookforge",
+  "owner": "OPL Book Forge",
+  "authority_boundary": {
+    "domain_truth_owner": "OPL Book Forge",
+    "opl_role": "projection_consumer_only",
+    "write_policy": "no_domain_truth_writes",
+    "opl_can_write_domain_truth": false,
+    "opl_can_write_memory_body": false,
+    "opl_can_authorize_quality_or_export": false,
+    "provider_completion_is_domain_completion": false
+  },
+  "actions": [
+    {
+      "action_id": "shape-storyline",
+      "title": "Shape Storyline",
+      "summary": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints.",
+      "owner": "OPL Book Forge",
+      "effect": "mutating",
+      "execution_binding": {
+        "kind": "stage_binding",
+        "stage_manifest_ref": "agent/stages/manifest.json"
+      },
+      "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
+      "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
+      "required_fields": [
+        "workspace_root"
+      ],
+      "optional_fields": [],
+      "workspace_locator_fields": [
+        "workspace_root"
+      ],
+      "human_gate_ids": [
+        "storyline_owner_review"
+      ],
+      "stage_route": {
+        "entry_stage_ref": "storyline-architecture",
+        "required_stage_refs": [
+          "storyline-architecture"
+        ],
+        "optional_stage_refs": [],
+        "terminal_stage_refs": [
+          "storyline-architecture"
+        ],
+        "route_policy": "ai_selected_progress_route"
+      },
+      "supported_surfaces": {
+        "cli": {},
+        "mcp": {
+          "tool_name": "opl_bookforge_shape_storyline",
+          "descriptor_only": true,
+          "public_runtime": false
+        },
+        "skill": {
+          "command_contract_id": "opl-bookforge.shape-storyline"
+        },
+        "product_entry": {
+          "action_key": "shape-storyline"
+        },
+        "openai": {
+          "tool_name": "opl_bookforge_shape_storyline"
+        },
+        "ai_sdk": {
+          "tool_name": "opl_bookforge_shape_storyline"
+        }
+      },
+      "authority_boundary": {
+        "domain_truth_owner": "OPL Book Forge",
+        "opl_role": "projection_consumer_only",
+        "write_policy": "no_domain_truth_writes",
+        "opl_can_write_domain_truth": false,
+        "opl_can_write_memory_body": false,
+        "opl_can_mutate_domain_artifact_body": false,
+        "opl_can_authorize_quality_or_export": false,
+        "provider_completion_is_domain_completion": false
+      }
+    },
+    {
+      "action_id": "materialize-book",
+      "title": "Materialize Book",
+      "summary": "Enter chapter production planning directly, then continue through drafting, source/style review, and proof/export handoff with owner-gated refs.",
+      "owner": "OPL Book Forge",
+      "effect": "mutating",
+      "execution_binding": {
+        "kind": "stage_binding",
+        "stage_manifest_ref": "agent/stages/manifest.json"
+      },
+      "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
+      "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
+      "required_fields": [
+        "workspace_root"
+      ],
+      "optional_fields": [],
+      "workspace_locator_fields": [
+        "workspace_root"
+      ],
+      "human_gate_ids": [
+        "chapter_planning_owner_review"
+      ],
+      "stage_route": {
+        "entry_stage_ref": "chapter-production-planning",
+        "required_stage_refs": [
+          "chapter-production-planning",
+          "chapter-materialization",
+          "source-style-integrity-review",
+          "publication-proof-handoff"
+        ],
+        "optional_stage_refs": [],
+        "terminal_stage_refs": [
+          "publication-proof-handoff"
+        ],
+        "route_policy": "ai_selected_progress_route"
+      },
+      "supported_surfaces": {
+        "cli": {},
+        "mcp": {
+          "tool_name": "opl_bookforge_materialize_book",
+          "descriptor_only": true,
+          "public_runtime": false
+        },
+        "skill": {
+          "command_contract_id": "opl-bookforge.materialize-book"
+        },
+        "product_entry": {
+          "action_key": "materialize-book"
+        },
+        "openai": {
+          "tool_name": "opl_bookforge_materialize_book"
+        },
+        "ai_sdk": {
+          "tool_name": "opl_bookforge_materialize_book"
+        }
+      },
+      "authority_boundary": {
+        "domain_truth_owner": "OPL Book Forge",
+        "opl_role": "projection_consumer_only",
+        "write_policy": "no_domain_truth_writes",
+        "opl_can_write_domain_truth": false,
+        "opl_can_write_memory_body": false,
+        "opl_can_mutate_domain_artifact_body": false,
+        "opl_can_authorize_quality_or_export": false,
+        "provider_completion_is_domain_completion": false
+      }
+    }
+  ]
+}
