@@ -34,6 +34,16 @@ When a real manuscript needs new visual artwork, final figures default to Codex 
 
 Book memory is a domain artifact contract, not a new control plane. For nonfiction manuscripts, working memory covers the active chapter brief, local source notes, current reader promise, terminology decisions, unresolved claims, and near-term style constraints. Episodic memory covers prior chapter QC results, owner comments, revision receipts, style drift incidents, figure/table decisions, and route-back history. Semantic memory covers durable thesis, audience model, source canon, glossary, style asset bundle, structural principles, claim taxonomy, and evidence rules.
 
+These are editorial continuity views, independent of knowledge ownership. User
+preferences and cross-book topic experience remain in their single chosen source,
+which may be an existing personal library or ordinary workspace Markdown.
+Book-specific decisions stay with the book project. Bind source identities,
+accepted revisions, scope, and content kind through Framework; derived summaries
+must be refreshed when their supporting sources change or lose current access.
+Accepted updates return to the original source rather than an editable runtime
+copy. A project lesson enters a wider topic or user policy only with that owner's
+acceptance.
+
 Chapter runtime is expressed as owner-inspectable chapter task cards, chapter QC refs, repair reports, memory updates, review-PDF refs, and OPL stage receipts. It must not become a Book Forge-private scheduler, queue, attempt ledger, session store, or generic runtime.
 
 Freshness is part of readiness. Assembly metrics, hygiene scans, PDF receipts, image-resolution checks, and owner handoff refs must be generated after the source refs they inspect, or carry digest evidence tying them to those refs. Older reports can guide repair, but they cannot support a new readiness claim.

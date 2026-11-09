@@ -26,6 +26,16 @@ admission; an extra routing-only stage would add no domain judgment. The graph
 expresses dependencies and claim boundaries, not a mandatory recipe for every
 model thought: current accepted refs may be reused and findings may route back.
 
+## Knowledge Follows Its Owner
+
+Personal preferences and topic knowledge outlive an individual book or executor.
+They remain in their chosen source, while book-specific decisions remain with
+the book project. Source location and time validity are independent of scope.
+The Framework model and Book Forge specialization are linked from
+[knowledge ownership](./architecture.md#knowledge-ownership-and-continuity).
+Book continuity summaries are derived views with source revisions, so reuse does
+not create a second editable personal truth or silently preserve stale facts.
+
 ## Manuscript Body Stays In Chapter Markdown
 
 Chapter packages preserve target extent, chapter function, evidence, memory,

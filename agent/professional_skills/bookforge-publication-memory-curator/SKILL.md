@@ -36,10 +36,11 @@ Maintain owner-inspectable book memory and publication-facing artifact disciplin
 
 ## Execution Rules
 
-- Keep book memory as Book Forge or book-workspace artifact refs. OPL may project memory refs and lifecycle state, but it must not contain, accept, reject, or replace memory bodies.
+- Bind user, topic, and book knowledge to its single editable source through Framework's common lifecycle. Sources may be in an existing personal library or ordinary workspace directories. Book Forge retains semantic curation; Framework's mechanical writer applies only the exact accepted revision with recovery and readback evidence.
 - Refresh memory after chapter readiness, owner review, figure/table updates, major style/source repair, publication-proof pass, or any repair that changes durable reader, source, style, claim, or continuity rules.
 - Absorb owner critique and complete-version comparison only after routing each item to memory, source/reference, proof/design, asset/rights, chapter repair, owner decision, or not adopted.
-- Before accepting a memory delta, require source/decision locator, memory layer, scope, affected chapters, and freshness trigger. If any part is missing, route back to source/reference review, meta review, or owner decision.
+- Before curating a memory delta, require source/decision locator and revision, editorial view, knowledge scope, content kind, affected chapters, and freshness trigger. If any part is missing, route back to source/reference review, meta review, or owner decision. Scope expansion into user/topic knowledge requires its owner's acceptance; curation does not grant that authority.
+- Treat compressed chapter and personal summaries as derived views with explicit source-version dependencies. Refresh or exclude affected summaries when sources change, expire, or lose access; do not continue using an approved summary as current fact after its supporting source is invalid.
 - Keep memory concise and cited. Do not promote unsupported conclusions into semantic memory.
 - Feed chapter context packs through selected refs and traces; do not dump the whole memory body into every chapter prompt.
 - Keep `review_pdf`, `publication_proof`, and `final_export` separate.

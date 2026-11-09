@@ -37,6 +37,39 @@ The publication helper uses Framework's `publication_package.sha256_file` for
 exact file digests, alongside its existing artifact inspection and JSON I/O
 helpers. Book Forge retains the publication manifest and quality verdict.
 
+## Knowledge Ownership And Continuity
+
+The shared [knowledge source and memory policy](https://github.com/gaofeng21cn/one-person-lab/blob/main/docs/policies/knowledge-source-and-memory-policy.md)
+and [lifecycle contract](https://github.com/gaofeng21cn/one-person-lab/blob/main/contracts/opl-framework/durable-knowledge-lifecycle-contract.json)
+own the common model. Book Forge's v2 catalog registers product policies with
+independent `scope` and `content_kind`. A user's writing preferences belong to
+the user, reusable cross-book experience belongs to a topic, and the reader-style
+contract and accepted chapter decisions belong to the selected book project.
+
+Each knowledge object has one editable original. Existing personal libraries,
+including Obsidian, and ordinary working directories are equal bound sources.
+Book projects may mix them without copying a personal corpus into a Book Forge
+memory directory. Framework resolves the permitted source versions directly and
+stores an immutable stage snapshot; the workspace keeps binding references,
+business artifacts, proposals, and receipts. Manuscripts, source evidence, and
+accepted project decisions remain business assets when runtime caches are cleaned.
+
+Working, episodic, and semantic memory are editorial continuity views described
+by [Book memory](../agent/skills/book-memory.md). These views do not define extra
+storage authorities. Derived chapter summaries preserve their source identities
+and revisions and lose current applicability when their supporting sources change,
+expire, or are withdrawn. Required personal/source constraints constrain the
+dependent task; optional missing context remains visible quality debt.
+
+Knowledge changes carry `source_refs`, `target_scope`, `content_kind`,
+`proposed_rule_or_mechanism`, `evidence_class`, and `review_requirement`.
+The authorized knowledge owner accepts the proposal; the common writer checks
+the original revision, preserves concurrent edits, applies the accepted content
+to that original, and returns recovery/readback evidence. Scope promotion from
+one book to a writing topic or user policy needs that owner's acceptance.
+Publication and export recheck relevant critical permissions and owner constraints;
+a frozen reasoning snapshot cannot extend withdrawn permission.
+
 ## Package Composition
 
 Book Forge declares an `OPL Package(kind=agent)`. It owns the
@@ -138,7 +171,7 @@ This hierarchy preserves owner routing while using the focused stage graph. Stru
 
 ## Generated Surface Boundary
 
-The `family-action-catalog.v2` catalog exposes `shape-storyline` and `materialize-book` as public stage actions. Each action declares only `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}`; the action's own `stage_route` keeps its entry and required stage refs. The domain pack does not carry a `source_command`, action-level handler id/ref, or surface-specific command; OPL generates the canonical `opl agents run --domain opl-bookforge --action <action_id> --workspace <absolute_path>` entry and hosted surface kinds. Generated MCP/OpenAI/AI SDK descriptors remain interface descriptors unless a runtime surface provides execution evidence.
+The `family-action-catalog.v2` catalog exposes `shape-storyline` and `materialize-book` as public stage actions. Each action declares `execution_binding={kind: stage_binding, stage_manifest_ref: agent/stages/manifest.json}` and a `work_item` execution scope with the required `book_id` alias. Framework resolves that logical identity through the descriptor's `workspace_index.json#/projects` inventory before reading book-specific knowledge; missing or unknown identities cannot fall back to workspace-only execution. The action's `stage_route` keeps its entry and required stage refs. The domain pack does not carry a `source_command`, action-level handler id/ref, or surface-specific command; OPL generates the canonical `opl agents run --domain opl-bookforge --action <action_id> --workspace <absolute_path>` entry with the required book identity in its input payload. Generated MCP/OpenAI/AI SDK descriptors remain interface descriptors unless a runtime surface provides execution evidence.
 
 Scaffold validation and generated interface readiness prove the domain pack can be read by OPL. They do not prove manuscript quality, export acceptance, publication readiness, owner acceptance, or hosted runtime parity.
 

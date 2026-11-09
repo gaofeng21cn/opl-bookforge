@@ -30,6 +30,11 @@ Working policy:
   boundaries are sufficient.
 - Compile only the context needed for the active chapter and adjacent handoffs.
   Do not dump the whole book memory into every prompt.
+- Consume the Framework-frozen knowledge selection for the current book identity.
+  Personal and topic notes can be bound from an existing library; project notes
+  can remain local. Preserve source identities, accepted revisions, scope, and
+  content kind in the trace. The compiled chapter summary is derived context,
+  not a second editable knowledge source or an independent permission grant.
 - Select the current decision and supporting source slice for each chapter
   action. Include a superseded decision only when it explains a live conflict;
   do not let an old draft or collection request override admitted material.

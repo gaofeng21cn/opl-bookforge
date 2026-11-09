@@ -63,19 +63,47 @@ For a new end-to-end book request, run `shape-storyline` first, obtain the owner
 - `agent/professional_skills/bookforge-meta-reviewer/SKILL.md`
 - `agent/professional_skills/bookforge-publication-memory-curator/SKILL.md`
 
-## Durable Knowledge And Workspace Memory
+## Knowledge Sources And Book Continuity
 
-Use OPL knowledge recall with --repo <agent-root> --domain <domain-id>
---stage <stage-id> and the authorized --workspace and --project roots.
-The hosted StageRun binds this selection once for producer, reviewer and
-repair roles. Read selected bodies and cite knowledge IDs, layers and digests.
-Agent knowledge lives in agent/knowledge/, indexed by
-contracts/durable_knowledge_catalog.json. Owner/team constraints and accepted
-cross-project lessons live in shared/memory/; project decisions and lessons
-live in the authorized project's memory/; dated facts live in its state/.
-Each workspace layer uses opl_durable_knowledge_catalog.json.
-Review freshness and keep superseded entries out of active recall. A project
-result is a candidate lesson until its domain or project owner accepts the
-evidence and scope. Private project content is never automatically promoted
-into the distributable Agent package. OPL owns validation, scoped recall and
-receipts; domain owners retain semantic acceptance.
+Both public actions require the exact `book_id` registered as `project_id` in
+`workspace_index.json#/projects`. Framework resolves the book root from this
+inventory; a workspace path alone cannot select a book or its private knowledge.
+
+Use the Framework knowledge lifecycle v2. `scope` distinguishes product,
+owner/team, topic, and project knowledge; `content_kind` independently identifies
+mechanism, policy, state, or decision. Reusable product policies are indexed by
+`contracts/durable_knowledge_catalog.json`. The user's writing preferences and
+long-lived topic knowledge remain in their chosen knowledge source, including an
+existing Obsidian vault. Book-specific sources may remain in the book directory.
+Without a separate personal library, ordinary workspace Markdown is the source.
+Bind those sources through Framework's `shared/memory/knowledge-bindings.json`,
+using the shared source registry schema; do not create a second editable copy or
+a Book Forge-specific source registry format.
+
+The hosted StageRun freezes the selected source versions for producer, reviewer,
+and repair roles. Direct Skill use prepares and reads the same Framework
+snapshot. Cite knowledge identities, scopes, content kinds, and digests, and
+record unavailable or stale knowledge. Required source/owner constraints block
+only the dependent action; optional context gaps remain visible quality debt.
+Working, episodic, and semantic book-memory views organize editorial continuity;
+they are not additional source ownership layers. Derived summaries retain their
+source identities and revisions and are refreshed when their sources change.
+
+Updates are proposals until the authorized user, topic, or project owner accepts
+their evidence and scope. Apply accepted changes to the unique original through
+the shared writer, preserving concurrent edits and a writeback receipt. A new
+book lesson does not automatically become a personal policy or product rule.
+Recheck critical permissions and owner constraints before publication or export.
+
+For a direct Skill run, resolve `<book-root>` from the registered `book_id`, then
+use the current stage and action with a new private binding path:
+
+```text
+opl knowledge prepare --repo <agent-root> --domain opl-bookforge --stage <stage-id> --task-intent <action-id> --workspace <workspace-root> --project <book-root> --output <new-binding.json> --json
+opl knowledge read-context --binding <new-binding.json> --json
+opl knowledge revalidate --binding <new-binding.json> --for-action --json
+```
+
+The final command is the pre-action check. Knowledge writeback uses the shared
+`knowledge propose`, `knowledge review`, and `knowledge apply` lifecycle; reviewed
+edits made directly in the original use `knowledge review-source`.

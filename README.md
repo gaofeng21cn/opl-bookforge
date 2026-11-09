@@ -30,11 +30,25 @@ target extent, and desired handoff. For example:
 `shape-storyline` ends at storyline handoff. With accepted storyline refs,
 `materialize-book` enters production planning and proceeds through chapter
 materialization, source/style integrity review, and publication-proof handoff.
+Both actions require the registered `book_id` so Framework can resolve the exact
+book and its authorized knowledge through `workspace_index.json`.
 Review PDF, publication proof, and final export have separate evidence and owner
 requirements. See [Architecture](docs/architecture.md) for the stage model and
 [Status](docs/status.md) for current evidence limits. The retained short-book
 pilot is historical and owner-blocked; it does not prove current five-stage
 execution, independent Package publication, or production readiness.
+
+## Knowledge And Personal Libraries
+
+Book Forge uses the shared OPL knowledge lifecycle. Product writing policies
+ship with the package; user preferences, writing-topic experience, and individual
+book decisions retain their own owners and source identities. Existing Obsidian
+notes can remain the only editable originals. Without a personal library, use
+ordinary workspace Markdown; one book can combine both source locations.
+Framework selects authorized versions and freezes the context for each stage.
+Accepted changes return to the original source, while book artifacts and run
+receipts stay in their appropriate workspaces. See
+[knowledge ownership and continuity](docs/architecture.md#knowledge-ownership-and-continuity).
 
 ## Installation
 

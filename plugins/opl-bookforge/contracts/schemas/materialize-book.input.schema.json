@@ -4,9 +4,15 @@
   "title": "OPL Book Forge materialization input",
   "type": "object",
   "required": [
-    "workspace_root"
+    "workspace_root",
+    "book_id"
   ],
   "properties": {
+    "book_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "description": "Exact project_id of the book in the authorized workspace_index.json."
+    },
     "workspace_root": {
       "type": "string",
       "minLength": 1

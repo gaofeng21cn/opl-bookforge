@@ -28,9 +28,20 @@ OPL Framework 提供共享执行与生成接口。
 `shape-storyline` 到故事线交接结束。已有接受的故事线 refs 后，
 `materialize-book` 进入生产规划，再推进章节写作、来源与风格完整性审查、
 出版校样交接。审阅 PDF、出版校样和最终导出有各自的证据与负责人接受要求。
+两个动作都要求已登记的 `book_id`，Framework 据 `workspace_index.json`
+定位具体书籍及其获准使用的知识。
 [架构](docs/architecture.md) 说明阶段模型，[状态](docs/status.md) 说明当前证据边界。
 保留的短书试运行是带负责人阻塞的历史证据，不能证明当前五阶段执行、
 独立 Package 发布或生产可用。
+
+## 知识与个人资料库
+
+Book Forge 使用 OPL 通用知识生命周期。产品写作规范随包发布，个人偏好、
+长期写作主题经验和单本书的决策分别保留各自的负责人、知识身份与正文主源。
+已有 Obsidian 笔记可继续作为唯一可编辑正文；没有个人库时使用普通工作目录，
+同一本书也可以同时引用这两类来源。Framework 按授权选择版本并冻结每阶段上下文，
+接受的修订写回原处，书稿产物与运行回执各归其位。具体分工见
+[知识归属与写作连续性](docs/architecture.md#knowledge-ownership-and-continuity)。
 
 ## 安装
 

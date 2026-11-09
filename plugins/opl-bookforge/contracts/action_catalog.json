@@ -25,9 +25,14 @@
         "stage_manifest_ref": "agent/stages/manifest.json"
       },
       "input_schema_ref": "contracts/schemas/shape-storyline.input.schema.json",
+      "execution_scope": {
+        "kind": "work_item",
+        "alias_fields": ["book_id"]
+      },
       "output_schema_ref": "contracts/schemas/shape-storyline.output.schema.json",
       "required_fields": [
-        "workspace_root"
+        "workspace_root",
+        "book_id"
       ],
       "optional_fields": [],
       "workspace_locator_fields": [
@@ -89,9 +94,14 @@
         "stage_manifest_ref": "agent/stages/manifest.json"
       },
       "input_schema_ref": "contracts/schemas/materialize-book.input.schema.json",
+      "execution_scope": {
+        "kind": "work_item",
+        "alias_fields": ["book_id"]
+      },
       "output_schema_ref": "contracts/schemas/materialize-book.output.schema.json",
       "required_fields": [
-        "workspace_root"
+        "workspace_root",
+        "book_id"
       ],
       "optional_fields": [],
       "workspace_locator_fields": [
