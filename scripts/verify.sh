@@ -14,6 +14,7 @@ run_policy_tests() {
   python3 "${repo_dir}/tests/test_publication_bundle_contract.py"
   python3 "${repo_dir}/tests/test_codex_plugin_marketplace_contract.py"
   python3 "${repo_dir}/tests/test_foundry_agent_os_domain_kernel_manifest_contract.py"
+  python3 "${repo_dir}/tests/test_installed_inventory_discovery.py"
   python3 "${repo_dir}/tests/test_stage_quality_cycle_policy.py"
   python3 "${repo_dir}/tests/test_epistemic_review_adoption.py"
   python3 "${repo_dir}/tests/test_stage_topology.py"

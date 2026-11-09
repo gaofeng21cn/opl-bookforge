@@ -1,6 +1,9 @@
 {
   "surface_kind": "domain_agent_descriptor",
   "schema_version": 1,
+  "kind": "agent",
+  "agent_id": "obf",
+  "package_id": "obf",
   "dispatch_evidence_projection": {
     "work_item_id_field": "book_id",
     "result_collections": []
