@@ -41,6 +41,8 @@ class BookReviewTest(unittest.TestCase):
         self.assertEqual(first['current']['headings'][2]['title'], '第二章')
         self.assertIn('+新论点。', first['comparison']['text'])
         self.assertIn('-旧论点。', first['comparison']['text'])
+        self.assertIn('旧论点。', first['preview']['before'])
+        self.assertIn('新论点。', first['preview']['after'])
         self.assertEqual(len(first['review_context']['artifact_hashes']), 2)
         reopened = self.read(first['read_input'])['data']['items'][0]
         self.assertEqual(first['revision'], reopened['revision'])
@@ -75,9 +77,12 @@ class BookReviewTest(unittest.TestCase):
         index.parent.mkdir(parents=True)
         index.write_text(json.dumps({'surface_kind': 'opl_workspace_output_lifecycle',
             'project_id': 'book-a', 'project_root': 'projects/book-a',
-            'artifacts': [{'ref': 'projects/book-a/current.md'}]}))
+            'artifacts': [{'ref': 'projects/book-a/current.md'},
+                          {'ref': 'projects/book-a/not-produced.md', 'exists': False}]}))
         result = self.read({'book_id': 'book-a'})
         self.assertEqual(result['data']['items'][0]['id'], 'projects/book-a/current.md')
+        self.assertEqual(result['data']['diagnostics'],
+                         [{'artifact_ref': 'projects/book-a/not-produced.md', 'status': 'missing'}])
         index.write_text(index.read_text().replace('"project_id": "book-a"', '"project_id": "book-b"'))
         with self.assertRaisesRegex(ValueError, 'projection does not belong'):
             self.read({'book_id': 'book-a'})
@@ -86,6 +91,7 @@ class BookReviewTest(unittest.TestCase):
         (self.book / 'current.md').write_text('# Chapter\n' + 'x' * (review.MAX_PREVIEW_CHARS + 50))
         first = self.read()['data']['items'][0]
         self.assertTrue(first['current']['preview_truncated'])
+        self.assertIn('仅包含各稿前 24000 字符', first['summary'])
         self.assertLessEqual(len(first['current']['preview']), review.MAX_PREVIEW_CHARS)
         with (self.book / 'current.md').open('a') as handle:
             handle.write('tail change')
@@ -114,6 +120,20 @@ console.log(JSON.stringify(responses));
         self.assertEqual(source['result']['state'], 'ready')
         self.assertEqual(source['result'], carrier['result'])
         self.assertFalse(source['result']['data']['domain_quality_approved'])
+        renderer = framework / 'src/mcp-app/presentation.js'
+        render_script = (f'import {{ renderOwnerView }} from {json.dumps(renderer.as_uri())};\n'
+                         + f'console.log(renderOwnerView({{view_type: \"approval_diff\"}}, {json.dumps(source["result"]["data"]["items"][0])}));')
+        rendered = subprocess.run(['node', '--input-type=module', '-e', render_script],
+                                  text=True, capture_output=True, check=True).stdout
+        self.assertIn('data-change="removed"', rendered)
+        self.assertIn('data-change="added"', rendered)
+        large_item = {**source['result']['data']['items'][0],
+                      'summary': '正文仅包含各稿前 24000 字符，完整版本请打开原文审阅。'}
+        large_script = (f'import {{ renderOwnerView }} from {json.dumps(renderer.as_uri())};\n'
+                        + f'console.log(renderOwnerView({{view_type: \"approval_diff\"}}, {json.dumps(large_item)}));')
+        visible = subprocess.run(['node', '--input-type=module', '-e', large_script],
+                                 text=True, capture_output=True, check=True).stdout.split('<details')[0]
+        self.assertIn('仅包含各稿前 24000 字符', visible)
         after = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
         self.assertEqual(before, after)
 

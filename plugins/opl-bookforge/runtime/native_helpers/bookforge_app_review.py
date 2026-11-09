@@ -97,6 +97,7 @@ def read_review(value: dict, workspace: str | None = None) -> dict:
     for field, actual in [('workspace_path', root), ('work_item_root', project)]:
         if identity.get(field) and Path(identity[field]).resolve(strict=True) != actual:
             raise ValueError('The selected work-item paths conflict with the registered book.')
+    diagnostics = []
     selected = value.get('artifact_path')
     if not selected:
         index_path = project / 'control/opl/artifact_lifecycle/output_lifecycle.json'
@@ -112,13 +113,23 @@ def read_review(value: dict, workspace: str | None = None) -> dict:
         refs = list(dict.fromkeys(item['ref'] for item in [*index.get('current_refs', []), *index.get('artifacts', [])]
                                  if isinstance(item, dict) and isinstance(item.get('ref'), str)
                                  and Path(item['ref']).suffix.lower() in {'.md', '.markdown'}))
+        available = []
+        diagnostics = []
         for ref in refs:
-            project_file(root, project, ref)
-        if len(refs) != 1:
-            return choice([{'id': ref, 'title': Path(ref).name, 'artifact_ref': ref,
-                            'read_input': {'book_id': book_id, 'artifact_path': ref}} for ref in refs],
-                          'artifact_path', {'book_id': book_id})
-        selected = refs[0]
+            path = (root / ref).resolve()
+            if not path.is_relative_to(project):
+                raise ValueError('Review references must be files inside the selected book.')
+            if path.is_file():
+                available.append(ref)
+            else:
+                diagnostics.append({'artifact_ref': ref, 'status': 'missing'})
+        if len(available) != 1:
+            selection = choice([{'id': ref, 'title': Path(ref).name, 'artifact_ref': ref,
+                                 'read_input': {'book_id': book_id, 'artifact_path': ref}} for ref in available],
+                               'artifact_path', {'book_id': book_id})
+            selection['data']['diagnostics'] = diagnostics
+            return selection
+        selected = available[0]
     current, body = manuscript(root, project, selected)
     baseline, baseline_body = manuscript(root, project, value['baseline_path']) if value.get('baseline_path') else (None, None)
     sources = [current, *([baseline] if baseline else [])]
@@ -137,10 +148,15 @@ def read_review(value: dict, workspace: str | None = None) -> dict:
                       'source_refs': [source['artifact_ref'] for source in sources]}
     if identity:
         review_context['work_item_identity'] = identity
+    preview_notice = ('当前显示的正文仅包含各稿前 24000 字符，完整版本请打开原文审阅。'
+                      if any(source['preview_truncated'] for source in sources) else '')
     item = {'id': current['artifact_ref'], 'title': Path(current['artifact_ref']).name,
-            'summary': f"{len(current['headings'])} headings · exact manuscript review",
+            'summary': f"{len(current['headings'])} 个章节标题 · 精确版本审阅" + (f' · {preview_notice}' if preview_notice else ''),
             'book_id': book_id, 'status': 'review_required', 'revision': revision,
             'read_input': reopen, 'current': current, 'baseline': baseline,
+            'quality_debt': [preview_notice] if preview_notice else [],
+            'preview': {'target': current['artifact_ref'], 'after': current['preview'],
+                        **({'before': baseline['preview']} if baseline else {})},
             'artifacts': [{'id': source['artifact_ref'], 'title': Path(source['artifact_ref']).name,
                            'artifact_ref': source['path'], 'sha256': source['sha256'], 'status': 'available'} for source in sources],
             'source_refs': review_context['source_refs'], 'review_context': review_context,
@@ -150,7 +166,7 @@ def read_review(value: dict, workspace: str | None = None) -> dict:
         item['comparison'] = {'format': 'unified_diff', 'text': diff[:MAX_PREVIEW_CHARS],
                               'truncated': len(diff) > MAX_PREVIEW_CHARS}
     return {'state': 'ready', 'data': {'items': [item], 'book_id': book_id,
-                                     'review_context': review_context, 'domain_quality_approved': False}}
+                                     'review_context': review_context, 'diagnostics': diagnostics, 'domain_quality_approved': False}}
 
 
 def main() -> None:

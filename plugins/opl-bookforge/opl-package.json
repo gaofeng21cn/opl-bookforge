@@ -101,7 +101,7 @@
       },
       {
         "view_id": "obf.workspace.review",
-        "view_type": "artifact_view",
+        "view_type": "approval_diff",
         "title_i18n": {
           "zh-CN": "书稿与章节审阅",
           "en-US": "Manuscript and chapter review"
