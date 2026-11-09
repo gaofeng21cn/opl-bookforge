@@ -24,6 +24,13 @@ Missing or unknown book identities are rejected. These checks run in the default
 verification lane with temporary sources and state; they do not migrate a user's
 library or establish manuscript acceptance.
 
+The manuscript review contribution reads exact book-local Markdown versions,
+shows headings and an optional same-book comparison, and returns source hashes
+with the current task's review context. Isolated owner/adapter tests cover book
+selection, cross-book rejection, stale versions, bounded previews, reopening,
+carrier parity, and zero writes. This evidence does not establish a hosted
+StageRun continuation or a human editorial decision.
+
 The source includes a standard dual-format publication helper and a bundled
 Chinese A4 Word/PDF design. It exports both formats from one manuscript,
 retains selected template bytes, checks content/asset/metadata integrity and

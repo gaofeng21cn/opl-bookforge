@@ -8,6 +8,46 @@
     "obf.workspace.v1#artifacts": {
       "kind": "runtime_context",
       "view": "artifacts"
+    },
+    "obf.workspace.v1#review": {
+      "kind": "command",
+      "cwd": "package",
+      "argv": [
+        "python3",
+        "runtime/native_helpers/bookforge_app_review.py"
+      ],
+      "stdin": "input_json",
+      "passthrough": true,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "work_item_identity": {
+            "type": "object",
+            "title": "Selected book task"
+          },
+          "book_id": {
+            "type": "string",
+            "title": "Book",
+            "description": "Select only when the current task is not already selected."
+          },
+          "artifact_path": {
+            "type": "string",
+            "title": "Manuscript",
+            "description": "Workspace-relative Markdown reference in the selected book."
+          },
+          "baseline_path": {
+            "type": "string",
+            "title": "Compare with",
+            "description": "Optional earlier Markdown reference in the same book."
+          },
+          "revision": {
+            "type": "string",
+            "title": "Reviewed version",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
     }
   },
   "actions": {}

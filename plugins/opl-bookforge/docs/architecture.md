@@ -23,6 +23,18 @@ identity and project roots through the standard inventory projection. When more
 than one book is available, the user selects the book explicitly; no newest-file
 or newest-project heuristic defines current work.
 
+The `obf.workspace.review` view adds Book Forge's read-only manuscript projection.
+It resolves the selected book through the same workspace inventory and reads an
+explicit Markdown artifact or a declared output-lifecycle reference. Several
+books or manuscripts require an explicit selection. An optional baseline stays
+inside the same book. The owner helper returns headings, bounded text/diff
+previews, complete-byte SHA-256 values, and a version-bound reopen input. A
+changed manuscript returns `manuscript_revision_changed`; reopening never edits
+or resubmits work. The projection's `review_context` carries artifact references
+and hashes for the original Framework task action. It stores no separate review
+queue or task status. A proof or DOCX remains a professional-application artifact;
+the shared view reviews the author-facing Markdown source.
+
 Framework reads execution progress and project artifact references through its
 existing runtime and workspace lifecycle surfaces. Book Forge still owns the
 manuscript, chapter structure, quality debt, and publication/export decisions.
