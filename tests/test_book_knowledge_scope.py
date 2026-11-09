@@ -9,17 +9,14 @@ from pathlib import Path
 import subprocess
 import tempfile
 
-from stage_topology_cases.hosted_runtime_and_schema import framework_candidate_roots
+from stage_topology_cases.hosted_runtime_and_schema import framework_loader_module, framework_node_command
 
 
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
-    framework = next(
-        root for root in framework_candidate_roots(repo)
-        if (root / "src/adapters/execution/standard-agent-action-runtime-parts/action-context.ts").is_file()
-        or (root / "dist/adapters/execution/standard-agent-action-runtime-parts/action-context.js").is_file()
-    )
-    tree, suffix = ("src", ".ts") if (framework / "src").is_dir() else ("dist", ".js")
+    loader = framework_loader_module(repo)
+    framework = loader.parents[3]
+    tree, suffix = loader.parents[2].name, loader.suffix
 
     def module(ref: str) -> str:
         return json.dumps((framework / tree / f"{ref}{suffix}").as_uri())
@@ -155,11 +152,8 @@ for (const action of catalog.actions) {{
 }}
 console.log(JSON.stringify({{status: 'passed', action_scope_checks: checks, knowledge_isolation_checks: knowledgeChecks}}));
 """
-        command = ["node", "--conditions=opl-source"]
-        if suffix == ".ts":
-            command.append("--experimental-strip-types")
         completed = subprocess.run(
-            [*command, "--input-type=module", "-e", script],
+            framework_node_command(loader, script),
             cwd=repo,
             env={**os.environ, "OPL_STATE_DIR": str(state)},
             text=True,

@@ -10,6 +10,8 @@ import subprocess
 import tempfile
 import unittest
 
+from stage_topology_cases.hosted_runtime_and_schema import framework_loader_module, framework_node_command
+
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('book_review', ROOT / 'runtime/native_helpers/bookforge_app_review.py')
 review = importlib.util.module_from_spec(spec)
@@ -98,8 +100,9 @@ class BookReviewTest(unittest.TestCase):
         self.assertNotEqual(self.read()['data']['items'][0]['revision'], first['revision'])
 
     def test_shared_adapter_and_carrier_consume_same_owner(self):
-        framework = Path(os.environ.get('OPL_FRAMEWORK_ROOT', '/Users/gaofeng/workspace/one-person-lab'))
-        module = framework / 'src/read-models/operator/app-contribution-adapter.ts'
+        loader = framework_loader_module(ROOT)
+        framework = loader.parents[3]
+        module = loader.parents[2] / f'read-models/operator/app-contribution-adapter{loader.suffix}'
         request = {'schema_version': 'opl-package-app-contribution-request.v1', 'operation': 'read',
                    'ref': 'obf.workspace.v1#review', 'input': self.input}
         before = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
@@ -109,8 +112,7 @@ const responses = {json.dumps([str(ROOT), str(ROOT / 'plugins/opl-bookforge')])}
  runDeclarativeAppContribution({{packageRoot, request: {json.dumps(request)}}}));
 console.log(JSON.stringify(responses));
 """
-        result = subprocess.run(['node', '--conditions=opl-source', '--experimental-strip-types',
-                                 '--input-type=module', '-e', script], text=True, capture_output=True,
+        result = subprocess.run(framework_node_command(loader, script), text=True, capture_output=True,
                                 env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)}, check=True)
         source, carrier = json.loads(result.stdout)
         for root in (ROOT, ROOT / 'plugins/opl-bookforge'):
