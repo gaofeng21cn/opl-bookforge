@@ -250,6 +250,11 @@ def assert_stage_and_action_contracts(
             "kind": "stage_binding",
             "stage_manifest_ref": "agent/stages/manifest.json",
         }
+        assert action["execution_scope"] == {
+            "kind": "work_item",
+            "alias_fields": ["book_id"],
+        }
+        assert action["required_fields"] == ["workspace_root", "book_id"]
         assert action["output_schema_ref"] == ACTION_OUTPUT_SCHEMA_REFS[action_id]
         output_schema = json.loads(
             (repo / action["output_schema_ref"]).read_text(encoding="utf-8")

@@ -8,8 +8,21 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 ## Source State
 
 `package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.3.21` and Package identity `obf`. Version metadata is not a release or
+version `0.4.0` and Package identity `obf`. Version metadata is not a release or
 installed-state receipt.
+
+Knowledge catalogs use the shared v2 scope/content model. Both public actions
+require an inventory-bound book identity, and the primary Skill consumes
+Framework-bound sources and snapshots. Personal-library and local-workspace
+knowledge use the same source model; source migration and live book acceptance
+still require their own readback.
+
+The isolated knowledge-scope test uses the real Framework action resolver and
+source consumer: both public actions resolve registered books, shared owner/topic
+knowledge is selected, and book-specific knowledge remains isolated across books.
+Missing or unknown book identities are rejected. These checks run in the default
+verification lane with temporary sources and state; they do not migrate a user's
+library or establish manuscript acceptance.
 
 The source includes a standard dual-format publication helper and a bundled
 Chinese A4 Word/PDF design. It exports both formats from one manuscript,

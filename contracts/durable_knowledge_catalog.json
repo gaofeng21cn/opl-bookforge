@@ -1,15 +1,20 @@
 {
   "surface_kind": "opl_durable_knowledge_catalog",
-  "version": "durable-knowledge-catalog.v1",
+  "version": "durable-knowledge-catalog.v2",
   "owner": "one-person-lab",
   "domain_id": "opl-bookforge",
   "items": [
     {
       "surface_kind": "opl_durable_knowledge_item",
-      "version": "durable-knowledge-item.v1",
+      "version": "durable-knowledge-item.v2",
       "knowledge_id": "opl-bookforge.book-authority-boundary",
       "title": "Book Authority Boundary",
-      "layer": "agent_pack",
+      "scope": {
+        "kind": "product",
+        "id": "opl-bookforge"
+      },
+      "content_kind": "policy",
+      "requirement": "required",
       "owner": "opl-bookforge",
       "body_ref": {
         "kind": "repo_path",
@@ -35,15 +40,20 @@
     },
     {
       "surface_kind": "opl_durable_knowledge_item",
-      "version": "durable-knowledge-item.v1",
+      "version": "durable-knowledge-item.v2",
       "knowledge_id": "opl-bookforge.book-production-boundary",
       "title": "Book Production Boundary",
-      "layer": "agent_pack",
+      "scope": {
+        "kind": "product",
+        "id": "opl-bookforge"
+      },
+      "content_kind": "policy",
+      "requirement": "required",
       "owner": "opl-bookforge",
       "body_ref": {
         "kind": "repo_path",
         "ref": "agent/knowledge/book-production-boundary.md",
-        "sha256": "sha256:1e64ddaf747b34795ac7d2d6d3d187bdf07249dcc0fec2c1d9820b2cd602b037"
+        "sha256": "sha256:9b7c01eb808730b655f2712b77606c47415db4347c26b306c1b24e41566acfae"
       },
       "applicability": {
         "domains": [
@@ -57,8 +67,8 @@
         ]
       },
       "status": "active",
-      "reviewed_at": "2026-11-06T00:00:00+08:00",
-      "next_review_at": "2027-05-06T00:00:00+08:00",
+      "reviewed_at": "2026-11-09T00:00:00+08:00",
+      "next_review_at": "2027-05-09T00:00:00+08:00",
       "freshness_policy": "review_when_sources_or_applicability_change; exclude_after_next_review_at",
       "authority_boundary": {
         "semantic_body_owner": "opl-bookforge",
