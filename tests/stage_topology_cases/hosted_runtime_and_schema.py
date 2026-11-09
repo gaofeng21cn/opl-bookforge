@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import tarfile
 import tempfile
@@ -16,20 +17,30 @@ from .stage_and_action import (
 
 
 def framework_candidate_roots(repo: Path) -> list[Path]:
+    configured = os.environ.get("OPL_FRAMEWORK_ROOT")
+    configured_bin = os.environ.get("OPL_BIN")
+    binary_root = (
+        Path(shutil.which(configured_bin) or configured_bin).resolve().parent.parent
+        if configured_bin else None
+    )
+    if configured:
+        root = Path(configured).resolve()
+        if binary_root is not None and binary_root != root:
+            raise ValueError("OPL_BIN and OPL_FRAMEWORK_ROOT must select the same Framework")
+        return [root]
+    if binary_root is not None:
+        return [binary_root]
     candidates: list[Path] = []
-    if configured := os.environ.get("OPL_FRAMEWORK_ROOT"):
-        candidates.append(Path(configured))
     for entry in os.environ.get("PYTHONPATH", "").split(os.pathsep):
         if entry:
             candidate = Path(entry)
             candidates.append(candidate.parent if candidate.name == "python" else candidate)
-    if configured_bin := os.environ.get("OPL_BIN"):
-        candidates.append(Path(configured_bin).resolve().parent.parent)
-    candidates.extend([
-        repo.parent / "one-person-lab",
-        repo.parents[2] / "one-person-lab",
-    ])
-    return list(dict.fromkeys(candidate.absolute() for candidate in candidates))
+    candidates.append(repo.parent / "one-person-lab")
+    if len(repo.parents) > 2:
+        candidates.append(repo.parents[2] / "one-person-lab")
+    if installed_bin := shutil.which("opl"):
+        candidates.append(Path(installed_bin).resolve().parent.parent)
+    return list(dict.fromkeys(candidate.resolve() for candidate in candidates))
 
 
 def framework_loader_module(repo: Path, candidates: list[Path] | None = None) -> Path:
@@ -48,7 +59,7 @@ def framework_loader_module(repo: Path, candidates: list[Path] | None = None) ->
 def framework_node_command(module: Path, script: str) -> list[str]:
     command = ["node"]
     if module.suffix == ".ts":
-        command.append("--experimental-strip-types")
+        command.extend(["--conditions=opl-source", "--experimental-strip-types"])
     command.extend(["--input-type=module", "-e", script])
     return command
 
@@ -297,7 +308,9 @@ def assert_hosted_runtime_and_schema(repo: Path, actions: dict) -> None:
         dist_only_root = locator_root / "dist-only"
         source_only_root.mkdir()
         dist_only_root.mkdir()
-        os.symlink(framework_root / "src", source_only_root / "src", target_is_directory=True)
+        source_module = source_only_root / "src/adapters/execution/hosted-agent-runtime-binding.ts"
+        source_module.parent.mkdir(parents=True)
+        source_module.write_text("// Locator fixture; source execution is checked separately.\n")
         os.symlink(framework_root / "dist", dist_only_root / "dist", target_is_directory=True)
         preferred_module = framework_loader_module(repo, [source_only_root, dist_only_root])
         assert preferred_module == (

@@ -3,20 +3,21 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 import subprocess
 import tempfile
 import unittest
 
+from stage_topology_cases.hosted_runtime_and_schema import framework_loader_module, framework_node_command
 
 ROOT = Path(__file__).resolve().parents[1]
-FRAMEWORK = Path(os.environ.get("OPL_FRAMEWORK_ROOT", "/Users/gaofeng/workspace/one-person-lab"))
 
 
 def discover(roots: list[Path]) -> list[dict]:
-    parser = FRAMEWORK / "src/kernel/standard-agent-interface.ts"
-    discovery = FRAMEWORK / "src/adapters/integration/standard-agent-interface-discovery.ts"
+    loader = framework_loader_module(ROOT)
+    tree = loader.parents[2]
+    parser = tree / f"kernel/standard-agent-interface{loader.suffix}"
+    discovery = tree / f"adapters/integration/standard-agent-interface-discovery{loader.suffix}"
     script = f"""
 import {{ readStandardAgentDescriptorInterface }} from {json.dumps(parser.as_uri())};
 import {{ readInstalledStandardAgentDescriptorForPackage }} from {json.dumps(discovery.as_uri())};
@@ -34,7 +35,7 @@ const result = {json.dumps([str(root) for root in roots])}.map(root => {{
 console.log(JSON.stringify(result));
 """
     result = subprocess.run(
-        ["node", "--conditions=opl-source", "--experimental-strip-types", "--input-type=module", "-e", script],
+        framework_node_command(loader, script),
         text=True, capture_output=True, check=True,
     )
     return json.loads(result.stdout)

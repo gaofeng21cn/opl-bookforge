@@ -68,8 +68,10 @@ Start a new task after installation to load the professional skills. Package ins
 Read [AGENTS.md](AGENTS.md) before editing and use the
 [documentation guide](docs/README.md) to locate the topic owner. Cloning this
 repository does not install Framework or a hosted runtime. The verification
-script defaults to the sibling Framework checkout; set `OPL_BIN` and
-`OPL_FRAMEWORK_ROOT` when using another checkout.
+script honors `OPL_BIN` or `OPL_FRAMEWORK_ROOT`, then checks the existing Python
+path, sibling Framework checkouts, and `opl` on `PATH`. Both explicit settings
+must identify the same Framework. The selected root and CLI are exported to all
+checks; verification requires that Framework's CLI and Python helpers.
 
 | Command | Executed checks |
 | --- | --- |
