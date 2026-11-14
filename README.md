@@ -2,11 +2,9 @@
   <img src="assets/branding/opl-bookforge-logo.png" alt="OPL Book Forge logo" width="132" />
 </p>
 
-<p align="center">
-  <a href="./README.md"><strong>English</strong></a> | <a href="./README.zh-CN.md">中文</a>
-</p>
+<p align="center"><strong>English</strong> | <a href="./README.zh-CN.md">中文</a></p>
 
-# OPL Book Forge
+<h1 align="center">OPL Book Forge</h1>
 
 An OPL book-authoring domain package for storyline design, chapter production,
 source/style review, figures and tables, publication proof, and export handoff.

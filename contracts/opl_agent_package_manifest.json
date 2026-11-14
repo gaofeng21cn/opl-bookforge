@@ -30,10 +30,11 @@
           "codex_visible_entry": "opl-bookforge"
         }
       }
-    ]
+    ],
+    "icon_ref": "assets/branding/opl-bookforge-logo.png"
   },
   "publisher": "one-person-lab",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "domain_descriptor_ref": "contracts/domain_descriptor.json",
   "source": "first_party_repo_local",
   "carrier_source_role": "codex_plugin_default_carrier_not_package_truth",
@@ -57,7 +58,13 @@
     "app_contribution_abi": {
       "schema_version": "opl-package-app-contribution-cli.v1",
       "transport": "stdin_json_stdout_json",
-      "argv": ["opl", "app", "contribution", "adapter", "--stdin"],
+      "argv": [
+        "opl",
+        "app",
+        "contribution",
+        "adapter",
+        "--stdin"
+      ],
       "request_schema": "opl-package-app-contribution-request.v1",
       "response_schema": "opl-package-app-contribution-response.v1"
     },

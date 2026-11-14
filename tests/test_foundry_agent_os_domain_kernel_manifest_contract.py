@@ -56,6 +56,7 @@ def main() -> int:
     assert (REPO_ROOT / package_manifest["domain_descriptor_ref"]).is_file()
     assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
     assert package_manifest["presentation"] == {
+        "icon_ref": "assets/branding/opl-bookforge-logo.png",
         "display_name_i18n": {
             "zh-CN": "OPL Book Forge",
             "en-US": "OPL Book Forge",

@@ -1,12 +1,10 @@
 <p align="center">
-  <img src="assets/branding/opl-bookforge-logo.png" alt="OPL Book Forge 标志" width="132" />
+  <img src="assets/branding/opl-bookforge-logo.png" alt="OPL Book Forge logo" width="132" />
 </p>
 
-<p align="center">
-  <a href="./README.md">English</a> | <a href="./README.zh-CN.md"><strong>中文</strong></a>
-</p>
+<p align="center"><a href="./README.md">English</a> | <strong>中文</strong></p>
 
-# OPL Book Forge
+<h1 align="center">OPL Book Forge</h1>
 
 OPL 书籍写作领域包，负责故事线设计、章节生产、来源与风格审查、图表、
 出版校样和导出交接。Book Forge 持有书籍语义、产物、质量、记忆和接受边界；

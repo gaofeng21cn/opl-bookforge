@@ -44,6 +44,8 @@ def main() -> int:
     descriptor["app_contributions"] = owner["app_contributions"]
     descriptor["capability_dependencies"] = owner["capability_dependencies"]
     expected = {ref: (ROOT / ref).read_bytes() for ref in resource_paths()}
+    icon = Path(owner["presentation"]["icon_ref"])
+    expected[icon] = (ROOT / icon).read_bytes()
     expected[Path("skills/opl-bookforge/SKILL.md")] = (ROOT / "agent/primary_skill/SKILL.md").read_bytes()
     expected[Path("app-contribution-adapter.json")] = (ROOT / "app-contribution-adapter.json").read_bytes()
     expected[Path("opl-package.json")] = json_bytes(descriptor)
