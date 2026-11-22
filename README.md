@@ -6,100 +6,28 @@
 
 <h1 align="center">OPL Book Forge</h1>
 
-An OPL book-authoring domain package for storyline design, chapter production,
-source/style review, figures and tables, publication proof, and export handoff.
-Book Forge owns book meaning, artifacts, quality, memory, and acceptance boundaries;
-OPL Framework provides shared execution and generated interfaces.
+OPL Book Forge helps authors turn talks, interviews, and notes into a book readers can follow and authors can review chapter by chapter.
 
-The canonical Agent and Package id is `obf`. Repository, domain, and Codex
-Plugin locators use `opl-bookforge`.
+<p align="center">
+  <img src="assets/branding/opl-bookforge-overview-v2.png" alt="From storyline to manuscript and proofs" width="100%" />
+</p>
 
-![OPL Book Forge overview](assets/branding/opl-bookforge-overview-v2.png)
+## Shape the book before writing it
 
-## Start A Book
+Share your material, intended readers, and the book you want to make. Book Forge first shapes the storyline and identifies the question each chapter should answer. Once you approve the direction, it carries that same book through chapter drafts, figures, source checks, and style review. It can build on your existing library, writing preferences, and earlier decisions.
 
-Provide the book brief, intended readers, source material, voice requirements,
-target extent, and desired handoff. For example:
+When you return to revise the manuscript, start from what is already there and decide whether the work belongs in the storyline, chapter structure, evidence, or prose. You decide which revisions to adopt and when a version can be handed off. Chapter drafts, review PDFs, and publication proofs each give you a concrete result to inspect along the way.
 
-- "Shape a storyline from these sources, define the reader promise and chapter thesis chain, and return it for owner review."
-- "Materialize this approved storyline into chapter Markdown, with figures/tables, source/style review, and a review PDF."
-- "Review this manuscript and identify whether repair belongs in its storyline, chapter function, evidence, publication design, or local prose."
+## Start with material or a manuscript
 
-`shape-storyline` ends at storyline handoff. With accepted storyline refs,
-`materialize-book` enters production planning and proceeds through chapter
-materialization, source/style integrity review, and publication-proof handoff.
-Both actions require the registered `book_id` so Framework can resolve the exact
-book and its authorized knowledge through `workspace_index.json`.
-Review PDF, publication proof, and final export have separate evidence and owner
-requirements. See [Architecture](docs/architecture.md) for the stage model and
-[Status](docs/status.md) for current evidence limits. The retained short-book
-pilot is historical and owner-blocked; it does not prove current five-stage
-execution, independent Package publication, or production readiness.
+> “Use these talks and interviews to propose a storyline and show what question each chapter should answer.”
 
-## Knowledge And Personal Libraries
+> “Use the approved storyline to develop the first three chapters. Flag gaps in the evidence and give me a review copy I can annotate.”
 
-Book Forge uses the shared OPL knowledge lifecycle. Product writing policies
-ship with the package; user preferences, writing-topic experience, and individual
-book decisions retain their own owners and source identities. Existing Obsidian
-notes can remain the only editable originals. Without a personal library, use
-ordinary workspace Markdown; one book can combine both source locations.
-Framework selects authorized versions and freezes the context for each stage.
-Accepted changes return to the original source, while book artifacts and run
-receipts stay in their appropriate workspaces. See
-[knowledge ownership and continuity](docs/architecture.md#knowledge-ownership-and-continuity).
+## Get started
 
-## Installation
-
-Install through the standard OPL Package entry:
-
-```bash
-opl packages install obf --json
-opl packages status --package-id obf --json
-```
-
-The publication channel is `ghcr.io/gaofeng21cn/one-person-lab-packages/obf`. Immutable versions identify exact releases; `latest-stable` selects the current version. OPL and the native plugin manager handle installation and updates. Separate GitHub Release pages and attachments are not used for distribution.
-
-Start a new task after installation to load the professional skills. Package installation, runtime callability, and domain acceptance remain separate; see [Current Status](./docs/status.md).
+Install **OPL Book Forge** from the OPL Software Center. Open a registered book project and share the intended readers, source material, and result you want this time. Reviewing a storyline is one way to start. Validation of the full publication workflow is ongoing. [Workflow stages](docs/architecture.md) · [Current status](docs/status.md)
 
 ## Verification
 
-Read [AGENTS.md](AGENTS.md) before editing and use the
-[documentation guide](docs/README.md) to locate the topic owner. Cloning this
-repository does not install Framework or a hosted runtime. The verification
-script honors `OPL_BIN` or `OPL_FRAMEWORK_ROOT`, then checks the existing Python
-path, sibling Framework checkouts, and `opl` on `PATH`. Both explicit settings
-must identify the same Framework. The selected root and CLI are exported to all
-checks; verification requires that Framework's CLI and Python helpers.
-
-| Command | Executed checks |
-| --- | --- |
-| `scripts/verify.sh` | Fast local policy and contract checks |
-| `scripts/verify.sh structural` | Policy plus Framework agent check and source-hygiene readback |
-| `scripts/verify.sh helpers` | Native-helper probes, adapters, and image authority handler |
-| `scripts/verify.sh pdf` | Real review-PDF and publication-proof compile/render paths |
-| `scripts/verify.sh full-local` | Local policy/helper/PDF/handler union |
-| `scripts/verify.sh full` | Local union plus Framework structural readback |
-
-PDF execution requires Pandoc, XeLaTeX, the declared rendering tools, and Pillow
-in the Python environment for machine page inspection. For an isolated local
-verification environment, `uv run --with pillow scripts/verify.sh full-local`
-supplies Pillow without adding source-checkout dependencies.
-[Native helpers](runtime/native_helpers/README.md) documents dependency diagnosis,
-arguments, artifact roles, and handler limits. Negative PDF gate variants run
-against the canonical gate without redundant recompilation.
-
-The historical pilot can be checked independently:
-
-```bash
-python3 docs/evidence/production-readiness/bookforge-real-book-pilot-2026-06-18/tools/verify_pilot.py
-```
-
-Each command proves only its checked surface. Book/publication/export acceptance
-still requires the corresponding domain artifacts and owner receipts.
-
-## Reference
-
-- [Documentation responsibilities and lifecycle](docs/README.md)
-- [Agent entry and methods](agent/README.md)
-- [Contracts](contracts/)
-- [Evidence packages](docs/evidence/README.md)
+Maintainers can run `scripts/verify.sh` for local checks and `scripts/verify.sh full` to include Framework verification. [Documentation](docs/README.md) · [Evidence](docs/evidence/README.md)
