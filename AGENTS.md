@@ -7,6 +7,7 @@
 - Package release integrity、execution evidence 与书稿/出版 owner receipt 是不同证据面，互不替代。
 - 文档职责与生命周期归 `docs/README.md`；当前证据归 `docs/status.md`。仅为已证实的未完成实现创建有明确结束条件的计划，完成后移除。已退役且无调用者的入口和兼容清单直接删除，不保留别名。
 - 默认验证运行 `scripts/verify.sh`；书稿或出版交付还须验证最终 artifact bytes 和 owner gate。
+- 模块拆分以职责内聚和调用清晰为准，在日常开发与 PR 阶段维护，不靠机械行数阈值或周期拆文件脚本：既避免把不相关职责堆成巨石文件，也禁止制造嵌套 `*_parts/*_parts`、过薄胶水切片或大段回调参数转运；重构优先消除重复与化简调用链，来源不明或储备能力默认保留（无静态调用者只作调查信号）。
 
 <!-- CODEGRAPH_START -->
 ## CodeGraph
