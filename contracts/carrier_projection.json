@@ -1,0 +1,70 @@
+{
+  "schema_version": "opl_carrier_projection.v1",
+  "owner": "obf",
+  "carrier_root": "plugins/opl-bookforge",
+  "resource_source_mode": "git_tracked",
+  "resource_roots": [
+    "agent",
+    "contracts",
+    "runtime",
+    "docs"
+  ],
+  "exclude_prefixes": [
+    "docs/evidence/",
+    "docs/history/",
+    "docs/site/"
+  ],
+  "extra_files": [
+    "docs/evidence/README.md",
+    "docs/history/README.md"
+  ],
+  "copy_presentation_icon": true,
+  "file_aliases": [
+    {
+      "from": "agent/primary_skill/SKILL.md",
+      "to": "skills/opl-bookforge/SKILL.md"
+    },
+    {
+      "from": "app-contribution-adapter.json",
+      "to": "app-contribution-adapter.json"
+    }
+  ],
+  "package_manifest_projection": {
+    "mode": "pick_keys",
+    "pick_keys": [
+      "surface_kind",
+      "agent_id",
+      "package_id",
+      "display_name",
+      "presentation",
+      "publisher",
+      "version",
+      "domain_descriptor_ref",
+      "source",
+      "carrier_source_role",
+      "app_contributions",
+      "capability_dependencies"
+    ],
+    "codex_surface_pick_keys": [
+      "plugin_id",
+      "configured_codex_plugin_carrier",
+      "required_skill_ids",
+      "app_contribution_abi",
+      "app_contribution_adapter"
+    ],
+    "codex_surface_plugin_source_dot": true,
+    "override_fields": {
+      "entrypoints": []
+    }
+  },
+  "plugin_manifests": [
+    {
+      "path": "plugins/opl-bookforge/plugin.json",
+      "sync_version": true
+    },
+    {
+      "path": "plugins/opl-bookforge/.codex-plugin/plugin.json",
+      "sync_version": true
+    }
+  ]
+}

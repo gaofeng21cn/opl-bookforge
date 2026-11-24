@@ -38,37 +38,6 @@
   "domain_descriptor_ref": "contracts/domain_descriptor.json",
   "source": "first_party_repo_local",
   "carrier_source_role": "codex_plugin_default_carrier_not_package_truth",
-  "entrypoints": [],
-  "codex_surface": {
-    "plugin_id": "opl-bookforge",
-    "plugin_source_path": ".",
-    "configured_codex_plugin_carrier": {
-      "kind": "codex_plugin_manager",
-      "plugin_selector": "opl-bookforge@opl-bookforge-local",
-      "executor_route": "codex_cli",
-      "marketplace_source": "gaofeng21cn/opl-bookforge",
-      "publication_ref": "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
-    },
-    "required_skill_ids": [
-      "opl-bookforge"
-    ],
-    "app_contribution_abi": {
-      "schema_version": "opl-package-app-contribution-cli.v1",
-      "transport": "stdin_json_stdout_json",
-      "argv": [
-        "opl",
-        "app",
-        "contribution",
-        "adapter",
-        "--stdin"
-      ],
-      "request_schema": "opl-package-app-contribution-request.v1",
-      "response_schema": "opl-package-app-contribution-response.v1"
-    },
-    "app_contribution_adapter": {
-      "manifest": "app-contribution-adapter.json"
-    }
-  },
   "app_contributions": {
     "schema_version": "opl-app-contributions.v1",
     "views": [
@@ -147,5 +116,36 @@
       }
     ]
   },
-  "capability_dependencies": []
+  "capability_dependencies": [],
+  "codex_surface": {
+    "plugin_id": "opl-bookforge",
+    "configured_codex_plugin_carrier": {
+      "kind": "codex_plugin_manager",
+      "plugin_selector": "opl-bookforge@opl-bookforge-local",
+      "executor_route": "codex_cli",
+      "marketplace_source": "gaofeng21cn/opl-bookforge",
+      "publication_ref": "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
+    },
+    "required_skill_ids": [
+      "opl-bookforge"
+    ],
+    "app_contribution_abi": {
+      "schema_version": "opl-package-app-contribution-cli.v1",
+      "transport": "stdin_json_stdout_json",
+      "argv": [
+        "opl",
+        "app",
+        "contribution",
+        "adapter",
+        "--stdin"
+      ],
+      "request_schema": "opl-package-app-contribution-request.v1",
+      "response_schema": "opl-package-app-contribution-response.v1"
+    },
+    "app_contribution_adapter": {
+      "manifest": "app-contribution-adapter.json"
+    },
+    "plugin_source_path": "."
+  },
+  "entrypoints": []
 }

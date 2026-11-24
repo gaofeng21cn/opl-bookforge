@@ -17,6 +17,7 @@ from opl_framework.artifact_inspection import (
     read_contained_regular_file as framework_read_contained_regular_file,
     sha256_bytes,
 )
+from opl_framework.exact_refs import normalize_sha256 as framework_normalize_sha256
 
 
 VERSION = "bookforge-imagegen-asset.v3"
@@ -65,12 +66,7 @@ def reject_unknown_fields(value: dict[str, Any], allowed: set[str], field: str) 
 
 
 def normalize_sha256(value: Any, field: str) -> str:
-    digest = required_text(value, field).lower()
-    if digest.startswith("sha256:"):
-        digest = digest[7:]
-    if len(digest) != 64 or any(character not in "0123456789abcdef" for character in digest):
-        raise RequestShapeError(f"{field} must be a SHA-256 digest")
-    return f"sha256:{digest}"
+    return framework_normalize_sha256(value, field, error_type=RequestShapeError)
 
 
 def normalize_format(value: str) -> str:
