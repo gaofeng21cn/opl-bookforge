@@ -263,6 +263,12 @@ except ModuleNotFoundError as exc:
     from bookforge_pdf_export import write_manifest as write_pdf_manifest
 
 
+from opl_framework.artifact_inspection import (
+    extract_pdf_text,
+    prepare_macos_fontconfig,
+    render_pdf_pages as fw_render_pdf_pages,
+)
+from opl_framework.json_io import write_json_object_atomic
 from opl_framework.publication_package import sha256_file
 
 VERSION = "bookforge-publication-bundle.v1"
@@ -279,10 +285,14 @@ def pandoc_json(source_md: Path, *, cwd: Path) -> dict[str, Any]:
 
 
 def pdf_text_readback(path: Path, *, cwd: Path) -> str:
-    result = run_command(["pdftotext", "-raw", str(path), "-"], cwd=cwd)
-    # Retain repeated table labels and numeric cells. Removing repeated lines
-    # globally can erase real manuscript content along with page furniture.
-    return result.stdout
+    try:
+        # Retain repeated table labels and numeric cells. Removing repeated lines
+        # globally can erase real manuscript content along with page furniture.
+        return extract_pdf_text(path, raw=True, cwd=cwd)
+    except FileNotFoundError as exc:
+        raise BundleError("required command is unavailable: pdftotext") from exc
+    except RuntimeError as exc:
+        raise BundleError(str(exc)) from exc
 
 
 def run_command(command: list[str], *, cwd: Path, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -341,26 +351,15 @@ def docx_command(args: argparse.Namespace, *, source_md: Path, metadata: Path, o
 
 def prepare_fontconfig(explicit: Path | None, *, build_inputs: Path) -> Path | None:
     """Persist the selected font configuration, or discover macOS host font dirs."""
-    target = build_inputs / "fontconfig.conf"
-    if explicit:
-        if not explicit.is_file():
-            raise BundleError(f"Fontconfig file not found: {explicit}")
-        target.write_bytes(explicit.read_bytes())
-        return target
-    if sys.platform != "darwin":
-        return None
-    font_dirs = [Path("/System/Library/Fonts"), Path("/Library/Fonts"), Path.home() / "Library/Fonts"]
-    config = ET.Element("fontconfig")
-    for directory in font_dirs:
-        if directory.is_dir():
-            ET.SubElement(config, "dir").text = str(directory)
-    cache = build_inputs.parent / "font-cache"
-    cache.mkdir(parents=True, exist_ok=True)
-    ET.SubElement(config, "cachedir").text = str(cache)
-    ET.SubElement(config, "config")
-    target.write_text('<?xml version="1.0"?>\n<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">\n'
-                      + ET.tostring(config, encoding="unicode") + "\n", encoding="utf-8")
-    return target
+    try:
+        return prepare_macos_fontconfig(
+            build_inputs / "fontconfig.conf",
+            explicit_config=explicit,
+            cache_dir=build_inputs.parent / "font-cache",
+            platform=sys.platform,
+        )
+    except FileNotFoundError as exc:
+        raise BundleError(str(exc)) from exc
 
 
 def render_docx(docx: Path, *, output_dir: Path, prefix: str, cwd: Path, soffice: str,
@@ -378,17 +377,23 @@ def render_docx(docx: Path, *, output_dir: Path, prefix: str, cwd: Path, soffice
     ], cwd=cwd, env=env)
     if not rendered_pdf.is_file():
         raise BundleError(f"LibreOffice did not create the DOCX render PDF: {converted.stdout.strip()}")
-    for previous in output_dir.glob(f"{prefix}-*.png"):
-        previous.unlink()
-    run_command([
-        "pdftoppm", "-png", "-r", "180", str(rendered_pdf), str(output_dir / prefix),
-    ], cwd=cwd)
-    return sorted(output_dir.glob(f"{prefix}-*.png"))
+    try:
+        return fw_render_pdf_pages(
+            rendered_pdf,
+            output_dir,
+            prefix=prefix,
+            dpi=180,
+            cwd=cwd,
+            clean_existing=True,
+        )
+    except FileNotFoundError as exc:
+        raise BundleError("required command is unavailable: pdftoppm") from exc
+    except RuntimeError as exc:
+        raise BundleError(str(exc)) from exc
 
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_object_atomic(path, payload)
 
 
 def relative_ref(path: Path, root: Path) -> str:

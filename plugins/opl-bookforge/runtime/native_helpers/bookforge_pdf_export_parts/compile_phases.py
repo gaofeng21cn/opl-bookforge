@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
+from opl_framework.artifact_inspection import render_pdf_pages as fw_render_pdf_pages
 from bookforge_pdf_export_parts.artifact_gate import assess_artifact_gate
 from bookforge_pdf_export_parts.profile_and_assets import (
     as_mapping,
@@ -296,27 +297,21 @@ def render_pdf_pages(
 ) -> tuple[str, str | None, list[str]]:
     if not command_exists("pdftoppm"):
         return "skipped_missing_pdftoppm", "pdftoppm not found", []
+    try:
+        rendered = fw_render_pdf_pages(
+            pdf_path,
+            render_dir,
+            prefix=prefix,
+            dpi=dpi,
+            cwd=root,
+            clean_existing=True,
+        )
+    except FileNotFoundError:
+        return "skipped_missing_pdftoppm", "pdftoppm not found", []
+    except RuntimeError as exc:
+        return "failed", str(exc)[-2000:], []
 
-    render_dir.mkdir(parents=True, exist_ok=True)
-    for old_page in render_dir.glob(f"{prefix}-*.png"):
-        old_page.unlink()
-
-    page_prefix = render_dir / prefix
-    result = subprocess.run(
-        ["pdftoppm", "-png", "-r", str(dpi), str(pdf_path), str(page_prefix)],
-        cwd=root,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        error = (result.stderr or result.stdout or "pdftoppm failed").strip()
-        return "failed", error[-2000:], []
-
-    rendered_pages = [
-        rel(path, root)
-        for path in sorted(render_dir.glob(f"{prefix}-*.png"))
-    ]
+    rendered_pages = [rel(path, root) for path in rendered]
     return "rendered", None, rendered_pages
 
 
