@@ -36,6 +36,7 @@ export PYTHONPATH="${framework_root}/python${PYTHONPATH:+:${PYTHONPATH}}"
 
 run_policy_tests() {
   python3 "${repo_dir}/tests/test_framework_location.py"
+  python3 "${repo_dir}/scripts/project-carrier.py"
   python3 "${repo_dir}/scripts/project-carrier.py" --check
   python3 "${repo_dir}/tests/test_publication_bundle_contract.py"
   python3 "${repo_dir}/tests/test_codex_plugin_marketplace_contract.py"

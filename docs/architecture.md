@@ -120,7 +120,7 @@ The publication namespace is a locator, not a second owner. Published bytes and
 complete carrier currentness require actual receipts; [Status](./status.md)
 records the source/evidence boundary.
 
-The native carrier is projected via `python3 scripts/project-carrier.py` (which delegates to `opl pack project-carrier` per `contracts/carrier_projection.json`) and verified with `--check`. It includes the current `agent/`, `contracts/`, `runtime/`, and support documentation at plugin-root-relative paths, plus the primary Skill and Mini App adapter. Historical pilot artifacts remain repository evidence rather than executable package dependencies. Published payload selection uses the complete committed carrier; it must include the domain descriptor and its resources as well as the visible Skill.
+The native carrier is materialized on demand via `python3 scripts/project-carrier.py` (which delegates to `opl pack project-carrier` per `contracts/carrier_projection.json`) and verified with `--check`. Only the thin plugin carrier metadata (`plugin.json`, `.codex-plugin/plugin.json`, `opl-package.json`, `assets/icon.svg`, and `skills/opl-bookforge/SKILL.md`) is committed under `plugins/opl-bookforge/`; projected `agent/`, `contracts/`, `runtime/`, `docs/`, `assets/branding/`, and `app-contribution-adapter.json` mirror copies are gitignored build/packaging outputs rather than checked-in duplicates. Historical pilot artifacts remain repository evidence rather than executable package dependencies.
 
 ## Implementation And Reference Boundary
 

@@ -4,9 +4,19 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
+import subprocess
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+GITIGNORED_CARRIER_MIRROR_PATHS = (
+    "plugins/opl-bookforge/agent",
+    "plugins/opl-bookforge/contracts",
+    "plugins/opl-bookforge/docs",
+    "plugins/opl-bookforge/runtime",
+    "plugins/opl-bookforge/assets/branding",
+    "plugins/opl-bookforge/app-contribution-adapter.json",
+)
 
 CONFIGURED_CODEX_PLUGIN_CARRIER = {
     "kind": "codex_plugin_manager",
@@ -93,8 +103,14 @@ def main() -> int:
     assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
     assert_configured_carrier_projection(package_manifest, carrier_manifest)
     adapter = load_json("app-contribution-adapter.json")
-    carrier_adapter = load_json("plugins/opl-bookforge/app-contribution-adapter.json")
-    assert adapter == carrier_adapter
+    carrier_adapter_path = REPO_ROOT / "plugins/opl-bookforge/app-contribution-adapter.json"
+    if carrier_adapter_path.is_file():
+        assert adapter == load_json("plugins/opl-bookforge/app-contribution-adapter.json")
+    tracked_mirrors = subprocess.check_output(
+        ["git", "-C", str(REPO_ROOT), "ls-files", "--", *GITIGNORED_CARRIER_MIRROR_PATHS],
+        text=True,
+    ).splitlines()
+    assert not tracked_mirrors, f"carrier mirror files must stay gitignored: {tracked_mirrors[:5]}"
     assert package_manifest["app_contributions"] == carrier_manifest["app_contributions"]
     assert package_manifest["codex_surface"]["app_contribution_abi"] == (
         carrier_manifest["codex_surface"]["app_contribution_abi"]
