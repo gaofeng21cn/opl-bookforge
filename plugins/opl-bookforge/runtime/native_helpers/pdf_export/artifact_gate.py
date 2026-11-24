@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-from bookforge_pdf_export_parts.profile_and_assets import (
+from pdf_export.profile_and_assets import (
     as_list,
     as_mapping,
     file_refs_exist,

@@ -20,13 +20,13 @@ HELPER_DIR = Path(__file__).resolve().parent
 if str(HELPER_DIR) not in sys.path:
     sys.path.insert(0, str(HELPER_DIR))
 
-from bookforge_pdf_export_parts.profile_and_assets import (
+from pdf_export.profile_and_assets import (
     DEFAULT_PUBLICATION_PROFILE,
     as_mapping,
     rel,
 )
-from bookforge_pdf_export_parts.artifact_gate import assess_artifact_gate
-from bookforge_pdf_export_parts.compile_phases import (
+from pdf_export.artifact_gate import assess_artifact_gate
+from pdf_export.compile_phases import (
     compile_backend,
     finalize_gate,
     prepare_pdf_compile,

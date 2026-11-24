@@ -463,11 +463,11 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
             ]),
             encoding="utf-8",
         )
-        from bookforge_pdf_export_parts.profile_and_assets import resolve_publication_profile
+        from pdf_export.profile_and_assets import resolve_publication_profile
         profile, profile_path, error = resolve_publication_profile(args.publication_profile, root)
         if error:
             raise BundleError(error)
-        from bookforge_pdf_export_parts.profile_and_assets import resolve_profile_path
+        from pdf_export.profile_and_assets import resolve_profile_path
         selected_reference = args.reference_doc or resolve_profile_path(profile.get("word_reference_doc"), profile_path, root)
         if selected_reference is None:
             selected_reference = TABLE_WIDTH_FILTER.parent / "pdf_profiles/bookforge-zh-a4-publication-reference.docx"

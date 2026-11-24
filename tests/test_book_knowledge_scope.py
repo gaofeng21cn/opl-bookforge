@@ -99,7 +99,7 @@ def main() -> int:
         }))
         script = f"""
 import assert from 'node:assert/strict';
-import {{ resolveActionExecutionScope }} from {module('adapters/execution/standard-agent-action-runtime-parts/action-context')};
+import {{ resolveActionExecutionScope }} from {module('adapters/execution/standard-agent-action-runtime/action-context')};
 import {{ readHostedAgentRuntimeActionContracts }} from {module('adapters/execution/hosted-agent-runtime-binding')};
 import {{ assertRepoJsonSchemaPayload }} from {module('kernel/repo-json-schema')};
 import {{ bindDurableKnowledgeContext, resolveKnowledgeSourceItem }} from {module('authority/packages/durable-knowledge-catalog')};

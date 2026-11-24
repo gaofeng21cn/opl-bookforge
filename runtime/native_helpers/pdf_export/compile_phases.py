@@ -9,8 +9,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 from opl_framework.artifact_inspection import render_pdf_pages as fw_render_pdf_pages
-from bookforge_pdf_export_parts.artifact_gate import assess_artifact_gate
-from bookforge_pdf_export_parts.profile_and_assets import (
+from pdf_export.artifact_gate import assess_artifact_gate
+from pdf_export.profile_and_assets import (
     as_mapping,
     figure_manifest_readiness,
     image_refs_from_pandoc_document,

@@ -138,7 +138,7 @@
       "private_tail_class": "publication_helper",
       "current_paths": [
         "runtime/native_helpers/bookforge_pdf_export.py",
-        "runtime/native_helpers/bookforge_pdf_export_parts/",
+        "runtime/native_helpers/pdf_export/",
         "runtime/native_helpers/pdf_profiles/",
         "runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json"
       ],
@@ -321,7 +321,7 @@
       "migration_class": "native_helper_implementation",
       "code_paths": [
         "runtime/native_helpers/bookforge_pdf_export.py",
-        "runtime/native_helpers/bookforge_pdf_export_parts/",
+        "runtime/native_helpers/pdf_export/",
         "runtime/native_helpers/pdf_profiles/",
         "runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json"
       ],
