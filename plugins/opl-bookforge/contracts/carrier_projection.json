@@ -11,12 +11,10 @@
   ],
   "exclude_prefixes": [
     "docs/evidence/",
-    "docs/history/",
     "docs/site/"
   ],
   "extra_files": [
-    "docs/evidence/README.md",
-    "docs/history/README.md"
+    "docs/evidence/README.md"
   ],
   "copy_presentation_icon": true,
   "file_aliases": [

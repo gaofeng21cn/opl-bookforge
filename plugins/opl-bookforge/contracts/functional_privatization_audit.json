@@ -100,7 +100,7 @@
         "classification": "provenance_or_fixture",
         "source_refs": [
           "runtime/fixtures/README.md",
-          "docs/history/"
+          "docs/references/design-source-attribution.md"
         ]
       }
     ],

@@ -55,8 +55,7 @@
   "repo_profile": "tooling_repo",
   "schema": "opl_native_profile.v1",
   "taxonomy_dirs": [
-    "docs/references",
-    "docs/history"
+    "docs/references"
   ],
   "verification_commands": [
     "scripts/verify.sh",

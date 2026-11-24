@@ -180,7 +180,7 @@ def assert_production_acceptance_tail(payload: dict[str, Any]) -> None:
         refs["next_verification_command_refs"],
         {
             "./scripts/verify.sh",
-            "/Users/gaofeng/workspace/one-person-lab/bin/opl agents conformance --agent opl-bookforge=<repo> --json",
+            "opl agents conformance --agent opl-bookforge=<repo> --json",
         },
         "production acceptance verification refs",
     )

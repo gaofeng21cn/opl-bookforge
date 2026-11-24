@@ -16,8 +16,8 @@ Machine boundary: Navigation and editorial lifecycle only. Contracts, executable
 | [Invariants](./invariants.md) | Cross-cutting constraints and links to their domain policy owners |
 | [Decisions](./decisions.md) | Rationale and consequences of durable design choices |
 | [Revision handoff](./references/opl-base-revision-routing-handoff.md) | Cross-repository revision-ref transport boundary |
+| [Design source attribution](./references/design-source-attribution.md) | Original external source identities supporting current design rationale |
 | [Evidence](./evidence/README.md) | Retained evidence packages and their scope |
-| [Source attribution](./history/README.md) | Original external source identities supporting current design rationale |
 
 The [agent pack](../agent/README.md) owns executable domain guidance. Its primary
 Skill routes work, professional Skills carry methods, policy refs carry focused
@@ -25,6 +25,8 @@ domain rules, stage prompts specify requested results, and quality gates judge
 those results. Developer docs link to those inputs instead of restating them.
 
 ## Lifecycle
+
+Family-wide lifecycle rules live in the [OPL docs lifecycle policy](https://github.com/gaofeng21cn/one-person-lab/blob/main/docs/policies/docs-lifecycle-policy.md). This page defines only Book Forge-specific ownership.
 
 Before creating or extending a document, identify its reader, question, and
 existing topic owner. Extend that owner when the responsibility is the same;

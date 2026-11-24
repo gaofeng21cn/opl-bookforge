@@ -36,7 +36,7 @@
     ],
     "next_verification_command_refs": [
       "./scripts/verify.sh",
-      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents conformance --agent opl-bookforge=<repo> --json"
+      "opl agents conformance --agent opl-bookforge=<repo> --json"
     ]
   },
   "typed_blocker": {
@@ -48,7 +48,7 @@
     ],
     "next_verification_command_refs": [
       "./scripts/verify.sh",
-      "/Users/gaofeng/workspace/one-person-lab/bin/opl agents conformance --agent opl-bookforge=<repo> --json"
+      "opl agents conformance --agent opl-bookforge=<repo> --json"
     ]
   },
   "open_tail": {

@@ -22,24 +22,19 @@ Current design boundary:
 - Its generator embedded prose in code for a bounded pilot; that pattern is superseded.
 - Current BookForge materialization is Markdown-first and chapter-sharded: substantial prose belongs in per-chapter Markdown refs, while scripts only assemble, count, validate, export, and report.
 
-The scripts under `tools/` are the original source of the generation, export,
-and verification records, not supported current commands. Historical reproduction
-belongs at the original Git revision so it cannot overwrite retained evidence
-or restore retired implementation plans. The former plan-completion audit seed
-contained targets only and is not retained as execution or acceptance evidence.
+The former pilot `tools/` scripts, intermediate manuscript/stage prose, and
+unreferenced export files are retained in Git history at commit
+`aff9cc8cf2fbe2e67a3b6ca164cc0e1f638fc4cd` rather than in the active working
+tree; they are not supported current commands or governance docs.
 
 Claim boundary:
 
-- The package may support: historical two-stage pilot run evidence, manuscript artifact evidence, figure/table planning evidence, quality gate evidence, and export/render evidence after verification.
+- The package may support: historical two-stage pilot run provenance, owner-blocker lineage, and SHA-256-bound figure/rendered-page verification after verification.
 - The package may not support: current production-ready claim, publication approval, final export acceptance, owner acceptance, or hosted runtime parity.
 
-Primary artifacts:
+Retained contract- and hash-bound artifacts:
 
-- Inputs: `inputs/`
-- Stage 1 outputs: `artifacts/stage_outputs/storyline-architecture/`
-- Stage 2 outputs: `artifacts/stage_outputs/book-materialization/`
-- Manuscript: `artifacts/manuscript/book.md`
-- Figures: `artifacts/figures/`
-- Receipts and blockers: `receipts/`
-- Exports: `exports/`
+- SHA-256-bound figures: `artifacts/figures/` (`figure-01-storyline-arc.png`, `figure-02-two-stage-route.png`)
+- Receipts and blockers: `receipts/` (`storyline-owner-blocker.json`, `book-owner-blocker.json`, `production-readiness-closeout.json`)
+- SHA-256-bound rendered pages: `exports/rendered-pages/` (`page-1.png`..`page-5.png`)
 - Verification output: `quality/local-verification-receipt.json`

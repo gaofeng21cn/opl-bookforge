@@ -23,7 +23,7 @@
   },
   "physical_morphology": {
     "scan_roots": ["agent/", "contracts/", "runtime/authority_functions/", "runtime/fixtures/"],
-    "allowed_residue_prefixes": ["contracts/", "docs/history/", "runtime/fixtures/", "tests/"],
+    "allowed_residue_prefixes": ["contracts/", "docs/evidence/", "runtime/fixtures/", "tests/"],
     "required_surface_ids": [
       "agent_semantic_pack",
       "domain_handler_targets",
@@ -59,7 +59,7 @@
       {
         "surface_id": "fixture_or_provenance_refs",
         "classification": "provenance_or_fixture",
-        "source_refs": ["runtime/fixtures/README.md", "docs/history/"]
+        "source_refs": ["runtime/fixtures/README.md", "docs/references/design-source-attribution.md"]
       }
     ],
     "forbidden_name_tokens": [],

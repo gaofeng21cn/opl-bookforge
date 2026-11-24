@@ -7,9 +7,7 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 
 ## Source State
 
-`package.json` and `contracts/opl_agent_package_manifest.json` declare source
-version `0.4.0` and Package identity `obf`. Version metadata is not a release or
-installed-state receipt.
+[`package.json`](../package.json) and [`contracts/opl_agent_package_manifest.json`](../contracts/opl_agent_package_manifest.json) declare Package identity `obf` and the current source version. Version metadata is not a release or installed-state receipt.
 
 Knowledge catalogs use the shared v2 scope/content model. Both public actions
 require an inventory-bound book identity, and the primary Skill consumes
@@ -31,27 +29,14 @@ selection, cross-book rejection, stale versions, bounded previews, reopening,
 carrier parity, and zero writes. This evidence does not establish a hosted
 StageRun continuation or a human editorial decision.
 
-The source includes a standard dual-format publication helper and a bundled
-Chinese A4 Word/PDF design. It exports both formats from one manuscript,
-retains selected template bytes, checks content/asset/metadata integrity and
-PDF fonts, and renders every page for visual review. Source/style guidance
-follows each book's accepted sample and explains scope through research facts;
-teaching scenes and anticipatory disclaimers are not generic requirements.
-Long-form planning records one extent unit and counting scope from target
-through chapter QC; quantitative prose retains study design and analysis units,
-and numeric citations receive order/list reconciliation. Case selection separates
-argument fit, source support, and author relationship; context selection carries
-the active delivery boundary and prioritized evidence gaps. Style review judges
-actual workflow leakage while retaining useful navigation and external attribution.
-Word readback follows footnote and endnote anchors, verifies definitions, and
-compares note text in source order independently of global text coverage.
-These editorial checks
-remain distinct from Word/PDF pagination and extraction-coverage scores.
-The source reserves space before PDF quotation blocks so a case heading can
-stay with its opening text. The helper reuses Framework file hashing and
-accepts only the current PDF roles: `review_pdf`, `publication_proof`, and
-`final_export`. Package publication and installed carrier currentness are
-verified through their own receipts.
+The source includes a standard dual-format Word/PDF publication helper and a
+bundled Chinese A4 profile (`review_pdf`, `publication_proof`, `final_export`),
+reusing Framework file hashing, font/footnote checks, and rendered-page
+inspection. Domain editorial, planning, and layout rules remain in
+[Book production](../agent/skills/book-production.md) and
+[Publication design](../agent/skills/publication-design.md); helper usage lives
+in [Native helpers](../runtime/native_helpers/README.md). Package publication
+and installed carrier currentness are verified through their own receipts.
 
 The action catalog exposes `shape-storyline` and `materialize-book`. The current
 five-stage graph, isolated Review adoption, refs-only handoffs, PDF helper, and

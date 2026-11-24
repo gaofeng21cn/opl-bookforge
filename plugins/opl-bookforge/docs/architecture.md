@@ -120,7 +120,7 @@ The publication namespace is a locator, not a second owner. Published bytes and
 complete carrier currentness require actual receipts; [Status](./status.md)
 records the source/evidence boundary.
 
-The native carrier is generated with `python3 scripts/project-carrier.py` and checked with `--check`. It includes the current `agent/`, `contracts/`, `runtime/` and support documentation at plugin-root-relative paths, plus the primary Skill and Mini App adapter. Historical pilot artifacts remain repository evidence rather than executable package dependencies. Published payload selection uses the complete committed carrier; it must include the domain descriptor and its resources as well as the visible Skill.
+The native carrier is projected via `python3 scripts/project-carrier.py` (which delegates to `opl pack project-carrier` per `contracts/carrier_projection.json`) and verified with `--check`. It includes the current `agent/`, `contracts/`, `runtime/`, and support documentation at plugin-root-relative paths, plus the primary Skill and Mini App adapter. Historical pilot artifacts remain repository evidence rather than executable package dependencies. Published payload selection uses the complete committed carrier; it must include the domain descriptor and its resources as well as the visible Skill.
 
 ## Implementation And Reference Boundary
 
