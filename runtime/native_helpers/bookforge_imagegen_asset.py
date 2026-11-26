@@ -10,14 +10,25 @@ import zlib
 from pathlib import Path
 from typing import Any
 
-from opl_framework.artifact_inspection import (
+HELPER_DIR = Path(__file__).resolve().parent
+if str(HELPER_DIR) not in sys.path:
+    sys.path.insert(0, str(HELPER_DIR))
+
+from _opl_artifact_helpers import (
     BitmapInspectionError,
     ContainedFileReadError,
+    ensure_opl_client,
     inspect_bitmap,
+    normalize_sha256 as framework_normalize_sha256,
     read_contained_regular_file as framework_read_contained_regular_file,
-    sha256_bytes,
+    sha256_bytes as fallback_sha256_bytes,
 )
-from opl_framework.exact_refs import normalize_sha256 as framework_normalize_sha256
+
+try:
+    ensure_opl_client()
+    from opl_client.helpers import sha256_bytes
+except ModuleNotFoundError:
+    sha256_bytes = fallback_sha256_bytes
 
 
 VERSION = "bookforge-imagegen-asset.v3"

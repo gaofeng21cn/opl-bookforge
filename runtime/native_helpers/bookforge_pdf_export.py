@@ -10,15 +10,15 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from opl_framework.artifact_inspection import (
-    inspect_pdf_fonts as inspect_pdf_font_inventory,
-    inspect_png_visual_metrics,
-)
-from opl_framework.json_io import write_json_object_atomic
-
 HELPER_DIR = Path(__file__).resolve().parent
 if str(HELPER_DIR) not in sys.path:
     sys.path.insert(0, str(HELPER_DIR))
+
+from _opl_artifact_helpers import (
+    inspect_pdf_fonts as inspect_pdf_font_inventory,
+    inspect_png_visual_metrics,
+    write_json_object_atomic,
+)
 
 from pdf_export.profile_and_assets import (
     DEFAULT_PUBLICATION_PROFILE,

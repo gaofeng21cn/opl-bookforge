@@ -57,7 +57,7 @@ Current backend:
 
 Dependency route:
 
-- OPL owns local helper dependency diagnosis and maintenance for this profile through `opl system dependency-doctor --profile bookforge-publication-proof --json` and `opl system dependency-maintenance --profile bookforge-publication-proof --json`.
+- Runtime dependencies (Pandoc, XeLaTeX, Poppler `pdftoppm`/`pdffonts`/`pdftotext`, LibreOffice, Pillow) are declared for host/package inspection in `opl-package.json` and `contracts/domain_descriptor.json`.
 - Machine page inspection also requires Pillow in the helper's Python environment. Without it, PDFs may compile and render while page density, size, and nonblank checks remain unchecked; proof/final-export claims then retain quality debt.
 - Book Forge owns the proof helper, proof profile, artifact gates, manuscript evidence, and owner/export boundaries; it does not implement a system package manager or TeX installer.
 - Missing required dependencies block `publication_proof` and `final_export` claims, but they do not block unrelated storyline, chapter drafting, context compilation, claim integrity, or style calibration progress when a narrower honest writing action remains available.

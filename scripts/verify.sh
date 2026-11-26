@@ -5,7 +5,7 @@ repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 lane="${1:-default}"
 
 export PYTHONDONTWRITEBYTECODE=1
-framework_root="$(python3 - "${repo_dir}" <<'PY'
+resolved_paths="$(python3 - "${repo_dir}" <<'PY'
 import os
 from pathlib import Path
 import shutil
@@ -19,25 +19,31 @@ try:
     roots = framework_candidate_roots(repo)
 except ValueError as error:
     raise SystemExit(str(error)) from error
+
+explicit_sdk = os.environ.get("OPL_PYTHON_SDK_ROOT")
 for root in roots:
     configured_bin = os.environ.get("OPL_BIN")
     binary = (shutil.which(configured_bin) or configured_bin) if configured_bin else root / "bin/opl"
-    if os.access(binary, os.X_OK) and (root / "python/opl_framework").is_dir():
-        print(root)
+    sdk_candidates = [
+        Path(explicit_sdk) if explicit_sdk else None,
+        root / "sdks/python-client/src",
+    ]
+    sdk_dir = next((p for p in sdk_candidates if p is not None and (p / "opl_client").is_dir()), None)
+    if os.access(binary, os.X_OK) and sdk_dir is not None:
+        print(f"{root}\t{binary}\t{sdk_dir}")
         break
 else:
-    raise SystemExit("Framework CLI and Python helpers are unavailable; set OPL_BIN or OPL_FRAMEWORK_ROOT.")
+    raise SystemExit("Framework v2 CLI and opl_client SDK are unavailable; set OPL_BIN, OPL_FRAMEWORK_ROOT, or OPL_PYTHON_SDK_ROOT.")
 PY
 )"
+IFS=$'\t' read -r framework_root opl_bin sdk_root <<<"${resolved_paths}"
 export OPL_FRAMEWORK_ROOT="${framework_root}"
-export OPL_BIN="${OPL_BIN:-${framework_root}/bin/opl}"
-opl_bin="${OPL_BIN}"
-export PYTHONPATH="${framework_root}/python${PYTHONPATH:+:${PYTHONPATH}}"
+export OPL_BIN="${opl_bin}"
+export OPL_PYTHON_SDK_ROOT="${sdk_root}"
+export PYTHONPATH="${sdk_root}${PYTHONPATH:+:${PYTHONPATH}}"
 
 run_policy_tests() {
   python3 "${repo_dir}/tests/test_framework_location.py"
-  python3 "${repo_dir}/scripts/project-carrier.py"
-  python3 "${repo_dir}/scripts/project-carrier.py" --check
   python3 "${repo_dir}/tests/test_publication_bundle_contract.py"
   python3 "${repo_dir}/tests/test_codex_plugin_marketplace_contract.py"
   python3 "${repo_dir}/tests/test_foundry_agent_os_domain_kernel_manifest_contract.py"
@@ -51,13 +57,12 @@ run_policy_tests() {
 }
 
 run_structural_readback() {
-  "${opl_bin}" agents check --repo "${repo_dir}" --json
-  "${opl_bin}" workspace source-hygiene --source-root "${repo_dir}" --json
+  "${opl_bin}" pack inspect "${repo_dir}" --json
+  "${opl_bin}" pack build "${repo_dir}" --no-write-lock --json
 }
 
 run_helper_tests() {
-  "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
-  "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
+  python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
   python3 "${repo_dir}/tests/test_verify_helpers.py"
   python3 "${repo_dir}/tests/test_imagegen_host_asset_handler.py"
 }
@@ -78,16 +83,14 @@ case "${lane}" in
     ;;
   full-local)
     run_policy_tests
-    "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
-    "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
+    python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
     python3 "${repo_dir}/tests/test_verify_helpers.py" --pdf-smoke
     python3 "${repo_dir}/tests/test_imagegen_host_asset_handler.py"
     ;;
   full)
     run_policy_tests
     run_structural_readback
-    "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json" --json
-    "${opl_bin}" pack native-helper probe --descriptor "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.native-helper-probe.json" --json
+    python3 "${repo_dir}/runtime/native_helpers/bookforge_imagegen_asset.py" --self-test
     python3 "${repo_dir}/tests/test_verify_helpers.py" --pdf-smoke
     python3 "${repo_dir}/tests/test_imagegen_host_asset_handler.py"
     ;;

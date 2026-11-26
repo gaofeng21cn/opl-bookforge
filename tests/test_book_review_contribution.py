@@ -6,11 +6,11 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
-
-from stage_topology_cases.hosted_runtime_and_schema import framework_loader_module, framework_node_command
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('book_review', ROOT / 'runtime/native_helpers/bookforge_app_review.py')
@@ -99,45 +99,145 @@ class BookReviewTest(unittest.TestCase):
             handle.write('tail change')
         self.assertNotEqual(self.read()['data']['items'][0]['revision'], first['revision'])
 
-    def test_shared_adapter_and_carrier_consume_same_owner(self):
-        loader = framework_loader_module(ROOT)
-        framework = loader.parents[3]
-        module = loader.parents[2] / f'read-models/operator/app-contribution-adapter{loader.suffix}'
-        request = {'schema_version': 'opl-package-app-contribution-request.v1', 'operation': 'read',
-                   'ref': 'obf.workspace.v1#review', 'input': self.input}
+    def test_v2_contribution_handler_reads_same_owner(self):
+        manifest = json.loads((ROOT / 'opl-package.json').read_text(encoding='utf-8'))
+        self.assertEqual(manifest['schema_version'], 'opl.package.v2')
+        self.assertIn('obf.workspace.v1#review', [view['data_ref'] for view in manifest['ui']['declarative']['views']])
+        handler = manifest['provides']['contribution_handler']
+        self.assertEqual(handler['kind'], 'cli')
+        self.assertEqual(handler['transport'], 'stdin_json_stdout_json')
+
+        request = {
+            'schema_version': 'opl-package-app-contribution-request.v1',
+            'operation': 'read',
+            'package_id': 'obf',
+            'ref': 'obf.workspace.v1#review',
+            'input': self.input,
+        }
         before = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
-        script = f"""
-import {{ runDeclarativeAppContribution }} from {json.dumps(module.as_uri())};
-const responses = {json.dumps([str(ROOT), str(ROOT / 'plugins/opl-bookforge')])}.map(packageRoot =>
- runDeclarativeAppContribution({{packageRoot, request: {json.dumps(request)}}}));
-console.log(JSON.stringify(responses));
-"""
-        result = subprocess.run(framework_node_command(loader, script), text=True, capture_output=True,
-                                env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)}, check=True)
-        source, carrier = json.loads(result.stdout)
-        for root in (ROOT, ROOT / 'plugins/opl-bookforge'):
-            descriptor = json.loads((root / 'opl-package.json').read_text())
-            self.assertIn('obf.workspace.v1#review', [view['data_ref'] for view in descriptor['app_contributions']['views']])
-        self.assertTrue(source['ok'], source)
-        self.assertEqual(source['result']['state'], 'ready')
-        self.assertEqual(source['result'], carrier['result'])
-        self.assertFalse(source['result']['data']['domain_quality_approved'])
-        renderer = framework / 'src/mcp-app/presentation.js'
-        render_script = (f'import {{ renderOwnerView }} from {json.dumps(renderer.as_uri())};\n'
-                         + f'console.log(renderOwnerView({{view_type: \"approval_diff\"}}, {json.dumps(source["result"]["data"]["items"][0])}));')
-        rendered = subprocess.run(['node', '--input-type=module', '-e', render_script],
-                                  text=True, capture_output=True, check=True).stdout
-        self.assertIn('data-change="removed"', rendered)
-        self.assertIn('data-change="added"', rendered)
-        large_item = {**source['result']['data']['items'][0],
-                      'summary': '正文仅包含各稿前 24000 字符，完整版本请打开原文审阅。'}
-        large_script = (f'import {{ renderOwnerView }} from {json.dumps(renderer.as_uri())};\n'
-                        + f'console.log(renderOwnerView({{view_type: \"approval_diff\"}}, {json.dumps(large_item)}));')
-        visible = subprocess.run(['node', '--input-type=module', '-e', large_script],
-                                 text=True, capture_output=True, check=True).stdout.split('<details')[0]
-        self.assertIn('仅包含各稿前 24000 字符', visible)
+        completed = subprocess.run(
+            [sys.executable, str(ROOT / handler['argv'][1])],
+            input=json.dumps(request),
+            text=True,
+            capture_output=True,
+            env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)},
+            cwd=ROOT,
+            check=True,
+        )
+        result = json.loads(completed.stdout)
+        self.assertEqual(result['state'], 'ready')
+        self.assertFalse(result['data']['domain_quality_approved'])
+        self.assertEqual(result['data']['book_id'], 'book-a')
+
+        status_completed = subprocess.run(
+            [sys.executable, str(ROOT / handler['argv'][1])],
+            input=json.dumps({**request, 'ref': 'obf.workspace.v1#status', 'input': {'book_id': 'book-a'}}),
+            text=True,
+            capture_output=True,
+            env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)},
+            cwd=ROOT,
+            check=True,
+        )
+        status_result = json.loads(status_completed.stdout)
+        self.assertEqual(status_result['state'], 'ready')
+        self.assertEqual(status_result['data']['items'][0]['id'], 'book-a')
+
         after = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
         self.assertEqual(before, after)
+
+    def test_clean_staged_helpers_run_without_opl_client_sdk(self):
+        with tempfile.TemporaryDirectory(prefix='obf-clean-stage-') as stage_tmp:
+            stage = Path(stage_tmp).resolve()
+            shutil.copytree(
+                ROOT / 'runtime',
+                stage / 'runtime',
+                ignore=shutil.ignore_patterns('__pycache__', '*.pyc'),
+            )
+            shutil.copy2(ROOT / 'opl-package.json', stage / 'opl-package.json')
+            clean_env = {
+                k: v
+                for k, v in os.environ.items()
+                if k not in {'OPL_PYTHON_SDK_ROOT', 'PYTHONPATH', 'OPL_PROFILE_WORKSPACE'}
+            }
+            clean_env['PYTHONDONTWRITEBYTECODE'] = '1'
+            clean_env['OPL_STATE_DIR'] = str(stage / 'empty-opl-state')
+
+            staged_handler = stage / 'runtime/native_helpers/bookforge_contribution_handler.py'
+            for ref, extra_input in (
+                ('obf.workspace.v1#status', {'book_id': 'book-a'}),
+                ('obf.workspace.v1#artifacts', {'book_id': 'book-a'}),
+                ('obf.workspace.v1#review', self.input),
+            ):
+                completed = subprocess.run(
+                    [sys.executable, str(staged_handler)],
+                    input=json.dumps({
+                        'schema_version': 'opl-package-app-contribution-request.v1',
+                        'operation': 'read',
+                        'package_id': 'obf',
+                        'ref': ref,
+                        'input': extra_input,
+                    }),
+                    text=True,
+                    capture_output=True,
+                    env={**clean_env, 'OPL_PROFILE_WORKSPACE': str(self.root)},
+                    cwd=stage,
+                    check=True,
+                )
+                payload = json.loads(completed.stdout)
+                self.assertEqual(payload['state'], 'ready', payload)
+
+            for ref in ('obf.workspace.v1#status', 'obf.workspace.v1#review'):
+                unavailable = subprocess.run(
+                    [sys.executable, str(staged_handler)],
+                    input=json.dumps({
+                        'schema_version': 'opl-package-app-contribution-request.v1',
+                        'operation': 'read',
+                        'package_id': 'obf',
+                        'ref': ref,
+                        'input': {},
+                    }),
+                    text=True,
+                    capture_output=True,
+                    env=clean_env,
+                    cwd=stage,
+                    check=True,
+                )
+                unavailable_payload = json.loads(unavailable.stdout)
+                self.assertEqual(unavailable_payload['state'], 'unavailable', unavailable_payload)
+                self.assertEqual(unavailable_payload['reason'], 'workspace_selection_required', unavailable_payload)
+
+            imagegen = subprocess.run(
+                [sys.executable, str(stage / 'runtime/native_helpers/bookforge_imagegen_asset.py'), '--self-test'],
+                text=True,
+                capture_output=True,
+                env=clean_env,
+                cwd=stage,
+                check=True,
+            )
+            self.assertEqual(json.loads(imagegen.stdout)['status'], 'passed')
+
+            pub_probe = stage / 'probe.bin'
+            pub_probe.write_bytes(b'bookforge-clean-stage-probe')
+            pub_check = subprocess.run(
+                [
+                    sys.executable,
+                    '-c',
+                    (
+                        "import hashlib, importlib.util, pathlib, sys; "
+                        "spec = importlib.util.spec_from_file_location('bpb', sys.argv[1]); "
+                        "mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); "
+                        "assert mod.sha256_file(sys.argv[2]) == hashlib.sha256(pathlib.Path(sys.argv[2]).read_bytes()).hexdigest()"
+                    ),
+                    str(stage / 'runtime/native_helpers/bookforge_publication_bundle.py'),
+                    str(pub_probe),
+                ],
+                text=True,
+                capture_output=True,
+                env=clean_env,
+                cwd=stage,
+                check=True,
+            )
+            self.assertEqual(pub_check.returncode, 0)
 
 
 if __name__ == '__main__':

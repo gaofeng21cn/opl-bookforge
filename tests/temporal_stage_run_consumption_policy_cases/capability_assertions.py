@@ -76,7 +76,7 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
     assert guard["guard_command"] == "opl workspace source-hygiene --source-root <repo> --json"
 
     verify_script = (repo / "scripts/verify.sh").read_text(encoding="utf-8")
-    assert verify_script.count('workspace source-hygiene --source-root "${repo_dir}" --json') == 1
+    assert 'pack inspect "${repo_dir}" --json' in verify_script
     assert 'case "${lane}" in' in verify_script
     assert "default|fast)" in verify_script
     assert "structural)" in verify_script
@@ -123,8 +123,8 @@ def assert_opl_default_hygiene_and_probe_consumption(repo: Path) -> None:
                     assert slot["allowed_targets"] == [], slot
         else:
             assert "source_closure" not in descriptor, descriptor_ref
-        command = f'pack native-helper probe --descriptor "${{repo_dir}}/{descriptor_ref}" --json'
-        assert command in verify_script, descriptor_ref
+        assert "test_verify_helpers.py" in verify_script
+        assert "test_imagegen_host_asset_handler.py" in verify_script
 
 
 def assert_private_platform_retirement_matrix(
@@ -206,12 +206,15 @@ def assert_capability_map_standard_kinds(repo: Path, capability_map: dict[str, A
     primary = next(capability for capability in capabilities if capability["surface_role"] == "primary_skill")
     assert primary["capability_kind"] == "primary_skill"
     assert primary["physical_source_ref"]["ref"] == "agent/primary_skill/SKILL.md"
-    assert primary["carrier_projection_contract"]["carrier_skill_ref"] == "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md"
-    assert primary["carrier_projection_contract"]["carrier_materialization"] == "materialized_full_skill_copy"
-    plugin_manifest = json.loads((repo / "plugins/opl-bookforge/.codex-plugin/plugin.json").read_text())
-    assert plugin_manifest["name"] == "opl-bookforge"
-    assert plugin_manifest["skills"] == "./skills/"
+    assert primary["carrier_projection_contract"]["carrier_skill_ref"] == "skills/opl-bookforge/SKILL.md"
+    assert primary["carrier_projection_contract"]["carrier_materialization"] == "codex_sync_zero_copy_symlink_projection"
+    root_manifest = json.loads((repo / "opl-package.json").read_text())
+    assert root_manifest["schema_version"] == "opl.package.v2"
+    assert root_manifest["host_hints"]["codex"]["plugin_name"] == "opl-bookforge"
+    assert root_manifest["provides"]["skills"] == [
+        {"id": "opl-bookforge", "path": "./skills/opl-bookforge", "exposure": "default"}
+    ]
     assert (
-        (repo / "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md").read_text()
+        (repo / "skills/opl-bookforge/SKILL.md").read_text()
         == (repo / "agent/primary_skill/SKILL.md").read_text()
     )
