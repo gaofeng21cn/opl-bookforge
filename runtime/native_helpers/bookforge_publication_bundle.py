@@ -251,13 +251,17 @@ from _opl_artifact_helpers import (
     extract_pdf_text,
     prepare_macos_fontconfig,
     render_pdf_pages as fw_render_pdf_pages,
+    sha256_file as fallback_sha256_file,
     write_json_object_atomic,
 )
 from bookforge_pdf_export import compile_pdf, parse_args as parse_pdf_args
 from bookforge_pdf_export import write_manifest as write_pdf_manifest
 
-ensure_opl_client()
-from opl_client.helpers import sha256_file
+try:
+    ensure_opl_client()
+    from opl_client.helpers import sha256_file
+except ModuleNotFoundError:
+    sha256_file = fallback_sha256_file
 
 VERSION = "bookforge-publication-bundle.v1"
 MIN_SOURCE_COVERAGE = 0.985

@@ -21,10 +21,14 @@ from _opl_artifact_helpers import (
     inspect_bitmap,
     normalize_sha256 as framework_normalize_sha256,
     read_contained_regular_file as framework_read_contained_regular_file,
+    sha256_bytes as fallback_sha256_bytes,
 )
 
-ensure_opl_client()
-from opl_client.helpers import sha256_bytes
+try:
+    ensure_opl_client()
+    from opl_client.helpers import sha256_bytes
+except ModuleNotFoundError:
+    sha256_bytes = fallback_sha256_bytes
 
 
 VERSION = "bookforge-imagegen-asset.v3"

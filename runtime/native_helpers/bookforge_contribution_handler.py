@@ -16,8 +16,28 @@ if str(HELPER_DIR) not in sys.path:
 from _opl_artifact_helpers import ensure_opl_client  # noqa: E402
 from bookforge_app_review import object_file, read_review  # noqa: E402
 
-ensure_opl_client()
-from opl_client import OplClientError, connect, read_stdin_json, write_json_stdout  # noqa: E402
+
+def _fallback_read_stdin_json() -> dict[str, Any]:
+    raw = sys.stdin.read().strip()
+    if not raw:
+        return {}
+    parsed = json.loads(raw)
+    if not isinstance(parsed, dict):
+        raise ValueError("Expected JSON object on stdin")
+    return parsed
+
+
+def _fallback_write_json_stdout(payload: dict[str, Any]) -> None:
+    sys.stdout.write(json.dumps(payload, separators=(",", ":")) + "\n")
+    sys.stdout.flush()
+
+
+try:
+    ensure_opl_client()
+    from opl_client import read_stdin_json, write_json_stdout  # noqa: E402
+except ModuleNotFoundError:
+    read_stdin_json = _fallback_read_stdin_json
+    write_json_stdout = _fallback_write_json_stdout
 
 REQUEST_SCHEMA_VERSION = "opl-package-app-contribution-request.v1"
 SUPPORTED_REFS = {
@@ -71,6 +91,17 @@ def _read_workspace_summary(ref: str, input_payload: dict[str, Any]) -> dict[str
         }
 
     # Optional fallback to active opld workspace projection when running under opld.
+    try:
+        ensure_opl_client()
+        from opl_client import OplClientError, connect
+    except ModuleNotFoundError:
+        return {
+            "state": "unavailable",
+            "reason": "workspace_selection_required",
+            "package_id": "obf",
+            "ref": ref,
+        }
+
     try:
         with connect() as client:
             listed = client.workspace_list()

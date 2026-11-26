@@ -6,6 +6,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -143,6 +144,100 @@ class BookReviewTest(unittest.TestCase):
 
         after = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
         self.assertEqual(before, after)
+
+    def test_clean_staged_helpers_run_without_opl_client_sdk(self):
+        with tempfile.TemporaryDirectory(prefix='obf-clean-stage-') as stage_tmp:
+            stage = Path(stage_tmp).resolve()
+            shutil.copytree(
+                ROOT / 'runtime',
+                stage / 'runtime',
+                ignore=shutil.ignore_patterns('__pycache__', '*.pyc'),
+            )
+            shutil.copy2(ROOT / 'opl-package.json', stage / 'opl-package.json')
+            clean_env = {
+                k: v
+                for k, v in os.environ.items()
+                if k not in {'OPL_PYTHON_SDK_ROOT', 'PYTHONPATH', 'OPL_PROFILE_WORKSPACE'}
+            }
+            clean_env['PYTHONDONTWRITEBYTECODE'] = '1'
+            clean_env['OPL_STATE_DIR'] = str(stage / 'empty-opl-state')
+
+            staged_handler = stage / 'runtime/native_helpers/bookforge_contribution_handler.py'
+            for ref, extra_input in (
+                ('obf.workspace.v1#status', {'book_id': 'book-a'}),
+                ('obf.workspace.v1#artifacts', {'book_id': 'book-a'}),
+                ('obf.workspace.v1#review', self.input),
+            ):
+                completed = subprocess.run(
+                    [sys.executable, str(staged_handler)],
+                    input=json.dumps({
+                        'schema_version': 'opl-package-app-contribution-request.v1',
+                        'operation': 'read',
+                        'package_id': 'obf',
+                        'ref': ref,
+                        'input': extra_input,
+                    }),
+                    text=True,
+                    capture_output=True,
+                    env={**clean_env, 'OPL_PROFILE_WORKSPACE': str(self.root)},
+                    cwd=stage,
+                    check=True,
+                )
+                payload = json.loads(completed.stdout)
+                self.assertEqual(payload['state'], 'ready', payload)
+
+            for ref in ('obf.workspace.v1#status', 'obf.workspace.v1#review'):
+                unavailable = subprocess.run(
+                    [sys.executable, str(staged_handler)],
+                    input=json.dumps({
+                        'schema_version': 'opl-package-app-contribution-request.v1',
+                        'operation': 'read',
+                        'package_id': 'obf',
+                        'ref': ref,
+                        'input': {},
+                    }),
+                    text=True,
+                    capture_output=True,
+                    env=clean_env,
+                    cwd=stage,
+                    check=True,
+                )
+                unavailable_payload = json.loads(unavailable.stdout)
+                self.assertEqual(unavailable_payload['state'], 'unavailable', unavailable_payload)
+                self.assertEqual(unavailable_payload['reason'], 'workspace_selection_required', unavailable_payload)
+
+            imagegen = subprocess.run(
+                [sys.executable, str(stage / 'runtime/native_helpers/bookforge_imagegen_asset.py'), '--self-test'],
+                text=True,
+                capture_output=True,
+                env=clean_env,
+                cwd=stage,
+                check=True,
+            )
+            self.assertEqual(json.loads(imagegen.stdout)['status'], 'passed')
+
+            pub_probe = stage / 'probe.bin'
+            pub_probe.write_bytes(b'bookforge-clean-stage-probe')
+            pub_check = subprocess.run(
+                [
+                    sys.executable,
+                    '-c',
+                    (
+                        "import hashlib, importlib.util, pathlib, sys; "
+                        "spec = importlib.util.spec_from_file_location('bpb', sys.argv[1]); "
+                        "mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); "
+                        "assert mod.sha256_file(sys.argv[2]) == hashlib.sha256(pathlib.Path(sys.argv[2]).read_bytes()).hexdigest()"
+                    ),
+                    str(stage / 'runtime/native_helpers/bookforge_publication_bundle.py'),
+                    str(pub_probe),
+                ],
+                text=True,
+                capture_output=True,
+                env=clean_env,
+                cwd=stage,
+                check=True,
+            )
+            self.assertEqual(pub_check.returncode, 0)
 
 
 if __name__ == '__main__':

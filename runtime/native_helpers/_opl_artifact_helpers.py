@@ -611,6 +611,17 @@ def write_json_object_atomic(
             temporary_path.unlink(missing_ok=True)
 
 
+def sha256_bytes(data: bytes) -> str:
+    """Return prefixed SHA-256 digest `sha256:<hex>` for raw bytes."""
+    return f"sha256:{hashlib.sha256(data).hexdigest()}"
+
+
+def sha256_file(path: str | Path) -> str:
+    """Return lowercase hex SHA-256 digest of a file using stdlib file_digest."""
+    with Path(path).open("rb") as handle:
+        return hashlib.file_digest(handle, "sha256").hexdigest()
+
+
 __all__ = [
     "BitmapInspectionError",
     "ContainedFileReadError",
@@ -623,5 +634,7 @@ __all__ = [
     "prepare_macos_fontconfig",
     "read_contained_regular_file",
     "render_pdf_pages",
+    "sha256_bytes",
+    "sha256_file",
     "write_json_object_atomic",
 ]
