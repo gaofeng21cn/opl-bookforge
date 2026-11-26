@@ -1,13 +1,5 @@
 .codegraph/
 .worktrees/
-/src/opl_framework
 __pycache__/
 package-lock.json
-
-# Materialized plugin carrier mirror copies (generated on demand via scripts/project-carrier.py)
-/plugins/opl-bookforge/agent/
-/plugins/opl-bookforge/contracts/
-/plugins/opl-bookforge/docs/
-/plugins/opl-bookforge/runtime/
-/plugins/opl-bookforge/assets/branding/
-/plugins/opl-bookforge/app-contribution-adapter.json
+/opl-release.lock.json

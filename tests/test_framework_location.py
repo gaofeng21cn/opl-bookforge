@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the verification entrypoint against isolated Framework layouts."""
+"""Run the verification entrypoint against isolated v2 Framework layouts."""
 from __future__ import annotations
 
 import json
@@ -33,7 +33,8 @@ class FrameworkLocationTest(unittest.TestCase):
             "import json, os, sys\n"
             "with open(os.environ['OBF_LOCATION_LOG'], 'a') as stream:\n"
             " stream.write(json.dumps({'argv': sys.argv, 'root': os.environ.get('OPL_FRAMEWORK_ROOT'), "
-            "'bin': os.environ.get('OPL_BIN'), 'pythonpath': os.environ.get('PYTHONPATH')}) + '\\n')\n"
+            "'bin': os.environ.get('OPL_BIN'), 'sdk': os.environ.get('OPL_PYTHON_SDK_ROOT'), "
+            "'pythonpath': os.environ.get('PYTHONPATH')}) + '\\n')\n"
         )
         self.recorder = f"#!{sys.executable}\n" + recorder
         python = self.bin / "python3"
@@ -44,14 +45,14 @@ class FrameworkLocationTest(unittest.TestCase):
         )
         python.chmod(0o755)
         self.env = {key: value for key, value in os.environ.items()
-                    if key not in {"OPL_BIN", "OPL_FRAMEWORK_ROOT", "PYTHONPATH"}}
+                    if key not in {"OPL_BIN", "OPL_FRAMEWORK_ROOT", "OPL_PYTHON_SDK_ROOT", "PYTHONPATH"}}
         self.env.update(PATH=f"{self.bin}:/usr/bin:/bin", OBF_LOCATION_LOG=str(self.log),
                         PYTHONDONTWRITEBYTECODE="1")
 
     def framework(self, name):
         root = self.root / name
         (root / "bin").mkdir(parents=True)
-        (root / "python/opl_framework").mkdir(parents=True)
+        (root / "sdks/python-client/src/opl_client").mkdir(parents=True)
         cli = root / "bin/opl"
         cli.write_text(self.recorder)
         cli.chmod(0o755)
@@ -72,9 +73,10 @@ class FrameworkLocationTest(unittest.TestCase):
         for call in calls:
             self.assertEqual(Path(call["root"]).resolve(), root)
             self.assertEqual(Path(call["bin"]).resolve(), root / "bin/opl")
-            self.assertEqual(call["pythonpath"].split(os.pathsep)[0], str(root / "python"))
+            self.assertEqual(Path(call["sdk"]).resolve(), root / "sdks/python-client/src")
+            self.assertEqual(call["pythonpath"].split(os.pathsep)[0], str(root / "sdks/python-client/src"))
         self.assertEqual([call["argv"][1:3] for call in calls[-2:]],
-                         [["agents", "check"], ["workspace", "source-hygiene"]])
+                         [["pack", "inspect"], ["pack", "build"]])
         return result
 
     def test_explicit_root_overrides_sibling_and_path(self):
@@ -106,12 +108,12 @@ class FrameworkLocationTest(unittest.TestCase):
     def test_missing_explicit_framework_does_not_fall_back(self):
         self.framework("projects/one-person-lab")
         result = self.run_entry(None, OPL_FRAMEWORK_ROOT=str(self.root / "missing"))
-        self.assertIn("CLI and Python helpers are unavailable", result.stderr)
+        self.assertIn("v2 CLI and opl_client SDK are unavailable", result.stderr)
 
     def test_missing_explicit_binary_stops_before_checks(self):
         selected = self.framework("configured framework")
         result = self.run_entry(None, OPL_BIN=str(selected / "bin/missing"))
-        self.assertIn("CLI and Python helpers are unavailable", result.stderr)
+        self.assertIn("v2 CLI and opl_client SDK are unavailable", result.stderr)
 
     def test_shallow_checkout_can_resolve_candidates(self):
         with patch.dict(os.environ, {}, clear=True):

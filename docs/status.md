@@ -7,7 +7,7 @@ Machine boundary: Source and retained evidence summary; installed, published, ru
 
 ## Source State
 
-[`package.json`](../package.json) and [`contracts/opl_agent_package_manifest.json`](../contracts/opl_agent_package_manifest.json) declare Package identity `obf` and the current source version. Version metadata is not a release or installed-state receipt.
+[`package.json`](../package.json) and [`opl-package.json`](../opl-package.json) (`opl.package.v2`) declare Package identity `obf` and the current source version. Version metadata is not a release or installed-state receipt.
 
 Knowledge catalogs use the shared v2 scope/content model. Both public actions
 require an inventory-bound book identity, and the primary Skill consumes

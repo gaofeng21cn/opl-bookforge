@@ -18,8 +18,7 @@ def assert_retirement_and_carrier(repo: Path, golden_path: dict) -> None:
     ):
         assert not (repo / ref).exists(), ref
 
+    assert not (repo / "plugins").exists(), "legacy plugins/ mirror must not exist"
     primary_skill = (repo / "agent/primary_skill/SKILL.md").read_text(encoding="utf-8")
-    carrier_skill = (repo / "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md").read_text(
-        encoding="utf-8"
-    )
-    assert primary_skill == carrier_skill
+    package_skill = (repo / "skills/opl-bookforge/SKILL.md").read_text(encoding="utf-8")
+    assert primary_skill == package_skill

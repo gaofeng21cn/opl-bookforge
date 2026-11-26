@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
-import subprocess
-import tarfile
-import tempfile
-from contextlib import contextmanager
 from pathlib import Path
+from typing import Any
 
 from .stage_and_action import (
     ACTION_OUTPUT_SCHEMA_REFS,
@@ -34,7 +32,13 @@ def framework_candidate_roots(repo: Path) -> list[Path]:
     for entry in os.environ.get("PYTHONPATH", "").split(os.pathsep):
         if entry:
             candidate = Path(entry)
-            candidates.append(candidate.parent if candidate.name == "python" else candidate)
+            if candidate.name == "src" and candidate.parent.name == "python-client":
+                candidates.append(candidate.parent.parent.parent)
+            elif candidate.name == "python":
+                candidates.append(candidate.parent)
+            else:
+                candidates.append(candidate)
+    candidates.append(repo.parent / ".worktrees/opl-v2")
     candidates.append(repo.parent / "one-person-lab")
     if len(repo.parents) > 2:
         candidates.append(repo.parents[2] / "one-person-lab")
@@ -43,101 +47,80 @@ def framework_candidate_roots(repo: Path) -> list[Path]:
     return list(dict.fromkeys(candidate.resolve() for candidate in candidates))
 
 
-def framework_loader_module(repo: Path, candidates: list[Path] | None = None) -> Path:
-    roots = candidates if candidates is not None else framework_candidate_roots(repo)
-    for module_ref in (
-        "dist/adapters/execution/hosted-agent-runtime-binding.js",
-        "src/adapters/execution/hosted-agent-runtime-binding.ts",
+class ContractShapeError(AssertionError):
+    code = "contract_shape_invalid"
+
+
+def _resolve_ref(root_schema: dict[str, Any], schema: dict[str, Any]) -> dict[str, Any]:
+    ref = schema.get("$ref")
+    if not ref:
+        return schema
+    if not ref.startswith("#/"):
+        raise ContractShapeError(f"Unsupported $ref: {ref}")
+    target: Any = root_schema
+    for part in ref[2:].split("/"):
+        target = target[part]
+    return target
+
+
+def _validate_node(root_schema: dict[str, Any], schema: dict[str, Any], value: Any, path: str) -> None:
+    schema = _resolve_ref(root_schema, schema)
+    if "const" in schema and (value != schema["const"] or isinstance(value, bool) != isinstance(schema["const"], bool)):
+        raise ContractShapeError(f"{path}: expected const {schema['const']!r}, got {value!r}")
+    if "enum" in schema and value not in schema["enum"]:
+        raise ContractShapeError(f"{path}: expected one of {schema['enum']!r}, got {value!r}")
+    expected_type = schema.get("type")
+    if expected_type == "null":
+        if value is not None:
+            raise ContractShapeError(f"{path}: expected null")
+    elif expected_type == "string":
+        if not isinstance(value, str):
+            raise ContractShapeError(f"{path}: expected string")
+        if "minLength" in schema and len(value) < schema["minLength"]:
+            raise ContractShapeError(f"{path}: string shorter than {schema['minLength']}")
+        if "pattern" in schema and not re.match(schema["pattern"], value):
+            raise ContractShapeError(f"{path}: string does not match pattern {schema['pattern']}")
+    elif expected_type == "object" or (
+        expected_type is None
+        and isinstance(value, dict)
+        and any(k in schema for k in ("properties", "required", "additionalProperties"))
     ):
-        for root in roots:
-            module = root / module_ref
-            if module.is_file():
-                return module.absolute()
-    raise AssertionError("Framework hosted Agent runtime loader is unavailable")
-
-
-def framework_node_command(module: Path, script: str) -> list[str]:
-    command = ["node"]
-    if module.suffix == ".ts":
-        command.extend(["--conditions=opl-source", "--experimental-strip-types"])
-    command.extend(["--input-type=module", "-e", script])
-    return command
-
-
-def framework_schema_validator_module(loader_module: Path) -> Path:
-    module = loader_module.parents[2] / "kernel" / f"repo-json-schema{loader_module.suffix}"
-    if module.is_file():
-        return module.absolute()
-    raise AssertionError("Framework JSON Schema validator is unavailable")
-
-
-@contextmanager
-def dist_only_framework_root(loader_module: Path):
-    framework_root = loader_module.parents[3]
-    with tempfile.TemporaryDirectory(prefix="obf-framework-dist-") as temporary_directory:
-        temporary_root = Path(temporary_directory)
-        package = json.loads((framework_root / "package.json").read_text(encoding="utf-8"))
-        archive = (
-            framework_root
-            / "dist/packages/framework"
-            / f"one-person-lab-framework-{package['version']}.tar.gz"
-        )
-        archive_root = temporary_root / "one-person-lab"
-        current_loader_ref = (
-            "one-person-lab/dist/adapters/execution/hosted-agent-runtime-binding.js"
-        )
-        archive_current = False
-        if archive.is_file():
-            with tarfile.open(archive, "r:gz") as bundle:
-                archive_current = current_loader_ref in bundle.getnames()
-                if archive_current:
-                    bundle.extractall(temporary_root, filter="data")
-        if not archive_current:
-            archive_root.mkdir()
-            os.symlink(framework_root / "dist", archive_root / "dist", target_is_directory=True)
-            os.symlink(framework_root / "package.json", archive_root / "package.json")
-        assert (archive_root / "dist").is_dir()
-        assert not (archive_root / "src").exists()
-        if not (archive_root / "node_modules").exists():
-            os.symlink(
-                framework_root / "node_modules",
-                archive_root / "node_modules",
-                target_is_directory=True,
-            )
-        yield archive_root
-
-
-def load_hosted_action_contracts(repo: Path, module: Path | None = None) -> dict:
-    module = module or framework_loader_module(repo)
-    script = f"""
-import {{ readHostedAgentRuntimeActionContracts }} from {json.dumps(module.as_uri())};
-const {{ catalog, registry }} = readHostedAgentRuntimeActionContracts(
-  {json.dumps(str(repo))},
-  ["opl-bookforge"],
-);
-console.log(JSON.stringify({{
-  target_domain_id: catalog.target_domain_id,
-  actions: catalog.actions.map((action) => ({{
-    action_id: action.action_id,
-    input_schema_ref: action.input_schema_ref,
-    output_schema_ref: action.output_schema_ref,
-    execution_binding: action.execution_binding,
-  }})),
-  handler_ids: registry?.handlers.map((handler) => handler.handler_id) ?? [],
-}}));
-"""
-    completed = subprocess.run(
-        framework_node_command(module, script),
-        cwd=repo,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    assert completed.returncode == 0, {
-        "stdout": completed.stdout,
-        "stderr": completed.stderr,
-    }
-    return json.loads(completed.stdout)
+        if not isinstance(value, dict):
+            raise ContractShapeError(f"{path}: expected object")
+        for req in schema.get("required", []):
+            if req not in value:
+                raise ContractShapeError(f"{path}: missing required key {req}")
+        props = schema.get("properties", {})
+        if schema.get("additionalProperties") is False:
+            unknown = set(value) - set(props)
+            if unknown:
+                raise ContractShapeError(f"{path}: unsupported keys {sorted(unknown)}")
+        for k, subschema in props.items():
+            if k in value:
+                _validate_node(root_schema, subschema, value[k], f"{path}.{k}")
+    elif expected_type == "array":
+        if not isinstance(value, list):
+            raise ContractShapeError(f"{path}: expected array")
+        if "minItems" in schema and len(value) < schema["minItems"]:
+            raise ContractShapeError(f"{path}: fewer than {schema['minItems']} items")
+        item_schema = schema.get("items")
+        if item_schema is not None:
+            for idx, item in enumerate(value):
+                _validate_node(root_schema, item_schema, item, f"{path}[{idx}]")
+        if schema.get("uniqueItems"):
+            serialized = [json.dumps(item, sort_keys=True) for item in value]
+            if len(serialized) != len(set(serialized)):
+                raise ContractShapeError(f"{path}: duplicate array items")
+    if "oneOf" in schema:
+        matches = 0
+        for branch in schema["oneOf"]:
+            try:
+                _validate_node(root_schema, branch, value, path)
+                matches += 1
+            except ContractShapeError:
+                pass
+        if matches != 1:
+            raise ContractShapeError(f"{path}: expected exactly 1 oneOf match, got {matches}")
 
 
 def stage_action_payload(stage_id: str, status: str, **evidence: object) -> dict:
@@ -163,8 +146,7 @@ def stage_action_payload(stage_id: str, status: str, **evidence: object) -> dict
     }
 
 
-def assert_output_schema_payloads(repo: Path, loader_module: Path) -> None:
-    validator_module = framework_schema_validator_module(loader_module)
+def assert_output_schema_payloads(repo: Path) -> None:
     content_ref = {
         "kind": "obf_stage_diagnostic",
         "ref": "obf://stage-diagnostic/exact-result",
@@ -241,88 +223,50 @@ def assert_output_schema_payloads(repo: Path, loader_module: Path) -> None:
                     "payload": stage_action_payload(stage_id, status, **{field: refs}),
                     "valid": False,
                 })
-    script = f"""
-import {{ assertRepoJsonSchemaPayload }} from {json.dumps(validator_module.as_uri())};
-const cases = {json.dumps(cases)};
-for (const testCase of cases) {{
-  let error = null;
-  try {{
-    assertRepoJsonSchemaPayload({{
-      repoRoot: {json.dumps(str(repo))},
-      schemaRef: testCase.schema_ref,
-      payload: testCase.payload,
-      label: testCase.label,
-    }});
-  }} catch (candidate) {{
-    error = candidate;
-  }}
-  if (testCase.valid && error) throw error;
-  if (!testCase.valid && (!error || error.code !== "contract_shape_invalid")) {{
-    throw new Error(`Expected contract_shape_invalid for ${{testCase.label}}`);
-  }}
-}}
-console.log(JSON.stringify({{ validated_cases: cases.length }}));
-"""
-    completed = subprocess.run(
-        framework_node_command(validator_module, script),
-        cwd=repo,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    assert completed.returncode == 0, {
-        "stdout": completed.stdout,
-        "stderr": completed.stderr,
-    }
-    assert json.loads(completed.stdout) == {"validated_cases": len(cases)}
+
+    schema_cache: dict[str, dict[str, Any]] = {}
+    for case in cases:
+        schema = schema_cache.setdefault(
+            case["schema_ref"],
+            json.loads((repo / case["schema_ref"]).read_text(encoding="utf-8")),
+        )
+        error: ContractShapeError | None = None
+        try:
+            _validate_node(schema, schema, case["payload"], case["label"])
+        except ContractShapeError as exc:
+            error = exc
+        if case["valid"] and error is not None:
+            raise AssertionError(f"Valid payload failed {case['label']}: {error}")
+        if not case["valid"] and error is None:
+            raise AssertionError(f"Expected contract_shape_invalid for {case['label']}")
 
 
 def assert_hosted_runtime_and_schema(repo: Path, actions: dict) -> None:
-    framework_module = framework_loader_module(repo)
-    assert ("--experimental-strip-types" in framework_node_command(framework_module, "")) == (
-        framework_module.suffix == ".ts"
-    )
-    hosted_contracts = load_hosted_action_contracts(repo, framework_module)
-    assert hosted_contracts == {
-        "target_domain_id": "opl-bookforge",
-        "actions": [
-            {
-                "action_id": action_id,
-                "input_schema_ref": actions[action_id]["input_schema_ref"],
-                "output_schema_ref": ACTION_OUTPUT_SCHEMA_REFS[action_id],
-                "execution_binding": {
-                    "kind": "stage_binding",
-                    "stage_manifest_ref": "agent/stages/manifest.json",
-                },
-            }
-            for action_id in ACTION_STAGE_ROUTES
-        ],
-        "handler_ids": ["obf.figure-asset-authority-evaluate"],
-    }
-    assert_output_schema_payloads(repo, framework_module)
-
-    framework_root = framework_module.parents[3]
-    with tempfile.TemporaryDirectory(prefix="obf-framework-locator-") as locator_directory:
-        locator_root = Path(locator_directory)
-        source_only_root = locator_root / "source-only"
-        dist_only_root = locator_root / "dist-only"
-        source_only_root.mkdir()
-        dist_only_root.mkdir()
-        source_module = source_only_root / "src/adapters/execution/hosted-agent-runtime-binding.ts"
-        source_module.parent.mkdir(parents=True)
-        source_module.write_text("// Locator fixture; source execution is checked separately.\n")
-        os.symlink(framework_root / "dist", dist_only_root / "dist", target_is_directory=True)
-        preferred_module = framework_loader_module(repo, [source_only_root, dist_only_root])
-        assert preferred_module == (
-            dist_only_root / "dist/adapters/execution/hosted-agent-runtime-binding.js"
-        )
-        fallback_module = framework_loader_module(repo, [source_only_root])
-        assert fallback_module == (
-            source_only_root / "src/adapters/execution/hosted-agent-runtime-binding.ts"
-        )
-        assert "--experimental-strip-types" in framework_node_command(fallback_module, "")
-
-    with dist_only_framework_root(framework_module) as archive_root:
-        archive_module = framework_loader_module(repo, [archive_root])
-        assert archive_module.suffix == ".js"
-        assert load_hosted_action_contracts(repo, archive_module) == hosted_contracts
+    catalog = json.loads((repo / "contracts/action_catalog.json").read_text(encoding="utf-8"))
+    registry = json.loads((repo / "contracts/domain_handler_registry.json").read_text(encoding="utf-8"))
+    manifest = json.loads((repo / "opl-package.json").read_text(encoding="utf-8"))
+    assert manifest["schema_version"] == "opl.package.v2"
+    assert manifest["provides"]["agent"]["stages_ref"] == "agent/stages/manifest.json"
+    assert catalog["target_domain_id"] == "opl-bookforge"
+    assert [
+        {
+            "action_id": action["action_id"],
+            "input_schema_ref": action["input_schema_ref"],
+            "output_schema_ref": action["output_schema_ref"],
+            "execution_binding": action["execution_binding"],
+        }
+        for action in catalog["actions"]
+    ] == [
+        {
+            "action_id": action_id,
+            "input_schema_ref": actions[action_id]["input_schema_ref"],
+            "output_schema_ref": ACTION_OUTPUT_SCHEMA_REFS[action_id],
+            "execution_binding": {
+                "kind": "stage_binding",
+                "stage_manifest_ref": "agent/stages/manifest.json",
+            },
+        }
+        for action_id in ACTION_STAGE_ROUTES
+    ]
+    assert [h["handler_id"] for h in registry["handlers"]] == ["obf.figure-asset-authority-evaluate"]
+    assert_output_schema_payloads(repo)

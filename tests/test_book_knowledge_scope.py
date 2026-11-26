@@ -1,167 +1,72 @@
 #!/usr/bin/env python3
-"""Exercise Book Forge's actual Framework action scope and knowledge consumer."""
+"""Exercise Book Forge's v2 knowledge permissions, book_id schema containment, and workspace isolation."""
 from __future__ import annotations
 
-import hashlib
+import importlib.util
 import json
-import os
 from pathlib import Path
-import subprocess
 import tempfile
 
-from stage_topology_cases.hosted_runtime_and_schema import framework_loader_module, framework_node_command
+from stage_topology_cases.hosted_runtime_and_schema import ContractShapeError, _validate_node
 
 
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
-    loader = framework_loader_module(repo)
-    framework = loader.parents[3]
-    tree, suffix = loader.parents[2].name, loader.suffix
+    manifest = json.loads((repo / "opl-package.json").read_text(encoding="utf-8"))
+    catalog = json.loads((repo / "contracts/action_catalog.json").read_text(encoding="utf-8"))
 
-    def module(ref: str) -> str:
-        return json.dumps((framework / tree / f"{ref}{suffix}").as_uri())
+    # Verify v2 manifest declares personal/topic/project read-only knowledge scopes.
+    scopes = {item["scope"]: item["access"] for item in manifest["permissions"]["knowledge"]}
+    assert scopes == {
+        "personal_profile": "read",
+        "long_term_topic": "read",
+        "project_local": "read",
+    }, scopes
+
+    # Verify input schemas reject missing/traversing book_id values.
+    checks = 0
+    for action in catalog["actions"]:
+        schema = json.loads((repo / action["input_schema_ref"]).read_text(encoding="utf-8"))
+        for bad in ({"workspace_root": "/tmp/ws"}, {"workspace_root": "/tmp/ws", "book_id": "../book-a"}):
+            try:
+                _validate_node(schema, schema, bad, action["action_id"])
+            except ContractShapeError:
+                checks += 1
+            else:
+                raise AssertionError(f"Expected validation rejection for {bad}")
+        _validate_node(schema, schema, {"workspace_root": "/tmp/ws", "book_id": "book-a"}, action["action_id"])
+        checks += 1
+
+    # Verify runtime contribution reader enforces strict book containment across books.
+    spec = importlib.util.spec_from_file_location("book_review", repo / "runtime/native_helpers/bookforge_app_review.py")
+    assert spec and spec.loader
+    review = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(review)
 
     with tempfile.TemporaryDirectory(prefix="obf-book-knowledge-") as directory:
-        temporary = Path(directory).resolve()
-        state = temporary / "state"
-        workspace = temporary / "workspace"
-        state.mkdir()
-        project_a, project_b = workspace / "projects/book-a", workspace / "projects/book-b"
-        project_a.mkdir(parents=True)
-        project_b.mkdir(parents=True)
-        (workspace / "workspace_index.json").write_text(json.dumps({
+        ws = Path(directory).resolve()
+        (ws / "projects/book-a").mkdir(parents=True)
+        (ws / "projects/book-b").mkdir(parents=True)
+        (ws / "workspace_index.json").write_text(json.dumps({
             "projects": [
                 {"project_id": "book-a", "project_root": "projects/book-a"},
                 {"project_id": "book-b", "project_root": "projects/book-b"},
-            ],
-        }))
-        (state / "workspace-registry.json").write_text(json.dumps({
-            "version": "g2",
-            "bindings": [{
-                "binding_id": "bookforge-knowledge-fixture",
-                "project_scope_id": "project:bookforge-knowledge-fixture",
-                "project_id": "opl-bookforge",
-                "project": "OPL Book Forge",
-                "workspace_path": str(workspace),
-                "label": None,
-                "status": "active",
-                "direct_entry": {},
-                "created_at": "2026-11-09T00:00:00Z",
-                "updated_at": "2026-11-09T00:00:00Z",
-                "archived_at": None,
-            }],
-        }))
-        source = temporary / "user-knowledge"
-        source.mkdir()
-        bindings_dir = workspace / "shared/memory"
-        bindings_dir.mkdir(parents=True)
-        items = []
-        for kind, scope_id in [("owner", "author"), ("topic", "editing"),
-                               ("project", "book-a"), ("project", "book-b")]:
-            knowledge_id = f"bookforge-fixture.{scope_id}"
-            body = f"# {scope_id}\nCanonical {kind} knowledge for {scope_id}.\n"
-            ref = f"{scope_id}.md"
-            (source / ref).write_text(body)
-            items.append({
-                "surface_kind": "opl_durable_knowledge_item",
-                "version": "durable-knowledge-item.v2",
-                "knowledge_id": knowledge_id,
-                "title": scope_id,
-                "scope": {"kind": kind, "id": scope_id},
-                "content_kind": "policy",
-                "requirement": "required",
-                "owner": "fixture-author",
-                "body_ref": {"kind": "source_path", "source_id": "author.notes", "ref": ref,
-                             "sha256": "sha256:" + hashlib.sha256(body.encode()).hexdigest()},
-                "applicability": {"domains": ["opl-bookforge"],
-                                  "stages": ["storyline-architecture", "chapter-production-planning"]},
-                "status": "active",
-                "reviewed_at": "2026-11-09T00:00:00Z",
-                "next_review_at": "2099-01-01T00:00:00Z",
-                "authority_boundary": {"semantic_body_owner": "fixture-author",
-                                       "opl_role": "catalog_recall_and_receipt_projection_only"},
-            })
-        registry_path = bindings_dir / "knowledge-sources.json"
-        scope_ids = [item["scope"]["id"] for item in items]
-        registry_path.write_text(json.dumps({
-            "surface_kind": "opl_knowledge_source_registry", "version": "knowledge-source-registry.v2",
-            "registry_id": "fixture-author.sources", "owner": "fixture-author",
-            "sources": [{"source_id": "author.notes", "root": str(source), "status": "active",
-                         "writable": False, "grants": [{"workspace_root": str(workspace),
-                            "domains": ["opl-bookforge"], "scope_ids": scope_ids}]}],
-            "items": items,
-        }))
-        (bindings_dir / "knowledge-bindings.json").write_text(json.dumps({
-            "surface_kind": "opl_knowledge_source_bindings", "version": "knowledge-source-bindings.v2",
-            "registries": [{"registry_ref": str(registry_path), "source_ids": ["author.notes"],
-                            "scope_ids": scope_ids}],
-            "required_knowledge_ids": [],
-        }))
-        script = f"""
-import assert from 'node:assert/strict';
-import {{ resolveActionExecutionScope }} from {module('adapters/execution/standard-agent-action-runtime/action-context')};
-import {{ readHostedAgentRuntimeActionContracts }} from {module('adapters/execution/hosted-agent-runtime-binding')};
-import {{ assertRepoJsonSchemaPayload }} from {module('kernel/repo-json-schema')};
-import {{ bindDurableKnowledgeContext, resolveKnowledgeSourceItem }} from {module('authority/packages/durable-knowledge-catalog')};
-const repo = {json.dumps(str(repo))};
-const workspace = {json.dumps(str(workspace))};
-const {{ catalog }} = readHostedAgentRuntimeActionContracts(repo, ['opl-bookforge']);
-let checks = 0;
-let knowledgeChecks = 0;
-for (const action of catalog.actions) {{
-  const validate = (payload) => assertRepoJsonSchemaPayload({{
-    repoRoot: repo, schemaRef: action.input_schema_ref, payload, label: action.action_id,
-  }});
-  assert.throws(() => validate({{workspace_root: workspace}}));
-  assert.throws(() => validate({{workspace_root: workspace, book_id: '../book-a'}}));
-  validate({{workspace_root: workspace, book_id: 'book-a'}});
-  const resolve = (payload) => resolveActionExecutionScope({{
-    action, payload, workspaceRoot: workspace, checkoutRoot: repo,
-    runtimeDomainId: 'opl-bookforge', acceptedProjectIds: ['opl-bookforge'],
-  }});
-  assert.throws(() => resolve({{workspace_root: workspace}}));
-  assert.throws(() => resolve({{workspace_root: workspace, book_id: 'unknown'}}));
-  const a = resolve({{workspace_root: workspace, book_id: 'book-a'}});
-  const b = resolve({{workspace_root: workspace, book_id: 'book-b'}});
-  assert.equal(a.domain_work_item_id, 'book-a');
-  assert.equal(a.canonical_work_item_root, {json.dumps(str(project_a))});
-  assert.equal(b.canonical_work_item_root, {json.dumps(str(project_b))});
-  assert.notEqual(a.work_item_scope_id, b.work_item_scope_id);
-  checks += 9;
-  const context = (projectRoot) => bindDurableKnowledgeContext({{
-    repoDir: repo, domainPackRoot: repo, workspaceRoot: workspace, projectRoot,
-    domainId: 'opl-bookforge', stageId: action.stage_route.entry_stage_ref,
-    now: new Date('2026-11-09T12:00:00Z'),
-  }});
-  for (const [scope, expected, other] of [[a, 'book-a', 'book-b'], [b, 'book-b', 'book-a']]) {{
-    const result = context(scope.canonical_work_item_root);
-    const privateBodies = result.bodies.filter((body) => body.scope.kind !== 'product');
-    assert.deepEqual(privateBodies.map((body) => body.scope.id).sort(), ['author', 'editing', expected].sort());
-    assert.equal(privateBodies.find((body) => body.scope.id === expected).content,
-      `# ${{expected}}\nCanonical project knowledge for ${{expected}}.\n`);
-    assert.equal(result.receipt.quality_debt.length, 0);
-    assert.throws(() => resolveKnowledgeSourceItem({{
-      workspaceRoot: workspace, projectRoot: scope.canonical_work_item_root,
-      domainId: 'opl-bookforge', knowledgeId: `bookforge-fixture.${{other}}`,
-    }}), /knowledge_source_unavailable/);
-    knowledgeChecks += 4;
-  }}
-  assert.deepEqual(context(null).bodies.filter((body) => body.scope.kind !== 'product')
-    .map((body) => body.scope.id).sort(), ['author', 'editing']);
-  knowledgeChecks += 1;
-}}
-console.log(JSON.stringify({{status: 'passed', action_scope_checks: checks, knowledge_isolation_checks: knowledgeChecks}}));
-"""
-        completed = subprocess.run(
-            framework_node_command(loader, script),
-            cwd=repo,
-            env={**os.environ, "OPL_STATE_DIR": str(state)},
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        assert completed.returncode == 0, {"stdout": completed.stdout, "stderr": completed.stderr}
-        print(completed.stdout.strip())
+            ]
+        }), encoding="utf-8")
+        (ws / "projects/book-a/a.md").write_text("# Book A\n", encoding="utf-8")
+        (ws / "projects/book-b/b.md").write_text("# Book B\n", encoding="utf-8")
+
+        ready = review.read_review({"book_id": "book-a", "artifact_path": "projects/book-a/a.md"}, str(ws))
+        assert ready["state"] == "ready"
+        try:
+            review.read_review({"book_id": "book-a", "artifact_path": "projects/book-b/b.md"}, str(ws))
+        except ValueError as err:
+            assert "selected book" in str(err)
+        else:
+            raise AssertionError("Cross-book manuscript read was not rejected")
+        checks += 2
+
+    print(json.dumps({"status": "passed", "action_scope_checks": checks}))
     return 0
 
 

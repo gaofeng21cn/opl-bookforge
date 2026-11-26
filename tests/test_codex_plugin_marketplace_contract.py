@@ -1,187 +1,83 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from copy import deepcopy
 import json
 from pathlib import Path
-import subprocess
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-
-GITIGNORED_CARRIER_MIRROR_PATHS = (
-    "plugins/opl-bookforge/agent",
-    "plugins/opl-bookforge/contracts",
-    "plugins/opl-bookforge/docs",
-    "plugins/opl-bookforge/runtime",
-    "plugins/opl-bookforge/assets/branding",
-    "plugins/opl-bookforge/app-contribution-adapter.json",
-)
-
-CONFIGURED_CODEX_PLUGIN_CARRIER = {
-    "kind": "codex_plugin_manager",
-    "plugin_selector": "opl-bookforge@opl-bookforge-local",
-    "executor_route": "codex_cli",
-    "marketplace_source": "gaofeng21cn/opl-bookforge",
-    "publication_ref": (
-        "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
-    ),
-}
 
 
 def load_json(ref: str) -> dict:
     return json.loads((REPO_ROOT / ref).read_text(encoding="utf-8"))
 
 
-def assert_configured_carrier_projection(
-    package_manifest: dict, carrier_manifest: dict
-) -> None:
-    owner_carrier = package_manifest["codex_surface"].get(
-        "configured_codex_plugin_carrier"
-    )
-    projected_carrier = carrier_manifest["codex_surface"].get(
-        "configured_codex_plugin_carrier"
-    )
-    assert owner_carrier == CONFIGURED_CODEX_PLUGIN_CARRIER
-    assert projected_carrier == owner_carrier
-
-
-def assert_carrier_guard_rejects(
-    package_manifest: dict, carrier_manifest: dict, label: str
-) -> None:
-    try:
-        assert_configured_carrier_projection(package_manifest, carrier_manifest)
-    except AssertionError:
-        return
-    raise AssertionError(f"configured carrier guard accepted {label}")
-
-
 def main() -> int:
-    marketplace = load_json(".agents/plugins/marketplace.json")
-    plugin_manifest = load_json("plugins/opl-bookforge/.codex-plugin/plugin.json")
-    portable_plugin_manifest = load_json("plugins/opl-bookforge/plugin.json")
-    package_manifest = load_json("contracts/opl_agent_package_manifest.json")
-    carrier_manifest = load_json("plugins/opl-bookforge/opl-package.json")
+    manifest = load_json("opl-package.json")
+    package_json = load_json("package.json")
 
-    assert marketplace["name"] == "opl-bookforge-local"
-    assert marketplace["interface"]["displayName"] == "OPL Book Forge"
-    assert marketplace["plugins"] == [
-        {
-            "name": "opl-bookforge",
-            "source": {
-                "source": "local",
-                "path": "./plugins/opl-bookforge",
-            },
-            "policy": {
-                "installation": "AVAILABLE",
-                "authentication": "ON_INSTALL",
-            },
-            "category": "Writing",
-        }
+    # Zero legacy v1 mirrors must exist in the repository.
+    for forbidden in (
+        "plugins",
+        ".codex-plugin",
+        ".agents/plugins/marketplace.json",
+        "contracts/carrier_projection.json",
+        "contracts/opl_agent_package_manifest.json",
+        "app-contribution-adapter.json",
+        "scripts/project-carrier.py",
+        "src/opl_framework",
+    ):
+        assert not (REPO_ROOT / forbidden).exists(), f"Legacy v1 artifact still exists: {forbidden}"
+
+    assert manifest["schema_version"] == "opl.package.v2"
+    identity = manifest["identity"]
+    assert identity["id"] == "obf"
+    assert identity["version"] == package_json["version"]
+    assert identity["intent"] == "agent"
+    assert identity["publisher"] == "one-person-lab"
+    assert (REPO_ROOT / identity["icon"]).is_file()
+
+    assert manifest["dependencies"]["opl_base"] == "^2.0.0"
+    assert any(rt["name"] == "python" for rt in manifest["dependencies"]["runtimes"])
+    assert manifest["permissions"]["workspace"]["access"] == "read_write"
+
+    provides = manifest["provides"]
+    assert provides["agent"]["stages_ref"] == "agent/stages/manifest.json"
+    assert (REPO_ROOT / provides["agent"]["stages_ref"]).is_file()
+    assert provides["skills"] == [
+        {"id": "opl-bookforge", "path": "./skills/opl-bookforge", "exposure": "default"}
     ]
+    skill_path = REPO_ROOT / "skills/opl-bookforge/SKILL.md"
+    assert skill_path.is_file()
+    assert skill_path.read_text(encoding="utf-8") == (REPO_ROOT / "agent/primary_skill/SKILL.md").read_text(encoding="utf-8")
 
-    plugin = marketplace["plugins"][0]
-    source_path = REPO_ROOT / plugin["source"]["path"]
-    assert source_path.is_dir()
-    assert plugin["name"] == plugin_manifest["name"] == "opl-bookforge"
-    assert portable_plugin_manifest["$schema"] == (
-        "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
-    )
-    assert portable_plugin_manifest["name"] == plugin_manifest["name"]
-    assert portable_plugin_manifest["version"] == plugin_manifest["version"]
-    assert portable_plugin_manifest["extensions"]["com.openai"]["interface"] == (
-        plugin_manifest["interface"]
-    )
-    assert "skills" not in portable_plugin_manifest
-    assert not (source_path / "mcp.json").exists()
-    assert CONFIGURED_CODEX_PLUGIN_CARRIER["plugin_selector"] == (
-        f"{plugin['name']}@{marketplace['name']}"
-    )
-    assert plugin["category"] == plugin_manifest["interface"]["category"]
-    assert package_manifest["agent_id"] == package_manifest["package_id"] == "obf"
-    assert package_manifest["domain_descriptor_ref"] == "contracts/domain_descriptor.json"
-    assert package_manifest["codex_surface"]["plugin_id"] == plugin["name"]
-    assert_configured_carrier_projection(package_manifest, carrier_manifest)
-    adapter = load_json("app-contribution-adapter.json")
-    carrier_adapter_path = REPO_ROOT / "plugins/opl-bookforge/app-contribution-adapter.json"
-    if carrier_adapter_path.is_file():
-        assert adapter == load_json("plugins/opl-bookforge/app-contribution-adapter.json")
-    tracked_mirrors = subprocess.check_output(
-        ["git", "-C", str(REPO_ROOT), "ls-files", "--", *GITIGNORED_CARRIER_MIRROR_PATHS],
-        text=True,
-    ).splitlines()
-    assert not tracked_mirrors, f"carrier mirror files must stay gitignored: {tracked_mirrors[:5]}"
-    assert package_manifest["app_contributions"] == carrier_manifest["app_contributions"]
-    assert package_manifest["codex_surface"]["app_contribution_abi"] == (
-        carrier_manifest["codex_surface"]["app_contribution_abi"]
-    )
-    assert package_manifest["codex_surface"]["app_contribution_adapter"] == (
-        carrier_manifest["codex_surface"]["app_contribution_adapter"]
-    )
-    assert not adapter["actions"]
-    assert carrier_manifest == {
-        "surface_kind": package_manifest["surface_kind"],
-        "agent_id": package_manifest["agent_id"],
-        "package_id": package_manifest["package_id"],
-        "display_name": package_manifest["display_name"],
-        "presentation": package_manifest["presentation"],
-        "publisher": package_manifest["publisher"],
-        "version": package_manifest["version"],
-        "domain_descriptor_ref": package_manifest["domain_descriptor_ref"],
-        "source": package_manifest["source"],
-        "carrier_source_role": package_manifest["carrier_source_role"],
-        "entrypoints": [],
-        "codex_surface": {
-            "plugin_id": package_manifest["codex_surface"]["plugin_id"],
-            "plugin_source_path": ".",
-            "configured_codex_plugin_carrier": CONFIGURED_CODEX_PLUGIN_CARRIER,
-            "required_skill_ids": package_manifest["codex_surface"][
-                "required_skill_ids"
-            ],
-            "app_contribution_abi": package_manifest["codex_surface"][
-                "app_contribution_abi"
-            ],
-            "app_contribution_adapter": package_manifest["codex_surface"][
-                "app_contribution_adapter"
-            ],
-        },
-        "app_contributions": package_manifest["app_contributions"],
-        "capability_dependencies": [],
+    handler = provides["contribution_handler"]
+    assert handler == {
+        "kind": "cli",
+        "argv": ["python3", "runtime/native_helpers/bookforge_contribution_handler.py"],
+        "transport": "stdin_json_stdout_json",
     }
-    assert carrier_manifest["version"] == plugin_manifest["version"]
-    assert carrier_manifest["codex_surface"]["plugin_id"] == plugin_manifest["name"]
+    assert (REPO_ROOT / handler["argv"][1]).is_file()
 
-    missing_owner_carrier = deepcopy(package_manifest)
-    missing_owner_carrier["codex_surface"].pop("configured_codex_plugin_carrier")
-    assert_carrier_guard_rejects(
-        missing_owner_carrier, carrier_manifest, "missing owner carrier"
-    )
-
-    missing_projected_carrier = deepcopy(carrier_manifest)
-    missing_projected_carrier["codex_surface"].pop(
-        "configured_codex_plugin_carrier"
-    )
-    assert_carrier_guard_rejects(
-        package_manifest, missing_projected_carrier, "missing projected carrier"
-    )
-
-    mismatched_projected_carrier = deepcopy(carrier_manifest)
-    mismatched_projected_carrier["codex_surface"][
-        "configured_codex_plugin_carrier"
-    ]["publication_ref"] = (
-        "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:0.3.7"
-    )
-    assert_carrier_guard_rejects(
-        package_manifest, mismatched_projected_carrier, "mismatched carrier"
-    )
+    views = manifest["ui"]["declarative"]["views"]
+    assert [view["data_ref"] for view in views] == [
+        "obf.workspace.v1#status",
+        "obf.workspace.v1#artifacts",
+        "obf.workspace.v1#review",
+    ]
+    assert manifest["distribution"]["oci"] == "ghcr.io/gaofeng21cn/one-person-lab-packages/obf"
+    codex_hint = manifest["host_hints"]["codex"]
+    assert codex_hint["sync_enabled"] is True
+    assert codex_hint["plugin_name"] == "opl-bookforge"
+    assert codex_hint["category"] == "Writing"
 
     print(
         json.dumps(
             {
                 "status": "passed",
-                "marketplace": marketplace["name"],
-                "plugin_id": plugin["name"],
-                "package_id": package_manifest["package_id"],
+                "schema_version": manifest["schema_version"],
+                "plugin_name": codex_hint["plugin_name"],
+                "package_id": identity["id"],
             }
         )
     )

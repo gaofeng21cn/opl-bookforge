@@ -16,9 +16,10 @@ declarations. Existing project Profiles remain authoritative; undeclared outputs
 inventory coverage without a publication or quality verdict.
 
 The Mini App uses the Framework shared progress and artifact views for the
-selected registered workspace and exact book task. Its declarative
-`app-contribution-adapter.json` selects `runtime_context` rather than asking for
-status or manifest filenames. `workspace_index.json#/projects` supplies book
+selected registered workspace and exact book task. Its `opl.package.v2`
+manifest (`opl-package.json`) declares `provides.contribution_handler`
+(`runtime/native_helpers/bookforge_contribution_handler.py`) rather than asking
+for status or manifest filenames. `workspace_index.json#/projects` supplies book
 identity and project roots through the standard inventory projection. When more
 than one book is available, the user selects the book explicitly; no newest-file
 or newest-project heuristic defines current work.
@@ -45,8 +46,8 @@ interaction model is defined in the Framework
 
 OPL Framework owns generated interfaces, generic runtime transport, queues, attempt ledgers, refs-only lifecycle projection, registry/discovery, and conformance readback. OMA owns Agent-engineering semantics and Foundry owns evaluation execution; the desktop App owns its product workbench. The decisive Codex Attempt selects semantic stage routes; the Framework StageRun controller validates and materializes those transitions without choosing editorial routes.
 
-The publication helper uses Framework's `publication_package.sha256_file` for
-exact file digests, alongside its existing artifact inspection and JSON I/O
+The publication helper uses `opl_client.helpers.sha256_file` for exact file
+digests, alongside its repo-local stdlib artifact inspection and JSON I/O
 helpers. Book Forge retains the publication manifest and quality verdict.
 
 ## Knowledge Ownership And Continuity
@@ -120,7 +121,7 @@ The publication namespace is a locator, not a second owner. Published bytes and
 complete carrier currentness require actual receipts; [Status](./status.md)
 records the source/evidence boundary.
 
-The native carrier is materialized on demand via `python3 scripts/project-carrier.py` (which delegates to `opl pack project-carrier` per `contracts/carrier_projection.json`) and verified with `--check`. Only the thin plugin carrier metadata (`plugin.json`, `.codex-plugin/plugin.json`, `opl-package.json`, `assets/icon.svg`, and `skills/opl-bookforge/SKILL.md`) is committed under `plugins/opl-bookforge/`; projected `agent/`, `contracts/`, `runtime/`, `docs/`, `assets/branding/`, and `app-contribution-adapter.json` mirror copies are gitignored build/packaging outputs rather than checked-in duplicates. Historical pilot artifacts remain repository evidence rather than executable package dependencies.
+Codex carrier projection is handled at install/link time by OPL Pack's `carriers/codex-sync` zero-copy symlink projection from the single root `opl-package.json` (`opl.package.v2`) and `skills/opl-bookforge/SKILL.md`, with no checked-in `plugins/opl-bookforge/` source mirror or `.codex-plugin/plugin.json` duplicate. Historical pilot artifacts remain repository evidence rather than executable package dependencies.
 
 ## Implementation And Reference Boundary
 
@@ -154,7 +155,7 @@ The stage split follows the OMA-derived sizing rule: one top-level stage should 
 
 ## Prompt / Professional Skill / Tool Split
 
-The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is the standard default Codex entry for OPL Book Forge: it carries the book-level operating contract, routes to stage prompts and professional skills, and keeps the authority boundary visible to Codex users. `plugins/opl-bookforge/skills/opl-bookforge/SKILL.md` is the materialized Codex plugin carrier full copy; the carrier is transport, not the Book Forge truth owner.
+The repo-owned rich primary skill lives at `agent/primary_skill/SKILL.md`. It is the standard default Codex entry for OPL Book Forge: it carries the book-level operating contract, routes to stage prompts and professional skills, and keeps the authority boundary visible to Codex users. `skills/opl-bookforge/SKILL.md` is the v2 package skill entrypoint projected to Codex via `carriers/codex-sync` zero-copy symlinks; the carrier is transport, not the Book Forge truth owner.
 
 Stage prompts define the goal, required refs, accepted handoff shape, and claim boundary for `storyline-architecture`, `chapter-production-planning`, `chapter-materialization`, `source-style-integrity-review`, and `publication-proof-handoff`.
 

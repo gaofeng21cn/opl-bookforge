@@ -1,152 +1,186 @@
 {
-  "surface_kind": "opl_agent_package_manifest.v1",
-  "agent_id": "obf",
-  "package_id": "obf",
-  "display_name": "OPL Book Forge",
-  "presentation": {
-    "display_name_i18n": {
+  "schema_version": "opl.package.v2",
+  "identity": {
+    "id": "obf",
+    "version": "0.4.3",
+    "intent": "agent",
+    "name": {
       "zh-CN": "OPL Book Forge",
       "en-US": "OPL Book Forge"
     },
-    "description_i18n": {
+    "summary": {
       "zh-CN": "长篇书稿规划、写作、修订与出版交付。",
       "en-US": "Long-form book planning, writing, revision, and publication delivery."
     },
-    "session_routing_summary_i18n": {
+    "description": {
+      "zh-CN": "OPL Book Forge 领域智能体包，持有书稿真值、质量与出版定论及所有权门控交付边界。",
+      "en-US": "OPL Book Forge domain agent package preserving manuscript truth, quality/export verdicts, and owner-gated publication authority."
+    },
+    "publisher": "one-person-lab",
+    "license": "Apache-2.0",
+    "icon": "assets/branding/opl-bookforge-logo.png",
+    "repository": "https://github.com/gaofeng21cn/opl-bookforge",
+    "homepage": "https://github.com/gaofeng21cn/opl-bookforge",
+    "keywords": [
+      "opl",
+      "bookforge",
+      "codex",
+      "book-authoring"
+    ],
+    "routing_summary": {
+      "zh-CN": "规划书稿主线、读者承诺、论证弧线、来源映射、章节论点链、文风与编辑约束。",
       "en-US": "Shape the book storyline, audience promise, argument arc, source map, chapter thesis chain, tone, and editorial constraints."
     },
+    "default_prompts": [
+      "Use OPL Book Forge to shape a book storyline, chapter package, manuscript, proof, or export handoff.",
+      "Use OPL Book Forge to inspect owner-gated book delivery evidence."
+    ],
     "home_shortcuts": [
       {
-        "shortcut_id": "shape-storyline",
-        "label_i18n": {
+        "id": "shape-storyline",
+        "label": {
           "zh-CN": "规划书稿结构",
           "en-US": "Shape Storyline"
         },
         "default_visible": true,
-        "user_configurable": true,
-        "route": {
-          "route_kind": "agent_package_shortcut",
-          "executor": "codex_cli",
-          "codex_visible_entry": "opl-bookforge"
+        "target": {
+          "kind": "agent",
+          "ref": "obf"
         }
-      }
-    ],
-    "icon_ref": "assets/branding/opl-bookforge-logo.png"
-  },
-  "publisher": "one-person-lab",
-  "version": "0.4.3",
-  "domain_descriptor_ref": "contracts/domain_descriptor.json",
-  "source": "first_party_repo_local",
-  "carrier_source_role": "codex_plugin_default_carrier_not_package_truth",
-  "schema_ref": "one-person-lab/contracts/opl-framework/agent-package-manifest.schema.json",
-  "machine_boundary": "This repo-local sidecar declares OPL Agent Package identity and carrier locators. OPL release authority generates published artifact refs, digests, channels, and receipts and projects the Codex carrier from contracts; this repo keeps book-domain truth and owner authority.",
-  "codex_surface": {
-    "plugin_id": "opl-bookforge",
-    "plugin_source_path": ".",
-    "configured_codex_plugin_carrier": {
-      "kind": "codex_plugin_manager",
-      "plugin_selector": "opl-bookforge@opl-bookforge-local",
-      "executor_route": "codex_cli",
-      "marketplace_source": "gaofeng21cn/opl-bookforge",
-      "publication_ref": "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
-    },
-    "required_skill_ids": [
-      "opl-bookforge"
-    ],
-    "app_contribution_abi": {
-      "schema_version": "opl-package-app-contribution-cli.v1",
-      "transport": "stdin_json_stdout_json",
-      "argv": [
-        "opl",
-        "app",
-        "contribution",
-        "adapter",
-        "--stdin"
-      ],
-      "request_schema": "opl-package-app-contribution-request.v1",
-      "response_schema": "opl-package-app-contribution-response.v1"
-    },
-    "app_contribution_adapter": {
-      "manifest": "app-contribution-adapter.json"
-    }
-  },
-  "app_contributions": {
-    "schema_version": "opl-app-contributions.v1",
-    "views": [
-      {
-        "view_id": "obf.workspace.status",
-        "view_type": "task_board",
-        "title_i18n": {
-          "zh-CN": "书稿工作区状态",
-          "en-US": "Book workspace status"
-        },
-        "data_ref": "obf.workspace.v1#status",
-        "command_ids": [],
-        "empty_state_i18n": {
-          "zh-CN": "选择当前书稿任务以查看进度与产物",
-          "en-US": "Select the current book task to inspect progress and artifacts"
-        }
-      },
-      {
-        "view_id": "obf.workspace.artifacts",
-        "view_type": "artifact_view",
-        "title_i18n": {
-          "zh-CN": "书稿阶段产物",
-          "en-US": "Book stage artifacts"
-        },
-        "data_ref": "obf.workspace.v1#artifacts",
-        "command_ids": [],
-        "empty_state_i18n": {
-          "zh-CN": "选择当前书稿任务以查看进度与产物",
-          "en-US": "Select the current book task to inspect progress and artifacts"
-        }
-      },
-      {
-        "view_id": "obf.workspace.review",
-        "view_type": "approval_diff",
-        "title_i18n": {
-          "zh-CN": "书稿与章节审阅",
-          "en-US": "Manuscript and chapter review"
-        },
-        "data_ref": "obf.workspace.v1#review",
-        "command_ids": [],
-        "empty_state_i18n": {
-          "zh-CN": "选择同一书稿的当前候选与比较基线",
-          "en-US": "Select the current manuscript and an optional baseline in the same book"
-        }
-      }
-    ],
-    "commands": [],
-    "badges": [],
-    "ui": [
-      {
-        "contribution_id": "obf.workspace.status",
-        "slot": "runtime.detail",
-        "contribution_kind": "view",
-        "trust_tier": "declarative",
-        "scope": "work_item",
-        "sort_order": 510,
-        "view_id": "obf.workspace.status"
-      },
-      {
-        "contribution_id": "obf.workspace.artifacts",
-        "slot": "runtime.detail",
-        "contribution_kind": "view",
-        "trust_tier": "declarative",
-        "scope": "work_item",
-        "sort_order": 511,
-        "view_id": "obf.workspace.artifacts"
-      },
-      {
-        "contribution_id": "obf.workspace.review",
-        "slot": "runtime.detail",
-        "contribution_kind": "view",
-        "trust_tier": "declarative",
-        "scope": "work_item",
-        "sort_order": 512,
-        "view_id": "obf.workspace.review"
       }
     ]
   },
-  "capability_dependencies": []
+  "dependencies": {
+    "opl_base": "^2.0.0",
+    "runtimes": [
+      {
+        "name": "python",
+        "version": ">=3.12"
+      }
+    ]
+  },
+  "permissions": {
+    "workspace": {
+      "access": "read_write",
+      "reason": {
+        "zh-CN": "读取书稿素材并写入章节草稿、图表清单元数据与审阅交付物",
+        "en-US": "Read book sources and write chapter manuscripts, figure manifests, and review deliverables"
+      }
+    },
+    "knowledge": [
+      {
+        "scope": "personal_profile",
+        "access": "read",
+        "required": false,
+        "reason": {
+          "zh-CN": "按需读取作者写作偏好与书稿风格约束",
+          "en-US": "Read author writing preferences and style constraints on demand"
+        }
+      },
+      {
+        "scope": "long_term_topic",
+        "access": "read",
+        "required": false,
+        "reason": {
+          "zh-CN": "按需引用跨书复用的写作主题经验与出版规范",
+          "en-US": "Reference reusable topic experience and publication standards on demand"
+        }
+      },
+      {
+        "scope": "project_local",
+        "access": "read",
+        "required": false,
+        "reason": {
+          "zh-CN": "读取当前书稿项目的读者风格契约与已采纳决策",
+          "en-US": "Read the selected book project's style contract and accepted decisions"
+        }
+      }
+    ],
+    "network": "outbound_api",
+    "execution_mode": "local_subprocess"
+  },
+  "provides": {
+    "agent": {
+      "stages_ref": "agent/stages/manifest.json"
+    },
+    "skills": [
+      {
+        "id": "opl-bookforge",
+        "path": "./skills/opl-bookforge",
+        "exposure": "default"
+      }
+    ],
+    "contribution_handler": {
+      "kind": "cli",
+      "argv": [
+        "python3",
+        "runtime/native_helpers/bookforge_contribution_handler.py"
+      ],
+      "transport": "stdin_json_stdout_json"
+    }
+  },
+  "ui": {
+    "declarative": {
+      "views": [
+        {
+          "id": "obf.workspace.status",
+          "view_type": "list_detail",
+          "slot": "runtime.detail",
+          "title": {
+            "zh-CN": "书稿工作区状态",
+            "en-US": "Book workspace status"
+          },
+          "data_ref": "obf.workspace.v1#status",
+          "empty_state": {
+            "zh-CN": "选择当前书稿任务以查看进度与产物",
+            "en-US": "Select the current book task to inspect progress and artifacts"
+          }
+        },
+        {
+          "id": "obf.workspace.artifacts",
+          "view_type": "list_detail",
+          "slot": "runtime.detail",
+          "title": {
+            "zh-CN": "书稿阶段产物",
+            "en-US": "Book stage artifacts"
+          },
+          "data_ref": "obf.workspace.v1#artifacts",
+          "empty_state": {
+            "zh-CN": "选择当前书稿任务以查看进度与产物",
+            "en-US": "Select the current book task to inspect progress and artifacts"
+          }
+        },
+        {
+          "id": "obf.workspace.review",
+          "view_type": "approval_diff",
+          "slot": "runtime.detail",
+          "title": {
+            "zh-CN": "书稿与章节审阅",
+            "en-US": "Manuscript and chapter review"
+          },
+          "data_ref": "obf.workspace.v1#review",
+          "empty_state": {
+            "zh-CN": "选择同一书稿的当前候选与比较基线",
+            "en-US": "Select the current manuscript and an optional baseline in the same book"
+          }
+        }
+      ]
+    }
+  },
+  "distribution": {
+    "oci": "ghcr.io/gaofeng21cn/one-person-lab-packages/obf",
+    "visibility": "public"
+  },
+  "host_hints": {
+    "codex": {
+      "sync_enabled": true,
+      "plugin_name": "opl-bookforge",
+      "category": "Writing",
+      "brand_color": "#6B5A3A",
+      "capabilities": [
+        "Interactive",
+        "Write"
+      ]
+    }
+  }
 }

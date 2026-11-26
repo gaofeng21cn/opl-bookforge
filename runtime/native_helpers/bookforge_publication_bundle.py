@@ -242,34 +242,22 @@ def keep_docx_table_rows(path: Path) -> None:
         for info, data in entries:
             archive.writestr(info, updated if info.filename == "word/document.xml" else data)
 
-try:
-    from bookforge_pdf_export import compile_pdf, parse_args as parse_pdf_args
-    from bookforge_pdf_export import write_manifest as write_pdf_manifest
-except ModuleNotFoundError as exc:
-    if exc.name != "opl_framework":
-        raise
-    framework_root = os.environ.get("OPL_FRAMEWORK_ROOT")
-    if not framework_root:
-        opl_path = shutil.which("opl")
-        if opl_path:
-            framework_root = str(Path(opl_path).resolve().parent.parent)
-    framework_python = Path(framework_root) / "python" if framework_root else None
-    if not framework_python or not framework_python.is_dir():
-        raise ModuleNotFoundError(
-            "opl_framework is unavailable; set OPL_FRAMEWORK_ROOT to the OPL Framework checkout"
-        ) from exc
-    sys.path.insert(0, str(framework_python))
-    from bookforge_pdf_export import compile_pdf, parse_args as parse_pdf_args
-    from bookforge_pdf_export import write_manifest as write_pdf_manifest
+HELPER_DIR = Path(__file__).resolve().parent
+if str(HELPER_DIR) not in sys.path:
+    sys.path.insert(0, str(HELPER_DIR))
 
-
-from opl_framework.artifact_inspection import (
+from _opl_artifact_helpers import (
+    ensure_opl_client,
     extract_pdf_text,
     prepare_macos_fontconfig,
     render_pdf_pages as fw_render_pdf_pages,
+    write_json_object_atomic,
 )
-from opl_framework.json_io import write_json_object_atomic
-from opl_framework.publication_package import sha256_file
+from bookforge_pdf_export import compile_pdf, parse_args as parse_pdf_args
+from bookforge_pdf_export import write_manifest as write_pdf_manifest
+
+ensure_opl_client()
+from opl_client.helpers import sha256_file
 
 VERSION = "bookforge-publication-bundle.v1"
 MIN_SOURCE_COVERAGE = 0.985

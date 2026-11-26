@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
-from opl_framework.artifact_inspection import render_pdf_pages as fw_render_pdf_pages
+from _opl_artifact_helpers import render_pdf_pages as fw_render_pdf_pages
 from pdf_export.artifact_gate import assess_artifact_gate
 from pdf_export.profile_and_assets import (
     as_mapping,

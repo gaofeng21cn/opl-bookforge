@@ -29,9 +29,6 @@ def main() -> int:
     manifest = load_json("contracts/foundry-agent-os-domain-kernel-manifest.json")
     descriptor = load_json("contracts/domain_descriptor.json")
     pack_compiler_input = load_json("contracts/pack_compiler_input.json")
-    package_manifest = load_json("contracts/opl_agent_package_manifest.json")
-    plugin_manifest = load_json("plugins/opl-bookforge/.codex-plugin/plugin.json")
-    portable_plugin_manifest = load_json("plugins/opl-bookforge/plugin.json")
     package_metadata = load_json("package.json")
     root_package_manifest = load_json("opl-package.json")
     temporal_policy = load_json("contracts/temporal_stage_run_consumption_policy.json")
@@ -50,80 +47,32 @@ def main() -> int:
 
     assert pack_compiler_input["canonical_agent_id"] == "obf"
     assert pack_compiler_input["domain_id"] == "opl-bookforge"
-    assert package_manifest["agent_id"] == pack_compiler_input["canonical_agent_id"]
-    assert package_manifest["package_id"] == pack_compiler_input["canonical_agent_id"]
-    assert package_manifest["domain_descriptor_ref"] == "contracts/domain_descriptor.json"
-    assert (REPO_ROOT / package_manifest["domain_descriptor_ref"]).is_file()
-    assert package_manifest["codex_surface"]["plugin_id"] == "opl-bookforge"
-    assert package_manifest["presentation"] == {
-        "icon_ref": "assets/branding/opl-bookforge-logo.png",
-        "display_name_i18n": {
-            "zh-CN": "OPL Book Forge",
-            "en-US": "OPL Book Forge",
-        },
-        "description_i18n": {
-            "zh-CN": "长篇书稿规划、写作、修订与出版交付。",
-            "en-US": "Long-form book planning, writing, revision, and publication delivery.",
-        },
-        "session_routing_summary_i18n": {
-            "en-US": (
-                "Shape the book storyline, audience promise, argument arc, source map, "
-                "chapter thesis chain, tone, and editorial constraints."
-            )
-        },
-        "home_shortcuts": [
-            {
-                "shortcut_id": "shape-storyline",
-                "label_i18n": {
-                    "zh-CN": "规划书稿结构",
-                    "en-US": "Shape Storyline",
-                },
-                "default_visible": True,
-                "user_configurable": True,
-                "route": {
-                    "route_kind": "agent_package_shortcut",
-                    "executor": "codex_cli",
-                    "codex_visible_entry": "opl-bookforge",
-                },
-            }
-        ],
+    assert root_package_manifest["schema_version"] == "opl.package.v2"
+    identity = root_package_manifest["identity"]
+    assert identity["id"] == pack_compiler_input["canonical_agent_id"]
+    assert identity["intent"] == "agent"
+    assert identity["icon"] == "assets/branding/opl-bookforge-logo.png"
+    assert identity["name"] == {"zh-CN": "OPL Book Forge", "en-US": "OPL Book Forge"}
+    assert identity["summary"] == {
+        "zh-CN": "长篇书稿规划、写作、修订与出版交付。",
+        "en-US": "Long-form book planning, writing, revision, and publication delivery.",
     }
-    assert plugin_manifest["name"] == "opl-bookforge"
+    assert identity["home_shortcuts"] == [
+        {
+            "id": "shape-storyline",
+            "label": {"zh-CN": "规划书稿结构", "en-US": "Shape Storyline"},
+            "default_visible": True,
+            "target": {"kind": "agent", "ref": "obf"},
+        }
+    ]
     assert package_metadata["name"] == "opl-bookforge"
-    assert plugin_manifest["version"] == package_metadata["version"]
-    assert portable_plugin_manifest["version"] == package_metadata["version"]
-    assert package_manifest["version"] == package_metadata["version"]
-    assert root_package_manifest["version"] == package_metadata["version"]
-    assert root_package_manifest["package_id"] == package_manifest["package_id"]
-    assert root_package_manifest["domain_descriptor_ref"] == "contracts/domain_descriptor.json"
-    assert root_package_manifest["codex_surface"]["plugin_source_path"] == "."
-    assert root_package_manifest["codex_surface"]["configured_codex_plugin_carrier"] == package_manifest["codex_surface"]["configured_codex_plugin_carrier"]
-    assert package_manifest["codex_surface"][
-        "configured_codex_plugin_carrier"
-    ] == {
-        "kind": "codex_plugin_manager",
-        "plugin_selector": "opl-bookforge@opl-bookforge-local",
-        "executor_route": "codex_cli",
-        "marketplace_source": "gaofeng21cn/opl-bookforge",
-        "publication_ref": (
-            "ghcr.io/gaofeng21cn/one-person-lab-packages/obf:latest-stable"
-        ),
+    assert identity["version"] == package_metadata["version"]
+    assert root_package_manifest["distribution"] == {
+        "oci": "ghcr.io/gaofeng21cn/one-person-lab-packages/obf",
+        "visibility": "public",
     }
+    assert root_package_manifest["host_hints"]["codex"]["plugin_name"] == "opl-bookforge"
     dependency_profile = descriptor["dependency_profiles"][0]
-    package_dependency_profile = package_manifest["dependency_profiles"][0]
-    profile_bytes = json.dumps(
-        dependency_profile,
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
-    assert "dependencies" not in package_dependency_profile
-    assert package_dependency_profile["source_descriptor_ref"] == (
-        "contracts/domain_descriptor.json#/dependency_profiles/0"
-    )
-    assert package_dependency_profile["source_profile_sha256"] == (
-        f"sha256:{hashlib.sha256(profile_bytes).hexdigest()}"
-    )
     dependency_ids = {
         dependency["dependency_id"] for dependency in dependency_profile["dependencies"]
     }
@@ -184,7 +133,6 @@ def main() -> int:
         assert "opl agents check --repo <repo-dir> --json" in capability["verification_refs"]
         assert all("agents scaffold --validate" not in ref for ref in capability["verification_refs"])
     assert all("bridge_exit_gate" not in module for module in functional_audit["modules"])
-    assert "distribution_payload" not in package_manifest
     implementation_profile = pack_compiler_input["implementation_profile"]
     assert implementation_profile == {
         "base_profile_ref": (

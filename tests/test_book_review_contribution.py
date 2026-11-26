@@ -7,10 +7,9 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
-
-from stage_topology_cases.hosted_runtime_and_schema import framework_loader_module, framework_node_command
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('book_review', ROOT / 'runtime/native_helpers/bookforge_app_review.py')
@@ -99,43 +98,49 @@ class BookReviewTest(unittest.TestCase):
             handle.write('tail change')
         self.assertNotEqual(self.read()['data']['items'][0]['revision'], first['revision'])
 
-    def test_shared_adapter_and_carrier_consume_same_owner(self):
-        loader = framework_loader_module(ROOT)
-        framework = loader.parents[3]
-        module = loader.parents[2] / f'read-models/operator/app-contribution-adapter{loader.suffix}'
-        request = {'schema_version': 'opl-package-app-contribution-request.v1', 'operation': 'read',
-                   'ref': 'obf.workspace.v1#review', 'input': self.input}
+    def test_v2_contribution_handler_reads_same_owner(self):
+        manifest = json.loads((ROOT / 'opl-package.json').read_text(encoding='utf-8'))
+        self.assertEqual(manifest['schema_version'], 'opl.package.v2')
+        self.assertIn('obf.workspace.v1#review', [view['data_ref'] for view in manifest['ui']['declarative']['views']])
+        handler = manifest['provides']['contribution_handler']
+        self.assertEqual(handler['kind'], 'cli')
+        self.assertEqual(handler['transport'], 'stdin_json_stdout_json')
+
+        request = {
+            'schema_version': 'opl-package-app-contribution-request.v1',
+            'operation': 'read',
+            'package_id': 'obf',
+            'ref': 'obf.workspace.v1#review',
+            'input': self.input,
+        }
         before = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
-        script = f"""
-import {{ runDeclarativeAppContribution }} from {json.dumps(module.as_uri())};
-const responses = {json.dumps([str(ROOT), str(ROOT / 'plugins/opl-bookforge')])}.map(packageRoot =>
- runDeclarativeAppContribution({{packageRoot, request: {json.dumps(request)}}}));
-console.log(JSON.stringify(responses));
-"""
-        result = subprocess.run(framework_node_command(loader, script), text=True, capture_output=True,
-                                env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)}, check=True)
-        source, carrier = json.loads(result.stdout)
-        for root in (ROOT, ROOT / 'plugins/opl-bookforge'):
-            descriptor = json.loads((root / 'opl-package.json').read_text())
-            self.assertIn('obf.workspace.v1#review', [view['data_ref'] for view in descriptor['app_contributions']['views']])
-        self.assertTrue(source['ok'], source)
-        self.assertEqual(source['result']['state'], 'ready')
-        self.assertEqual(source['result'], carrier['result'])
-        self.assertFalse(source['result']['data']['domain_quality_approved'])
-        renderer = framework / 'src/mcp-app/presentation.js'
-        render_script = (f'import {{ renderOwnerView }} from {json.dumps(renderer.as_uri())};\n'
-                         + f'console.log(renderOwnerView({{view_type: \"approval_diff\"}}, {json.dumps(source["result"]["data"]["items"][0])}));')
-        rendered = subprocess.run(['node', '--input-type=module', '-e', render_script],
-                                  text=True, capture_output=True, check=True).stdout
-        self.assertIn('data-change="removed"', rendered)
-        self.assertIn('data-change="added"', rendered)
-        large_item = {**source['result']['data']['items'][0],
-                      'summary': '正文仅包含各稿前 24000 字符，完整版本请打开原文审阅。'}
-        large_script = (f'import {{ renderOwnerView }} from {json.dumps(renderer.as_uri())};\n'
-                        + f'console.log(renderOwnerView({{view_type: \"approval_diff\"}}, {json.dumps(large_item)}));')
-        visible = subprocess.run(['node', '--input-type=module', '-e', large_script],
-                                 text=True, capture_output=True, check=True).stdout.split('<details')[0]
-        self.assertIn('仅包含各稿前 24000 字符', visible)
+        completed = subprocess.run(
+            [sys.executable, str(ROOT / handler['argv'][1])],
+            input=json.dumps(request),
+            text=True,
+            capture_output=True,
+            env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)},
+            cwd=ROOT,
+            check=True,
+        )
+        result = json.loads(completed.stdout)
+        self.assertEqual(result['state'], 'ready')
+        self.assertFalse(result['data']['domain_quality_approved'])
+        self.assertEqual(result['data']['book_id'], 'book-a')
+
+        status_completed = subprocess.run(
+            [sys.executable, str(ROOT / handler['argv'][1])],
+            input=json.dumps({**request, 'ref': 'obf.workspace.v1#status', 'input': {'book_id': 'book-a'}}),
+            text=True,
+            capture_output=True,
+            env={**os.environ, 'OPL_PROFILE_WORKSPACE': str(self.root)},
+            cwd=ROOT,
+            check=True,
+        )
+        status_result = json.loads(status_completed.stdout)
+        self.assertEqual(status_result['state'], 'ready')
+        self.assertEqual(status_result['data']['items'][0]['id'], 'book-a')
+
         after = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
         self.assertEqual(before, after)
 

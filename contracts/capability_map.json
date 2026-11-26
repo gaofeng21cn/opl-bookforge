@@ -35,19 +35,19 @@
         },
         {
           "ref_kind": "repo_path",
-          "ref": "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md",
-          "role": "codex_plugin_carrier_compat_mirror"
+          "ref": "skills/opl-bookforge/SKILL.md",
+          "role": "v2_package_skill_entrypoint"
         },
         {
           "ref_kind": "contract_ref",
-          "ref": "plugins/opl-bookforge/plugin.json",
-          "role": "plugin_carrier_boundary"
+          "ref": "opl-package.json",
+          "role": "opl_package_v2_manifest"
         }
       ],
       "carrier_projection_contract": {
         "canonical_source": "agent/primary_skill/SKILL.md",
-        "carrier_skill_ref": "plugins/opl-bookforge/skills/opl-bookforge/SKILL.md",
-        "carrier_materialization": "materialized_full_skill_copy",
+        "carrier_skill_ref": "skills/opl-bookforge/SKILL.md",
+        "carrier_materialization": "codex_sync_zero_copy_symlink_projection",
         "codex_install_requires_real_skill_md": true,
         "plugin_skill_must_remain_real_file": true,
         "carrier_role": "transport_install_detail_not_agent_membership_or_status",
@@ -56,8 +56,8 @@
         "carrier_can_claim_agent_membership_or_status": false,
         "carrier_is_domain_truth_source": false
       },
-      "sync_policy": "repo_local_standard_primary_skill_with_plugin_carrier_compat",
-      "externalization_reason": "repo-owned rich primary skill source for the default Codex entry; the repo-local plugin skill is a materialized full-copy Codex carrier without taking Book Forge domain truth or readiness authority",
+      "sync_policy": "repo_local_standard_primary_skill_with_codex_sync_projection",
+      "externalization_reason": "repo-owned rich primary skill source for the default Codex entry; OPL Pack carriers/codex-sync projects the package skill via zero-copy symlink without taking Book Forge domain truth or readiness authority",
       "authority_boundary": {
         "can_write_domain_truth": false,
         "can_write_memory_body": false,

@@ -140,7 +140,7 @@ def assert_read_only_handler_source(source: str) -> None:
             imported_roots.update(alias.name.split(".", 1)[0] for alias in node.names)
         elif isinstance(node, ast.ImportFrom) and node.module:
             imported_roots.add(node.module.split(".", 1)[0])
-            if node.module == "opl_framework.artifact_inspection":
+            if node.module in {"_opl_artifact_helpers", "opl_client.helpers"}:
                 framework_primitives.update(alias.name for alias in node.names)
         elif isinstance(node, ast.Call):
             if isinstance(node.func, ast.Name) and node.func.id in {"__import__", "compile", "eval", "exec"}:
@@ -149,7 +149,7 @@ def assert_read_only_handler_source(source: str) -> None:
                 observed_forbidden_calls.add(node.func.attr)
     assert imported_roots.isdisjoint(forbidden_imports), imported_roots & forbidden_imports
     assert not observed_forbidden_calls, observed_forbidden_calls
-    assert source.count('.open("rb")') == 0, "handler must delegate binary reads to Framework"
+    assert source.count('.open("rb")') == 0, "handler must delegate binary reads to contained reader"
     assert {
         "ContainedFileReadError",
         "read_contained_regular_file",
