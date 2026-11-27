@@ -166,7 +166,7 @@
         "gate": "standard_scaffold_interface",
         "contract_ref": "contracts/domain_descriptor.json",
         "validator_refs": [
-          "opl agents check --repo <repo-dir> --json"
+          "opl pack inspect <repo-dir> --json"
         ],
         "claim_boundary": "scaffold_and_interface_validation_only"
       },
@@ -185,8 +185,7 @@
         "gate": "pdf_proof_helper_plumbing",
         "contract_ref": "runtime/native_helpers/bookforge_pdf_export.py",
         "validator_refs": [
-          "opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json",
-          "scripts/verify.sh"
+          "bash scripts/verify.sh helpers"
         ],
         "claim_boundary": "helper_plumbing_only_not_visual_acceptance"
       },

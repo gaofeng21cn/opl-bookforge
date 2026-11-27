@@ -123,7 +123,7 @@ def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
     assert_ref_fields(
         refs_by_gate["standard_scaffold_interface"]["validator_refs"],
         {
-            "opl agents check --repo <repo-dir> --json",
+            "opl pack inspect <repo-dir> --json",
         },
         "standard scaffold/interface validator refs",
     )
@@ -132,7 +132,7 @@ def assert_functional_closure_gate(payload: dict[str, Any]) -> None:
     assert refs_by_gate["revision_entrypoint_route"]["support_ref"] == "docs/references/opl-base-revision-routing-handoff.md"
     assert refs_by_gate["pdf_proof_helper_plumbing"]["contract_ref"] == "runtime/native_helpers/bookforge_pdf_export.py"
     assert (
-        "opl pack native-helper probe --descriptor runtime/native_helpers/bookforge_pdf_export.native-helper-probe.json --json"
+        "bash scripts/verify.sh helpers"
         in refs_by_gate["pdf_proof_helper_plumbing"]["validator_refs"]
     )
     assert refs_by_gate["artifact_lifecycle_handoff"]["contract_ref"] == "contracts/artifact_lifecycle_handoff.json"

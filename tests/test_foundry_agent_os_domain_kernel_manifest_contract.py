@@ -127,10 +127,10 @@ def main() -> int:
     assert "contracts/functional_privatization_audit.json" in manifest["verification"]["source_contract_refs"]
     assert manifest["verification"]["validator_refs"] == [
         "python3 -m json.tool contracts/foundry-agent-os-domain-kernel-manifest.json",
-        "opl agents check --repo <repo-dir> --json",
+        "opl pack inspect <repo-dir> --json",
     ]
     for capability in capability_map["capabilities"]:
-        assert "opl agents check --repo <repo-dir> --json" in capability["verification_refs"]
+        assert "opl pack inspect <repo-dir> --json" in capability["verification_refs"]
         assert all("agents scaffold --validate" not in ref for ref in capability["verification_refs"])
     assert all("bridge_exit_gate" not in module for module in functional_audit["modules"])
     implementation_profile = pack_compiler_input["implementation_profile"]
