@@ -63,11 +63,14 @@ def manuscript(root: Path, project: Path, ref: str) -> tuple[dict, str]:
              'preview': body[:MAX_PREVIEW_CHARS], 'preview_truncated': len(body) > MAX_PREVIEW_CHARS}, body)
 
 
-def read_review(value: dict, workspace: str | None = None) -> dict:
-    workspace = workspace or os.environ.get('OPL_PROFILE_WORKSPACE', '')
+def select_book(value: dict, workspace: str | None = None) -> tuple | dict:
+    configured = os.environ.get('OPL_PROFILE_WORKSPACE', '')
+    workspace = workspace or value.get('workspace_path') or configured
     if not workspace or not Path(workspace).is_absolute():
         return {'state': 'unavailable', 'reason': 'workspace_selection_required'}
     root = Path(workspace).resolve(strict=True)
+    if configured and not root.is_relative_to(Path(configured).resolve(strict=True)):
+        raise ValueError('The selected workspace is outside the configured profile workspace.')
     identity = value.get('work_item_identity') or {}
     if not isinstance(identity, dict):
         raise ValueError('work_item_identity must be an object.')
@@ -95,21 +98,38 @@ def read_review(value: dict, workspace: str | None = None) -> dict:
     if project == root or not project.is_relative_to(root) or not project.is_dir():
         raise ValueError('The registered book root must be inside the workspace.')
     for field, actual in [('workspace_path', root), ('work_item_root', project)]:
-        if identity.get(field) and Path(identity[field]).resolve(strict=True) != actual:
-            raise ValueError('The selected work-item paths conflict with the registered book.')
+        for declared in (identity.get(field), value.get(field)):
+            if declared and Path(declared).resolve(strict=True) != actual:
+                raise ValueError('The selected work-item paths conflict with the registered book.')
+    return root, project, project_entry, identity
+
+
+def artifact_projection(root: Path, project: Path, book_id: str) -> dict:
+    index_path = project / 'control/opl/artifact_lifecycle/output_lifecycle.json'
+    if not index_path.is_file():
+        return {}
+    index = object_file(root, project, index_path.relative_to(root).as_posix())
+    if (index.get('surface_kind') != 'opl_workspace_output_lifecycle'
+            or index.get('project_id') != book_id
+            or (root / index.get('project_root', '')).resolve() != project):
+        raise ValueError('The artifact projection does not belong to the selected book.')
+    return index
+
+
+def read_review(value: dict, workspace: str | None = None) -> dict:
+    selection = select_book(value, workspace)
+    if isinstance(selection, dict):
+        return selection
+    root, project, entry, identity = selection
+    book_id = entry['project_id']
     diagnostics = []
     selected = value.get('artifact_path')
     if not selected:
-        index_path = project / 'control/opl/artifact_lifecycle/output_lifecycle.json'
-        if not index_path.is_file():
+        index = artifact_projection(root, project, book_id)
+        if not index:
             return {'state': 'input_required', 'reason': 'manuscript_selection_required',
                     'missing_fields': ['artifact_path'], 'input_defaults': {'book_id': book_id},
                     'data': {'items': [], 'book_id': book_id}}
-        index = object_file(root, project, index_path.relative_to(root).as_posix())
-        if (index.get('surface_kind') != 'opl_workspace_output_lifecycle'
-                or index.get('project_id') != book_id
-                or (root / index.get('project_root', '')).resolve() != project):
-            raise ValueError('The artifact projection does not belong to the selected book.')
         refs = list(dict.fromkeys(item['ref'] for item in [*index.get('current_refs', []), *index.get('artifacts', [])]
                                  if isinstance(item, dict) and isinstance(item.get('ref'), str)
                                  and Path(item['ref']).suffix.lower() in {'.md', '.markdown'}))
