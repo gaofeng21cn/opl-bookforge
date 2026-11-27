@@ -145,6 +145,53 @@ class BookReviewTest(unittest.TestCase):
         after = {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
         self.assertEqual(before, after)
 
+    def test_v2_contribution_uses_work_item_from_host_without_profile_environment(self):
+        response_refs = ('status', 'artifacts', 'review')
+        index = self.book / 'control/opl/artifact_lifecycle/output_lifecycle.json'
+        index.parent.mkdir(parents=True)
+        index.write_text(json.dumps({'surface_kind': 'opl_workspace_output_lifecycle',
+            'project_id': 'book-a', 'project_root': 'projects/book-a', 'artifacts': [
+                {'ref': 'projects/book-a/current.md'},
+                {'ref': 'projects/book-b/other.md'},
+            ]}))
+        selection = {
+            'workspace_path': str(self.root),
+            'work_item_identity': {'identity_state': 'resolved', 'agent_id': 'obf', 'domain_id': 'opl-bookforge',
+                'domain_work_item_id': 'book-a', 'workspace_path': str(self.root), 'work_item_root': str(self.book)},
+        }
+        manifest = json.loads((ROOT / 'opl-package.json').read_text(encoding='utf-8'))
+        handler = manifest['provides']['contribution_handler']['argv'][1]
+
+        def read(ref, value, profile=''):
+            completed = subprocess.run(
+                [sys.executable, str(ROOT / handler)],
+                input=json.dumps({'schema_version': 'opl-package-app-contribution-request.v1',
+                    'operation': 'read', 'package_id': 'obf', 'ref': f'obf.workspace.v1#{ref}', 'input': value}),
+                text=True, capture_output=True, env={**os.environ, 'OPL_PROFILE_WORKSPACE': profile}, cwd=ROOT, check=True)
+            return json.loads(completed.stdout)
+
+        for ref in response_refs:
+            with self.subTest(ref=ref):
+                value = {**selection, **(self.input if ref == 'review' else {})}
+                result = read(ref, value)
+                self.assertEqual(result['state'], 'ready')
+                self.assertEqual(len(result['data']['items']), 1)
+                item = result['data']['items'][0]
+                if ref == 'review':
+                    self.assertEqual(item['book_id'], 'book-a')
+                    self.assertIn('+新论点。', item['comparison']['text'])
+                else:
+                    self.assertEqual(item['id'], 'book-a')
+                if ref == 'artifacts':
+                    self.assertEqual(item['artifacts'], [{'ref': 'projects/book-a/current.md'}])
+                self.assertEqual(read(ref, {**value, 'book_id': 'book-b'})['state'], 'unavailable')
+
+        choices = read('status', {'workspace_path': str(self.root)})
+        self.assertEqual(choices['input_schema']['properties']['book_id']['enum'], ['book-a', 'book-b'])
+        with tempfile.TemporaryDirectory(prefix='obf-distinct-profile-') as profile:
+            self.assertEqual(read('status', selection, profile=profile)['state'], 'unavailable')
+
+
     def test_clean_staged_helpers_run_without_opl_client_sdk(self):
         with tempfile.TemporaryDirectory(prefix='obf-clean-stage-') as stage_tmp:
             stage = Path(stage_tmp).resolve()

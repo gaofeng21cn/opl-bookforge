@@ -14,7 +14,7 @@ if str(HELPER_DIR) not in sys.path:
     sys.path.insert(0, str(HELPER_DIR))
 
 from _opl_artifact_helpers import ensure_opl_client  # noqa: E402
-from bookforge_app_review import object_file, read_review  # noqa: E402
+from bookforge_app_review import artifact_projection, object_file, read_review, select_book  # noqa: E402
 
 
 def _fallback_read_stdin_json() -> dict[str, Any]:
@@ -48,46 +48,38 @@ SUPPORTED_REFS = {
 
 
 def _read_workspace_summary(ref: str, input_payload: dict[str, Any]) -> dict[str, Any]:
-    workspace_env = os.environ.get("OPL_PROFILE_WORKSPACE", "").strip()
-    if workspace_env:
-        workspace_path = Path(workspace_env)
-        if not workspace_path.is_absolute():
-            return {"state": "unavailable", "reason": "workspace_selection_required"}
-        root = workspace_path.resolve(strict=True)
-        inventory = object_file(root, root, "workspace_index.json")
-        projects = [p for p in inventory.get("projects", []) if isinstance(p, dict)]
-        book_id = input_payload.get("book_id")
-        if book_id:
-            projects = [p for p in projects if p.get("project_id") == book_id]
-        items: list[dict[str, Any]] = []
-        for entry in projects:
-            pid = entry.get("project_id")
-            proot = entry.get("project_root")
-            if not isinstance(pid, str) or not isinstance(proot, str):
-                continue
-            project_dir = (root / proot).resolve()
-            if not project_dir.is_relative_to(root):
-                continue
-            item: dict[str, Any] = {
-                "id": pid,
-                "title": entry.get("title", pid),
-                "project_root": proot,
-            }
-            if ref == "obf.workspace.v1#artifacts":
-                lifecycle_file = project_dir / "control/opl/artifact_lifecycle/output_lifecycle.json"
-                if lifecycle_file.is_file():
-                    lifecycle = object_file(root, project_dir, lifecycle_file.relative_to(root).as_posix())
-                    item["artifacts"] = lifecycle.get("artifacts", [])
-                    item["current_refs"] = lifecycle.get("current_refs", [])
-                else:
-                    item["artifacts"] = []
-                    item["current_refs"] = []
-            items.append(item)
+    if input_payload.get("workspace_path") or os.environ.get("OPL_PROFILE_WORKSPACE"):
+        selection = select_book(input_payload)
+        if isinstance(selection, dict):
+            return selection
+        root, project, entry, _ = selection
+        book_id = entry["project_id"]
+        item: dict[str, Any] = {
+            "id": book_id,
+            "title": entry.get("title", book_id),
+            "project_root": entry["project_root"],
+        }
+        if ref == "obf.workspace.v1#artifacts":
+            projection = artifact_projection(root, project, book_id)
+            for field in ("artifacts", "current_refs"):
+                item[field] = [
+                    artifact for artifact in projection.get(field, [])
+                    if isinstance(artifact, dict) and isinstance(artifact.get("ref"), str)
+                    and (root / artifact["ref"]).resolve().is_relative_to(project)
+                ]
+        else:
+            item["lifecycle"] = entry.get("lifecycle")
+            if isinstance(pointer_ref := entry.get("current_stage_pointer_ref"), str):
+                pointer_path = root / pointer_ref
+                if pointer_path.is_file():
+                    pointer = object_file(root, project, pointer_ref)
+                    if pointer.get("surface_kind") == "opl_current_stage_pointer" and pointer.get("project_id") == book_id:
+                        item["current_stage"] = pointer.get("current_stage")
         return {
             "state": "ready",
             "package_id": "obf",
             "ref": ref,
-            "data": {"items": items, "workspace_root": str(root)},
+            "data": {"items": [item], "workspace_root": str(root)},
         }
 
     # Optional fallback to active opld workspace projection when running under opld.
