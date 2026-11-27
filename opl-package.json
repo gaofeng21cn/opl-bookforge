@@ -2,7 +2,7 @@
   "schema_version": "opl.package.v2",
   "identity": {
     "id": "obf",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "intent": "agent",
     "name": {
       "zh-CN": "OPL Book Forge",
