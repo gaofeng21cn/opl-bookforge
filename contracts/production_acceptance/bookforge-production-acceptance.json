@@ -36,7 +36,7 @@
     ],
     "next_verification_command_refs": [
       "./scripts/verify.sh",
-      "opl agents conformance --agent opl-bookforge=<repo> --json"
+      "opl pack inspect <repo-dir> --json"
     ]
   },
   "typed_blocker": {
@@ -48,7 +48,7 @@
     ],
     "next_verification_command_refs": [
       "./scripts/verify.sh",
-      "opl agents conformance --agent opl-bookforge=<repo> --json"
+      "opl pack inspect <repo-dir> --json"
     ]
   },
   "open_tail": {

@@ -99,11 +99,10 @@ For a direct Skill run, resolve `<book-root>` from the registered `book_id`, the
 use the current stage and action with a new private binding path:
 
 ```text
-opl knowledge prepare --repo <agent-root> --domain opl-bookforge --stage <stage-id> --task-intent <action-id> --workspace <workspace-root> --project <book-root> --output <new-binding.json> --json
-opl knowledge read-context --binding <new-binding.json> --json
-opl knowledge revalidate --binding <new-binding.json> --for-action --json
+opl workspace sources list --workspace <workspace-id> --json
+opl workspace snapshot --workspace <workspace-id> --stage-run <stage-run-id> --json
 ```
 
-The final command is the pre-action check. Knowledge writeback uses the shared
-`knowledge propose`, `knowledge review`, and `knowledge apply` lifecycle; reviewed
-edits made directly in the original use `knowledge review-source`.
+The snapshot captures verified workspace sources before stage execution. Knowledge
+writeback uses the Framework v2 `opl workspace writeback propose` and
+`opl workspace writeback commit` lifecycle against registered workspace sources.

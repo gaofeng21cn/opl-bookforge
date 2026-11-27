@@ -180,7 +180,7 @@
     ],
     "validator_refs": [
       "python3 -m json.tool contracts/foundry-agent-os-domain-kernel-manifest.json",
-      "opl agents check --repo <repo-dir> --json"
+      "opl pack inspect <repo-dir> --json"
     ],
     "source_contract_refs": [
       "contracts/domain_descriptor.json",

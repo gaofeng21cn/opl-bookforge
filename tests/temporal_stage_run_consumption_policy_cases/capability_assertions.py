@@ -136,7 +136,7 @@ def assert_private_platform_retirement_matrix(
     by_surface = {entry["surface_id"]: entry for entry in matrix}
 
     publication = by_surface["publication_and_export_helper"]
-    assert publication["replacement_opl_primitive"] == "opl_pack_native_helper_probe"
+    assert publication["replacement_opl_primitive"] == "opl pack inspect <repo-dir> --json"
     assert publication["retirement_action"] == "retain_as_domain_specific_native_helper_only"
     assert publication["physical_delete_authorized"] is False
     assert "system_package_manager" in publication["forbidden_domain_repo_roles"]
@@ -179,10 +179,7 @@ def assert_private_platform_retirement_matrix(
     assert image_module["migration_class"] == "minimal_authority_function"
     assert image_module["receipt_schema_ref"] == "contracts/image_asset_host_handoff.json"
     assert image_module["active_caller_status"] == "read_only_domain_handler_registered"
-    assert image_module["active_callers"] == [
-        "OPL hosted image output handler_ref invocation",
-        "OPL pack native-helper diagnostic probe",
-    ]
+    assert image_module["active_callers"] == ["OPL hosted image output handler_ref invocation"]
     assert image_module["no_forbidden_write_evidence_ref"] == "contracts/image_asset_host_handoff.json#/forbidden_domain_effects"
 
     projection = generated_handoff["private_platform_retirement_projection"]
