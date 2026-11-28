@@ -10,7 +10,7 @@ Machine boundary: Human-readable architecture boundary. Machine truth remains in
 This repo owns book-domain truth, manuscript quality rules, style policy, figure/table planning, export/publication verdict boundaries, artifact authority, memory body, and owner receipts.
 
 The descriptor's [artifact lifecycle Profile](../contracts/workspace_artifact_lifecycle_profile.json)
-declares book output directories and roles. Framework `workspace init/ensure` copies it into a project
+declares book output directories and roles. Framework `opl workspace init` / `WorkspaceService` copies it into a project
 only when that project has no lifecycle Profile, and the shared artifact inventory consumes those
 declarations. Existing project Profiles remain authoritative; undeclared outputs retain generic
 inventory coverage without a publication or quality verdict.
@@ -53,7 +53,7 @@ helpers. Book Forge retains the publication manifest and quality verdict.
 ## Knowledge Ownership And Continuity
 
 The shared [knowledge source and memory policy](https://github.com/gaofeng21cn/one-person-lab/blob/main/docs/policies/knowledge-source-and-memory-policy.md)
-and [lifecycle contract](https://github.com/gaofeng21cn/one-person-lab/blob/main/contracts/opl-framework/durable-knowledge-lifecycle-contract.json)
+and [workspace and knowledge source spec](https://github.com/gaofeng21cn/one-person-lab/blob/main/docs/specs/knowledge-sources.md)
 own the common model. Book Forge's v2 catalog registers product policies with
 independent `scope` and `content_kind`. A user's writing preferences belong to
 the user, reusable cross-book experience belongs to a topic, and the reader-style
